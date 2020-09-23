@@ -2,38 +2,38 @@
 
 Kali Linux Fixes for Newly Imported VM's
 
-Installation 
+Installation :
     - Download pimpmykali.sh 
     - chmod +x pimpmykali.sh 
     - sudo ./pimpmykali.sh 
     
 Fixes : 
-    python-pip missing   no reason this should be missing from a pentest distro
+    python-pip missing
     
-    python3-pip missing  no resson this should be missing from a pentest distro
+    python3-pip missing
     
     seclists not installed
     
     golang not installed (or configured)
-    
-        - adds path statements to .bashrc 
+        - adds path statements to .bashrc
         
-    kali-root-login installed and reneables root login 
+    kali-root-login installed and reneables root login
     
     impacket-0.9.19
         - removes any prior installation of impacket ( gracefully and forced ) 
         - installs impacket-0.9.19 
-        - installs python-wheel ( python2 wheel ) 
-    
+        - installs python-wheel ( python2 wheel )  
+        
     fixes smb.conf
-    
+        - add 2 lines below [global] for min max protocol
+          - client min protocol = CORE
+          - client max protocol = SMB3
+          
     .bashrc alias and functions 
         - adds command ex function to extract from any archive with 1 command ex 
         - vpnip - displays tun0 ip address in the terminal via vpnip alias 
-    
+        
     .bashrc 
         - added /sbin to user path, can now ifconfig without sudo 
-    
-    /etc/default/grub
-        - added "migitgations=off" and updates grub
+
     
