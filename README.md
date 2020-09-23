@@ -25,7 +25,7 @@ Fixes :
         - installs impacket-0.9.19 
         - installs python-wheel ( python2 wheel ) 
     
-    fixes smb.conf ( ADD 2 DAMN LINES OFFSEC!!! YA THATS RIGHT IM CALLING YOU OUT ON IT ) 
+    fixes smb.conf
     
     .bashrc alias and functions 
         - adds command ex function to extract from any archive with 1 command ex 
