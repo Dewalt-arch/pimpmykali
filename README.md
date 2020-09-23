@@ -2,6 +2,11 @@
 
 Kali Linux Fixes for Newly Imported VM's
 
+Installation 
+    - Download pimpmykali.sh 
+    - chmod +x pimpmykali.sh 
+    - sudo ./pimpmykali.sh 
+    
 Fixes : 
     python-pip missing
         - no reason this should be missing from a pentest distro
