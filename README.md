@@ -1,4 +1,4 @@
-# pimpmykali.sh 
+# pimpmykali.sh - rev 0.1 
 
 Kali Linux Fixes for Newly Imported VM's
 
@@ -18,7 +18,8 @@ Fixes :
         - adds path statements to .bashrc
         
     kali-root-login installed and reneables root login
-    
+        - reworked and added prompt
+        
     impacket-0.9.19
         - removes any prior installation of impacket ( gracefully and forced ) 
         - installs impacket-0.9.19 
@@ -36,4 +37,7 @@ Fixes :
     .bashrc 
         - added /sbin to user path, can now ifconfig without sudo 
 
-    
+    grub added detection of default /etc/default/grub
+        - added mitigations=off 
+       
+   
