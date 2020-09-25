@@ -166,10 +166,11 @@ pimpmykali_menu () {
     }   
      
 pimpmykali_help () {
-    # do not edit this echo statement, spacing has been fixed and is correct for display terminal
-    echo -e "\n valid command line arguements are : \n \n --all        run all operations \n --smb        only run smb.conf fix \n --go         only fix golang \
-                  \n --impacket   only fix impacket \n --grub       only add mitigations=off  \n --root       enable root login \n --missing    install missing \
-                 \n --menu       its the menu \n --help       you are here"
+    echo -e "\n valid command line arguements are : \n \n --all        run all operations \n"\
+            "--smb        only run smb.conf fix \n --go         only fix golang"\
+            "\n --impacket   only fix impacket \n --grub       only add mitigations=off"\
+            "\n --root       enable root login \n --missing    install missing" \
+            "\n --menu       its the menu \n --help       you are here"
     exit             
     }             
 
