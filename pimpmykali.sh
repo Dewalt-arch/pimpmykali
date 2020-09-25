@@ -110,13 +110,6 @@ fix_impacket () {
 
 fix_golang () {
     apt -y install golang
-    # cat /etc/skel/.bashrc | grep -i "export PATH=" -B1000 > /tmp/bashrc_top 
-    # cat /etc/skel/.bashrc | grep -i "don't put duplicate lines or lines starting with space in the history" -A5000 > /tmp/bashrc_bottom
-    # BREAKS GO ON KALI 2020.X COMMENTED OUT IS NOT NEEDED
-    # echo -e "export GOPATH=\$HOME/go\nexport GOROOT=/usr/local/go\nexport PATH=\$PATH:/sbin:\$GOROOT/bin:\$GOPATH/bin\n" >> /tmp/bashrc_top 
-    # cat /tmp/bashrc_top /tmp/bashrc_bottom > /root/.bashrc  
-    # cat /tmp/bashrc_top /tmp/bashrc_bottom > /home/kali/.bashrc
-    # rm -f /tmp/bashrc_top /tmp/bashrc_bottom
     echo -e "\n $greenplus golang installed"
     }
 
@@ -135,31 +128,6 @@ fix_grub () {
     fi
     } 
 
-bashrc_update () {
-    check_bashrc_vpnip=$(cat $HOME/.bashrc | grep -i -c "vpnip=")
-    if [ $check_bashrc_vpnip -ne 1 ]
-      then 
-        echo -e "\nalias vpnip='ifconfig tun0 | grep -m1 inet | awk '\''{print(\$2)}'\'''"
-        echo -e "\n $greenplus added vpnip alias to $HOME/.bashrc"
-      else
-        echo -e "\n vpnip= found in .bashrc - not updating"
-    fi
-
-    check_bashrc_ex=$(cat $HOME/.bashrc | grep -i -c "ex ()")
-    if [ $check_bashrc_ex -ne 1 ]
-      then 
-       echo -e "\nex ()\n{\n  if [ -f \$1 ] ; then \n   case \$1 in \n    *.tar.bz2)   tar xjf \$1 ;; "\
-    "\n    *.tar.gz)    tar xzf \$1 ;;\n    *.tar.xz)    tar xJf \$1 ;;\n    *.bz2)       bunzip2 \$1 ;;"\
-    "\n    *.rar)       unrar x \$1 ;;\n    *.gz)        gunzip \$1  ;;\n    *.tar)       tar xf \$1  ;;"\
-    "\n    *.tbz2)      tar xjf \$1 ;;\n    *.tgz)       tar xzf \$1 ;;\n    *.zip)       unzip \$1   ;;"\
-    "\n    *.Z)         uncompress \$1;;\n    *.7z)        7z x \$1 ;;\n    *)           echo \"'\$1' cannot be extracted via ex()\" ;;"\
-    "\n    esac\n  else\n    echo \"'\$1' is not a valid file\"\n  fi\n }\n"
-       echo -e "\n $greenplus Added ex () function to $HOME/.bashrc"
-       else
-       echo -e "\n $redminus ex () function found in .bashrc - not updating"
-    fi
-}
-    
 fix_all () {
     fix_missing
     fix_smbconf
