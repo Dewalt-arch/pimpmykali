@@ -109,6 +109,7 @@ fix_impacket () {
     }
 
 fix_golang () {
+    # golang .bashrc update has been removed - 09.23.20
     apt -y install golang
     echo -e "\n $greenplus golang installed"
     }
