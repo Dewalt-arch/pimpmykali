@@ -1,6 +1,6 @@
 # pimpmykali.sh
  
-# Installation : 
+# Installation script: 
 - git clone https://github.com/Dewalt-arch/pimpmykali
 - cd pimpmykali
 - chmod +x pimpmykali.sh 
@@ -14,7 +14,6 @@ Kali Linux Fixes for Newly Imported VM's
   - added on screen notification of files being removed by the array
 - fix_missing function  : has been reworked new vars check section force type
   - added fix_section function : fix_section is the workhorse for fix_missing
-- moved python-pip installation to its own function python-pip-curl
 - reworked python-pip installation to its own function python-pip-curl and installs python-pip via curl 
 
 # Revision 0.2: 
@@ -29,30 +28,31 @@ Kali Linux Fixes for Newly Imported VM's
 # Fixes : 
 - python-pip now removed from kali repos, installation via curl 
 
-- python3-pip missing
+- python3-pip not installed
 
 - seclists not installed
 
 - golang not installed 
-  - adds path statements to .bashrc ( currently commented out and is not a part of the running script )
-  
-- kali-root-login installed and reneables root login
+    
+- kali-root-login not installed and reneables root login
   - reworked and added prompt
   
 - impacket-0.9.19
-   - removes any prior installation of impacket
-   - installs impacket-0.9.19 
-   - installs python wheel
+  - removes any prior installation of impacket (gracefully and forcefully)
+  - installs impacket-0.9.19 
+  - installs python-pip via curl 
+  - installs python wheel
    
 -fixes smb.conf
  - adds the 2 lines below [global] for min max protocol
    - client min protocol = CORE
    - client max protocol = SMB3
-   
-- .bashrc alias and functions ( currently commented out and is not a part of the running script ) 
-   - adds command ex function to extract from any archive with 1 command ex 
-   - vpnip - displays tun0 ip address in the terminal via vpnip alias 
-   - added /sbin to user path, can now ifconfig without sudo
-   
+
 - grub added detection of default /etc/default/grub
   - added mitigations=off 
+
+# TODO   
+- .bashrc alias and functions ( currently commented out and is not a part of the running script ) 
+  - adds command ex function to extract from any archive with 1 command ex 
+  - vpnip - displays tun0 ip address in the terminal via vpnip alias 
+  - added /sbin to user path, can now ifconfig without sudo
