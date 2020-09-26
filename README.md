@@ -1,12 +1,13 @@
 # pimpmykali.sh
- 
+
+# Linux Fixes for Newly Imported Kali Linux Virtual Machines
+- could be used on a bare metal machines, but thats on you
+
 # Installation script: 
 - git clone https://github.com/Dewalt-arch/pimpmykali
 - cd pimpmykali
 - chmod +x pimpmykali.sh 
 - sudo ./pimpmykali.sh
-
-Kali Linux Fixes for Newly Imported VM's
 
 # Revision 0.3: 
 - added checks for already installed installations, added --force command ( --force will run all fixes/reinstalls )
