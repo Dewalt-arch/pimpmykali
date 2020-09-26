@@ -51,10 +51,6 @@ fix_missing () {
      curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
      python /tmp/get-pip.py
      rm -f /tmp/get-pip.py
-     #
-    }
-     
-     
      echo -e "\n $greenplus python-pip python3-pip seclists installed "
      } 
 
