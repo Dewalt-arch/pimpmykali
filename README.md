@@ -39,9 +39,9 @@
   - installs python-pip via curl 
   - installs python wheel
 - /etc/samba/smb.conf
- - adds the 2 lines below [global] for min max protocol
-   - client min protocol = CORE
-   - client max protocol = SMB3
+  - adds the 2 lines below [global] for min max protocol
+  - client min protocol = CORE
+  - client max protocol = SMB3
 - grub added detection of default /etc/default/grub
   - added mitigations=off 
 
