@@ -17,25 +17,31 @@ Installation :
 
 Fixes : 
 - python-pip now removed from kali repos, installation via curl 
+
 - python3-pip missing
+
 - seclists not installed
+
 - golang not installed 
-  - adds path statements to .bashrc
+  - adds path statements to .bashrc ( currently commented out and is not a part of the running script )
+  
 - kali-root-login installed and reneables root login
   - reworked and added prompt
+  
 - impacket-0.9.19
    - removes any prior installation of impacket
    - installs impacket-0.9.19 
    - installs python wheel
+   
 -fixes smb.conf
  - adds the 2 lines below [global] for min max protocol
    - client min protocol = CORE
    - client max protocol = SMB3
+   
 - .bashrc alias and functions ( currently commented out and is not a part of the running script ) 
    - adds command ex function to extract from any archive with 1 command ex 
    - vpnip - displays tun0 ip address in the terminal via vpnip alias 
    - added /sbin to user path, can now ifconfig without sudo
+   
 - grub added detection of default /etc/default/grub
   - added mitigations=off 
-       
-   
