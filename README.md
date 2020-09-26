@@ -28,27 +28,20 @@
 
 # Fixes : 
 - python-pip now removed from kali repos, installation via curl 
-
 - python3-pip not installed
-
 - seclists not installed
-
 - golang not installed 
-    
 - kali-root-login not installed and reneables root login
   - reworked and added prompt
-  
 - impacket-0.9.19
   - removes any prior installation of impacket (gracefully and forcefully)
   - installs impacket-0.9.19 
   - installs python-pip via curl 
   - installs python wheel
-   
 -fixes smb.conf
  - adds the 2 lines below [global] for min max protocol
    - client min protocol = CORE
    - client max protocol = SMB3
-
 - grub added detection of default /etc/default/grub
   - added mitigations=off 
 
