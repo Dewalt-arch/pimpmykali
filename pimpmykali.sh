@@ -255,7 +255,6 @@ fix_all () {
     make_rootgreatagain
     fix_grub
     }    
-
     
 asciiart=$(base64 -d <<< "H4sIAAAAAAACA31Pyw3FMAi7ZwofeyoLVN3jSUgswvAFO9FLLyURxMZ8AtDOCHzbS0B5uxE0ZERCz8ngD0t4JjAFnSPqmuEkvAljaxFwTJhSS2CunOrLjXZx46bqV6eyixHUwOxmF6rrGhervhjrXfomOHcxqYJ6EsIPbWcdrPfnxzdzezFubntyD+MBCfqqVnwBAAA=" | gunzip )
    
