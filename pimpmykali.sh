@@ -56,7 +56,6 @@ check_for_root () {
      }
 
 fix_section () {
-     echo $section force=$force type=$type check=$check
      if [ $check -ne 0 ] && [ $force -ne 0 ] 
       then 
        echo -e "\n $redstar Reinstallation : $section"
@@ -69,11 +68,10 @@ fix_section () {
          else
           echo -e "\n $greenminus $section already installed" 
         fi
-       echo -e "      use --force to force reinstall" 
        section=""
        check=""
        type=""
-      fi
+     fi
       }
    
 fix_missing () { 
