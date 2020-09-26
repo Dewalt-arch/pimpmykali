@@ -1,12 +1,9 @@
 # pimpmykali.sh
 
-Added Bonus : script to get pimpmykali.sh right from the README.md 
+Installation 
 
-Installation Script : 
-  #!/bin/bash 
-  rm -f pimpmykali/
-  git clone https://github.com/Dewalt-arch/pimpmykali
-  chmod + pimpmykali/pimpmykali.sh
+git clone https://github.com/Dewalt-arch/pimpmykali
+chmod +x pimpmykali.sh
 
 Kali Linux Fixes for Newly Imported VM's
 
