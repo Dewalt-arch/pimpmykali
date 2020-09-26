@@ -1,9 +1,10 @@
 # pimpmykali.sh
 
-Installation 
-
-git clone https://github.com/Dewalt-arch/pimpmykali
-chmod +x pimpmykali.sh
+Installation : 
+- git clone https://github.com/Dewalt-arch/pimpmykali
+- cd pimpmykali
+- chmod +x pimpmykali.sh 
+- sudo ./pimpmykali.sh
 
 Kali Linux Fixes for Newly Imported VM's
 
