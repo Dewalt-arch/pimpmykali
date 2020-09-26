@@ -38,7 +38,7 @@
   - installs impacket-0.9.19 
   - installs python-pip via curl 
   - installs python wheel
--fixes smb.conf
+- /etc/samba/smb.conf
  - adds the 2 lines below [global] for min max protocol
    - client min protocol = CORE
    - client max protocol = SMB3
