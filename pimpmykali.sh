@@ -50,7 +50,7 @@ fix_missing () {
      # the kali repo by offsec
      curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
      python /tmp/get-pip.py
-     rm -rf /tmp/get-pip.py
+     rm -f /tmp/get-pip.py
      #
     }
      
