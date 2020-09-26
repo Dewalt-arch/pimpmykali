@@ -1,6 +1,6 @@
 # pimpmykali.sh
 
-# Linux Fixes for Newly Imported Kali Linux Virtual Machines
+# Fixes for new imported Kali Linux virtual machines
 - could be used on a bare metal machines, but thats on you
 
 # Installation script: 
