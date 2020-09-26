@@ -1,6 +1,6 @@
 # pimpmykali.sh
  
-Installation : 
+# Installation : 
 - git clone https://github.com/Dewalt-arch/pimpmykali
 - cd pimpmykali
 - chmod +x pimpmykali.sh 
@@ -8,6 +8,16 @@ Installation :
 
 Kali Linux Fixes for Newly Imported VM's
 
+# Revision 0.3: 
+- added checks for already installed installations, added --force command ( --force will run all fixes/reinstalls )
+- fix_impacket function : added both .py and .pyc files to impacket removal array
+  - added on screen notification of files being removed by the array
+- fix_missing function  : has been reworked new vars check section force type
+  - added fix_section function : fix_section is the workhorse for fix_missing
+- moved python-pip installation to its own function python-pip-curl
+- reworked python-pip installation to its own function python-pip-curl and installs python-pip via curl 
+
+# Revision 0.2: 
 - Added colorized notifications, help system, command line arguements, case based menu system
 - valid command line arguements are: help, all, go, grub, impacket, missing, menu, smb, grub, root
 - anything other than --all or -all or all , will only run that function and then exit.
@@ -16,7 +26,7 @@ Kali Linux Fixes for Newly Imported VM's
 - example command line var: --help or -help or help will catch help and works for all valid command line arguements
   anything other the command line arugement catch exits and displays help 
 
-Fixes : 
+# Fixes : 
 - python-pip now removed from kali repos, installation via curl 
 
 - python3-pip missing
