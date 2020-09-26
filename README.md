@@ -1,12 +1,15 @@
 # pimpmykali.sh
 
+Added Bonus : script to get pimpmykali.sh right from the README.md 
+
+Installation Script : 
+  #!/bin/bash 
+  rm -f pimpmykali/
+  git clone https://github.com/Dewalt-arch/pimpmykali
+  chmod + pimpmykali/pimpmykali.sh
+
 Kali Linux Fixes for Newly Imported VM's
 
-Installation :
-    - Download pimpmykali.sh 
-    - chmod +x pimpmykali.sh 
-    - sudo ./pimpmykali.sh 
-    
 - Added colorized notifications, help system, command line arguements, case based menu system
 - valid command line arguements are: help, all, go, grub, impacket, missing, menu, smb, grub, root
 - anything other than --all or -all or all , will only run that function and then exit.
