@@ -26,7 +26,7 @@
  blinkexclaim='\e[1;31m[\e[5;31m!!\e[0m\e[1;31m]\e[0m'
 
 check_distro() { 
-     distro=$(uname -a | grep -i -c "manjaro") # CHANGE THIS
+     distro=$(uname -a | grep -i -c "kali") # CHANGE THIS
 
      if [ $distro -ne 1 ]
        then echo -e "\n $blinkexclaim Sorry I only work on Kali Linux $blinkexclaim \n"; exit  # false
