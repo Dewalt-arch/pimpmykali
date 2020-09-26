@@ -1,4 +1,4 @@
-# pimpmykali.sh - rev 0.2 
+# pimpmykali.sh
 
 Kali Linux Fixes for Newly Imported VM's
 
