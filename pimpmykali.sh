@@ -261,7 +261,7 @@ asciiart=$(base64 -d <<< "H4sIAAAAAAACA31Pyw3FMAi7ZwofeyoLVN3jSUgswvAFO9FLLyURxM
    
 pimpmykali_menu () {
     clear
-    echo -e "$asciiart\n -- Dewalt"
+    echo -e "$asciiart\nDewalt"
     echo -e "\n pimpmykali.sh"
     echo -e "\n Select a option from menu: "
     echo -e "\n Options 1 thru 6 will only run that function and exit, 0 will run all "
