@@ -182,7 +182,7 @@ fix_impacket () {
     tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt  
     cd /opt/impacket-0.9.19 
     # appears this is extracting as 503/root not root/root ?
-    chown -R root:root impacket-0.9.19/   
+    sudo chown -R root:root impacket-0.9.19/   
     pip install wheel   
     pip install .   
     rm /tmp/impacket-0.9.19.tar.gz
