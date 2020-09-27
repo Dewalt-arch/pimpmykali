@@ -182,6 +182,7 @@ fix_impacket () {
     tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt  
     cd /opt/
     chown -R root:root impacket-0.9.19
+    chmod 755 impacket-0.9.19
     pip install wheel   
     pip install .   
     rm /tmp/impacket-0.9.19.tar.gz
