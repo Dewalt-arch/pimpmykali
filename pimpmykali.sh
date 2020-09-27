@@ -5,7 +5,6 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
-
 # Revision 0.3a: 
 #   - the extraction of the impacket-0.9.19.tar.gz was leaving /opt/impacket-0.9.19 with 700 perms
 #     and an ownership of 503:root, this has been changed to ownership root:root and all files inside
