@@ -24,11 +24,8 @@
 #
 #   Revision 0.2: 
 #   - Added colorized notifications, help system, command line arguements, case based menu system
-#
 #   - valid command line arguements are: help, all, go, grub, impacket, missing, menu, smb, grub, root
-#
 #   - anything other than --all or -all or all , will only run that function and then exit.
-#
 #   - command line arguements can be used with -- or - or just the word itself to try can catch for all possible cases
 #     example command line var: --help or -help or help will catch help and works for all valid command line arguements
 #     anything other the command line arugement catch exits and displays help 
