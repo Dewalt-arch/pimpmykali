@@ -182,7 +182,7 @@ fix_impacket () {
     wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /opt/impacket-0.9.19.tar.gz   
     tar xfz impacket-0.9.19.tar.gz       
     # appears this is extracting as 503/root not root/root ?
-    # sudo chown -R root:root impacket-0.9.19/   
+    sudo chown -R root:root impacket-0.9.19/   
     pip install wheel   
     pip install .   
     rm /opt/impacket-0.9.19.tar.gz
