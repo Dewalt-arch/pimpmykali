@@ -44,7 +44,7 @@
  type=""
  
 check_distro() { 
-     distro=$(uname -a | grep -i -c "manjaro") # CHANGE THIS
+     distro=$(uname -a | grep -i -c "kali") # CHANGE THIS
 
      if [ $distro -ne 1 ]
        then echo -e "\n $blinkexclaim Sorry I only work on Kali Linux $blinkexclaim \n"; exit  # false
