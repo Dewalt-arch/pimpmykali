@@ -326,7 +326,7 @@ fi
 exit_screen () { 
     clear
     echo -e "$asciiart"
-    echo -e "\n\n    Happy Hacking! \n"
+    echo -e "\n\n    All Done! Happy Hacking! \n"
     }
 
 check_for_root
