@@ -10,6 +10,7 @@
 #     and an ownership of 503:root, this has been changed to ownership root:root and all files inside
 #     /opt/impacket-0.9.19 have had their permissions set to 755 after extraction of impacket-0.9.19.tar.gz
 #   - ascii art added to the menu
+#   - added exit screen
 #
 #   Revision 0.3: 
 #   - Added checks for already installed installations, added --force command ( --force will run all fixes/reinstalls )
