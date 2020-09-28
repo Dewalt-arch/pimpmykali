@@ -3,7 +3,11 @@
 # Fixes for new imported Kali Linux virtual machines
 - could be used on a bare metal machines, but thats on you
 
-# Installation script: 
+# Github index updated added +x permission: 
+- Script should now be executable upon clone (perms: 755 rwxr-xr-x added to github) 
+  - you should not need to chmod +x pimpmykali.sh upon clone
+
+# Installation script:
 - git clone https://github.com/Dewalt-arch/pimpmykali
 - cd pimpmykali
 - chmod +x pimpmykali.sh 
