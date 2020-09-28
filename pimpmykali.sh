@@ -44,7 +44,7 @@
  type=""
  
 check_distro() { 
-     distro=$(uname -a | grep -i -c "kali") # CHANGE THIS
+     distro=$(uname -a | grep -i -c "manjaro") # CHANGE THIS
 
      if [ $distro -ne 1 ]
        then echo -e "\n $blinkexclaim Sorry I only work on Kali Linux $blinkexclaim \n"; exit  # false
@@ -287,7 +287,8 @@ pimpmykali_menu () {
         5) fix_impacket ;;
         6) make_rootgreatagain ;;
         0) fix_all ;;
-        x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
+        x|X) exit_screen ;;
+        #x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
         *) pimpmykali_menu ;;
     esac
     }   
@@ -322,6 +323,13 @@ check_arg () {
 fi
 }
 
+exit_screen () { 
+    clear
+    echo -e "$asciiart"
+    echo -e "\n\n    Happy Hacking! \n"
+    }
+
 check_for_root
 check_distro
 check_arg "$1" 
+exit_screen 
