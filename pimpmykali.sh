@@ -132,7 +132,7 @@ make_rootgreatagain () {
 enable_rootlogin () {
     section="kali-root-login"
     check=$(whereis kali-root-login | grep -i -c "kali-root-login: /usr/share/kali-root-login") 
-    $type="install"
+    type="install"
     fix_section $section $check $type $force
     echo -e "\n\nEnabling Root Login Give root a password"
     passwd root
