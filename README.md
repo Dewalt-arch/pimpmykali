@@ -19,7 +19,7 @@
   - added colors for syntax highlighting in the onscreen messages of the script in places
   - added fix_nmap function for fixing /usr/share/nmap/scripts/clamav-exec.nse (commented out at this time
     clamav-exec.nse was an issue at one time but unknown if it is still relevent)
-  - --force command line arguement was being called without setting $force in fix_all $force - fixed
+  - --force command line argument was being called without setting $force in fix_all $force - fixed
 
 # Revision 0.3b: 
   - bug fix ( Thanks ShadeauxBoss! for finding it ) impacket installation was missing cd /opt/impacket-0.9.19 
