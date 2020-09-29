@@ -261,31 +261,29 @@ fix_impacket () {
     }
 
 fix_golang () {
-     section="golang"
-     check=$(go version | grep -i -c "go version")
-    
+    section="golang"
+    check=$(go version | grep -i -c "go version")
      if [ $force -ne 0 ] 
       then 
        type="install"
       else
        type="reinstall"
      fi 
-    
     fix_section $section $check $type $force
-     }
+    }
 
 fix_grub () {
     check_grub=$(cat /etc/default/grub | grep -i -c "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"" )
     if [ $check_grub -ne 1 ]
-      then 
-        echo -e "\n $redexclaim Error: /etc/default/grub is not the default config - not changing"
-      else
+     then 
+      echo -e "\n $redexclaim Error: /etc/default/grub is not the default config - not changing"
+     else
         cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
         cat /tmp/fix_grub.tmp > /etc/default/grub
         rm -f /tmp/fix_grub.tmp
         update-grub
-	echo -e "\n $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
-	echo -e "\n $redexclaim Reboot for changes to take effect \n"
+        echo -e "\n $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
+	    echo -e "\n $redexclaim Reboot for changes to take effect \n"
     fi
     } 
 
@@ -306,11 +304,11 @@ fix_grub () {
 #    if [ $check_bashrc_ex -ne 1 ]
 #      then 
 #       echo -e "\nex ()\n{\n  if [ -f \$1 ] ; then \n   case \$1 in \n    *.tar.bz2)   tar xjf \$1 ;; "\
-#    "\n    *.tar.gz)    tar xzf \$1 ;;\n    *.tar.xz)    tar xJf \$1 ;;\n    *.bz2)       bunzip2 \$1 ;;"\
-#    "\n    *.rar)       unrar x \$1 ;;\n    *.gz)        gunzip \$1  ;;\n    *.tar)       tar xf \$1  ;;"\
-#    "\n    *.tbz2)      tar xjf \$1 ;;\n    *.tgz)       tar xzf \$1 ;;\n    *.zip)       unzip \$1   ;;"\
-#    "\n    *.Z)         uncompress \$1;;\n    *.7z)        7z x \$1 ;;\n    *)           echo \"'\$1' cannot be extracted via ex()\" ;;"\
-#    "\n    esac\n  else\n    echo \"'\$1' is not a valid file\"\n  fi\n }\n"
+#               "\n    *.tar.gz)    tar xzf \$1 ;;\n    *.tar.xz)    tar xJf \$1 ;;\n    *.bz2)       bunzip2 \$1 ;;"\
+#               "\n    *.rar)       unrar x \$1 ;;\n    *.gz)        gunzip \$1  ;;\n    *.tar)       tar xf \$1  ;;"\
+#               "\n    *.tbz2)      tar xjf \$1 ;;\n    *.tgz)       tar xzf \$1 ;;\n    *.zip)       unzip \$1   ;;"\
+#               "\n    *.Z)         uncompress \$1;;\n    *.7z)        7z x \$1 ;;\n    *)           echo \"'\$1' cannot be extracted via ex()\" ;;"\
+#               "\n    esac\n  else\n    echo \"'\$1' is not a valid file\"\n  fi\n }\n"
 #       echo -e "\n $greenplus Added ex () function to $HOME/.bashrc"
 #       else
 #       echo -e "\n $redminus ex () function found in .bashrc - not updating"
@@ -333,7 +331,6 @@ fix_all () {
     # fix_gedit is being called from fix_missing which is a part of fix_all, no need to call it a 2nd time 
     # fix_nmap  is being called from fix_missing which is a part of fix_all, no need to call it a 2nd time 
     }    
-
     
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
    
@@ -352,7 +349,6 @@ pimpmykali_menu () {
     # FIX_NMAP UNCOMMENT TO ENABLE
     # echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)\n"             # fix_nmap
     echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6 and 7) \n"                   # fix_all 
-   
     read -n1 -p " Make selection or press X to exit: " menuinput
       
     case $menuinput in
@@ -402,8 +398,8 @@ check_arg () {
       # --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
            *) pimpmykali_help ; exit 0 ;; 
      esac
-fi
-}
+    fi
+    }
 
 exit_screen () { 
     # clear
