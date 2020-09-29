@@ -5,6 +5,14 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.3c: 
+#   - per request kali-root-login enabling prompt has been reworked and reworded to be less confusing and
+#     to give the user a better explaniation of what the script is doing at that stage 
+#   - added to note that if you dont understand what this part of the script is doing hit N
+#   - added colors for syntax highlighting in the onscreen messages of the script in places
+#   - added fix_nmap function for fixing /usr/share/nmap/scripts/clamav-exec.nse (commented out at this time
+#     clamav-exec.nse was an issue at one time but unknown if it is still relevent) 
+#
 # Revision 0.3b: 
 #   - bug fix ( Thanks Shadowboss! ) for impacket installation, cd /opt/impacket-0.9.19 was missing
 #   - feature request added : Gedit installation menu option 7, is included in fix_missing, all and force
@@ -37,13 +45,26 @@
 # 
 #     Standard Disclaimer: Author assumes no liability for any damange
 #
-
+ #unicorn puke: 
+ red=$'\e[1;31m'
+ green=$'\e[1;32m' 
+ blue=$'\e[1;34m'
+ magenta=$'\e[1;35m'
+ cyan=$'\e[1;36m'
+ yellow=$'\e[1;93m'
+ white=$'\e[0m'
+ bold=$'\e[1m'
+ norm=$'\e[21m'
+ 
+ # status indicators
  greenplus='\e[1;33m[++]\e[0m'
  greenminus='\e[1;33m[--]\e[0m'
  redminus='\e[1;31m[--]\e[0m'
  redexclaim='\e[1;31m[!!]\e[0m'
  redstar='\e[1;31m[**]\e[0m' 
  blinkexclaim='\e[1;31m[\e[5;31m!!\e[0m\e[1;31m]\e[0m'
+ 
+ # variables needed in the script 
  force=0
  check=""
  section=""
@@ -121,14 +142,25 @@ fix_missing () {
      type="install"
      fix_section $section $check $type $force
      
+     # feature request added - install gedit / moved it to its own function - 09.29.2020
      fix_gedit
-     #section="gedit"
-     #type="install"
-     #fix_section $section $check $type $force
-
+     
+     # fix nmap clamav-exec.nse - code is here , just commented out waiting to see if this is still an isssue or not
+     # FIX_NMAP UNCOMMENT TO ENABLE
+     # fix_nmap
+     
      # 09.25.2020 - python-pip was removed from the kali repo and curl is the only method to install at this time
      python-pip-curl
      } 
+     
+# FIX_NMAP UNCOMMENT TO ENABLE     
+# fix_nmap () { 
+#    # clamav-exec.nse was/is broken on some kali installs, grab new one and overwrite old one at /usr/share/nmap/scripts/clamav-exec.nse
+#    rm /usr/share/nmap/scripts/clamav-exec.nse 
+#    echo -e "\n $redminus /usr/share/nmap/scripts/clamav-exec.nse removed \n" 
+#    wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse
+#    echo -e "\n $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version \n"
+#    }
 
 fix_gedit () {
     section="gedit"
@@ -143,8 +175,20 @@ fix_gedit () {
      }   
      
 make_rootgreatagain () {
-     echo -e "\n Do you want to enable root login in kali?"
-     read -n1 -p " Please type Y or N : " userinput
+     echo -e "\n KALI-ROOT-LOGIN INSTALLATION:   "$red"*** READ CAREFULLY! ***"$white" \n"
+     echo -e " On Kali 2019.x and prior the default user was root"
+     echo -e " On Kali 2020.1 and newer this was changed, the default user was changed to be "
+     echo -e " an" $yellow$bold"actual user"$norm$white" on the system and not "$red$bold"root"$norm$white", this user is : kali (by default) "
+     echo -e " \n  Your existing user configurations will not be affected or altered. "
+     echo -e "  This will "$red"ONLY"$white" reenable the ability to login as root at boot and does "$red"NOT"$white" replace"
+     echo -e "  any existing user, remove any user files or user configurations."
+     echo -e "\n  If you wish to re-enable the ability to login to kali as root at the login screen "
+     echo -e "  and be root all the time, press Y "
+     echo -e "\n  If not, press N and the script will skip this section "
+     echo -e "\n  "$bold$red"If you are confused or dont understand what"$norm$white
+     echo -e "  "$bold$red"this part of the script is doing, press N"$norm$white
+     echo -e "\n  Do you want to re-enable the ability to login as root in kali?"
+     read -n1 -p "  Please type Y or N : " userinput
      case $userinput in
          y|Y) enable_rootlogin ;;
          n|N) echo -e "\n $redexclaim skipping root login setup" ;;
@@ -245,37 +289,39 @@ fix_grub () {
     fi
     } 
 
-bashrc_update () {
-    check_bashrc_vpnip=$(cat $HOME/.bashrc | grep -i -c "vpnip=")
-    if [ $check_bashrc_vpnip -ne 1 ]
-      then 
-        echo -e "\nalias vpnip='ifconfig tun0 | grep -m1 inet | awk '\''{print(\$2)}'\'''"
-        echo -e "\n $greenplus added vpnip alias to $HOME/.bashrc"
-      else
-        echo -e "\n vpnip= found in .bashrc - not updating"
-    fi
+    #
+    # basrc_udpate - still debating this section or not.. adding go paths to ~/.bashrc aparentally breaks ability to compile?
+    #
+#bashrc_update () {
+#    check_bashrc_vpnip=$(cat $HOME/.bashrc | grep -i -c "vpnip=")
+#    if [ $check_bashrc_vpnip -ne 1 ]
+#      then 
+#        echo -e "\nalias vpnip='ifconfig tun0 | grep -m1 inet | awk '\''{print(\$2)}'\'''"
+#        echo -e "\n $greenplus added vpnip alias to $HOME/.bashrc"
+#      else
+#        echo -e "\n vpnip= found in .bashrc - not updating"
+#    fi
+#
+#    check_bashrc_ex=$(cat $HOME/.bashrc | grep -i -c "ex ()")
+#    if [ $check_bashrc_ex -ne 1 ]
+#      then 
+#       echo -e "\nex ()\n{\n  if [ -f \$1 ] ; then \n   case \$1 in \n    *.tar.bz2)   tar xjf \$1 ;; "\
+#    "\n    *.tar.gz)    tar xzf \$1 ;;\n    *.tar.xz)    tar xJf \$1 ;;\n    *.bz2)       bunzip2 \$1 ;;"\
+#    "\n    *.rar)       unrar x \$1 ;;\n    *.gz)        gunzip \$1  ;;\n    *.tar)       tar xf \$1  ;;"\
+#    "\n    *.tbz2)      tar xjf \$1 ;;\n    *.tgz)       tar xzf \$1 ;;\n    *.zip)       unzip \$1   ;;"\
+#    "\n    *.Z)         uncompress \$1;;\n    *.7z)        7z x \$1 ;;\n    *)           echo \"'\$1' cannot be extracted via ex()\" ;;"\
+#    "\n    esac\n  else\n    echo \"'\$1' is not a valid file\"\n  fi\n }\n"
+#       echo -e "\n $greenplus Added ex () function to $HOME/.bashrc"
+#       else
+#       echo -e "\n $redminus ex () function found in .bashrc - not updating"
+#    fi
+#    # Still debating this section 
+#    # add this!!! export PATH=$PATH:/sbin:/usr/sbin
+#    # ADD THESE ALIASES  WEBSRV PORTNUMER   AND   KILLVPN
+#    # alias websrv='python3 -m http.server $1'
+#    # alias killvpn='killall -9 openvpn'
+#    }
 
-    check_bashrc_ex=$(cat $HOME/.bashrc | grep -i -c "ex ()")
-    if [ $check_bashrc_ex -ne 1 ]
-      then 
-       echo -e "\nex ()\n{\n  if [ -f \$1 ] ; then \n   case \$1 in \n    *.tar.bz2)   tar xjf \$1 ;; "\
-    "\n    *.tar.gz)    tar xzf \$1 ;;\n    *.tar.xz)    tar xJf \$1 ;;\n    *.bz2)       bunzip2 \$1 ;;"\
-    "\n    *.rar)       unrar x \$1 ;;\n    *.gz)        gunzip \$1  ;;\n    *.tar)       tar xf \$1  ;;"\
-    "\n    *.tbz2)      tar xjf \$1 ;;\n    *.tgz)       tar xzf \$1 ;;\n    *.zip)       unzip \$1   ;;"\
-    "\n    *.Z)         uncompress \$1;;\n    *.7z)        7z x \$1 ;;\n    *)           echo \"'\$1' cannot be extracted via ex()\" ;;"\
-    "\n    esac\n  else\n    echo \"'\$1' is not a valid file\"\n  fi\n }\n"
-       echo -e "\n $greenplus Added ex () function to $HOME/.bashrc"
-       else
-       echo -e "\n $redminus ex () function found in .bashrc - not updating"
-    fi
-    # Still debating this section 
-    # add this!!! export PATH=$PATH:/sbin:/usr/sbin
-    # ADD THESE ALIASES  WEBSRV PORTNUMER   AND   KILLVPN
-    # alias websrv='python3 -m http.server $1'
-    # alias killvpn='killall -9 openvpn'
-
-}
-    
 fix_all () {
     fix_missing $force 
     fix_smbconf 
@@ -283,6 +329,9 @@ fix_all () {
     fix_golang $force
     make_rootgreatagain
     fix_grub
+    # ID10T REMINDER:     
+    # fix_gedit is being called from fix_missing which is a part of fix_all, no need to call it a 2nd time 
+    # fix_nmap  is being called from fix_missing which is a part of fix_all, no need to call it a 2nd time 
     }    
 
     
@@ -293,13 +342,15 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n Select a option from menu: "
     echo -e "\n Options 1 thru 6 will only run that function and exit, 0 will run all "
-    echo -e "\n  1 - Fix Missing             (only installs python-pip python3-pip seclists gedit)" # fix_missing
+    echo -e "\n  1 - Fix Missing             (only installs python-pip python3-pip seclists gedit clamav-exec.nse)" # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (only adds the 2 missing lines)"                   # fix_smbconf
     echo -e "  3 - Fix Golang              (only installs golang)"                            # fix_golang
     echo -e "  4 - Fix Grub                (only adds mitigations=off)"                       # fix_grub
     echo -e "  5 - Fix Impacket            (only installs impacket)"                          # fix_impacket
-    echo -e "  6 - Enable Root Login       (only installs kali-root-login)\n"                 # make_rootgreatagain
+    echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                   # make_rootgreatagain
     echo -e "  7 - Install Gedit           (only installs gedit)\n"                           # fix_gedit
+    # FIX_NMAP UNCOMMENT TO ENABLE
+    # echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)\n"             # fix_nmap
     echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6 and 7) \n"                   # fix_all 
    
     read -n1 -p " Make selection or press X to exit: " menuinput
@@ -312,6 +363,8 @@ pimpmykali_menu () {
         5) fix_impacket ;;
         6) make_rootgreatagain ;;
         7) fix_gedit ;; 
+        # FIX_NMAP UNCOMMENT TO ENABLE
+        # 8) fix_nmap ;; 
         0) fix_all ;;
         # x|X) exit_screen ;;
         x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
@@ -325,7 +378,7 @@ pimpmykali_help () {
             "--smb        only run smb.conf fix \n --go         only fix golang"\
             "\n --impacket   only fix impacket \n --grub       only add mitigations=off"\
             "\n --root       enable root login \n --missing    install missing" \
-            "\n --menu       its the menu \n --gedit      install gedit\n --help       you are here"
+            "\n --menu       its the menu \n --gedit      only install gedit\n --help       you are here"
     exit             
     }             
 
@@ -345,6 +398,8 @@ check_arg () {
    --missing) fix_missing         ;; -missing) fix_missing      ;; missing) fix_missing ;;  
       --help) pimpmykali_help     ;; -help) pimpmykali_help     ;; help) pimpmykali_help ;;
      --force) force=1; fix_all    ;; -force) force=1; fix_all   ;; force) force=1; fix_all ;;
+      # FIX_NMAP UNCOMMENT TO ENABLE 
+      # --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
            *) pimpmykali_help ; exit 0 ;; 
      esac
 fi
