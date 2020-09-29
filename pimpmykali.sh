@@ -6,7 +6,7 @@
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
 # Revision 0.3b: 
-#   - bug fix ( Thanks Shadowbox! ) for impacket installation, cd /opt/impacket-0.9.19 was missing
+#   - bug fix ( Thanks Shadowboss! ) for impacket installation, cd /opt/impacket-0.9.19 was missing
 #   - feature request added : Gedit installation menu option 7, is included in fix_missing, all and force
 #   - remove clear from exit screen
 #
