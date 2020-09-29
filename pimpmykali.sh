@@ -86,15 +86,15 @@ check_for_root () {
      }
 
 fix_section () {
-     # echo $section force=$force type=$type check=$check
-     if [ $check -ne 0 ] && [ $force -ne 0 ] 
+     # echo section=$section force=$force type=$type check=$check
+     if [ $force -ne 0 ] 
       then 
-       echo -e "\n $redstar Reinstallation : $section"
+        echo -e "\n $redstar Reinstallation : $section"
         apt -y reinstall $section  
-       else
-        if [ $check -ne 1 ] && [ $force -ne 1 ]
+      else
+        if [ $check -ne 1 ]
          then 
-          apt -y $type $section   
+          apt -y install $section   
           echo -e "\n $greenplus $section $type" 
          else
           echo -e "\n $greenminus $section already installed" 
@@ -103,8 +103,8 @@ fix_section () {
        section=""
        check=""
        type=""
-      fi
-      }
+     fi
+     }
    
 fix_missing () { 
      apt -y update && apt -y autoremove
@@ -137,13 +137,14 @@ fix_missing () {
      type="install"
      fix_section $section $check $type $force
      
-     section="golang"
-     check=$(go version | grep -i -c "go version")
-     type="install"
-     fix_section $section $check $type $force
-     
+     #section="golang"
+     #check=$(go version | grep -i -c "go version")
+     #type="install"
+     #fix_section $section $check $type $force
+     fix_golang $force
+
      # feature request added - install gedit / moved it to its own function - 09.29.2020
-     fix_gedit
+     fix_gedit $force 
      
      # fix nmap clamav-exec.nse - code is here , just commented out waiting to see if this is still an isssue or not
      # FIX_NMAP UNCOMMENT TO ENABLE
@@ -190,18 +191,23 @@ make_rootgreatagain () {
      echo -e "\n  Do you want to re-enable the ability to login as root in kali?"
      read -n1 -p "  Please type Y or N : " userinput
      case $userinput in
-         y|Y) enable_rootlogin ;;
+         y|Y) enable_rootlogin $force;;
          n|N) echo -e "\n $redexclaim skipping root login setup" ;;
-         *) echo -e "\n invalid key try again Y or N"; make_rootgreatagain ;;
+         *) echo -e "\n invalid key try again Y or N"; make_rootgreatagain;;
      esac
      }
 
 enable_rootlogin () {
     section="kali-root-login"
     check=$(whereis kali-root-login | grep -i -c "kali-root-login: /usr/share/kali-root-login") 
-    type="install"
-    fix_section $section $check $type $force
-    echo -e "\n\nEnabling Root Login Give root a password"
+     if [ $force -ne 0 ] 
+      then 
+       type="install"
+      else
+       type="reinstall"
+     fi 
+    fix_section $section $check $type $force   
+     echo -e "\n\nEnabling Root Login Give root a password"
     passwd root
     echo -e "\n $greenplus root login enabled \n"
     }    
@@ -262,7 +268,7 @@ fix_impacket () {
 
 fix_golang () {
     section="golang"
-    check=$(go version | grep -i -c "go version")
+    # check=$(go version | grep -i -c "go version")
      if [ $force -ne 0 ] 
       then 
        type="install"
@@ -324,8 +330,9 @@ fix_all () {
     fix_missing $force 
     fix_smbconf 
     fix_impacket
-    fix_golang $force
-    make_rootgreatagain
+    # ID10T REMINDER : fix_golang is being called in fix_missing, dont call it twice here!
+    # fix_golang $force
+    make_rootgreatagain $force
     fix_grub
     # ID10T REMINDER:     
     # fix_gedit is being called from fix_missing which is a part of fix_all, no need to call it a 2nd time 
