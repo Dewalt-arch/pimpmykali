@@ -153,20 +153,20 @@ fix_missing () {
      
      # fix nmap clamav-exec.nse - code is here , just commented out waiting to see if this is still an isssue or not
      # FIX_NMAP UNCOMMENT TO ENABLE
-     # fix_nmap
+     fix_nmap
      
      # 09.25.2020 - python-pip was removed from the kali repo and curl is the only method to install at this time
      python-pip-curl
      } 
      
 # FIX_NMAP UNCOMMENT TO ENABLE     
-# fix_nmap () { 
-#    # clamav-exec.nse was/is broken on some kali installs, grab new one and overwrite old one at /usr/share/nmap/scripts/clamav-exec.nse
-#    rm /usr/share/nmap/scripts/clamav-exec.nse 
-#    echo -e "\n $redminus /usr/share/nmap/scripts/clamav-exec.nse removed \n" 
-#    wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse
-#    echo -e "\n $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version \n"
-#    }
+fix_nmap () { 
+    # clamav-exec.nse was/is broken on some kali installs, grab new one and overwrite old one at /usr/share/nmap/scripts/clamav-exec.nse
+    rm -f /usr/share/nmap/scripts/clamav-exec.nse 
+    echo -e "\n $redminus /usr/share/nmap/scripts/clamav-exec.nse removed \n" 
+    wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse
+    echo -e "\n $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version \n"
+    }
 
 fix_flameshot () {
     section="flameshot"
@@ -421,7 +421,7 @@ check_arg () {
  --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
      --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
       # FIX_NMAP UNCOMMENT TO ENABLE 
-      # --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
+      --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
            *) pimpmykali_help ; exit 0 ;; 
      esac
     fi
