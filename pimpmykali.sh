@@ -387,17 +387,17 @@ check_arg () {
       then pimpmykali_menu
      else
       case $1 in 
-      --menu) pimpmykali_menu     ;; -menu) pimpmykali_menu     ;; menu) pimpmykali_menu ;;
-       --all) fix_all             ;; -all) fix_all              ;; all) fix_all ;; 
-       --smb) fix_smbconf         ;; -smb) fix_smbconf          ;; smb) fix_smbconf ;;
-        --go) fix_golang          ;; -go) fix_golang            ;; go) fix_golang ;; 
-     --gedit) fix_gedit           ;; -gedit) fix_gedit          ;; gedit) fix_gedit ;;  
-  --impacket) fix_impacket        ;; -impacket) fix_impacket    ;; impacket) fix_impacket ;;   
-      --grub) fix_grub            ;; -grub) fix_grub            ;; grub) fix_grub ;; 
-      --root) make_rootgreatagain ;; -root) make_rootgreatagain ;; root) make_rootgreatagain ;;
-   --missing) fix_missing         ;; -missing) fix_missing      ;; missing) fix_missing ;;  
-      --help) pimpmykali_help     ;; -help) pimpmykali_help     ;; help) pimpmykali_help ;;
-     --force) force=1; fix_all $force   ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
+      --menu) pimpmykali_menu          ;; -menu) pimpmykali_menu           ;; menu) pimpmykali_menu ;;
+       --all) fix_all                  ;; -all) fix_all                    ;; all) fix_all ;; 
+       --smb) fix_smbconf              ;; -smb) fix_smbconf                ;; smb) fix_smbconf ;;
+        --go) fix_golang               ;; -go) fix_golang                  ;; go) fix_golang ;; 
+     --gedit) fix_gedit                ;; -gedit) fix_gedit                ;; gedit) fix_gedit ;;  
+  --impacket) fix_impacket             ;; -impacket) fix_impacket          ;; impacket) fix_impacket ;;   
+      --grub) fix_grub                 ;; -grub) fix_grub                  ;; grub) fix_grub ;; 
+      --root) make_rootgreatagain      ;; -root) make_rootgreatagain       ;; root) make_rootgreatagain ;;
+   --missing) fix_missing              ;; -missing) fix_missing            ;; missing) fix_missing ;;  
+      --help) pimpmykali_help          ;; -help) pimpmykali_help           ;; help) pimpmykali_help ;;
+     --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
       # FIX_NMAP UNCOMMENT TO ENABLE 
       # --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
            *) pimpmykali_help ; exit 0 ;; 
