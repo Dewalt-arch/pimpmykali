@@ -12,6 +12,14 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.3c: 
+  - per request kali-root-login enabling prompt has been reworked and reworded to be less confusing and
+    to give the user a better explaniation of what the script is doing at that stage 
+  - added to note that if you dont understand what this part of the script is doing hit N
+  - added colors for syntax highlighting in the onscreen messages of the script in places
+  - added fix_nmap function for fixing /usr/share/nmap/scripts/clamav-exec.nse (commented out at this time
+    clamav-exec.nse was an issue at one time but unknown if it is still relevent)
+
 # Revision 0.3b: 
   - bug fix ( Thanks ShadeauxBoss! for finding it ) impacket installation was missing cd /opt/impacket-0.9.19 
   - feature request added : Gedit installation menu option 7, is included in fix_missing, all and force
