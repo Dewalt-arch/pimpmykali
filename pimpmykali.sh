@@ -13,6 +13,9 @@
 #   - added fix_nmap function for fixing /usr/share/nmap/scripts/clamav-exec.nse (commented out at this time
 #     clamav-exec.nse was an issue at one time but unknown if it is still relevent) 
 #
+# Revision 0.3c: 
+#    - emergency fix to --force everything should be functioning properly now
+#
 # Revision 0.3b: 
 #   - bug fix ( Thanks Shadowboss! ) for impacket installation, cd /opt/impacket-0.9.19 was missing
 #   - feature request added : Gedit installation menu option 7, is included in fix_missing, all and force

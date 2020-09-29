@@ -12,6 +12,9 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.3d
+  - emergency fix to --force, everythign should be functioning now
+
 # Revision 0.3c: 
   - per request kali-root-login enabling prompt has been reworked and reworded to be less confusing and
     to give the user a better explaniation of what the script is doing at that stage 
