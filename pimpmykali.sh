@@ -342,7 +342,7 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n Select a option from menu: "
     echo -e "\n Options 1 thru 6 will only run that function and exit, 0 will run all "
-    echo -e "\n  1 - Fix Missing             (only installs python-pip python3-pip seclists gedit clamav-exec.nse)" # fix_missing
+    echo -e "\n  1 - Fix Missing             (only installs python-pip python3-pip seclists gedit)" # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (only adds the 2 missing lines)"                   # fix_smbconf
     echo -e "  3 - Fix Golang              (only installs golang)"                            # fix_golang
     echo -e "  4 - Fix Grub                (only adds mitigations=off)"                       # fix_grub
