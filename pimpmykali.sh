@@ -149,6 +149,8 @@ fix_missing () {
      # feature request added - install gedit / moved it to its own function - 09.29.2020
      fix_gedit $force 
      
+     fix_flameshot $force
+     
      # fix nmap clamav-exec.nse - code is here , just commented out waiting to see if this is still an isssue or not
      # FIX_NMAP UNCOMMENT TO ENABLE
      # fix_nmap
@@ -165,6 +167,18 @@ fix_missing () {
 #    wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse
 #    echo -e "\n $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version \n"
 #    }
+
+fix_flameshot () {
+    section="flameshot"
+    check=$(whereis gedit | grep -i -c "/usr/bin/flameshot") 
+     if [ $check -ne 0 ] 
+      then
+       type="reinstall"
+      else
+       type="install"
+     fi   
+     fix_section $section $check $type $force
+     }   
 
 fix_gedit () {
     section="gedit"
@@ -420,4 +434,4 @@ exit_screen () {
 check_for_root
 check_distro
 check_arg "$1" 
-exit_screen 
+exit_screen

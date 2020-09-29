@@ -13,6 +13,7 @@
 - sudo ./pimpmykali.sh
 
 # Revision 0.3d
+  - added flameshot to fix_missing as a part of the default installed tools
   - emergency fix to --force, everything should be functioning now
 
 # Revision 0.3c: 
