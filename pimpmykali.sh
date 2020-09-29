@@ -397,7 +397,7 @@ check_arg () {
       --root) make_rootgreatagain ;; -root) make_rootgreatagain ;; root) make_rootgreatagain ;;
    --missing) fix_missing         ;; -missing) fix_missing      ;; missing) fix_missing ;;  
       --help) pimpmykali_help     ;; -help) pimpmykali_help     ;; help) pimpmykali_help ;;
-     --force) force=1; fix_all    ;; -force) force=1; fix_all   ;; force) force=1; fix_all ;;
+     --force) force=1; fix_all $force   ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
       # FIX_NMAP UNCOMMENT TO ENABLE 
       # --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
            *) pimpmykali_help ; exit 0 ;; 
