@@ -363,7 +363,7 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n Select a option from menu: "
     echo -e "\n Options 1 thru 6 will only run that function and exit, 0 will run all "
-    echo -e "\n  1 - Fix Missing             (only installs python-pip python3-pip seclists gedit)" # fix_missing
+    echo -e "\n  1 - Fix Missing             (only installs python-pip python3-pip seclists gedit flameshot)" # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (only adds the 2 missing lines)"                   # fix_smbconf
     echo -e "  3 - Fix Golang              (only installs golang)"                            # fix_golang
     echo -e "  4 - Fix Grub                (only adds mitigations=off)"                       # fix_grub
@@ -398,7 +398,8 @@ pimpmykali_help () {
             "--smb        only run smb.conf fix \n --go         only fix golang"\
             "\n --impacket   only fix impacket \n --grub       only add mitigations=off"\
             "\n --root       enable root login \n --missing    install missing" \
-            "\n --menu       its the menu \n --gedit      only install gedit\n --help       you are here"
+            "\n --menu       its the menu \n --gedit      only install gedit\n --flameshot  only fix flameshot" \
+            "\n --help       you are here"
     exit             
     }             
 
@@ -417,6 +418,7 @@ check_arg () {
       --root) make_rootgreatagain      ;; -root) make_rootgreatagain       ;; root) make_rootgreatagain ;;
    --missing) fix_missing              ;; -missing) fix_missing            ;; missing) fix_missing ;;  
       --help) pimpmykali_help          ;; -help) pimpmykali_help           ;; help) pimpmykali_help ;;
+ --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
      --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
       # FIX_NMAP UNCOMMENT TO ENABLE 
       # --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
