@@ -327,7 +327,7 @@ fi
 
 exit_screen () { 
     # clear
-    # echo -e "$asciiart"
+    echo -e "$asciiart"
     echo -e "\n\n    All Done! Happy Hacking! \n"
     }
 
