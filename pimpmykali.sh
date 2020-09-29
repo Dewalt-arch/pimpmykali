@@ -102,7 +102,7 @@ fix_section () {
          else
           echo -e "\n $greenminus $section already installed" 
         fi
-       # echo -e "      use --force to force reinstall" 
+       echo -e "      use --force to force reinstall" 
        section=""
        check=""
        type=""
