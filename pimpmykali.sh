@@ -99,7 +99,7 @@ fix_section () {
          else
           echo -e "\n $greenminus $section already installed" 
         fi
-       echo -e "      use --force to force reinstall" 
+       # echo -e "      use --force to force reinstall" 
        section=""
        check=""
        type=""
@@ -250,13 +250,13 @@ fix_impacket () {
     
     wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz   
     tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt  
-    cd /opt/
+    cd /opt
     chown -R root:root impacket-0.9.19
     chmod -R 755 impacket-0.9.19
-    cd impacket-0.9.19
+    cd /opt/impacket-0.9.19
     pip install wheel   
     pip install .   
-    rm /tmp/impacket-0.9.19.tar.gz
+    rm -f /tmp/impacket-0.9.19.tar.gz
     echo -e "\n $greenplus python-pip python3-pip wheel impacket installed"
     }
 
