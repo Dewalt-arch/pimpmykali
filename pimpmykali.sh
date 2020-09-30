@@ -5,6 +5,20 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.4 : Major Update for impacket 
+#   - added flameshot as a part of the missing group to be installed
+#   - added clamav-exec.nse wget to fix clamav-exec.nse failed during nmap --script vuln scans
+#   - new commandline switch of --borked has been implemented for removal of impacket across various locations
+#   - added --borked notice to menu system, help system
+#   - added warning screen for --borked, only input of Y will proceed anything else exits
+#   - fix_sead_warning, fix_sead_run, fix_impacket_array, fix_impacket all executed in order with --borked
+#     - fix_sead_run removes any and all directories named impacket* in the following locations: 
+#        /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/bin /home/$finduser/.local/lib ~/.local/lib ~/.local/bin
+#      - fix_sead_run, also removes via fix_impacket_array any .py or .pyc related to impacket in the following: 
+#        /usr/bin/$impacket_file /usr/local/bin/$impacket_file 
+#         (root)~/.local/bin/$impacket_file 
+#         (user)/home/$finduser/.local/bin/$impacket_file
+#
 # Revision 0.3c: 
 #   - per request kali-root-login enabling prompt has been reworked and reworded to be less confusing and
 #     to give the user a better explaniation of what the script is doing at that stage 
@@ -120,11 +134,6 @@ fix_missing () {
      # force= to override force / set force var
      # fix_section $section $check $force
      
-     #section="kali-undercover"
-     #check=$(whereis kali-undercover | grep -i -c "kali-undercover: /usr/bin/kali-undercover")
-     #type="remove"
-     #fix_section $section $check $type $force
-     
      section="python3-pip"
      check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
      type="install"
@@ -139,20 +148,13 @@ fix_missing () {
      check=$(whereis locate | grep -i -c "locate: /usr/bin/locate") 
      type="install"
      fix_section $section $check $type $force
-     
-     #section="golang"
-     #check=$(go version | grep -i -c "go version")
-     #type="install"
-     #fix_section $section $check $type $force
+
      fix_golang $force
 
      # feature request added - install gedit / moved it to its own function - 09.29.2020
      fix_gedit $force 
      
      fix_flameshot $force
-     
-     # fix nmap clamav-exec.nse - code is here , just commented out waiting to see if this is still an isssue or not
-     # FIX_NMAP UNCOMMENT TO ENABLE
      fix_nmap
      
      # 09.25.2020 - python-pip was removed from the kali repo and curl is the only method to install at this time
@@ -256,21 +258,118 @@ python-pip-curl () {
     fi
     }
 
-fix_impacket () { 
-    apt -y remove impacket  
+fix_sead_warning () {
+    # Note: The only way this function gets called is via --borked command line switch - currently disabled
+    # FIX_SEAD - Seach, Engage, Attack, Destroy (SEAD) function : impacket* 
+    # search for, find, list and remove anything impacket* from the following and its not going to ask about it!
+    # /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/lib /home/$finduser/.local/bin ~/.local/lib ~/.local/bin
+    # 
+    # Function should only be needed in the most borked of impacket installations
+    # Function will only be called via commandline switch of say : --borked  for a 1 time run of fix_sead function and exit
+
+    # make sure pip3 and pip are installed - were going to need them both
+     finduser=$(logname)
+    clear
+ echo -e "
+
+ "$bold$redexclaim$red" WARNING "$redexclaim$bold$red"  PIMPMYKALI IMPACKET REMOVAL FUNCTION  "$redexclaim$bold$red" WARNING "$redexclaim$white$norm"
+
+                 *** READ FULLY BEFORE PRESSING ANY KEY ***
+                
+   "$red"DISCLAIMER:"$white" This is a last resort effort to remove impacket from the system
+   and install a clean working install of impacket-0.9.19 and should be only
+   used as such. 
+ 
+   This function of pimpmykali is reserved for the most severe cases of broken 
+   impacket installs, multiple impacket installs, etc, and will attempt to 
+   clean the system of impacket and any related files that may be preventing 
+   a clean and working install of impacket-0.9.19
+   
+   It is not possible to forsee every possible scenario but this makes a best 
+   attempt of the most common dirs and files to clean your system to remove 
+   anything impacket related only from the areas listed below. 
+ 
+   This WILL RECURSIVLY DELETE ANY DIR NAMED impacket* from the following: 
+    /opt  /usr/bin  /usr/local/lib  /usr/lib  /home/$finduser/.local/bin 
+    /home/$finduser/.local/lib  /root/.local/lib  /root/.local/bin 
+
+   AND ANY related .py and .pyc files from impacket in the following: 
+    /usr/bin  /local/local/bin  /root/.local/bin  /home/$finduser/.local/bin
+    
+   After running this function completes the following will be run automatically 
+    sudo ./pimpmykali.sh --impacket
+    
+   Answering only Y to the following prompt will preform the above actions, 
+   pressing ANY OTHER KEY WILL EXIT
+   
+   "
+    read -n1 -p " Press Y to execute or any other key to exit: " fixsead_userinput
+    case $fixsead_userinput in
+        y|Y) fix_sead_run ;;
+        *) exit ;;
+    esac
+    }
+    
+fix_sead_run () {
+    python-pip-curl
     apt -y install python3-pip  
-    # python-pip has been removed from the kali repos
+
+    # gracefully attempt to remove impacket via pip and pip3        
+    pip uninstall impacket -y
+    pip3 uninstall impacket -y 
+   
+    # used to get the username running this script as sudo to check /home/$finduser/.local/lib and /home/$finduser/.local/bin
+    finduser=$(logname)
+
+    # Not playin here... anything impacket* in the following find statement goes BYE BYE and not ask about it.. its gone ** ADD WARNING SCREEN **
+    SEAD=$(find /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/bin /home/$finduser/.local/lib ~/.local/lib ~/.local/bin -name impacket* 2> /dev/null) 
+
+    # display to the screen whats getting removed by SEAD 
+    echo -e "  $redstar fix_sead function running removing : $SEAD \n"
+    rm -rf $SEAD
+    fix_impacket_array 
+    sudo ./pimpmykali.sh --impacket
+    exit
+    }
+
+fix_impacket_array () {
+    finduser=$(logname)   
+    arr=('addcomputer.py' 'atexec.py' 'dcomexec.py' 'dpapi.py' 'esentutl.py' 'findDelegation.py' 'GetADUsers.py' 'getArch.py'
+         'GetNPUsers.py' 'getPac.py' 'getST.py' 'getTGT.py' 'GetUserSPNs.py' 'goldenPac.py' 'karmaSMB.py' 'kintercept.py' 
+         'lookupsid.py' 'mimikatz.py' 'mqtt_check.py' 'mssqlclient.py' 'mssqlinstance.py' 'netview.py' 'nmapAnswerMachine.py' 
+         'ntfs-read.py' 'ntlmrelayx.py' 'ping6.py' 'ping.py' 'psexec.py' 'raiseChild.py' 'rdp_check.py' 'registry-read.py'
+         'reg.py' 'rpcdump.py' 'rpcmap.py' 'sambaPipe.py' 'samrdump.py' 'secretsdump.py' 'services.py' 'smbclient.py'
+         'smbexec.py' 'smbrelayx.py' 'smbserver.py' 'sniffer.py' 'sniff.py' 'split.py' 'ticketConverter.py' 'ticketer.py'
+         'wmiexec.py' 'wmipersist.py' 'wmiquery.py' 'addcomputer.pyc' 'atexec.pyc' 'dcomexec.pyc' 'dpapi.pyc' 'esentutl.pyc'
+         'findDelegation.pyc' 'GetADUsers.pyc' 'getArch.pyc' 'GetNPUsers.pyc' 'getPac.pyc' 'getST.pyc' 'getTGT.pyc' 
+         'GetUserSPNs.pyc' 'goldenPac.pyc' 'karmaSMB.pyc' 'kintercept.pyc' 'lookupsid.pyc' 'mimikatz.pyc' 'mqtt_check.pyc' 
+         'mssqlclient.pyc' 'mssqlinstance.pyc' 'netview.pyc' 'nmapAnswerMachine.pyc' 'ntfs-read.pyc' 'ntlmrelayx.pyc' 
+         'ping6.pyc' 'ping.pyc' 'psexec.pyc' 'raiseChild.pyc' 'rdp_check.pyc' 'registry-read.pyc' 'reg.pyc' 'rpcdump.pyc' 
+         'rpcmap.pyc' 'sambaPipe.pyc' 'samrdump.pyc' 'secretsdump.pyc' 'services.pyc' 'smbclient.pyc' 'smbexec.pyc' 
+         'smbrelayx.pyc' 'smbserver.pyc' 'sniffer.pyc' 'sniff.pyc' 'split.pyc' 'ticketConverter.pyc' 'ticketer.pyc' 
+         'wmiexec.pyc' 'wmipersist.pyc' 'wmiquery.pyc' ) 
+
+     for impacket_file in ${arr[@]}; do
+      rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file 
+      echo -e "\n $greenplus $impacket_file removed from /usr/bin /usr/local/bin ~/.local/bin /home/$finduser/.local/bin"
+     done 
+     } 
+
+fix_impacket () { 
+    finduser=$(logname)
+    # 2020.3 - package: impacket no longer exists in repo will throw error 
+    apt -y remove impacket     ## do not remove : python3-impacket impacket-scripts
+    apt -y install python3-pip  
+    
+    # python-pip has been removed from the kali repos, use python-pip-curl function for curl installation
     python-pip-curl
     
-    arr=('addcomputer.py' 'atexec.py' 'dcomexec.py' 'dpapi.py' 'esentutl.py' 'findDelegation.py' 'GetADUsers.py' 'getArch.py' 'GetNPUsers.py'
-         'getPac.py' 'getST.py' 'getTGT.py' 'GetUserSPNs.py' 'goldenPac.py' 'karmaSMB.py' 'kintercept.py' 'lookupsid.py' 'mimikatz.py' 'mqtt_check.py' 'mssqlclient.py' 'mssqlinstance.py' 'netview.py' 'nmapAnswerMachine.py' 'ntfs-read.py' 'ntlmrelayx.py' 'ping6.py' 'ping.py' 'psexec.py' 'raiseChild.py' 'rdp_check.py' 'registry-read.py' 'reg.py' 'rpcdump.py' 'rpcmap.py' 'sambaPipe.py' 'samrdump.py' 'secretsdump.py' 'services.py' 'smbclient.py' 'smbexec.py' 'smbrelayx.py' 'smbserver.py' 'sniffer.py' 'sniff.py' 'split.py' 'ticketConverter.py' 'ticketer.py' 'wmiexec.py' 'wmipersist.py' 'wmiquery.py' 'addcomputer.pyc' 'atexec.pyc' 'dcomexec.pyc' 'dpapi.pyc' 'esentutl.pyc' 'findDelegation.pyc' 'GetADUsers.pyc' 'getArch.pyc' 'GetNPUsers.pyc' 'getPac.pyc' 'getST.pyc' 'getTGT.pyc' 'GetUserSPNs.pyc' 'goldenPac.pyc' 'karmaSMB.pyc' 'kintercept.pyc' 'lookupsid.pyc' 'mimikatz.pyc' 'mqtt_check.pyc' 'mssqlclient.pyc' 'mssqlinstance.pyc' 'netview.pyc' 'nmapAnswerMachine.pyc' 'ntfs-read.pyc' 'ntlmrelayx.pyc' 'ping6.pyc' 'ping.pyc' 'psexec.pyc' 'raiseChild.pyc' 'rdp_check.pyc' 'registry-read.pyc' 'reg.pyc' 'rpcdump.pyc' 'rpcmap.pyc' 'sambaPipe.pyc' 'samrdump.pyc' 'secretsdump.pyc' 'services.pyc' 'smbclient.pyc' 'smbexec.pyc' 'smbrelayx.pyc' 'smbserver.pyc' 'sniffer.pyc' 'sniff.pyc' 'split.pyc' 'ticketConverter.pyc' 'ticketer.pyc' 'wmiexec.pyc' 'wmipersist.pyc' 'wmiquery.pyc' ) 
+    # make sure pip and pip3 are there before we attempt to uninstall gracefully
+    pip uninstall impacket -y
+    pip3 uninstall impacket -y 
 
-    for impacket_file in ${arr[@]}; do
-        rm -f /usr/bin/$impacket_file
-        rm -f /usr/local/bin/$impacket_file
-        echo -e "\n $greenplus $impacket_file removed "
-	done 
-    
+    fix_impacket_array 
+
     wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz   
     tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt  
     cd /opt
@@ -359,11 +458,12 @@ fix_all () {
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
    
 pimpmykali_menu () {
+    revision="0.4"
     clear
     echo -e "$asciiart"
-    echo -e "\n Select a option from menu: "
+    echo -e "\n     Select a option from menu:                            Rev:$revision"
     echo -e "\n Options 1 thru 6 will only run that function and exit, 0 will run all "
-    echo -e "\n  1 - Fix Missing             (only installs python-pip python3-pip seclists gedit flameshot)" # fix_missing
+    echo -e "\n  1 - Fix Missing             (only installs pip pip3 seclists gedit flameshot)" # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (only adds the 2 missing lines)"                   # fix_smbconf
     echo -e "  3 - Fix Golang              (only installs golang)"                            # fix_golang
     echo -e "  4 - Fix Grub                (only adds mitigations=off)"                       # fix_grub
@@ -373,7 +473,9 @@ pimpmykali_menu () {
     # FIX_NMAP UNCOMMENT TO ENABLE
     # echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)\n"             # fix_nmap
     echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6 and 7) \n"                   # fix_all 
-    read -n1 -p " Make selection or press X to exit: " menuinput
+    echo -e "  use the --borked command line switch as a last resort to"
+    echo -e "  remove/reinstall impacket only!! \n"
+    read -n1 -p "  Make selection or press X to exit: " menuinput
       
     case $menuinput in
         1) fix_missing ;;
@@ -395,11 +497,11 @@ pimpmykali_menu () {
 pimpmykali_help () {
     # do not edit this echo statement, spacing has been fixed and is correct for display terminal
     echo -e "\n valid command line arguements are : \n \n --all        run all operations \n"\
-            "--smb        only run smb.conf fix \n --go         only fix golang"\
-            "\n --impacket   only fix impacket \n --grub       only add mitigations=off"\
-            "\n --root       enable root login \n --missing    install missing" \
-            "\n --menu       its the menu \n --gedit      only install gedit\n --flameshot  only fix flameshot" \
-            "\n --help       you are here"
+            "--smb        only run smb.conf fix \n --go         only fix/install golang"\
+            "\n --impacket   only fix/install impacket \n --grub       only add mitigations=off"\
+            "\n --root       only enable root login \n --missing    install all common missing packages" \
+            "\n --menu       its the menu \n --gedit      only install gedit\n --flameshot  only fix/install flameshot" \
+            "\n --borked     only to be used as last resort to remove-reinstall impacket\n --help       your looking at it"
     exit             
     }             
 
@@ -420,6 +522,8 @@ check_arg () {
       --help) pimpmykali_help          ;; -help) pimpmykali_help           ;; help) pimpmykali_help ;;
  --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
      --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
+   # Currently Commented out reviewing and debating this function - 09.30.2020 
+    --borked) fix_sead_warning; exit   ;; -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;; 
       # FIX_NMAP UNCOMMENT TO ENABLE 
       --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
            *) pimpmykali_help ; exit 0 ;; 

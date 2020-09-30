@@ -1,4 +1,4 @@
-# pimpmykali.sh
+# pimpmykali.sh - rev 0.4
 
 # Fixes for new imported Kali Linux virtual machines
 - could be used on a bare metal machines, but thats on you
@@ -11,6 +11,20 @@
 - git clone https://github.com/Dewalt-arch/pimpmykali
 - cd pimpmykali
 - sudo ./pimpmykali.sh
+
+# Revision 0.4 : Major Update for impacket 
+   - added flameshot as a part of the missing group to be installed
+   - added clamav-exec.nse wget to fix clamav-exec.nse failed during nmap --script vuln scans
+   - new commandline switch of --borked has been implemented for removal of impacket across various locations
+   - added --borked notice to menu system, help system
+   - added warning screen for --borked, only input of Y will proceed anything else exits
+   - fix_sead_warning, fix_sead_run, fix_impacket_array, fix_impacket all executed in order with --borked
+     - fix_sead_run removes any and all directories named impacket* in the following locations (you have been warned): 
+        /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/bin /home/$finduser/.local/lib ~/.local/lib ~/.local/bin
+      - fix_sead_run, also removes via fix_impacket_array any .py or .pyc related to impacket in the following: 
+        /usr/bin/$impacket_file /usr/local/bin/$impacket_file 
+         (root)~/.local/bin/$impacket_file 
+         (user)/home/$finduser/.local/bin/$impacket_file
 
 # Revision 0.3d
   - added flameshot to fix_missing as a part of the default installed tools
