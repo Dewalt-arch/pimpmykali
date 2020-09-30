@@ -298,7 +298,7 @@ fix_sead_warning () {
    AND ANY related .py and .pyc files from impacket in the following: 
     /usr/bin  /local/local/bin  /root/.local/bin  /home/$finduser/.local/bin
     
-   After running this function completes the following will be run automatically 
+   After this function completes the following will be run automatically 
     sudo ./pimpmykali.sh --impacket
     
    Answering only Y to the following prompt will preform the above actions, 
