@@ -259,16 +259,13 @@ python-pip-curl () {
     }
 
 fix_sead_warning () {
-    # Note: The only way this function gets called is via --borked command line switch - currently disabled
-    # FIX_SEAD - Seach, Engage, Attack, Destroy (SEAD) function : impacket* 
+    # Note: The only way this function gets called is via --borked command line switch
     # search for, find, list and remove anything impacket* from the following and its not going to ask about it!
     # /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/lib /home/$finduser/.local/bin ~/.local/lib ~/.local/bin
     # 
     # Function should only be needed in the most borked of impacket installations
     # Function will only be called via commandline switch of say : --borked  for a 1 time run of fix_sead function and exit
-
-    # make sure pip3 and pip are installed - were going to need them both
-     finduser=$(logname)
+    finduser=$(logname)
     clear
  echo -e "
 
