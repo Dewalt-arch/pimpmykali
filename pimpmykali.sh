@@ -278,7 +278,8 @@ fix_sead_warning () {
                 
    "$red"DISCLAIMER:"$white" This is a last resort effort to remove impacket from the system
    and install a clean working install of impacket-0.9.19 and should be only
-   used as such. 
+   used as such. This is for only if you screwed up your impacket as bad as 
+   Bobloblaw (Blob) did!! (thank you blob!)
  
    This function of pimpmykali is reserved for the most severe cases of broken 
    impacket installs, multiple impacket installs, etc, and will attempt to 
