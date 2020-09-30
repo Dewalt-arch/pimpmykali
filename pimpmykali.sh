@@ -148,20 +148,13 @@ fix_missing () {
      check=$(whereis locate | grep -i -c "locate: /usr/bin/locate") 
      type="install"
      fix_section $section $check $type $force
-
      fix_golang $force
-
-     # feature request added - install gedit / moved it to its own function - 09.29.2020
      fix_gedit $force 
-     
      fix_flameshot $force
      fix_nmap
-     
-     # 09.25.2020 - python-pip was removed from the kali repo and curl is the only method to install at this time
      python-pip-curl
      } 
-     
-# FIX_NMAP UNCOMMENT TO ENABLE     
+    
 fix_nmap () { 
     # clamav-exec.nse was/is broken on some kali installs, grab new one and overwrite old one at /usr/share/nmap/scripts/clamav-exec.nse
     rm -f /usr/share/nmap/scripts/clamav-exec.nse 
@@ -262,9 +255,7 @@ fix_sead_warning () {
     # Note: The only way this function gets called is via --borked command line switch
     # search for, find, list and remove anything impacket* from the following and its not going to ask about it!
     # /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/lib /home/$finduser/.local/bin ~/.local/lib ~/.local/bin
-    # 
-    # Function should only be needed in the most borked of impacket installations
-    # Function will only be called via commandline switch of say : --borked  for a 1 time run of fix_sead function and exit
+
     finduser=$(logname)
     clear
  echo -e "
@@ -521,9 +512,7 @@ check_arg () {
       --help) pimpmykali_help          ;; -help) pimpmykali_help           ;; help) pimpmykali_help ;;
  --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
      --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
-   # Currently Commented out reviewing and debating this function - 09.30.2020 
     --borked) fix_sead_warning; exit   ;; -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;; 
-      # FIX_NMAP UNCOMMENT TO ENABLE 
       --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
            *) pimpmykali_help ; exit 0 ;; 
      esac
