@@ -96,6 +96,7 @@
  fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
  
  # variables needed in the script 
+ silent='>/dev/null 2>&1'
  force=0
  check=""
  section=""
@@ -410,7 +411,8 @@ fix_impacket () {
     pip install .   
     rm -f /tmp/impacket-0.9.19.tar.gz
     # added as a result of blobs removal of impacket and problem with smbmap after
-    apt -y reinstall python3-impacket impacket-scripts >/dev/null 2>&1
+    #silent='>/dev/null 2>&1'
+    eval apt -y reinstall python3-impacket impacket-scripts $silent
     echo -e "\n $greenplus python-pip python3-pip wheel impacket installed"
     }
 
