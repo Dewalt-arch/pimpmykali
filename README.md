@@ -19,6 +19,7 @@
    - seriously if you made it to --borked 2nd warning your having a bad day with impacket.. enjoy the giggle
    - 10 second wait timer added to last chance launch screen before operations are preformed
    - if no ctrl+c is entered to cancel the operation, fix_sead is run, followed by fix_impacket
+   - added apt -y reinstall python3-impacket impacket-scripts to fix error with smbmap after impacket removal
 
 # Revision 0.4 : Major Update for impacket 
    - added flameshot as a part of the missing group to be installed
