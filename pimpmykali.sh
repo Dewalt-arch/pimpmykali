@@ -3,7 +3,6 @@
 # pimpmykali.sh 
 # Author: Dewalt
 #
-#
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
 # Revision 0.4a : 2nd warning screen added for --borked impacket removal system
