@@ -419,6 +419,7 @@ fix_impacket () {
 fix_golang () {
     section="golang"
     # check=$(go version | grep -i -c "go version")
+    check=0
      if [ $force -ne 0 ] 
       then 
        type="install"
