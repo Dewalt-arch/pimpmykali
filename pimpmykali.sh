@@ -410,7 +410,7 @@ fix_impacket () {
     pip install .   
     rm -f /tmp/impacket-0.9.19.tar.gz
     # added as a result of blobs removal of impacket and problem with smbmap after
-    apt -y reinstall python3-impacket impacket-scripts 2>1& /dev/null
+    apt -y reinstall python3-impacket impacket-scripts >/dev/null 2>&1
     echo -e "\n $greenplus python-pip python3-pip wheel impacket installed"
     }
 
