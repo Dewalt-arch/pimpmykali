@@ -126,8 +126,8 @@ fix_section () {
       else
         if [ $check -ne 1 ]
          then 
-          eval apt -y install $section $silent
           echo -e "\n $greenplus $section $type" 
+          eval apt -y install $section $silent
          else
           echo -e "\n $greenminus $section already installed" 
         fi
@@ -257,8 +257,9 @@ python-pip-curl () {
     check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip") 
     if [ $check_pip -ne 1 ] 
      then 
-      curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py  
-      python /tmp/get-pip.py  
+      echo -e "\n $greenplus installing pip"
+      eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent 
+      eval python /tmp/get-pip.py $silent
       rm -f /tmp/get-pip.py
       echo -e "\n $greenplus python-pip installed"
     else
@@ -317,12 +318,12 @@ fix_sead_warning () {
     
 fix_sead_run () {
     python-pip-curl
-    apt update 2> /dev/null
-    apt -y install python3-pip > /dev/null
+    eval apt update $silent
+    eval apt -y install python3-pip $silent
 
     # gracefully attempt to remove impacket via pip and pip3        
-    pip uninstall impacket -y > /dev/null
-    pip3 uninstall impacket -y  > /dev/null
+    eval pip uninstall impacket -y $silent
+    eval pip3 uninstall impacket -y  $silent
    
     # used to get the username running this script as sudo to check /home/$finduser/.local/lib and /home/$finduser/.local/bin
     finduser=$(logname)
@@ -389,26 +390,26 @@ fix_impacket_array () {
 fix_impacket () { 
     finduser=$(logname)
     # 2020.3 - package: impacket no longer exists in repo will throw error 
-    apt -y remove impacket     ## do not remove : python3-impacket impacket-scripts
-    apt -y install python3-pip  
+    eval apt -y remove impacket $silent    ## do not remove : python3-impacket impacket-scripts
+    eval apt -y install python3-pip $silent
     
     # python-pip has been removed from the kali repos, use python-pip-curl function for curl installation
     python-pip-curl
     
     # make sure pip and pip3 are there before we attempt to uninstall gracefully
-    pip uninstall impacket -y
-    pip3 uninstall impacket -y 
+    eval pip uninstall impacket -y $silent
+    eval pip3 uninstall impacket -y $silent
 
     fix_impacket_array 
 
-    wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz   
-    tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt  
+    eval wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz $silent
+    eval tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt $silent
     cd /opt
     chown -R root:root impacket-0.9.19
     chmod -R 755 impacket-0.9.19
     cd /opt/impacket-0.9.19
-    pip install wheel   
-    pip install .   
+    eval pip install wheel $silent
+    eval pip install .  $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     # added as a result of blobs removal of impacket and problem with smbmap after
     #silent='>/dev/null 2>&1'
