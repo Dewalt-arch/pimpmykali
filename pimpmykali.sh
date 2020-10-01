@@ -333,7 +333,7 @@ fix_sead_run () {
 
     # added Last Chance Launch Sequence ** WARNING SCREEN ** and 10 second time out
     clear 
-    echo -e "  If youve made it this far your having a really bad day with impacket... "
+    echo -e "  If you've made it this far you're having a really bad day with impacket... "
     echo -e "  Enjoy the last chance launch sequence!\n"
     echo -e "  Preparing to nuke Impacket...\n"
     echo -e "  $green[....]$white aquiring targets\n"
