@@ -333,6 +333,7 @@ fix_sead_run () {
 
     # added Last Chance Launch Sequence ** WARNING SCREEN ** and 10 second time out
     clear 
+    # sheep.grammer=1 # YA THATS RIGHT BLACKSHEEPSPICEY....
     echo -e "  If you've made it this far you're having a really bad day with impacket... "
     echo -e "  Enjoy the last chance launch sequence!\n"
     echo -e "  Preparing to nuke Impacket...\n"
@@ -418,6 +419,8 @@ fix_impacket () {
 
 fix_golang () {
     section="golang"
+    # problems with this check statement and the fact that only force is being looked for here
+    # rework this to handle if go exists/not exist and handle force=0/1 
     # check=$(go version | grep -i -c "go version")
     check=0
      if [ $force -ne 0 ] 
