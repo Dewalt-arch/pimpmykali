@@ -409,12 +409,20 @@ fix_impacket () {
     chown -R root:root impacket-0.9.19
     chmod -R 755 impacket-0.9.19
     cd /opt/impacket-0.9.19
+    eval pip install flask $silent
+    eval pip install pyasn1 $silent
+    eval pip install pycryptodomex $silent
+    eval pip install pyOpenSSL $silent
+    eval pip install ldap3 $silent
+    eval pip install ldapdomaindump $silent
     eval pip install wheel $silent
     eval pip install .  $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     # added as a result of blobs removal of impacket and problem with smbmap after
     eval apt -y reinstall python3-impacket impacket-scripts $silent
-    echo -e "\n $greenplus python-pip python3-pip wheel impacket installed"
+    echo -e "\n $greenplus python-pip python3-pip wheel impacket flask pyasn1 installed"
+    echo -e "\n $greenplus pycryptodomes pyOpenSSL ldap3 ldapdomaindump installed "
+    echo -e "\n $greenplus python3-impacket impacket-scripts installed "
     }
 
 fix_golang () {
