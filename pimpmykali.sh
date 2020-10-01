@@ -122,11 +122,11 @@ fix_section () {
      if [ $force -ne 0 ] 
       then 
         echo -e "\n $redstar Reinstallation : $section"
-        apt -y reinstall $section  
+        eval apt -y reinstall $section $silent
       else
         if [ $check -ne 1 ]
          then 
-          apt -y install $section   
+          eval apt -y install $section $silent
           echo -e "\n $greenplus $section $type" 
          else
           echo -e "\n $greenminus $section already installed" 
@@ -139,8 +139,8 @@ fix_section () {
      }
    
 fix_missing () { 
-     apt -y update && apt -y autoremove
-     apt -y remove kali-undercover 2> /dev/null
+     eval apt -y update $silent && eval apt -y autoremove $silent
+     eval apt -y remove kali-undercover $silent
      echo -e "\n $greenplus apt updated "
 
      # section= must be exact name of package in kali repo ( apt-cache search itemname ) 
