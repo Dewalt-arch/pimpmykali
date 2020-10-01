@@ -12,6 +12,14 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.4a : 2nd warning screen added for --borked impacket removal system
+   - If you cant have a little fun with your own scripts your doing something wrong....
+   - last chance warning screen ( mostly novelty ), random launch code generation on each run of --borked
+   - list of target selection, targets locked, etc 
+   - seriously of you made it to --borked 2nd warning your having a bad day with impacket enjoy the giggle
+   - 10 second wait timer added to last chance launch screen before operations are preformed
+   - if no ctrl+c is entered to cancel the operation, fix_sead is run, followed by fix_impacket
+
 # Revision 0.4 : Major Update for impacket 
    - added flameshot as a part of the missing group to be installed
    - added clamav-exec.nse wget to fix clamav-exec.nse failed during nmap --script vuln scans

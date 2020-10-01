@@ -5,6 +5,13 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.4a : 2nd warning screen added for --borked impacket removal system
+#   - If you cant have a little fun with your own scripts your doing something wrong....
+#   - last chance warning screen ( mostly novelty ), random launch code generation on each run of --borked
+#   - list of target selection, targets locked, etc
+#   - 10 second wait timer added to last chance launch screen before operations are preformed
+#   - if no ctrl+c is entered to cancel the operation, fix_sead is run, followed by fix_impacket
+#
 # Revision 0.4 : Major Update for impacket 
 #   - added flameshot as a part of the missing group to be installed
 #   - added clamav-exec.nse wget to fix clamav-exec.nse failed during nmap --script vuln scans
@@ -73,6 +80,11 @@
  bold=$'\e[1m'
  norm=$'\e[21m'
  
+ #launch_codes - a little fun in the script
+ launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))
+ launch_codes_beta=$(echo $((1 + RANDOM % 9999)))
+ launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))
+
  # status indicators
  greenplus='\e[1;33m[++]\e[0m'
  greenminus='\e[1;33m[--]\e[0m'
@@ -80,6 +92,7 @@
  redexclaim='\e[1;31m[!!]\e[0m'
  redstar='\e[1;31m[**]\e[0m' 
  blinkexclaim='\e[1;31m[\e[5;31m!!\e[0m\e[1;31m]\e[0m'
+ fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
  
  # variables needed in the script 
  force=0
@@ -302,23 +315,47 @@ fix_sead_warning () {
     
 fix_sead_run () {
     python-pip-curl
-    apt -y install python3-pip  
+    apt update 2> /dev/null
+    apt -y install python3-pip > /dev/null
 
     # gracefully attempt to remove impacket via pip and pip3        
-    pip uninstall impacket -y
-    pip3 uninstall impacket -y 
+    pip uninstall impacket -y > /dev/null
+    pip3 uninstall impacket -y  > /dev/null
    
     # used to get the username running this script as sudo to check /home/$finduser/.local/lib and /home/$finduser/.local/bin
     finduser=$(logname)
 
-    # Not playin here... anything impacket* in the following find statement goes BYE BYE and not ask about it.. its gone ** ADD WARNING SCREEN **
+    # Not playin here... anything impacket* in the following find statement goes BYE BYE and not ask about it.. its gone 
     SEAD=$(find /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/bin /home/$finduser/.local/lib ~/.local/lib ~/.local/bin -name impacket* 2> /dev/null) 
 
-    # display to the screen whats getting removed by SEAD 
-    echo -e "  $redstar fix_sead function running removing : $SEAD \n"
+    # added Last Chance Launch Sequence ** WARNING SCREEN ** and 10 second time out
+    clear 
+    echo -e "  If youve made it this far your having a really bad day with impacket... "
+    echo -e "  Enjoy the last chance launch sequence!\n"
+    echo -e "  $green[....]$white aquiring targets\n"
+    echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD\n"
+    echo -e "  $green[-$red++$green-]$white targets locked\n"
+    echo -e "  $green[++++]$white systems ready\n"
+    echo -e "  $green[<$red@@$green>]$white taking aim\n" 
+    echo -e "  $green[$red####$green]$white requesting launch code\n"
+    echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed\n"
+    wait_time=10 # seconds
+
+    echo -e "  Are you sure you meant to run this script?\n"
+     temp_cnt=${wait_time}
+     while [[ ${temp_cnt} -gt 0 ]];
+      do
+      printf "\r  You have %2d second(s) remaining to hit Ctrl+C to cancel this operation!" ${temp_cnt}
+      sleep 1
+      ((temp_cnt--))
+    done
+    echo -e "\n\n  No user input detected... Executing!!" 
+    echo -e "\n  $fourblinkexclaim *** FIRE!! *** $fourblinkexclaim\n"
+    echo -e "  $redstar function running removing :\n$SEAD\n"
     rm -rf $SEAD
     fix_impacket_array 
-    sudo ./pimpmykali.sh --impacket
+    fix_impacket
+    exit_screen
     exit
     }
 
@@ -341,7 +378,8 @@ fix_impacket_array () {
 
      for impacket_file in ${arr[@]}; do
       rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file 
-      echo -e "\n $greenplus $impacket_file removed from /usr/bin /usr/local/bin ~/.local/bin /home/$finduser/.local/bin"
+      # removed status of whats being removed from screen, too much screen garbage
+      # echo -e "\n $greenplus $impacket_file removed from /usr/bin /usr/local/bin ~/.local/bin /home/$finduser/.local/bin"
      done 
      } 
 
@@ -448,10 +486,10 @@ fix_all () {
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
    
 pimpmykali_menu () {
-    revision="0.4"
+    revision="0.4a"
     clear
     echo -e "$asciiart"
-    echo -e "\n     Select a option from menu:                            Rev:$revision"
+    echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n Options 1 thru 6 will only run that function and exit, 0 will run all "
     echo -e "\n  1 - Fix Missing             (only installs pip pip3 seclists gedit flameshot)" # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (only adds the 2 missing lines)"                   # fix_smbconf
