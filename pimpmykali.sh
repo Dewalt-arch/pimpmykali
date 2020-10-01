@@ -174,7 +174,7 @@ fix_nmap () {
     # clamav-exec.nse was/is broken on some kali installs, grab new one and overwrite old one at /usr/share/nmap/scripts/clamav-exec.nse
     rm -f /usr/share/nmap/scripts/clamav-exec.nse 
     echo -e "\n $redminus /usr/share/nmap/scripts/clamav-exec.nse removed \n" 
-    wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse
+    eval wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
     echo -e "\n $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version \n"
     }
 
@@ -412,7 +412,6 @@ fix_impacket () {
     eval pip install .  $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     # added as a result of blobs removal of impacket and problem with smbmap after
-    #silent='>/dev/null 2>&1'
     eval apt -y reinstall python3-impacket impacket-scripts $silent
     echo -e "\n $greenplus python-pip python3-pip wheel impacket installed"
     }
