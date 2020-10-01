@@ -332,6 +332,7 @@ fix_sead_run () {
     clear 
     echo -e "  If youve made it this far your having a really bad day with impacket... "
     echo -e "  Enjoy the last chance launch sequence!\n"
+    echo -e "  Preparing to nuke Impacket...\n"
     echo -e "  $green[....]$white aquiring targets\n"
     echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD\n"
     echo -e "  $green[-$red++$green-]$white targets locked\n"
