@@ -533,6 +533,7 @@ pimpmykali_menu () {
     echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit
     echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"               # fix_nmap
     echo -e "  9 - Pimpmyupgrade!          (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
+    echo -e "                              (fixes deb-src linux-headers and video drivers)\n"
     echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6, 7, 8 and 9) \n"             # fix_all 
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
