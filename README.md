@@ -13,7 +13,7 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
-# Revision 0.5 - pimpmyupgrade added!! Fixes broken apt upgrades
+# Revision 0.5 - pimpmyupgrade added
    - fix_sources deb-src is not enabled in /etc/apt/sources.list - fixed
    - linux-headers-(uname -r) are not installed - fixed
    - new functions check_vm, virt_what, run_update are what comprise pimpmyupgrade
