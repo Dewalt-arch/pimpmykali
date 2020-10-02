@@ -111,8 +111,8 @@
  type=""
 
  # silent mode 
- # silent=''              # uncomment to see all output
- silent='>/dev/null 2>&1' # uncomment to hide all output
+ silent=''              # uncomment to see all output
+ # silent='>/dev/null 2>&1' # uncomment to hide all output
 
 
 check_distro() { 
@@ -440,6 +440,7 @@ fix_impacket () {
     chown -R root:root impacket-0.9.19
     chmod -R 755 impacket-0.9.19
     cd /opt/impacket-0.9.19
+    eval pip3 install lsassy $silent
     eval pip install flask $silent
     eval pip install pyasn1 $silent
     eval pip install pycryptodomex $silent
