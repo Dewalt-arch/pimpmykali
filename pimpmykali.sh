@@ -120,11 +120,11 @@
  # silent='>/dev/null 2>&1' # uncomment to hide all output
  
  # vars for virt-what
- vbox_check=$(virt-what | grep -i -c "virtualbox")
- vmware_check=$(virt-what | grep -i -c "vmware")
+ vbox_check=$(virt-what | grep -i -c "virtualbox")  # virtualbox check
+ vmware_check=$(virt-what | grep -i -c "vmware")    # vmware check
  
 check_distro() { 
-     distro=$(uname -a | grep -i -c "kali") # CHANGE THIS
+     distro=$(uname -a | grep -i -c "kali") # distro check
 
      if [ $distro -ne 1 ]
        then echo -e "\n $blinkexclaim Sorry I only work on Kali Linux $blinkexclaim \n"; exit  # false
@@ -142,21 +142,15 @@ fix_section () {
     if [ $check -ne 1 ] 
      then
        # force=0 check=0 or force=1 check=0 
-       # sanity check echo statement
-       #echo force=$force section=$section check=$check
        echo -e "\n  $greenplus install : $section" 
        eval apt -y install $section $silent
     elif [ $force = 1 ]
       then 
         # force=1 check=1   
-        # sanity check echo statement
-        # echo force=$force section=$section check=$check
         echo -e "\n  $redstar reinstall : $section"
         eval apt -y reinstall $section $silent
     else
        # force=0  check=1  
-       # sanity check echo statement 
-       # echo force=$force section=$section check=$check
        echo -e "\n  $greenminus $section already installed"
        echo -e "       use --force to reinstall"
     fi 
@@ -169,7 +163,6 @@ fix_missing () {
      eval apt -y update $silent && eval apt -y autoremove $silent
      eval apt -y remove kali-undercover $silent
      echo -e "\n  $greenplus apt updated "
-
      python-pip-curl     
      python3_pip   $force
      seclists      $force
@@ -178,7 +171,6 @@ fix_missing () {
      fix_flameshot $force
      fix_nmap
      fix_upgrade
-
      } 
      
 python-pip-curl () {
@@ -517,6 +509,8 @@ fix_upgrade () {
     check_vm
     }
     
+## Move asciiart somewhere else...    
+    
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
    
 pimpmykali_menu () {
@@ -532,10 +526,10 @@ pimpmykali_menu () {
     echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                   # make_rootgreatagain
     echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit
     echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"               # fix_nmap
-    echo -e "  9 - Pimpmyupgrade!          (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
-    echo -e "                              (fixes deb-src linux-headers and video drivers)\n"
-    echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6, 7, 8 and 9) \n"             # fix_all 
-    echo -e "  Now with Pimpmyupgrade - when prompted Yes or No select yes to auto restart services \n"
+    echo -e "  9 - Pimpmyupgrade           (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
+    echo -e "                              (fixes sources.list, linux-headers, vm-video drivers)\n"
+    echo -e "  0 - Fix ALL                 (runs all 1 thru 9) \n"             # fix_all 
+    echo -e "  Now with Pimpmyupgrade - when prompted Yes or No select Yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
     read -n1 -p "  Make selection or press X to exit: " menuinput
@@ -592,9 +586,8 @@ run_update () {
     fix_sources
     echo -e "\n  $greenplus starting pimpmyupgrade   \n"
     apt -y update $silent && sudo apt -y upgrade $silent
-    echo -e "\n  $greenplus installing linux-headers \n"
-    apt -y install linux-headers-5.8.0-kali2-amd64
     kernel_check=$(ls -l /lib/modules | sort -n | cut -d " " -f 10 | tail -n 2) # ya its dirty, but it works
+    echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
     apt -y install linux-headers-$kernel_check
     }    
      
