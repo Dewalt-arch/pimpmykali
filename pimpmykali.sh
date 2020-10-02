@@ -5,6 +5,11 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.4b : minor updates
+#   - reworked fix_section wasnt happy with how the boolean was working out, works much better
+#   - added slient 'mode' variable, uncomment silent= line to turn output on and off from apt etc 
+#   - misc cleanup in the script
+#
 # Revision 0.4a : 2nd warning screen added for --borked impacket removal system
 #   - If you cant have a little fun with your own scripts your doing something wrong....
 #   - last chance warning screen ( mostly novelty ), random launch code generation on each run of --borked
@@ -70,7 +75,11 @@
 # 
 #     Standard Disclaimer: Author assumes no liability for any damange
 #
- #unicorn puke: 
+
+# revision var
+  revision="0.4b"
+
+ # unicorn puke: 
  red=$'\e[1;31m'
  green=$'\e[1;32m' 
  blue=$'\e[1;34m'
@@ -81,7 +90,7 @@
  bold=$'\e[1m'
  norm=$'\e[21m'
  
- #launch_codes - a little fun in the script
+ # launch_codes - for a little fun in the --borked scripts
  launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))
  launch_codes_beta=$(echo $((1 + RANDOM % 9999)))
  launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))
@@ -96,12 +105,16 @@
  fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
  
  # variables needed in the script 
- silent='>/dev/null 2>&1'
  force=0
  check=""
  section=""
  type=""
- 
+
+ # silent mode 
+ # silent=''              # uncomment to see all output
+ silent='>/dev/null 2>&1' # uncomment to hide all output
+
+
 check_distro() { 
      distro=$(uname -a | grep -i -c "kali") # CHANGE THIS
 
@@ -118,90 +131,143 @@ check_for_root () {
      }
 
 fix_section () {
-     # echo section=$section force=$force type=$type check=$check
-     if [ $force -ne 0 ] 
+    if [ $check -ne 1 ] 
+     then
+       # force=0 check=0 or force=1 check=0 
+       # sanity check echo statement
+       #echo force=$force section=$section check=$check
+       echo -e "\n  $greenplus install : $section" 
+       eval apt -y install $section $silent
+    elif [ $force = 1 ]
       then 
-        echo -e "\n $redstar Reinstallation : $section"
+        # force=1 check=1   
+        # sanity check echo statement
+        # echo force=$force section=$section check=$check
+        echo -e "\n  $redstar reinstall : $section"
         eval apt -y reinstall $section $silent
-      else
-        if [ $check -ne 1 ]
-         then 
-          echo -e "\n $greenplus $section $type" 
-          eval apt -y install $section $silent
-         else
-          echo -e "\n $greenminus $section already installed" 
-        fi
-       echo -e "      use --force to force reinstall" 
-       section=""
-       check=""
-       type=""
-     fi
-     }
-   
+    else
+       # force=0  check=1  
+       # sanity check echo statement 
+       # echo force=$force section=$section check=$check
+       echo -e "\n  $greenminus $section already installed"
+       echo -e "       use --force to reinstall"
+    fi 
+    check=""
+    type=""
+    section=""
+    } 
+
 fix_missing () { 
      eval apt -y update $silent && eval apt -y autoremove $silent
      eval apt -y remove kali-undercover $silent
-     echo -e "\n $greenplus apt updated "
+     echo -e "\n  $greenplus apt updated "
 
-     # section= must be exact name of package in kali repo ( apt-cache search itemname ) 
-     # check= custom check for that particular item 
-     # type= install or remove 
-     # force= to override force / set force var
-     # fix_section $section $check $force
-     
-     section="python3-pip"
-     check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
-     type="install"
-     fix_section $section $check $type $force
-
-     section="seclists"
-     check=$(whereis seclists | grep -i -c "seclists: /usr/bin/seclists /usr/share/seclists") 
-     type="install"
-     fix_section $section $check $type $force
-     
-     section="locate"
-     check=$(whereis locate | grep -i -c "locate: /usr/bin/locate") 
-     type="install"
-     fix_section $section $check $type $force
-     fix_golang $force
-     fix_gedit $force 
+     python-pip-curl     
+     python3_pip   $force
+     seclists      $force
+     fix_golang    $force
+     fix_gedit     $force 
      fix_flameshot $force
      fix_nmap
-     python-pip-curl
+
      } 
-    
+     
+python-pip-curl () {
+    check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip") 
+    if [ $check_pip -ne 1 ] 
+     then 
+      echo -e "\n  $greenplus installing pip"
+      eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent 
+      eval python /tmp/get-pip.py $silent
+      rm -f /tmp/get-pip.py
+      echo -e "\n  $greenplus python-pip installed"
+    else
+      echo -e "\n  $greenminus python-pip already installed"
+    fi
+    }     
+
+ # section= must be exact name of package in kali repo ( apt-cache search itemname ) 
+ # check= custom check for that particular item 
+ # type= set in fix_section based on eval of $check and $force 
+ # force= to override force / set force var
+ # fix_section $section $check $force
+
+locate () { 
+     section="locate"
+     check=$(whereis locate | grep -i -c "locate: /usr/bin/locate") 
+     fix_section $section $check $force
+     }
+     
+python3_pip () {
+     section="python3-pip"
+     check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
+     fix_section $section $check $force
+     }
+     
+seclists () {
+     section="seclists"
+     check=$(whereis seclists | grep -i -c "seclists: /usr/bin/seclists /usr/share/seclists") 
+     fix_section $section $check $force
+     }
+          
 fix_nmap () { 
-    # clamav-exec.nse was/is broken on some kali installs, grab new one and overwrite old one at /usr/share/nmap/scripts/clamav-exec.nse
+    # not checking for it just doing it 
     rm -f /usr/share/nmap/scripts/clamav-exec.nse 
-    echo -e "\n $redminus /usr/share/nmap/scripts/clamav-exec.nse removed \n" 
+    echo -e "\n  $redminus /usr/share/nmap/scripts/clamav-exec.nse removed " 
     eval wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
-    echo -e "\n $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version \n"
+    echo -e "\n  $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version "
     }
 
 fix_flameshot () {
     section="flameshot"
-    check=$(whereis gedit | grep -i -c "/usr/bin/flameshot") 
-     if [ $check -ne 0 ] 
-      then
-       type="reinstall"
-      else
-       type="install"
-     fi   
-     fix_section $section $check $type $force
+    check=$(whereis flameshot | grep -i -c "/usr/bin/flameshot") 
+    fix_section $section $check $force
      }   
 
 fix_gedit () {
     section="gedit"
     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit") 
-     if [ $check -ne 0 ] 
-      then
-       type="reinstall"
-      else
-       type="install"
-     fi   
-     fix_section $section $check $type $force
+    fix_section $section $check $force
      }   
-     
+
+fix_golang () {
+    section="golang"
+    check=$(whereis go  | grep -i -c "/usr/bin/go")
+    fix_section $section $check $force
+    } 
+
+fix_smbconf () {
+    check_min=$(cat /etc/samba/smb.conf | grep -c -i "client min protocol")
+    check_max=$(cat /etc/samba/smb.conf | grep -c -i "client max protocol")
+    # changeed to || OR  from && check for either line, not both
+    if [ $check_min -ne 0 ] || [ $check_max -ne 0 ]
+      then
+        echo -e "\n  $green /etc/samba/smb.conf "
+        echo -e "\n  $redminus client min protocol is already set not changing\n  $redminus client max protocol is already set not changing"
+      else
+        cat /etc/samba/smb.conf | sed 's/\[global\]/\[global\]\n   client min protocol = CORE\n   client max protocol = SMB3\n''/' > /tmp/fix_smbconf.tmp
+        cat /tmp/fix_smbconf.tmp > /etc/samba/smb.conf
+        rm -f /tmp/fix_smbconf.tmp
+        echo -e "\n  $greenplus /etc/samba/smb.conf updated"
+        echo -e "\n  $greenplus added : client min protocol = CORE\n  $greenplus added : client max protocol = SMB3"
+    fi
+    }  
+
+fix_grub () {
+    check_grub=$(cat /etc/default/grub | grep -i -c "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"" )
+    if [ $check_grub -ne 1 ]
+     then 
+      echo -e "\n  $redexclaim Error: /etc/default/grub is not the default config - not changing"
+     else
+        cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
+        cat /tmp/fix_grub.tmp > /etc/default/grub
+        rm -f /tmp/fix_grub.tmp
+        update-grub
+        echo -e "\n  $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
+	echo -e "\n  $redexclaim Reboot for changes to take effect \n"
+    fi
+    }   
+
 make_rootgreatagain () {
      echo -e "\n KALI-ROOT-LOGIN INSTALLATION:   "$red"*** READ CAREFULLY! ***"$white" \n"
      echo -e " On Kali 2019.x and prior the default user was root"
@@ -227,51 +293,13 @@ make_rootgreatagain () {
 enable_rootlogin () {
     section="kali-root-login"
     check=$(whereis kali-root-login | grep -i -c "kali-root-login: /usr/share/kali-root-login") 
-     if [ $force -ne 0 ] 
-      then 
-       type="install"
-      else
-       type="reinstall"
-     fi 
-    fix_section $section $check $type $force   
+    fix_section $section $check $force   
      echo -e "\n\nEnabling Root Login Give root a password"
     passwd root
-    echo -e "\n $greenplus root login enabled \n"
+    echo -e "\n  $greenplus root login enabled \n"
     }    
-   
-fix_smbconf () {
-    check_min=$(cat /etc/samba/smb.conf | grep -c -i "client min protocol")
-    check_max=$(cat /etc/samba/smb.conf | grep -c -i "client max protocol")
-    if [ $check_min -ne 0 ] && [ $check_max -ne 0 ]
-      then
-        echo -e "\n $redminus client min protocol is already set not changing\n $redminus client max protocol is already set not changing\n\n"
-      else
-        cat /etc/samba/smb.conf | sed 's/\[global\]/\[global\]\n   client min protocol = CORE\n   client max protocol = SMB3\n''/' > /tmp/fix_smbconf.tmp
-        cat /tmp/fix_smbconf.tmp > /etc/samba/smb.conf
-        rm -f /tmp/fix_smbconf.tmp
-        echo -e "\n $greenplus /etc/samba/smb.conf updated"
-    fi
-    }
-    
-python-pip-curl () {
-    check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip") 
-    if [ $check_pip -ne 1 ] 
-     then 
-      echo -e "\n $greenplus installing pip"
-      eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent 
-      eval python /tmp/get-pip.py $silent
-      rm -f /tmp/get-pip.py
-      echo -e "\n $greenplus python-pip installed"
-    else
-      echo -e "\n $greenminus python-pip already installed"
-    fi
-    }
 
 fix_sead_warning () {
-    # Note: The only way this function gets called is via --borked command line switch
-    # search for, find, list and remove anything impacket* from the following and its not going to ask about it!
-    # /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/lib /home/$finduser/.local/bin ~/.local/lib ~/.local/bin
-
     finduser=$(logname)
     clear
  echo -e "
@@ -317,10 +345,13 @@ fix_sead_warning () {
     }
     
 fix_sead_run () {
-    python-pip-curl
+    # run update just in case
     eval apt update $silent
-    eval apt -y install python3-pip $silent
 
+    # install pip and pip3 - pip3 is gonna get installed twice here know all about it
+    python-pip-curl
+    python3_pip
+  
     # gracefully attempt to remove impacket via pip and pip3        
     eval pip uninstall impacket -y $silent
     eval pip3 uninstall impacket -y  $silent
@@ -333,7 +364,6 @@ fix_sead_run () {
 
     # added Last Chance Launch Sequence ** WARNING SCREEN ** and 10 second time out
     clear 
-    # sheep.grammer=1 # YA THATS RIGHT BLACKSHEEPSPICEY....
     echo -e "  If you've made it this far you're having a really bad day with impacket... "
     echo -e "  Enjoy the last chance launch sequence!\n"
     echo -e "  Preparing to nuke Impacket...\n"
@@ -361,7 +391,6 @@ fix_sead_run () {
     fix_impacket_array 
     fix_impacket
     exit_screen
-    exit
     }
 
 fix_impacket_array () {
@@ -392,17 +421,19 @@ fix_impacket () {
     finduser=$(logname)
     # 2020.3 - package: impacket no longer exists in repo will throw error 
     eval apt -y remove impacket $silent    ## do not remove : python3-impacket impacket-scripts
-    eval apt -y install python3-pip $silent
-    
-    # python-pip has been removed from the kali repos, use python-pip-curl function for curl installation
-    python-pip-curl
-    
+
     # make sure pip and pip3 are there before we attempt to uninstall gracefully
+    python-pip-curl
+    python3_pip
+      
+    # remove impacket gracefully
     eval pip uninstall impacket -y $silent
     eval pip3 uninstall impacket -y $silent
 
+    #  call fix_impacket_arrary for .py and .pyc removal 
     fix_impacket_array 
 
+    # get and install new impacket-0.9.19
     eval wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz $silent
     eval tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt $silent
     cd /opt
@@ -420,40 +451,10 @@ fix_impacket () {
     rm -f /tmp/impacket-0.9.19.tar.gz
     # added as a result of blobs removal of impacket and problem with smbmap after
     eval apt -y reinstall python3-impacket impacket-scripts $silent
-    echo -e "\n $greenplus python-pip python3-pip wheel impacket flask pyasn1 installed"
-    echo -e "\n $greenplus pycryptodomes pyOpenSSL ldap3 ldapdomaindump installed "
-    echo -e "\n $greenplus python3-impacket impacket-scripts installed "
+    echo -e "\n  $greenplus installed: impacket-0.9.19 python-pip wheel impacket flask pyasn1"
+    echo -e "\n  $greenplus installed: pycryptodomes pyOpenSSL ldap3 ldapdomaindump"
+    echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
     }
-
-fix_golang () {
-    section="golang"
-    # problems with this check statement and the fact that only force is being looked for here
-    # rework this to handle if go exists/not exist and handle force=0/1 
-    # check=$(go version | grep -i -c "go version")
-    check=0
-     if [ $force -ne 0 ] 
-      then 
-       type="install"
-      else
-       type="reinstall"
-     fi 
-    fix_section $section $check $type $force
-    }
-
-fix_grub () {
-    check_grub=$(cat /etc/default/grub | grep -i -c "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"" )
-    if [ $check_grub -ne 1 ]
-     then 
-      echo -e "\n $redexclaim Error: /etc/default/grub is not the default config - not changing"
-     else
-        cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
-        cat /tmp/fix_grub.tmp > /etc/default/grub
-        rm -f /tmp/fix_grub.tmp
-        update-grub
-        echo -e "\n $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
-	    echo -e "\n $redexclaim Reboot for changes to take effect \n"
-    fi
-    } 
 
     #
     # basrc_udpate - still debating this section or not.. adding go paths to ~/.bashrc aparentally breaks ability to compile?
@@ -490,21 +491,17 @@ fix_grub () {
 
 fix_all () {
     fix_missing $force 
+    fix_grub
     fix_smbconf 
     fix_impacket
-    # ID10T REMINDER : fix_golang is being called in fix_missing, dont call it twice here!
-    # fix_golang $force
     make_rootgreatagain $force
-    fix_grub
-    # ID10T REMINDER:     
-    # fix_gedit is being called from fix_missing which is a part of fix_all, no need to call it a 2nd time 
-    # fix_nmap  is being called from fix_missing which is a part of fix_all, no need to call it a 2nd time 
+    # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!    
+    # fix_gedit fix_nmap fix_flameshot fix_golang python3_pip python-pip-curl
     }    
     
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
    
 pimpmykali_menu () {
-    revision="0.4a"
     clear
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
@@ -515,9 +512,8 @@ pimpmykali_menu () {
     echo -e "  4 - Fix Grub                (only adds mitigations=off)"                       # fix_grub
     echo -e "  5 - Fix Impacket            (only installs impacket)"                          # fix_impacket
     echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                   # make_rootgreatagain
-    echo -e "  7 - Install Gedit           (only installs gedit)\n"                           # fix_gedit
-    # FIX_NMAP UNCOMMENT TO ENABLE
-    # echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)\n"             # fix_nmap
+    echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit
+    echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)\n"             # fix_nmap
     echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6 and 7) \n"                   # fix_all 
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
@@ -531,8 +527,7 @@ pimpmykali_menu () {
         5) fix_impacket ;;
         6) make_rootgreatagain ;;
         7) fix_gedit ;; 
-        # FIX_NMAP UNCOMMENT TO ENABLE
-        # 8) fix_nmap ;; 
+        8) fix_nmap ;; 
         0) fix_all ;;
         # x|X) exit_screen ;;
         x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
@@ -552,24 +547,25 @@ pimpmykali_help () {
     }             
 
 check_arg () {
+    # honesly im going to remove 2/3'rds of these switches, just use -- and be done with it 
     if [ "$1" == "" ] 
       then pimpmykali_menu
      else
       case $1 in 
-      --menu) pimpmykali_menu          ;; -menu) pimpmykali_menu           ;; menu) pimpmykali_menu ;;
-       --all) fix_all                  ;; -all) fix_all                    ;; all) fix_all ;; 
-       --smb) fix_smbconf              ;; -smb) fix_smbconf                ;; smb) fix_smbconf ;;
-        --go) fix_golang               ;; -go) fix_golang                  ;; go) fix_golang ;; 
-     --gedit) fix_gedit                ;; -gedit) fix_gedit                ;; gedit) fix_gedit ;;  
-  --impacket) fix_impacket             ;; -impacket) fix_impacket          ;; impacket) fix_impacket ;;   
-      --grub) fix_grub                 ;; -grub) fix_grub                  ;; grub) fix_grub ;; 
-      --root) make_rootgreatagain      ;; -root) make_rootgreatagain       ;; root) make_rootgreatagain ;;
-   --missing) fix_missing              ;; -missing) fix_missing            ;; missing) fix_missing ;;  
-      --help) pimpmykali_help          ;; -help) pimpmykali_help           ;; help) pimpmykali_help ;;
- --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
-     --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
-    --borked) fix_sead_warning; exit   ;; -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;; 
-      --nmap) fix_nmap            ;; -nmap) fix_nmap            ;; nmap) fix_nmap ;;
+      --menu) pimpmykali_menu          ;; # -menu) pimpmykali_menu           ;; menu) pimpmykali_menu ;;
+       --all) fix_all                  ;; # -all) fix_all                    ;; all) fix_all ;; 
+       --smb) fix_smbconf              ;; # -smb) fix_smbconf                ;; smb) fix_smbconf ;;
+        --go) fix_golang               ;; # -go) fix_golang                  ;; go) fix_golang ;; 
+     --gedit) fix_gedit                ;; # -gedit) fix_gedit                ;; gedit) fix_gedit ;;  
+  --impacket) fix_impacket             ;; # -impacket) fix_impacket          ;; impacket) fix_impacket ;;   
+      --grub) fix_grub                 ;; # -grub) fix_grub                  ;; grub) fix_grub ;; 
+      --root) make_rootgreatagain      ;; # -root) make_rootgreatagain       ;; root) make_rootgreatagain ;;
+   --missing) fix_missing              ;; # -missing) fix_missing            ;; missing) fix_missing ;;  
+      --help) pimpmykali_help          ;; # -help) pimpmykali_help           ;; help) pimpmykali_help ;;
+ --flameshot) fix_flameshot            ;; # -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
+     --force) force=1; fix_all $force  ;; # -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
+    --borked) force=1; fix_sead_warning;; # -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;; 
+      --nmap) fix_nmap                 ;; # -nmap) fix_nmap                  ;; nmap) fix_nmap ;;
            *) pimpmykali_help ; exit 0 ;; 
      esac
     fi
@@ -579,6 +575,7 @@ exit_screen () {
     # clear
     echo -e "$asciiart"
     echo -e "\n\n    All Done! Happy Hacking! \n"
+    exit
     }
 
 check_for_root
