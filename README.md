@@ -1,4 +1,4 @@
-# pimpmykali.sh - rev 0.4
+# pimpmykali.sh
 
 # Fixes for new imported Kali Linux virtual machines
 - could be used on a bare metal machines, but thats on you
