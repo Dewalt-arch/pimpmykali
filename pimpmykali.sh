@@ -5,6 +5,13 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.5b - Blindpentesters Essential Collection added
+#   - added blindpentesters 'The Essential' tools and utilies collection 
+#   - menu option 'BPT' for blindpentesters tools collection, installs, runs the_essentials.sh and exists
+#
+# Revision 0.5a - cosmetic fixes
+#  - minor cosmetic fixes to pimpmyupgrade functions
+#
 # Revision 0.5 - pimpmyupgrade added!! Fixes broken apt upgrade 
 #   - deb-src is not enabled -- fixed function : fix_sources
 #   - linux-headers-(uname -r) are not installed - fixed
@@ -82,7 +89,7 @@
 #
 
 # revision var
-  revision="0.5"
+  revision="0.5b"
 
  # unicorn puke: 
  red=$'\e[1;31m'
