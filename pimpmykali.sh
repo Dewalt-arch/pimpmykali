@@ -1,9 +1,14 @@
 #!/bin/bash 
 #
-# pimpmykali.sh 
+# pimpmykali.sh - now with pimpmyupgrade!
 # Author: Dewalt
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
+#
+# Revision 0.5 - pimpmyupgrade added!! Fixes broken apt upgrade 
+#   - deb-src is not enabled -- fixed function : fix_sources
+#   - linux-headers-(uname -r) are not installed - fixed
+#   - new functions check_vm, virt_what, run_update are what comprise pimpmyupgrade
 #
 # Revision 0.4b : minor updates
 #   - reworked fix_section wasnt happy with how the boolean was working out, works much better
@@ -77,7 +82,7 @@
 #
 
 # revision var
-  revision="0.4b"
+  revision="0.5"
 
  # unicorn puke: 
  red=$'\e[1;31m'
