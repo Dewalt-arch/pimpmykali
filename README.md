@@ -8,6 +8,7 @@
   - you should not need to chmod +x pimpmykali.sh upon git clone anymore
 
 # Installation script:
+- rm -rf pimpmykali/
 - git clone https://github.com/Dewalt-arch/pimpmykali
 - cd pimpmykali
 - sudo ./pimpmykali.sh
