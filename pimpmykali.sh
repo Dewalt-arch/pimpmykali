@@ -559,12 +559,12 @@ check_vm () {
      then 
         echo -e "\n\n *** VIRTUALBOX DETECTED *** \n\n"
         sudo apt -y reinstall virtualbox-dkms virtualbox-guest-x11
-        exit
+        exit_screen
      elif  [ $vmware_check = 1 ] 
        then 
         echo -e "\n\n *** VMWARE DETECTED *** \n\n"
         sudo apt -y reinstall open-vm-tools-desktop fuse
-        exit
+        exit_screen
       else
      echo "neither found..." 
     fi
