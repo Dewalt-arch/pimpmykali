@@ -524,7 +524,7 @@ pimpmykali_menu () {
     clear
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
-    echo -e "\n Options 1 thru 6 will only run that function and exit, 0 will run all "
+    echo -e "\n Options are 0 thru 9 and BPT  :"
     echo -e "\n  1 - Fix Missing             (only installs pip pip3 seclists gedit flameshot)" # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (only adds the 2 missing lines)"                   # fix_smbconf
     echo -e "  3 - Fix Golang              (only installs golang)"                            # fix_golang
