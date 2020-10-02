@@ -35,7 +35,7 @@
    - if no ctrl+c is entered to cancel the operation, fix_sead is run, followed by fix_impacket
    - added apt -y reinstall python3-impacket impacket-scripts to fix error with smbmap after impacket removal
 
-# Revision 0.4 : Major Update for impacket 
+# Revision 0.4 : Major Update for impacket removal
    - added flameshot as a part of the missing group to be installed
    - added clamav-exec.nse wget to fix clamav-exec.nse failed during nmap --script vuln scans
    - new commandline switch of --borked has been implemented for removal of impacket across various locations
