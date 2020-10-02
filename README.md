@@ -13,6 +13,13 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.5b - Blindpentesters Essential Collection added
+   - added blindpentesters 'The Essential' tools and utilies collection 
+   - menu option 'BPT' for blindpentesters tools collection, installs, runs the_essentials.sh and exists
+
+# Revision 0.5a - cosmetic fixes
+  - minor cosmetic fixes to pimpmyupgrade functions
+
 # Revision 0.5 - pimpmyupgrade added
    - fix_sources deb-src is not enabled in /etc/apt/sources.list - fixed
    - linux-headers-(uname -r) are not installed - fixed
