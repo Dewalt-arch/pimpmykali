@@ -535,7 +535,7 @@ pimpmykali_menu () {
     echo -e "  9 - Pimpmyupgrade!          (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
     echo -e "                              (fixes deb-src linux-headers and video drivers)\n"
     echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6, 7, 8 and 9) \n"             # fix_all 
-    echo -e "  Now with Pimpmyupgrade with 2x the upgrade power!!! \n"
+    echo -e "  Now with Pimpmyupgrade - when prompted Yes or No select yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
     read -n1 -p "  Make selection or press X to exit: " menuinput
