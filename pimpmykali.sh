@@ -558,22 +558,22 @@ pimpmykali_menu () {
     }  
     
 virt_what() {
-    echo -e "\n  $greenplus installing virt-what"
+    echo -e "\n  $greenplus installing virt-what \n"
     apt -y update $silent && apt -y install virt-what $silent
     }    
 
     
 check_vm () {
-    echo -e "\n  $greenplus checking for hypervisor type "
+    echo -e "\n  $greenplus checking for hypervisor type \n"
     if [ $vbox_check = 1 ] 
      then 
-        echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** "
+        echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
         echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
         sudo apt -y reinstall virtualbox-dkms virtualbox-guest-x11
         exit_screen
      elif  [ $vmware_check = 1 ] 
        then 
-        echo -e "\n  $greenplus *** VMWARE DETECTED *** "
+        echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
         echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
         sudo apt -y reinstall open-vm-tools-desktop fuse
         exit_screen
@@ -590,9 +590,9 @@ fix_sources () {
     
 run_update () { 
     fix_sources
-    echo -e "\n  $greenplus starting pimpmyupgrade   "
+    echo -e "\n  $greenplus starting pimpmyupgrade   \n"
     apt -y update $silent && sudo apt -y upgrade $silent
-    echo -e "\n  $greenplus installing linux-headers "
+    echo -e "\n  $greenplus installing linux-headers \n"
     apt -y install linux-headers-5.8.0-kali2-amd64
     kernel_check=$(ls -l /lib/modules | sort -n | cut -d " " -f 10 | tail -n 2) # ya its dirty, but it works
     apt -y install linux-headers-$kernel_check
