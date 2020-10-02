@@ -12,6 +12,11 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.4b : minor updates
+   - reworked fix_section wasnt happy with how the boolean was working out, works much better
+   - added slient 'mode' variable, uncomment silent= line to turn output on and off from apt etc 
+   - misc cleanup in the script
+
 # Revision 0.4a : 2nd warning screen added for --borked impacket removal system
    - If you cant have a little fun with your own scripts your doing something wrong....
    - last chance warning screen ( mostly novelty ), random launch code generation on each run of --borked
