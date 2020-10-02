@@ -526,8 +526,8 @@ pimpmykali_menu () {
     echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                   # make_rootgreatagain
     echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit
     echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)\n"             # fix_nmap
-    echo -e "  9 - Fix Upgrade             (TESTING)"                                          # fix_upgrade
-    echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6 and 7) \n"                   # fix_all 
+    echo -e "  9 - Fix Upgrade             (apt upgrade with virtualbox/vmware detection"     # fix_upgrade
+    echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6, 7, 8 and 9) \n"             # fix_all 
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
     read -n1 -p "  Make selection or press X to exit: " menuinput
