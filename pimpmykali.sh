@@ -495,6 +495,7 @@ fix_impacket () {
 #    }
 
 fix_all () {
+    fix_sources
     fix_missing $force 
     fix_grub
     fix_smbconf 
@@ -525,8 +526,8 @@ pimpmykali_menu () {
     echo -e "  5 - Fix Impacket            (only installs impacket)"                          # fix_impacket
     echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                   # make_rootgreatagain
     echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit
-    echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)\n"             # fix_nmap
-    echo -e "  9 - Fix Upgrade             (apt upgrade with virtualbox/vmware detection"     # fix_upgrade
+    echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"               # fix_nmap
+    echo -e "  9 - Fix Upgrade             (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
     echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6, 7, 8 and 9) \n"             # fix_all 
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
@@ -570,10 +571,13 @@ check_vm () {
     fi
     }
     
-run_update () { 
-    #move this to a function fix_sources
+fix_sources () {
     echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
     echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
+    }
+    
+run_update () { 
+    fix_sources
     apt -y update && sudo apt -y upgrade
     apt -y install linux-headers-5.8.0-kali2-amd64
     kernel_check=$(ls -l /lib/modules | sort -n | cut -d " " -f 10 | tail -n 2) # ya its dirty, but it works
@@ -587,7 +591,8 @@ pimpmykali_help () {
             "\n --impacket   only fix/install impacket \n --grub       only add mitigations=off"\
             "\n --root       only enable root login \n --missing    install all common missing packages" \
             "\n --menu       its the menu \n --gedit      only install gedit\n --flameshot  only fix/install flameshot" \
-            "\n --borked     only to be used as last resort to remove-reinstall impacket\n --help       your looking at it"
+            "\n --borked     only to be used as last resort to remove-reinstall impacket" \
+            "\n --upgrade    fix apt upgrade with detection for virtualbox or vmware\n --help       your looking at it"
     exit             
     }             
 
