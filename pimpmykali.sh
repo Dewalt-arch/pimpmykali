@@ -528,11 +528,12 @@ pimpmykali_menu () {
     echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"               # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
     echo -e "                              (fixes sources.list, linux-headers, vm-video drivers)\n"
+    echo -e "  BPT - BlindPentesters       'The Essentials' tools & utilies collection" 
     echo -e "  0 - Fix ALL                 (runs all 1 thru 9) \n"             # fix_all 
     echo -e "  Now with Pimpmyupgrade - when prompted Yes or No select Yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
-    read -n1 -p "  Make selection or press X to exit: " menuinput
+    read -n4 -p "  Enter 0 thru 9, BPT or press X to exit: " menuinput
       
     case $menuinput in
         1) fix_missing ;;
@@ -545,11 +546,23 @@ pimpmykali_menu () {
         8) fix_nmap ;; 
         9) fix_upgrade ;;
         0) fix_all ;;
+        bpt|BPT) bpt ;; 
         # x|X) exit_screen ;;
         x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
         *) pimpmykali_menu ;;
     esac
     }  
+    
+    
+bpt () { 
+    rm -rf /opt/the-essentials
+    git clone https://github.com/blindpentester/the-essentials /opt/the-essentials
+    cd /opt/the-essentials
+    sh -c '/opt/the-essentials/the_essentials.sh --skip' 
+    $bpt_run
+    exit_screen
+    }
+    
     
 virt_what() {
     echo -e "\n  $greenplus installing virt-what \n"
@@ -609,20 +622,21 @@ check_arg () {
       then pimpmykali_menu
      else
       case $1 in 
-      --menu) pimpmykali_menu          ;; # -menu) pimpmykali_menu           ;; menu) pimpmykali_menu ;;
-       --all) fix_all                  ;; # -all) fix_all                    ;; all) fix_all ;; 
-       --smb) fix_smbconf              ;; # -smb) fix_smbconf                ;; smb) fix_smbconf ;;
-        --go) fix_golang               ;; # -go) fix_golang                  ;; go) fix_golang ;; 
-     --gedit) fix_gedit                ;; # -gedit) fix_gedit                ;; gedit) fix_gedit ;;  
-  --impacket) fix_impacket             ;; # -impacket) fix_impacket          ;; impacket) fix_impacket ;;   
-      --grub) fix_grub                 ;; # -grub) fix_grub                  ;; grub) fix_grub ;; 
-      --root) make_rootgreatagain      ;; # -root) make_rootgreatagain       ;; root) make_rootgreatagain ;;
-   --missing) fix_missing              ;; # -missing) fix_missing            ;; missing) fix_missing ;;  
-      --help) pimpmykali_help          ;; # -help) pimpmykali_help           ;; help) pimpmykali_help ;;
- --flameshot) fix_flameshot            ;; # -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
-     --force) force=1; fix_all $force  ;; # -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
-    --borked) force=1; fix_sead_warning;; # -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;; 
-      --nmap) fix_nmap                 ;; # -nmap) fix_nmap                  ;; nmap) fix_nmap ;;
+      --menu) pimpmykali_menu          ;; -menu) pimpmykali_menu           ;; menu) pimpmykali_menu ;;
+       --all) fix_all                  ;; -all) fix_all                    ;; all) fix_all ;; 
+       --smb) fix_smbconf              ;; -smb) fix_smbconf                ;; smb) fix_smbconf ;;
+        --go) fix_golang               ;; -go) fix_golang                  ;; go) fix_golang ;; 
+     --gedit) fix_gedit                ;; -gedit) fix_gedit                ;; gedit) fix_gedit ;;  
+  --impacket) fix_impacket             ;; -impacket) fix_impacket          ;; impacket) fix_impacket ;;   
+      --grub) fix_grub                 ;; -grub) fix_grub                  ;; grub) fix_grub ;; 
+      --root) make_rootgreatagain      ;; -root) make_rootgreatagain       ;; root) make_rootgreatagain ;;
+   --missing) fix_missing              ;; -missing) fix_missing            ;; missing) fix_missing ;;  
+      --help) pimpmykali_help          ;; -help) pimpmykali_help           ;; help) pimpmykali_help ;;
+ --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
+     --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
+    --borked) force=1; fix_sead_warning;; -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;; 
+      --nmap) fix_nmap                 ;; -nmap) fix_nmap                  ;; nmap) fix_nmap ;;
+       --bpt) bpt                      ;; -bpt) bpt                          ;; bpt) bpt;;
    --upgrade) fix_upgrade              ;;
       *) pimpmykali_help ; exit 0 ;; 
      esac
