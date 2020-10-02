@@ -610,6 +610,9 @@ run_update () {
     apt -y update $silent && sudo apt -y upgrade $silent
     kernel_check=$(ls -l /lib/modules | sort -n | cut -d " " -f 10 | tail -n 2) # ya its dirty, but it works
     echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
+   
+    # FIX THIS - need the new kernel info in $kernel_check before the reboot so we dont have to have it hardcorded
+    # as an apt install specific kernel headers.......
     #apt -y install linux-headers-$kernel_check
     apt install -y linux-headers-5.8.0-kali2-amd64
     }    
