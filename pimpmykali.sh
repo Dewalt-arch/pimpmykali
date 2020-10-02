@@ -113,8 +113,11 @@
  # silent mode 
  silent=''              # uncomment to see all output
  # silent='>/dev/null 2>&1' # uncomment to hide all output
-
-
+ 
+ # vars for virt-what
+ vbox_check=$(virt-what | grep -i -c "virtualbox")
+ vmware_check=$(virt-what | grep -i -c "vmware")
+ 
 check_distro() { 
      distro=$(uname -a | grep -i -c "kali") # CHANGE THIS
 
@@ -169,6 +172,7 @@ fix_missing () {
      fix_gedit     $force 
      fix_flameshot $force
      fix_nmap
+     fix_upgrade
 
      } 
      
@@ -496,9 +500,16 @@ fix_all () {
     fix_smbconf 
     fix_impacket
     make_rootgreatagain $force
+    fix_upgrade
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!    
     # fix_gedit fix_nmap fix_flameshot fix_golang python3_pip python-pip-curl
     }    
+
+fix_upgrade () {
+    virt_what
+    run_update
+    check_vm
+    }
     
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
    
@@ -515,6 +526,7 @@ pimpmykali_menu () {
     echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                   # make_rootgreatagain
     echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit
     echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)\n"             # fix_nmap
+    echo -e "  9 - Fix Upgrade             (TESTING)"                                          # fix_upgrade
     echo -e "  0 - Fix ALL                 (run 1, 2, 3, 4, 5, 6 and 7) \n"                   # fix_all 
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
@@ -534,7 +546,38 @@ pimpmykali_menu () {
         x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
         *) pimpmykali_menu ;;
     esac
-    }   
+    }  
+    
+virt_what() {
+    apt -y update $silent && apt -y install virt-what $silent
+    }    
+
+    
+check_vm () {
+    if [ $vbox_check = 1 ] 
+     then 
+        echo -e "\n\n *** VIRTUALBOX DETECTED *** \n\n"
+        sudo apt -y reinstall virtualbox-dkms virtualbox-guest-x11
+        exit
+     elif  [ $vmware_check = 1 ] 
+       then 
+        echo -e "\n\n *** VMWARE DETECTED *** \n\n"
+        sudo apt -y reinstall open-vm-tools-desktop fuse
+        exit
+      else
+     echo "neither found..." 
+    fi
+    }
+    
+run_update () { 
+    #move this to a function fix_sources
+    echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
+    echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
+    apt -y update && sudo apt -y upgrade
+    apt -y install linux-headers-5.8.0-kali2-amd64
+    kernel_check=$(ls -l /lib/modules | sort -n | cut -d " " -f 10 | tail -n 2) # ya its dirty, but it works
+    apt -y install linux-headers-$kernel_check
+    }    
      
 pimpmykali_help () {
     # do not edit this echo statement, spacing has been fixed and is correct for display terminal
@@ -567,7 +610,8 @@ check_arg () {
      --force) force=1; fix_all $force  ;; # -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
     --borked) force=1; fix_sead_warning;; # -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;; 
       --nmap) fix_nmap                 ;; # -nmap) fix_nmap                  ;; nmap) fix_nmap ;;
-           *) pimpmykali_help ; exit 0 ;; 
+   --upgrade) fix_upgrade              ;;
+      *) pimpmykali_help ; exit 0 ;; 
      esac
     fi
     }
