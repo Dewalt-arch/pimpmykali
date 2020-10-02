@@ -534,8 +534,8 @@ pimpmykali_menu () {
     echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit
     echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"               # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
-    echo -e "                              (fixes sources.list, linux-headers, vm-video drivers)\n"
-    echo -e "  BPT - BlindPentesters       'The Essentials' tools & utilies collection" 
+    echo -e "                              (fixes sources.list, linux-headers, vm-video drivers)"
+    echo -e "  BPT - BlindPentesters       'The Essentials' tools & utilies collection\n" 
     echo -e "  0 - Fix ALL                 (runs all 1 thru 9) \n"             # fix_all 
     echo -e "  Now with Pimpmyupgrade - when prompted Yes or No select Yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
