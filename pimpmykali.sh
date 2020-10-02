@@ -541,6 +541,7 @@ pimpmykali_menu () {
         6) make_rootgreatagain ;;
         7) fix_gedit ;; 
         8) fix_nmap ;; 
+        9) fix_upgrade ;;
         0) fix_all ;;
         # x|X) exit_screen ;;
         x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
