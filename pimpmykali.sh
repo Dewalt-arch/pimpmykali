@@ -500,9 +500,9 @@ fix_all () {
     fix_smbconf 
     fix_impacket
     make_rootgreatagain $force
-    fix_upgrade
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!    
     # fix_gedit fix_nmap fix_flameshot fix_golang python3_pip python-pip-curl
+    # FIX_UPGRADE IS IN FIX_MISSING DONT CALL IT HERE!
     }    
 
 fix_upgrade () {
