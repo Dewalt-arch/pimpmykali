@@ -167,6 +167,8 @@ fix_section () {
     } 
 
 fix_missing () { 
+     ln -sf /bin/python /usr/bin/python2
+     #ln -sf /bin/python3  /usr/bin/python3.8
      eval apt -y update $silent && eval apt -y autoremove $silent
      eval apt -y remove kali-undercover $silent
      echo -e "\n  $greenplus apt updated "
