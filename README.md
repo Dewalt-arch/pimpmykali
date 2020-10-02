@@ -22,7 +22,7 @@
    - run_update runs fix_sources, runs apt upgrade calls virt_what, calls check_vm
    
 # Revision 0.4b : minor updates
-   - reworked fix_section wasnt works much better now
+   - reworked fix_section works much better now
    - added slient 'mode' variable, uncomment silent= line to turn output on and off from apt etc 
    - misc cleanup in the script
 
