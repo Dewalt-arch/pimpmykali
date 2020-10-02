@@ -12,6 +12,14 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.5 - pimpmyupgrade added!! Fixes broken apt upgrade 
+   - deb-src is not enabled -- fixed function : fix_sources
+   - linux-headers-(uname -r) are not installed - fixed
+   - new functions check_vm, virt_what, run_update are what comprise pimpmyupgrade
+   - virt_what determines if vm is under virtualbox or vmware
+   - check_vm checks for virtualbox or vmware and installs proper drivers for each
+   - run_update runs fix_sources, runs apt upgrade calls virt_what, calls check_vm
+   
 # Revision 0.4b : minor updates
    - reworked fix_section wasnt happy with how the boolean was working out, works much better
    - added slient 'mode' variable, uncomment silent= line to turn output on and off from apt etc 
