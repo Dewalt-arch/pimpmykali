@@ -477,7 +477,7 @@ fix_all () {
     make_rootgreatagain $force
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!    
     # fix_gedit fix_nmap fix_flameshot fix_golang python3_pip python-pip-curl
-    # FIX_UPGRADE IS IN FIX_MISSING DONT CALL IT HERE!
+    # FIX_UPGRADE IS IN FIX_MISSING 
     }    
 
 fix_upgrade () {
