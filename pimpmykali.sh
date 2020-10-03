@@ -14,7 +14,7 @@
 #
 # Revision 0.5 - pimpmyupgrade added!! Fixes broken apt upgrade 
 #   - deb-src is not enabled -- fixed function : fix_sources
-#   - linux-headers-(uname -r) are not installed - fixed
+#   - linux-headers-(uname -r) not installed - fixed
 #   - new functions check_vm, virt_what, run_update are what comprise pimpmyupgrade
 #
 # Revision 0.4b : minor updates
@@ -88,75 +88,71 @@
 #     Standard Disclaimer: Author assumes no liability for any damange
 #
 
-# revision var
-  revision="0.5b"
+ # revision var
+    revision="0.5b"
 
  # unicorn puke: 
- red=$'\e[1;31m'
- green=$'\e[1;32m' 
- blue=$'\e[1;34m'
- magenta=$'\e[1;35m'
- cyan=$'\e[1;36m'
- yellow=$'\e[1;93m'
- white=$'\e[0m'
- bold=$'\e[1m'
- norm=$'\e[21m'
+    red=$'\e[1;31m'
+    green=$'\e[1;32m' 
+    blue=$'\e[1;34m'
+    magenta=$'\e[1;35m'
+    cyan=$'\e[1;36m'
+    yellow=$'\e[1;93m'
+    white=$'\e[0m'
+    bold=$'\e[1m'
+    norm=$'\e[21m'
  
  # launch_codes - for a little fun in the --borked scripts
- launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))
- launch_codes_beta=$(echo $((1 + RANDOM % 9999)))
- launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))
+    launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))
+    launch_codes_beta=$(echo $((1 + RANDOM % 9999)))
+    launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))
 
  # status indicators
- greenplus='\e[1;33m[++]\e[0m'
- greenminus='\e[1;33m[--]\e[0m'
- redminus='\e[1;31m[--]\e[0m'
- redexclaim='\e[1;31m[!!]\e[0m'
- redstar='\e[1;31m[**]\e[0m' 
- blinkexclaim='\e[1;31m[\e[5;31m!!\e[0m\e[1;31m]\e[0m'
- fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
+    greenplus='\e[1;33m[++]\e[0m'
+    greenminus='\e[1;33m[--]\e[0m'
+    redminus='\e[1;31m[--]\e[0m'
+    redexclaim='\e[1;31m[!!]\e[0m'
+    redstar='\e[1;31m[**]\e[0m' 
+    blinkexclaim='\e[1;31m[\e[5;31m!!\e[0m\e[1;31m]\e[0m'
+    fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
  
  # variables needed in the script 
- force=0
- check=""
- section=""
- type=""
+    force=0
+    check=""
+    section=""
+    type=""
 
  # silent mode 
- silent=''              # uncomment to see all output
- # silent='>/dev/null 2>&1' # uncomment to hide all output
- 
- # vars for virt-what
- vbox_check=$(virt-what | grep -i -c "virtualbox")  # virtualbox check
- vmware_check=$(virt-what | grep -i -c "vmware")    # vmware check
+    silent=''                  # uncomment to see all output
+    # silent='>/dev/null 2>&1' # uncomment to hide all output
  
 check_distro() { 
-     distro=$(uname -a | grep -i -c "kali") # distro check
+    distro=$(uname -a | grep -i -c "kali") # distro check
 
-     if [ $distro -ne 1 ]
-       then echo -e "\n $blinkexclaim Sorry I only work on Kali Linux $blinkexclaim \n"; exit  # false
-     fi
-     }
+    if [ $distro -ne 1 ]
+     then echo -e "\n $blinkexclaim Sorry I only work on Kali Linux $blinkexclaim \n"; exit  # false
+    fi
+    }
  
 check_for_root () {
-     if [ "$EUID" -ne 0 ]
-       then echo -e "\n\n Script must be run with sudo ./pimpmykali.sh or as root \n"
-       exit
-     fi
-     }
+    if [ "$EUID" -ne 0 ]
+      then echo -e "\n\n Script must be run with sudo ./pimpmykali.sh or as root \n"
+      exit
+    fi
+    }
 
 fix_section () {
     if [ $check -ne 1 ] 
      then
-       # force=0 check=0 or force=1 check=0 
-       echo -e "\n  $greenplus install : $section" 
-       eval apt -y install $section $silent
-    elif [ $force = 1 ]
+      # force=0 check=0 or force=1 check=0 
+      echo -e "\n  $greenplus install : $section" 
+      eval apt -y install $section $silent
+     elif [ $force = 1 ]
       then 
         # force=1 check=1   
         echo -e "\n  $redstar reinstall : $section"
         eval apt -y reinstall $section $silent
-    else
+     else
        # force=0  check=1  
        echo -e "\n  $greenminus $section already installed"
        echo -e "       use --force to reinstall"
@@ -167,20 +163,25 @@ fix_section () {
     } 
 
 fix_missing () { 
-     ln -sf /bin/python2.7 /bin/python
-     #ln -sf /bin/python3  /usr/bin/python3.8
-     eval apt -y update $silent && eval apt -y autoremove $silent
-     eval apt -y remove kali-undercover $silent
-     echo -e "\n  $greenplus apt updated "
-     python-pip-curl     
-     python3_pip   $force
-     seclists      $force
-     fix_golang    $force
-     fix_gedit     $force 
-     fix_flameshot $force
-     fix_nmap
-     fix_upgrade
-     } 
+    # hard setting this per sheepy's request - still debating this 'request'
+    ln -sf /bin/python2.7 /bin/python 
+     
+    # update and autoremove
+    eval apt -y update $silent && eval apt -y autoremove $silent
+     
+    # remove kali-undercover 
+    eval apt -y remove kali-undercover $silent
+    echo -e "\n  $greenplus apt updated "
+     
+    python-pip-curl     
+    python3_pip   $force
+    seclists      $force
+    fix_golang    $force
+    fix_gedit     $force 
+    fix_flameshot $force
+    fix_nmap
+    fix_upgrade
+    } 
      
 python-pip-curl () {
     check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip") 
@@ -203,22 +204,22 @@ python-pip-curl () {
  # fix_section $section $check $force
 
 locate () { 
-     section="locate"
-     check=$(whereis locate | grep -i -c "locate: /usr/bin/locate") 
-     fix_section $section $check $force
-     }
+    section="locate"
+    check=$(whereis locate | grep -i -c "locate: /usr/bin/locate") 
+    fix_section $section $check $force
+    }
      
 python3_pip () {
-     section="python3-pip"
-     check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
-     fix_section $section $check $force
-     }
+    section="python3-pip"
+    check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
+    fix_section $section $check $force
+    }
      
 seclists () {
-     section="seclists"
-     check=$(whereis seclists | grep -i -c "seclists: /usr/bin/seclists /usr/share/seclists") 
-     fix_section $section $check $force
-     }
+    section="seclists"
+    check=$(whereis seclists | grep -i -c "seclists: /usr/bin/seclists /usr/share/seclists") 
+    fix_section $section $check $force
+    }
           
 fix_nmap () { 
     # not checking for it just doing it 
@@ -227,7 +228,7 @@ fix_nmap () {
     eval wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
     echo -e "\n  $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version "
     }
-
+    
 fix_flameshot () {
     section="flameshot"
     check=$(whereis flameshot | grep -i -c "/usr/bin/flameshot") 
@@ -238,7 +239,7 @@ fix_gedit () {
     section="gedit"
     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit") 
     fix_section $section $check $force
-     }   
+    }   
 
 fix_golang () {
     section="golang"
@@ -274,31 +275,31 @@ fix_grub () {
         rm -f /tmp/fix_grub.tmp
         update-grub
         echo -e "\n  $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
-	echo -e "\n  $redexclaim Reboot for changes to take effect \n"
+	    echo -e "\n  $redexclaim Reboot for changes to take effect \n"
     fi
     }   
 
 make_rootgreatagain () {
-     echo -e "\n KALI-ROOT-LOGIN INSTALLATION:   "$red"*** READ CAREFULLY! ***"$white" \n"
-     echo -e " On Kali 2019.x and prior the default user was root"
-     echo -e " On Kali 2020.1 and newer this was changed, the default user was changed to be "
-     echo -e " an" $yellow$bold"actual user"$norm$white" on the system and not "$red$bold"root"$norm$white", this user is : kali (by default) "
-     echo -e " \n  Your existing user configurations will not be affected or altered. "
-     echo -e "  This will "$red"ONLY"$white" reenable the ability to login as root at boot and does "$red"NOT"$white" replace"
-     echo -e "  any existing user, remove any user files or user configurations."
-     echo -e "\n  If you wish to re-enable the ability to login to kali as root at the login screen "
-     echo -e "  and be root all the time, press Y "
-     echo -e "\n  If not, press N and the script will skip this section "
-     echo -e "\n  "$bold$red"If you are confused or dont understand what"$norm$white
-     echo -e "  "$bold$red"this part of the script is doing, press N"$norm$white
-     echo -e "\n  Do you want to re-enable the ability to login as root in kali?"
-     read -n1 -p "  Please type Y or N : " userinput
-     case $userinput in
-         y|Y) enable_rootlogin $force;;
-         n|N) echo -e "\n $redexclaim skipping root login setup" ;;
-         *) echo -e "\n invalid key try again Y or N"; make_rootgreatagain;;
-     esac
-     }
+    echo -e "\n KALI-ROOT-LOGIN INSTALLATION:   "$red"*** READ CAREFULLY! ***"$white" \n"
+    echo -e " On Kali 2019.x and prior the default user was root"
+    echo -e " On Kali 2020.1 and newer this was changed, the default user was changed to be "
+    echo -e " an" $yellow$bold"actual user"$norm$white" on the system and not "$red$bold"root"$norm$white", this user is : kali (by default) "
+    echo -e " \n  Your existing user configurations will not be affected or altered. "
+    echo -e "  This will "$red"ONLY"$white" reenable the ability to login as root at boot and does "$red"NOT"$white" replace"
+    echo -e "  any existing user, remove any user files or user configurations."
+    echo -e "\n  If you wish to re-enable the ability to login to kali as root at the login screen "
+    echo -e "  and be root all the time, press Y "
+    echo -e "\n  If not, press N and the script will skip this section "
+    echo -e "\n  "$bold$red"If you are confused or dont understand what"$norm$white
+    echo -e "  "$bold$red"this part of the script is doing, press N"$norm$white
+    echo -e "\n  Do you want to re-enable the ability to login as root in kali?"
+    read -n1 -p "  Please type Y or N : " userinput
+    case $userinput in
+        y|Y) enable_rootlogin $force;;
+        n|N) echo -e "\n $redexclaim skipping root login setup" ;;
+        *) echo -e "\n invalid key try again Y or N"; make_rootgreatagain;;
+    esac
+    }
 
 enable_rootlogin () {
     section="kali-root-login"
@@ -384,16 +385,16 @@ fix_sead_run () {
     echo -e "  $green[<$red@@$green>]$white taking aim\n" 
     echo -e "  $green[$red####$green]$white requesting launch code\n"
     echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed\n"
+      
     wait_time=10 # seconds
-
     echo -e "  Are you sure you meant to run this script?\n"
-     temp_cnt=${wait_time}
+    temp_cnt=${wait_time}
      while [[ ${temp_cnt} -gt 0 ]];
-      do
-      printf "\r  You have %2d second(s) remaining to hit Ctrl+C to cancel this operation!" ${temp_cnt}
-      sleep 1
-      ((temp_cnt--))
-    done
+       do
+       printf "\r  You have %2d second(s) remaining to hit Ctrl+C to cancel this operation!" ${temp_cnt}
+       sleep 1
+       ((temp_cnt--))
+     done
     echo -e "\n\n  No user input detected... Executing!!" 
     echo -e "\n  $fourblinkexclaim *** FIRE!! *** $fourblinkexclaim\n"
     echo -e "  $redstar function running removing :\n$SEAD\n"
@@ -420,12 +421,12 @@ fix_impacket_array () {
          'smbrelayx.pyc' 'smbserver.pyc' 'sniffer.pyc' 'sniff.pyc' 'split.pyc' 'ticketConverter.pyc' 'ticketer.pyc' 
          'wmiexec.pyc' 'wmipersist.pyc' 'wmiquery.pyc' ) 
 
-     for impacket_file in ${arr[@]}; do
-      rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file 
-      # removed status of whats being removed from screen, too much screen garbage
-      # echo -e "\n $greenplus $impacket_file removed from /usr/bin /usr/local/bin ~/.local/bin /home/$finduser/.local/bin"
-     done 
-     } 
+    for impacket_file in ${arr[@]}; do
+     rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file 
+     # removed status of whats being removed from screen, too much screen garbage
+     # echo -e "\n $greenplus $impacket_file removed"
+    done 
+    } 
 
 fix_impacket () { 
     finduser=$(logname)
@@ -467,39 +468,6 @@ fix_impacket () {
     echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
     }
 
-    #
-    # basrc_udpate - still debating this section or not.. adding go paths to ~/.bashrc aparentally breaks ability to compile?
-    #
-#bashrc_update () {
-#    check_bashrc_vpnip=$(cat $HOME/.bashrc | grep -i -c "vpnip=")
-#    if [ $check_bashrc_vpnip -ne 1 ]
-#      then 
-#        echo -e "\nalias vpnip='ifconfig tun0 | grep -m1 inet | awk '\''{print(\$2)}'\'''"
-#        echo -e "\n $greenplus added vpnip alias to $HOME/.bashrc"
-#      else
-#        echo -e "\n vpnip= found in .bashrc - not updating"
-#    fi
-#
-#    check_bashrc_ex=$(cat $HOME/.bashrc | grep -i -c "ex ()")
-#    if [ $check_bashrc_ex -ne 1 ]
-#      then 
-#       echo -e "\nex ()\n{\n  if [ -f \$1 ] ; then \n   case \$1 in \n    *.tar.bz2)   tar xjf \$1 ;; "\
-#               "\n    *.tar.gz)    tar xzf \$1 ;;\n    *.tar.xz)    tar xJf \$1 ;;\n    *.bz2)       bunzip2 \$1 ;;"\
-#               "\n    *.rar)       unrar x \$1 ;;\n    *.gz)        gunzip \$1  ;;\n    *.tar)       tar xf \$1  ;;"\
-#               "\n    *.tbz2)      tar xjf \$1 ;;\n    *.tgz)       tar xzf \$1 ;;\n    *.zip)       unzip \$1   ;;"\
-#               "\n    *.Z)         uncompress \$1;;\n    *.7z)        7z x \$1 ;;\n    *)           echo \"'\$1' cannot be extracted via ex()\" ;;"\
-#               "\n    esac\n  else\n    echo \"'\$1' is not a valid file\"\n  fi\n }\n"
-#       echo -e "\n $greenplus Added ex () function to $HOME/.bashrc"
-#       else
-#       echo -e "\n $redminus ex () function found in .bashrc - not updating"
-#    fi
-#    # Still debating this section 
-#    # add this!!! export PATH=$PATH:/sbin:/usr/sbin
-#    # ADD THESE ALIASES  WEBSRV PORTNUMER   AND   KILLVPN
-#    # alias websrv='python3 -m http.server $1'
-#    # alias killvpn='killall -9 openvpn'
-#    }
-
 fix_all () {
     fix_sources
     fix_missing $force 
@@ -516,10 +484,67 @@ fix_upgrade () {
     virt_what
     run_update
     check_vm
+    }    
+
+bpt () { 
+    rm -rf /opt/the-essentials
+    git clone https://github.com/blindpentester/the-essentials /opt/the-essentials
+    cd /opt/the-essentials
+    sh -c '/opt/the-essentials/the_essentials.sh --skip'
+    exit_screen
+    }    
+    
+virt_what() {
+    # DISPLAY POWER MANAGEMENT -- ISSUE
+    # if the vm's display goes 'dark' or 'power saving mode' for whatever reason virt-what is not
+    # detecting which hypervisor this is suspect its looking at the video driver or the display itself
+    # maybe implement something here to read the power management settings and drop inplace some that
+    # are not set to dim / turn off display...
+    echo -e "\n  $greenplus installing virt-what \n"
+    apt -y update $silent && apt -y install virt-what $silent
+    }  
+    
+check_vm () {
+    echo -e "\n  $greenplus checking for hypervisor type \n"
+      vbox_check=$(virt-what | grep -i -c "virtualbox")  # virtualbox check
+    vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check
+    if [ $vbox_check = 1 ] 
+     then 
+        echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
+        echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
+        sudo apt -y reinstall virtualbox-dkms virtualbox-guest-x11
+        exit_screen
+     elif  [ $vmware_check = 1 ] 
+       then 
+        echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
+        echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
+        sudo apt -y reinstall open-vm-tools-desktop fuse
+        exit_screen
+      else
+     echo "neither found..." 
+    fi
+    }
+
+fix_sources () {
+    echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
+    echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
+    echo -e "\n  $greenplus fixed sources /etc/apt/sources.list"
     }
     
-## Move asciiart somewhere else...    
+run_update () { 
+    fix_sources
+    echo -e "\n  $greenplus starting pimpmyupgrade   \n"
+    apt -y update $silent && sudo apt -y upgrade $silent
+    kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
+    echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
     
+    # Works well, tested multiple systems but keep an eye out for issues
+    apt -y install linux-headers-amd64 $silent  # generic meta package for correct linux-headers
+    #apt -y install linux-headers-$kernel_check
+    #apt install -y linux-headers-5.8.0-kali2-amd64
+    }    
+   
+# ascii art     
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
    
 pimpmykali_menu () {
@@ -545,78 +570,23 @@ pimpmykali_menu () {
     read -n4 -p "  Enter 0 thru 9, BPT or press X to exit: " menuinput
       
     case $menuinput in
-        1) fix_missing ;;
-        2) fix_smbconf ;;
-        3) fix_golang ;;
-        4) fix_grub ;;
-        5) fix_impacket ;;
-        6) make_rootgreatagain ;;
-        7) fix_gedit ;; 
-        8) fix_nmap ;; 
-        9) fix_upgrade ;;
-        0) fix_all ;;
-        bpt|BPT) bpt ;; 
-        # x|X) exit_screen ;;
-        x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
-        *) pimpmykali_menu ;;
+      1) fix_missing ;;
+      2) fix_smbconf ;;
+      3) fix_golang ;;
+      4) fix_grub ;;
+      5) fix_impacket ;;
+      6) make_rootgreatagain ;;
+      7) fix_gedit ;; 
+      8) fix_nmap ;; 
+      9) fix_upgrade ;;
+      0) fix_all ;;
+      bpt|BPT) bpt ;; 
+      # x|X) exit_screen ;;
+      x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
+      *) pimpmykali_menu ;;
     esac
-    }  
-    
-    
-bpt () { 
-    rm -rf /opt/the-essentials
-    git clone https://github.com/blindpentester/the-essentials /opt/the-essentials
-    cd /opt/the-essentials
-    sh -c '/opt/the-essentials/the_essentials.sh --skip' 
-    $bpt_run
-    exit_screen
     }
-    
-    
-virt_what() {
-    echo -e "\n  $greenplus installing virt-what \n"
-    apt -y update $silent && apt -y install virt-what $silent
-    }    
 
-    
-check_vm () {
-    echo -e "\n  $greenplus checking for hypervisor type \n"
-    if [ $vbox_check = 1 ] 
-     then 
-        echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
-        echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
-        sudo apt -y reinstall virtualbox-dkms virtualbox-guest-x11
-        exit_screen
-     elif  [ $vmware_check = 1 ] 
-       then 
-        echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
-        echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
-        sudo apt -y reinstall open-vm-tools-desktop fuse
-        exit_screen
-      else
-     echo "neither found..." 
-    fi
-    }
-    
-fix_sources () {
-    echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
-    echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
-    echo -e "\n  $greenplus fixed sources /etc/apt/sources.list"
-    }
-    
-run_update () { 
-    fix_sources
-    echo -e "\n  $greenplus starting pimpmyupgrade   \n"
-    apt -y update $silent && sudo apt -y upgrade $silent
-    kernel_check=$(ls -l /lib/modules | sort -n | cut -d " " -f 10 | tail -n 2) # ya its dirty, but it works
-    echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
-   
-    # FIX THIS - need the new kernel info in $kernel_check before the reboot so we dont have to have it hardcorded
-    # as an apt install specific kernel headers.......
-    #apt -y install linux-headers-$kernel_check
-    apt install -y linux-headers-5.8.0-kali2-amd64
-    }    
-     
 pimpmykali_help () {
     # do not edit this echo statement, spacing has been fixed and is correct for display terminal
     echo -e "\n valid command line arguements are : \n \n --all        run all operations \n"\
@@ -627,8 +597,8 @@ pimpmykali_help () {
             "\n --borked     only to be used as last resort to remove-reinstall impacket" \
             "\n --upgrade    fix apt upgrade with detection for virtualbox or vmware\n --help       your looking at it"
     exit             
-    }             
-
+    }        
+    
 check_arg () {
     # honesly im going to remove 2/3'rds of these switches, just use -- and be done with it 
     if [ "$1" == "" ] 
@@ -649,7 +619,7 @@ check_arg () {
      --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
     --borked) force=1; fix_sead_warning;; -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;; 
       --nmap) fix_nmap                 ;; -nmap) fix_nmap                  ;; nmap) fix_nmap ;;
-       --bpt) bpt                      ;; -bpt) bpt                          ;; bpt) bpt;;
+       --bpt) bpt                      ;; -bpt) bpt                        ;; bpt) bpt;;
    --upgrade) fix_upgrade              ;;
       *) pimpmykali_help ; exit 0 ;; 
      esac
@@ -657,7 +627,6 @@ check_arg () {
     }
 
 exit_screen () { 
-    # clear
     echo -e "$asciiart"
     echo -e "\n\n    All Done! Happy Hacking! \n"
     exit
