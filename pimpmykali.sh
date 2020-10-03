@@ -562,12 +562,12 @@ pimpmykali_menu () {
     echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"               # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
     echo -e "                              (fixes sources.list, linux-headers, vm-video drivers)"
-    echo -e "  BPT - BlindPentesters       'The Essentials' tools & utilies collection\n" 
-    echo -e "  0 - Fix ALL                 (runs all 1 thru 9) \n"             # fix_all 
+    echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n" 
+    echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"             # fix_all 
     echo -e "  Now with Pimpmyupgrade - when prompted Yes or No select Yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
-    read -n4 -p "  Enter 0 thru 9, BPT or press X to exit: " menuinput
+    read -n1 -p "  Enter 0 thru 9 or B  press X to exit: " menuinput
       
     case $menuinput in
       1) fix_missing ;;
@@ -580,7 +580,7 @@ pimpmykali_menu () {
       8) fix_nmap ;; 
       9) fix_upgrade ;;
       0) fix_all ;;
-      bpt|BPT) bpt ;; 
+      b|B) bpt ;; 
       # x|X) exit_screen ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
