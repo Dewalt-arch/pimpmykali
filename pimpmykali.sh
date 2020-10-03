@@ -503,7 +503,13 @@ virt_what() {
     echo -e "\n  $greenplus installing virt-what \n"
     apt -y update $silent && apt -y install virt-what $silent
     }  
-    
+
+vbox_fix_shared_folder_permission_denied () {
+    finduser=$(logname)
+    adduser $finduser vboxsf
+    echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder \n"
+    }
+        
 check_vm () {
     echo -e "\n  $greenplus checking for hypervisor type \n"
       vbox_check=$(virt-what | grep -i -c "virtualbox")  # virtualbox check
@@ -512,13 +518,21 @@ check_vm () {
      then 
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
         echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
-        sudo apt -y reinstall virtualbox-dkms virtualbox-guest-x11
+        apt -y reinstall virtualbox-dkms virtualbox-guest-x11
+         # Additional Fixes for virtualbox since were already here and detected virtualbox
+           #----------------------- additional virtualbox fixes 
+             vbox_fix_shared_folder_permission_denied
+           #----------------------- end of virtualbox additional fixes 
         exit_screen
      elif  [ $vmware_check = 1 ] 
        then 
         echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
         echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
-        sudo apt -y reinstall open-vm-tools-desktop fuse
+        apt -y reinstall open-vm-tools-desktop fuse
+         # Additional Fixes for Vmware since were already here and detected vmware 
+           #----------------------- additional vmware fixes 
+           # fixes go here 
+           #----------------------- end of vmware additional fixes 
         exit_screen
       else
      echo "neither found..." 
