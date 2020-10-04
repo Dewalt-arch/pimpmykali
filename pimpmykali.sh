@@ -598,16 +598,16 @@ pimpmykali_menu () {
     read -n1 -p "  Enter 0 thru 9 or B  press X to exit: " menuinput
       
     case $menuinput in
-      1) fix_missing ;;
-      2) fix_smbconf ;;
-      3) fix_golang ;;
-      4) fix_grub ;;
-      5) fix_impacket ;;
-      6) make_rootgreatagain ;;
-      7) fix_gedit ;; # added per sheeps request - still debating this 'request'
-      8) fix_nmap ;; 
-      9) fix_upgrade ;;
-      0) fix_all ;;
+        1) fix_missing ;;
+        2) fix_smbconf ;;
+        3) fix_golang ;;
+        4) fix_grub ;;
+        5) fix_impacket ;;
+        6) make_rootgreatagain ;;
+        7) fix_gedit ;; # added per sheeps request - still debating this 'request'
+        8) fix_nmap ;; 
+        9) fix_upgrade ;;
+        0) fix_all ;;
       b|B) bpt ;; 
       # x|X) exit_screen ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
