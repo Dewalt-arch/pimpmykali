@@ -513,8 +513,22 @@ vbox_fix_shared_folder_permission_denied () {
 check_vm () {
     echo -e "\n  $greenplus checking for hypervisor type \n"
       vbox_check=$(virt-what | grep -i -c "virtualbox")  # virtualbox check
+      # if virt-what disappears from the repo
+      # alternate detection to virt-what : vbox_check=$(cat /proc/kallsyms | grep -i -c "vbox")
+      # alternate detection to virt-what : vbox_check=$(lsmod | grep -i -c "vbox") 
+      # change if statement to accomodate a $vbox_check -ne 0 detection
+         
     vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check
-    if [ $vbox_check = 1 ] 
+      # if virt-what disappears from the repo 
+      # alternate detection to virt-what : vmware_check=$(cat /proc/kallsyms | grep -i -c "vmware") 
+      # alternate detection to virt-what : vmware_check=$(lsmod | grep -i -c "vmware")
+      # change if statement to accomodate a $vmware_check -ne 0 detection
+      
+      # if $vmbox_check = 0 && $vmware_check =0 then bare_metal_installation=1 
+      # add double if $vbox_check && $vmware_check = 0 detection 
+      
+   
+   if [ $vbox_check = 1 ] 
      then 
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
         echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
