@@ -512,7 +512,7 @@ vbox_fix_shared_folder_permission_denied () {
     }
         
 check_vm () {
-    echo -e "\n  $greenplus checking for hypervisor type \n"
+    echo -e "\n  $greenplus detecting hypervisor type \n"
     vbox_check=$(virt-what | grep -i -c "virtualbox")  # virtualbox check
       # if virt-what disappears from the repo
       # alternate detection to virt-what : vbox_check=$(cat /proc/kallsyms | grep -i -c "vbox")
