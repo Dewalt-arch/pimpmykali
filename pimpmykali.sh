@@ -514,7 +514,6 @@ virt_what() {
 
 vbox_fix_shared_folder_permission_denied () {
     finduser=$(logname)
-    adduser $finduser vboxsf
     echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder \n"
     }
         
