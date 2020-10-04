@@ -180,9 +180,7 @@ fix_missing () {
     fix_gedit     $force   # added per sheeps request - still debating this 'request'
     fix_flameshot $force
     fix_nmap
-    # Debating on not calling fix_upgrade here as it forces the upgrade and is not a 'seperate' function
-    # as some users may not want an apt upgrade preformed, currently this forces the upgrade - think about it
-    # fix_upgrade
+    # fix_upgrade - removed from fix_missing and moved to only menu option 0 (all) and individually menu option 9
     } 
 
 fix_all () {
@@ -194,8 +192,9 @@ fix_all () {
     make_rootgreatagain $force
     fix_upgrade
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!    
-    # fix_gedit fix_nmap fix_flameshot fix_golang python3_pip python-pip-curl
-    # FIX_UPGRADE IS IN FIX_MISSING 
+    # python-pip-cul python3_pip seclists fix_golang fix_gedit fix_flameshot fix_nmap
+    #
+    # fix_upgrade is not a part of fix_missing and only called as sub-function call of fix_all
     }        
     
 python-pip-curl () {
