@@ -180,9 +180,24 @@ fix_missing () {
     fix_gedit     $force   # added per sheeps request - still debating this 'request'
     fix_flameshot $force
     fix_nmap
-    fix_upgrade
+    # Debating on not calling fix_upgrade here as it forces the upgrade and is not a 'seperate' function
+    # as some users may not want an apt upgrade preformed, currently this forces the upgrade - think about it
+    # fix_upgrade
     } 
-     
+
+fix_all () {
+    fix_sources
+    fix_missing $force 
+    fix_grub
+    fix_smbconf 
+    fix_impacket
+    make_rootgreatagain $force
+    fix_upgrade
+    # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!    
+    # fix_gedit fix_nmap fix_flameshot fix_golang python3_pip python-pip-curl
+    # FIX_UPGRADE IS IN FIX_MISSING 
+    }        
+    
 python-pip-curl () {
     check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip") 
     if [ $check_pip -ne 1 ] 
@@ -468,18 +483,6 @@ fix_impacket () {
     echo -e "\n  $greenplus installed: pycryptodomes pyOpenSSL ldap3 ldapdomaindump"
     echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
     }
-
-fix_all () {
-    fix_sources
-    fix_missing $force 
-    fix_grub
-    fix_smbconf 
-    fix_impacket
-    make_rootgreatagain $force
-    # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!    
-    # fix_gedit fix_nmap fix_flameshot fix_golang python3_pip python-pip-curl
-    # FIX_UPGRADE IS IN FIX_MISSING 
-    }    
 
 fix_upgrade () {
     virt_what
