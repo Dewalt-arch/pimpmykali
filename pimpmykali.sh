@@ -628,7 +628,7 @@ pimpmykali_help () {
     }        
     
 check_arg () {
-    # honesly im going to remove 2/3'rds of these switches, just use -- and be done with it 
+    # honesly im going to remove 2/3'rds of these switches, just use -- or - and be done with it 
     if [ "$1" == "" ] 
       then pimpmykali_menu
      else
