@@ -5,6 +5,11 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.5c - fix_upgrade removed from fix_missing 
+#   - fix_upgrade removed from fix_missing and is no longer 'forced' as a part of fix_missing 
+#   - fix_upgrade will now only be called as a part of fix_all (menu 0) fix_upgrade (menu 9)
+#     or command line switches --upgrade -upgrade or upgrade 
+#
 # Revision 0.5b - Blindpentesters Essential Collection added
 #   - added blindpentesters 'The Essential' tools and utilies collection 
 #   - menu option 'BPT' for blindpentesters tools collection, installs, runs the_essentials.sh and exists
@@ -89,7 +94,7 @@
 #
 
  # revision var
-    revision="0.5b"
+    revision="0.5c"
 
  # unicorn puke: 
     red=$'\e[1;31m'
@@ -590,8 +595,8 @@ pimpmykali_menu () {
     echo -e "  6 - Enable Root Login       (installs kali-root-login)"                        # make_rootgreatagain
     echo -e "  7 - Install Gedit           (installs gedit)"                                  # fix_gedit # added per sheeps request - still debating this 'request'
     echo -e "  8 - Fix clamav-exec.nse     (fix clamav-exec.nse for nmap)"                    # fix_nmap
-    echo -e "  9 - Pimpmyupgrade           (apt upgrade with virtualbox/vmware detection)"         # fix_upgrade
-    echo -e "                              (sources.list, linux-headers, vm-video drivers)"
+    echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
+    echo -e "                              (sources.list, linux-headers, vm-video)"
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"          # bpt function - the essentials 
     echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                                # fix_all 
     echo -e "  Now with Pimpmyupgrade\n    - when prompted Yes or No select Yes to auto restart services \n"

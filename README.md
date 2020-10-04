@@ -13,9 +13,15 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.5c - fix_upgrade removed from fix_missing 
+   - fix_upgrade removed from fix_missing and is no longer 'forced' as a part of fix_missing 
+   - fix_upgrade will now only be called as a part of fix_all (menu 0) or fix_upgrade (menu 9)
+     or command line switches --upgrade -upgrade or upgrade 
+   - general code cleanup, some additional comments added
+
 # Revision 0.5b - Blindpentesters Essential Collection added
-   - added Blindpentesters 'The Essentials' tools and utilies collection 
-   - menu option 'BPT' for blindpentesters tools collection, installs, runs the_essentials.sh and exists
+   - added Blindpentesters 'The Essentials' tools and utils collection 
+   - menu option 'B' for blindpentesters tools collection, installs, runs the_essentials.sh and exits
 
 # Revision 0.5a - cosmetic fixes
   - minor cosmetic fixes to pimpmyupgrade functions
