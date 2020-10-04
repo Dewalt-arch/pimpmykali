@@ -535,7 +535,7 @@ check_vm () {
            #----------------------- end of vmware additional fixes 
         exit_screen
       else
-     echo "neither found..." 
+     echo -e "\n $redstar Hypervisor not detected, Possible bare-metal installation not updating" 
     fi
     }
 
@@ -578,7 +578,7 @@ pimpmykali_menu () {
     echo -e "                              (fixes sources.list, linux-headers, vm-video drivers)"
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n" 
     echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"             # fix_all 
-    echo -e "  Now with Pimpmyupgrade - when prompted Yes or No select Yes to auto restart services \n"
+    echo -e "  Now with Pimpmyupgrade\n    - when prompted Yes or No select Yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
     read -n1 -p "  Enter 0 thru 9 or B  press X to exit: " menuinput
