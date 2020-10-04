@@ -526,8 +526,7 @@ check_vm () {
       
       # if $vmbox_check = 0 && $vmware_check =0 then bare_metal_installation=1 
       # add double if $vbox_check && $vmware_check = 0 detection 
-      
-   
+    
    if [ $vbox_check = 1 ] 
      then 
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
