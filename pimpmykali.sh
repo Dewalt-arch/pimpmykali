@@ -582,18 +582,19 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n Options are 0 thru 9 and BPT  :"
-    echo -e "\n  1 - Fix Missing             (only installs pip pip3 seclists gedit flameshot)" # fix_missing
-    echo -e "  2 - Fix /etc/samba/smb.conf (only adds the 2 missing lines)"                   # fix_smbconf
-    echo -e "  3 - Fix Golang              (only installs golang)"                            # fix_golang
-    echo -e "  4 - Fix Grub                (only adds mitigations=off)"                       # fix_grub
-    echo -e "  5 - Fix Impacket            (only installs impacket)"                          # fix_impacket
-    echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                   # make_rootgreatagain
-    echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit # added per sheeps request - still debating this 'request'
-    echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"               # fix_nmap
-    echo -e "  9 - Pimpmyupgrade           (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
-    echo -e "                              (fixes sources.list, linux-headers, vm-video drivers)"
+    echo -e "\n  1 - Fix Missing             (only installs pip pip3 seclist)"                    # fix_missing
+    echo -e "                                 gedit flameshot)"
+    echo -e "  2 - Fix /etc/samba/smb.conf (only adds the 2 missing lines)"                        # fix_smbconf
+    echo -e "  3 - Fix Golang              (only installs golang)"                                 # fix_golang
+    echo -e "  4 - Fix Grub                (only adds mitigations=off)"                            # fix_grub
+    echo -e "  5 - Fix Impacket            (only installs impacket)"                               # fix_impacket
+    echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                        # make_rootgreatagain
+    echo -e "  7 - Install Gedit           (only installs gedit)"                                  # fix_gedit # added per sheeps request - still debating this 'request'
+    echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"                    # fix_nmap
+    echo -e "  9 - Pimpmyupgrade           (apt upgrade with virtualbox/vmware detection)"         # fix_upgrade
+    echo -e "                              (sources.list, linux-headers, vm-video drivers)"
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n" 
-    echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"             # fix_all 
+    echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                                 # fix_all 
     echo -e "  Now with Pimpmyupgrade\n    - when prompted Yes or No select Yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
