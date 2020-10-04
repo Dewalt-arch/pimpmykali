@@ -163,7 +163,7 @@ fix_section () {
     } 
 
 fix_missing () { 
-    # hard setting this per sheepy's request - still debating this 'request'
+    # added per sheeps request - still debating this 'request'
     ln -sf /bin/python2.7 /bin/python 
      
     # update and autoremove
@@ -177,7 +177,7 @@ fix_missing () {
     python3_pip   $force
     seclists      $force
     fix_golang    $force
-    fix_gedit     $force 
+    fix_gedit     $force   # added per sheeps request - still debating this 'request'
     fix_flameshot $force
     fix_nmap
     fix_upgrade
@@ -234,7 +234,8 @@ fix_flameshot () {
     check=$(whereis flameshot | grep -i -c "/usr/bin/flameshot") 
     fix_section $section $check $force
      }   
-
+     
+# added per sheeps request - still debating this 'request'
 fix_gedit () {
     section="gedit"
     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit") 
@@ -585,7 +586,7 @@ pimpmykali_menu () {
     echo -e "  4 - Fix Grub                (only adds mitigations=off)"                       # fix_grub
     echo -e "  5 - Fix Impacket            (only installs impacket)"                          # fix_impacket
     echo -e "  6 - Enable Root Login       (only installs kali-root-login)"                   # make_rootgreatagain
-    echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit
+    echo -e "  7 - Install Gedit           (only installs gedit)"                             # fix_gedit # added per sheeps request - still debating this 'request'
     echo -e "  8 - Fix clamav-exec.nse     (only fix clamav-exec.nse for nmap)"               # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with virtualbox/vmware detection)"    # fix_upgrade
     echo -e "                              (fixes sources.list, linux-headers, vm-video drivers)"
@@ -603,7 +604,7 @@ pimpmykali_menu () {
       4) fix_grub ;;
       5) fix_impacket ;;
       6) make_rootgreatagain ;;
-      7) fix_gedit ;; 
+      7) fix_gedit ;; # added per sheeps request - still debating this 'request'
       8) fix_nmap ;; 
       9) fix_upgrade ;;
       0) fix_all ;;
@@ -636,7 +637,7 @@ check_arg () {
        --all) fix_all                  ;; -all) fix_all                    ;; all) fix_all ;; 
        --smb) fix_smbconf              ;; -smb) fix_smbconf                ;; smb) fix_smbconf ;;
         --go) fix_golang               ;; -go) fix_golang                  ;; go) fix_golang ;; 
-     --gedit) fix_gedit                ;; -gedit) fix_gedit                ;; gedit) fix_gedit ;;  
+     --gedit) fix_gedit                ;; -gedit) fix_gedit                ;; gedit) fix_gedit ;;  # added per sheeps request - still debating this 'request'
   --impacket) fix_impacket             ;; -impacket) fix_impacket          ;; impacket) fix_impacket ;;   
       --grub) fix_grub                 ;; -grub) fix_grub                  ;; grub) fix_grub ;; 
       --root) make_rootgreatagain      ;; -root) make_rootgreatagain       ;; root) make_rootgreatagain ;;
