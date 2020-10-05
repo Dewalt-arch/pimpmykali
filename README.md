@@ -13,6 +13,9 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.5d - bugfix Thank you to AES for finding the bug, nmap wget script was pulling the wrong page 
+   - correct page has been added new version git pushd
+
 # Revision 0.5c - fix_upgrade removed from fix_missing 
    - fix_upgrade removed from fix_missing and is no longer 'forced' as a part of fix_missing 
    - fix_upgrade will now only be called as a part of fix_all (menu 0) or fix_upgrade (menu 9)
