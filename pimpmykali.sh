@@ -172,9 +172,7 @@ fix_section () {
     } 
 
 fix_missing () { 
-    # added per sheeps request - still debating this 'request'
-    ln -sf /bin/python2.7 /bin/python 
-     
+    
     # update and autoremove
     eval apt -y update $silent && eval apt -y autoremove $silent
      
