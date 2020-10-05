@@ -248,6 +248,7 @@ fix_nmap () {
     rm -f /usr/share/nmap/scripts/clamav-exec.nse 
     echo -e "\n  $redminus /usr/share/nmap/scripts/clamav-exec.nse removed " 
     eval wget https://raw.githubusercontent.com/nmap/nmap/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
+    eval wget https://raw.githubusercontent.com/onomastus/pentest-tools/master/fixed-http-shellshock.nse -O /usr/share/nmap/scripts/http-shellshock.nse $silent
     echo -e "\n  $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version "
     }
     
@@ -617,7 +618,7 @@ pimpmykali_menu () {
     echo -e "  5 - Fix Impacket            (installs impacket)"                               # fix_impacket
     echo -e "  6 - Enable Root Login       (installs kali-root-login)"                        # make_rootgreatagain
     echo -e "  7 - Install Gedit           (installs gedit)"                                  # fix_gedit # added per sheeps request - still debating this 'request'
-    echo -e "  8 - Fix clamav-exec.nse     (fix clamav-exec.nse for nmap)"                    # fix_nmap
+    echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"         # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"          # bpt function - the essentials 
