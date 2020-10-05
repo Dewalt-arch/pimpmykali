@@ -18,7 +18,8 @@
    - unfortunatly versions 0.5c thru 0.4 are affected if you have an old version 
      or havent ran pimpmykali.sh please git clone a fresh copy and re-run the nmap from the menu
      Menu Option 8 - Fix clamav-exec.nse
-
+   - corrected http-shellshock.nse nmap script added - Thank you Alek & Blob! 
+     
 # Revision 0.5c - fix_upgrade removed from fix_missing 
    - fix_upgrade removed from fix_missing and is no longer 'forced' as a part of fix_missing 
    - fix_upgrade will now only be called as a part of fix_all (menu 0) or fix_upgrade (menu 9)
