@@ -244,7 +244,7 @@ fix_nmap () {
     # not checking for it just doing it 
     rm -f /usr/share/nmap/scripts/clamav-exec.nse 
     echo -e "\n  $redminus /usr/share/nmap/scripts/clamav-exec.nse removed " 
-    eval wget https://github.com/nmap/nmap/blob/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
+    eval wget https://raw.githubusercontent.com/nmap/nmap/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
     echo -e "\n  $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version "
     }
     
@@ -501,6 +501,27 @@ bpt () {
     sh -c '/opt/the-essentials/the_essentials.sh --skip'
     exit_screen
     }    
+    
+pimpmywifi_main () { 
+    # detect wifi chipset
+    # install proper dkms driver based upon detection
+    # or just give a menu for a selection of drivers? 
+    # -- status: idea stage - pre-alpha development
+    # realtek-rtl8188eus-dkms - Realtek RTL8188EUS driver in DKMS format
+    # realtek-rtl88xxau-dkms - Realtek RTL88xxAU driver in DKMS format
+    
+    # add function to check for linux-headers in /lib/modules vs unname -r 
+    # find_linux_headers=$(find /lib/modules -name $(uname -r) 2> /dev/null)
+    # running_kernel=$(uname -r) 
+      if [ $running_kenrel = $find_linux_headers ] 
+       then 
+        echo SAME
+       else
+        echo DIFFERENT
+      fi 
+      
+    }
+    
     
 virt_what() {
     # DISPLAY POWER MANAGEMENT -- ISSUE
