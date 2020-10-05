@@ -13,7 +13,7 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
-# Revision 0.5d - bugfix Thank you to AES for finding the bug, nmap wget script was pulling the wrong page 
+# Revision 0.5d - bugfix Thank you to @AES ! for finding the bug, nmap wget script was pulling the wrong page 
    - correct page has been added new version git pushd
 
 # Revision 0.5c - fix_upgrade removed from fix_missing 
