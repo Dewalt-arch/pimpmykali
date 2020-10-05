@@ -15,6 +15,9 @@
 
 # Revision 0.5d - bugfix Thank you to @AES ! for finding the bug, nmap wget script was pulling the wrong page 
    - correct page has been added new version git pushd
+   - unfortunatly ALL prior versions back to 0.4 are affected if you have an old version 
+     or havent ran pimpmykali.sh please git clone a fresh copy and re-run the nmap from the menu
+     Menu Option 8 - Fix clamav-exec.nse
 
 # Revision 0.5c - fix_upgrade removed from fix_missing 
    - fix_upgrade removed from fix_missing and is no longer 'forced' as a part of fix_missing 
