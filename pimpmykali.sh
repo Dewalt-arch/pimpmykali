@@ -5,6 +5,9 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.5d - bugfix Thank you to AES for finding the bug, nmap wget script was pulling the wrong page 
+#   - correct page has been added new version git pushd
+#
 # Revision 0.5c - fix_upgrade removed from fix_missing 
 #   - fix_upgrade removed from fix_missing and is no longer 'forced' as a part of fix_missing 
 #   - fix_upgrade will now only be called as a part of fix_all (menu 0) fix_upgrade (menu 9)
@@ -94,7 +97,7 @@
 #
 
  # revision var
-    revision="0.5c"
+    revision="0.5d"
 
  # unicorn puke: 
     red=$'\e[1;31m'
