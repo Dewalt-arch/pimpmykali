@@ -565,7 +565,7 @@ check_vm () {
       # alternate detection to virt-what : vmware_check=$(lsmod | grep -i -c "vmware")
       # change if statement to accomodate a $vmware_check -ne 0 detection
 
-      # if $vmbox_check = 0 && $vmware_check =0 then bare_metal_installation=1
+      # if $vmware_check = 0 && $vmware_check =0 then bare_metal_installation=1
       # add double if $vbox_check && $vmware_check = 0 detection
 
    if [ $vbox_check = 1 ]
