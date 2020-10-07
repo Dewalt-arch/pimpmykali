@@ -98,7 +98,7 @@
 #
 
  # revision var
-    revision="0.5d"
+    revision="0.5e"
 
  # unicorn puke:
     red=$'\e[1;31m'
@@ -387,8 +387,8 @@ fix_sead_run () {
     python3_pip
 
     # gracefully attempt to remove impacket via pip and pip3
-    eval pip uninstall impacket -y $silent
-    eval pip3 uninstall impacket -y  $silent
+    eval pip  uninstall impacket -y $silent
+    eval pip3 uninstall impacket -y $silent
 
     # used to get the username running this script as sudo to check /home/$finduser/.local/lib and /home/$finduser/.local/bin
     finduser=$(logname)
@@ -444,14 +444,14 @@ fix_impacket_array () {
          'smbrelayx.pyc' 'smbserver.pyc' 'sniffer.pyc' 'sniff.pyc' 'split.pyc' 'ticketConverter.pyc' 'ticketer.pyc'
          'wmiexec.pyc' 'wmipersist.pyc' 'wmiquery.pyc' )
 
-    for impacket_file in ${arr[@]}; do
+     for impacket_file in ${arr[@]}; do
      rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file
      # removed status of whats being removed from screen, too much screen garbage
      # echo -e "\n $greenplus $impacket_file removed"
     done
     }
 
-fix_impacket () {
+fix_impacket () {  step 3
     finduser=$(logname)
     # 2020.3 - package: impacket no longer exists in repo will throw error
     eval apt -y remove impacket $silent    ## do not remove : python3-impacket impacket-scripts
@@ -506,6 +506,18 @@ bpt () {
     }
 
 pimpmywifi_main () {
+
+    # - RTL8188AU FIX LIBC6 BREAKS LIBGCC-9-DEV
+    # -----begin fix-----
+    # apt -y update
+    # apt -y remove realtek-88xxau-dkms && apt -y purge realtek-88xxau-dkms
+    # apt -y install gcc-9-base     # libc6 breaks libgcc-9-dev fix
+    # apt -y install linux-headers-amd64
+    # apt -y install realtek-88xxau-dkms
+    # apt -y upgrade
+    # reboot
+    # iwconfig
+    # -----end fix------
     # detect wifi chipset
     # install proper dkms driver based upon detection
     # or just give a menu for a selection of drivers?
@@ -522,9 +534,7 @@ pimpmywifi_main () {
        else
         echo DIFFERENT
       fi
-
     }
-
 
 virt_what() {
     # DISPLAY POWER MANAGEMENT -- ISSUE
@@ -533,7 +543,7 @@ virt_what() {
     # maybe implement something here to read the power management settings and drop inplace some that
     # are not set to dim / turn off display...
     echo -e "\n  $greenplus installing virt-what \n"
-    apt -y update $silent && apt -y install virt-what $silent
+    eval apt -y update $silent && apt -y install virt-what $silent
     }
 
 vbox_fix_shared_folder_permission_denied () {
@@ -572,7 +582,7 @@ check_vm () {
      then
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
         echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
-        apt -y reinstall virtualbox-dkms virtualbox-guest-x11
+        eval apt -y reinstall virtualbox-dkms virtualbox-guest-x11 $silent
          # Additional Fixes for virtualbox since were already here and detected virtualbox
            #----------------------- additional virtualbox fixes
              vbox_fix_shared_folder_permission_denied
@@ -582,7 +592,7 @@ check_vm () {
        then
         echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
         echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
-        apt -y reinstall open-vm-tools-desktop fuse
+        eval apt -y reinstall open-vm-tools-desktop fuse $silent
          # Additional Fixes for Vmware since were already here and detected vmware
            #----------------------- additional vmware fixes
            # fixes go here
@@ -602,18 +612,25 @@ fix_sources () {
 run_update () {
     fix_sources
     echo -e "\n  $greenplus starting pimpmyupgrade   \n"
-    apt -y update $silent && sudo apt -y upgrade $silent
+    eval apt -y update $silent && apt -y upgrade $silent
     kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
     echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
 
     # Works well, tested multiple systems but keep an eye out for issues
-    apt -y install linux-headers-amd64 $silent  # generic meta package for correct linux-headers
+    eval apt -y install linux-headers-amd64 $silent  # generic meta package for correct linux-headers
     #apt -y install linux-headers-$kernel_check
     #apt install -y linux-headers-5.8.0-kali2-amd64
     }
 
 # ascii art
-asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
+#asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
+asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
+CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
+p1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o
+7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA="  | gunzip )
+
+
+
 
 pimpmykali_menu () {
     clear
@@ -630,8 +647,9 @@ pimpmykali_menu () {
     echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"         # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"
-    echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"          # bpt function - the essentials
-    echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                                # fix_all
+    echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"            # fix_sead_warning
+    echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt function - the essentials
+    echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                           # fix_all
     echo -e "  Now with Pimpmyupgrade\n    - when prompted Yes or No select Yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
     echo -e "  remove/reinstall impacket only!! \n"
@@ -648,6 +666,7 @@ pimpmykali_menu () {
         8) fix_nmap ;;
         9) fix_upgrade ;;
         0) fix_all ;;
+        !) forced=1; fix_sead_warning;;
       b|B) bpt ;;
       # x|X) exit_screen ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
@@ -656,7 +675,7 @@ pimpmykali_menu () {
     }
 
 pimpmykali_help () {
-    # do not edit this echo statement, spacing has been fixed and is correct for display terminal
+    # do not edit this echo statement, spacing has been fixed and is correct for display in the terminal
     echo -e "\n valid command line arguements are : \n \n --all        run all operations \n"\
             "--smb        only run smb.conf fix \n --go         only fix/install golang"\
             "\n --impacket   only fix/install impacket \n --grub       only add mitigations=off"\
@@ -685,14 +704,14 @@ check_arg () {
       --help) pimpmykali_help          ;; -help) pimpmykali_help           ;; help) pimpmykali_help ;;
  --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
      --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
-    --borked) force=1; fix_sead_warning;; -borked) fix_sead_warning; exit  ;; borked) fix_sead_warning; exit ;;
+    --borked) force=1; fix_sead_warning;; -borked) fix_sead_warning;       ;; borked) fix_sead_warning;      ;;
       --nmap) fix_nmap                 ;; -nmap) fix_nmap                  ;; nmap) fix_nmap ;;
        --bpt) bpt                      ;; -bpt) bpt                        ;; bpt) bpt;;
    --upgrade) fix_upgrade              ;;
       *) pimpmykali_help ; exit 0 ;;
      esac
     fi
-    }
+  }
 
 exit_screen () {
     echo -e "$asciiart"
