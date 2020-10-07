@@ -15,7 +15,9 @@
 
 # Revision 0.5e - Nuke Impacket added to menu enter character ! to run nuke imapcket
    - some issues with people understanding how to use --borked on the command line
-     so a menu item was added to ease use of the nuke impacket function. 
+     so a menu item was added to ease use of the nuke impacket function.
+     the correct command is :  sudo ./pimpmykali.sh --bored  
+     but this menu item will now make it available via the ! character
 
 # Revision 0.5d - bugfix Thank you to @AES ! for finding the bug, nmap wget script was pulling the wrong page
    - correct page has been added new version git pushd
