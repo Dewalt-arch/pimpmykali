@@ -193,7 +193,7 @@ fix_missing () {
     echo -e "\n  $greenplus apt updated "
 
     #just force build-essential here and be done with it
-    eval apt -y install build-essential $silent
+    eval apt -y install dkms build-essential $silent
     python-pip-curl
     python3_pip   $force
     fix_golang    $force
@@ -463,7 +463,7 @@ fix_impacket_array () {
      done
     }
 
-fix_impacket () {  
+fix_impacket () {
     finduser=$(logname)
     # 2020.3 - package: impacket no longer exists in repo will throw error
     eval apt -y remove impacket $silent    ## do not remove : python3-impacket impacket-scripts
