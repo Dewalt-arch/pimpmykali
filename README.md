@@ -13,8 +13,8 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
-# Revision 0.5e - Nuke Impacket added to menu enter character ! to run nuke imapcket
-   - some issues with people understanding how to use --borked on the command line
+# Revision 0.5e - Nuke Impacket added to menu, enter character ! to run nuke impacket
+   - issues with people understanding how to use --borked on the command line
      a menu option of character ! was added to ease use of the nuke impacket function.
      the correct command is :  sudo ./pimpmykali.sh --bored   was used to call the
      nuke-impacket function now thanks to a new menu item of ! it can be called from
@@ -83,7 +83,7 @@
 
 # Revision 0.3c:
   - per request kali-root-login enabling prompt has been reworked and reworded to be less confusing and
-    to give the user a better explaniation of what the script is doing at that stage
+    to give the user a better explanation of what the script is doing at that stage
   - added to note that if you dont understand what this part of the script is doing hit N
   - added colors for syntax highlighting in the onscreen messages of the script in places
   - added fix_nmap function for fixing /usr/share/nmap/scripts/clamav-exec.nse (commented out at this time
@@ -110,10 +110,10 @@
 - reworked python-pip installation to its own function python-pip-curl and installs python-pip via curl
 
 # Revision 0.2:
-- Added colorized notifications, help system, command line arguements, case based menu system
-- valid command line arguements are: help, all, go, grub, impacket, missing, menu, smb, grub, root
+- Added colorized notifications, help system, command line arguments, case based menu system
+- valid command line arguments are: help, all, go, grub, impacket, missing, menu, smb, grub, root
 - anything other than --all or -all or all , will only run that function and then exit.
-- command line arguements can be used with -- or - or just the word itself to try can catch for all possible cases
+- command line arguments can be used with -- or - or just the word itself to try can catch for all possible cases
 
 - example command line var: --help or -help or help will catch help and works for all valid command line arguements
   anything other the command line arugement catch exits and displays help

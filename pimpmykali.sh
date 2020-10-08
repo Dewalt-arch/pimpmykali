@@ -15,7 +15,6 @@
 #   - command line switchs with a single - or just the name has been remove all commandline
 #     line switches are not --nameofswtich
 #
-#
 # Revision 0.5d - bugfix Thank you to AES for finding the bug, nmap wget script was pulling the wrong page
 #   - correct page has been added new version git pushd
 #   - correct http-shellshock.nse nmap script added - Thank you Alek and Blob!
@@ -680,7 +679,6 @@ pimpmykali_help () {
     }
 
 check_arg () {
-    # honesly im going to remove 2/3'rds of these switches, just use -- or - and be done with it
     if [ "$1" == "" ]
       then pimpmykali_menu
      else
