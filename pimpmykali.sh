@@ -5,6 +5,17 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.5e - Nuke Impacket added to menu enter character ! to run nuke imapcket
+#   - some issues with people understanding how to use --borked on the command line
+#     a menu option of character ! was added to ease use of the nuke impacket function.
+#     the correct command is :  sudo ./pimpmykali.sh --bored   was used to call the
+#     nuke-impacket function now thanks to a new menu item of ! it can be called from
+#     the menu system directly without the need for command line switches, but the
+#     switch is still available
+#   - command line switchs with a single - or just the name has been remove all commandline
+#     line switches are not --nameofswtich
+#
+#
 # Revision 0.5d - bugfix Thank you to AES for finding the bug, nmap wget script was pulling the wrong page
 #   - correct page has been added new version git pushd
 #   - correct http-shellshock.nse nmap script added - Thank you Alek and Blob!
@@ -94,13 +105,13 @@
 #     example command line var: --help or -help or help will catch help and works for all valid command line arguements
 #     anything other the command line arugement catch exits and displays help
 #
-#     Standard Disclaimer: Author assumes no liability for any damange
+#     Standard Disclaimer: Author assumes no liability for any damage
 #
 
- # revision var
+# revision var
     revision="0.5e"
 
- # unicorn puke:
+# unicorn puke:
     red=$'\e[1;31m'
     green=$'\e[1;32m'
     blue=$'\e[1;34m'
@@ -111,12 +122,12 @@
     bold=$'\e[1m'
     norm=$'\e[21m'
 
- # launch_codes - for a little fun in the --borked scripts
+# launch_codes - for a little fun in the --borked scripts
     launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))
     launch_codes_beta=$(echo $((1 + RANDOM % 9999)))
     launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))
 
- # status indicators
+# status indicators
     greenplus='\e[1;33m[++]\e[0m'
     greenminus='\e[1;33m[--]\e[0m'
     redminus='\e[1;31m[--]\e[0m'
@@ -125,13 +136,13 @@
     blinkexclaim='\e[1;31m[\e[5;31m!!\e[0m\e[1;31m]\e[0m'
     fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
 
- # variables needed in the script
+# variables needed in the script
     force=0
     check=""
     section=""
     type=""
 
- # silent mode
+# silent mode
     silent=''                  # uncomment to see all output
     # silent='>/dev/null 2>&1' # uncomment to hide all output
 
@@ -257,7 +268,6 @@ fix_flameshot () {
     fix_section $section $check $force
      }
 
-# added per sheeps request - still debating this 'request'
 fix_gedit () {
     section="gedit"
     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
@@ -290,15 +300,15 @@ fix_smbconf () {
 fix_grub () {
     check_grub=$(cat /etc/default/grub | grep -i -c "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"" )
     if [ $check_grub -ne 1 ]
-     then
-      echo -e "\n  $redexclaim Error: /etc/default/grub is not the default config - not changing"
-     else
+      then
+        echo -e "\n  $redexclaim Error: /etc/default/grub is not the default config - not changing"
+      else
         cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
         cat /tmp/fix_grub.tmp > /etc/default/grub
         rm -f /tmp/fix_grub.tmp
         update-grub
         echo -e "\n  $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
-	    echo -e "\n  $redexclaim Reboot for changes to take effect \n"
+	      echo -e "\n  $redexclaim Reboot for changes to take effect \n"
     fi
     }
 
@@ -328,7 +338,7 @@ enable_rootlogin () {
     section="kali-root-login"
     check=$(whereis kali-root-login | grep -i -c "kali-root-login: /usr/share/kali-root-login")
     fix_section $section $check $force
-     echo -e "\n\nEnabling Root Login Give root a password"
+    echo -e "\n\nEnabling Root Login Give root a password"
     passwd root
     echo -e "\n  $greenplus root login enabled \n"
     }
@@ -414,9 +424,9 @@ fix_sead_run () {
     temp_cnt=${wait_time}
      while [[ ${temp_cnt} -gt 0 ]];
        do
-       printf "\r  You have %2d second(s) remaining to hit Ctrl+C to cancel this operation!" ${temp_cnt}
-       sleep 1
-       ((temp_cnt--))
+         printf "\r  You have %2d second(s) remaining to hit Ctrl+C to cancel this operation!" ${temp_cnt}
+         sleep 1
+         ((temp_cnt--))
      done
     echo -e "\n\n  No user input detected... Executing!!"
     echo -e "\n  $fourblinkexclaim *** FIRE!! *** $fourblinkexclaim\n"
@@ -445,10 +455,10 @@ fix_impacket_array () {
          'wmiexec.pyc' 'wmipersist.pyc' 'wmiquery.pyc' )
 
      for impacket_file in ${arr[@]}; do
-     rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file
-     # removed status of whats being removed from screen, too much screen garbage
-     # echo -e "\n $greenplus $impacket_file removed"
-    done
+       rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file
+       # removed status of whats being removed from screen, too much screen garbage
+       # echo -e "\n $greenplus $impacket_file removed"
+     done
     }
 
 fix_impacket () {  step 3
@@ -506,7 +516,7 @@ bpt () {
     }
 
 pimpmywifi_main () {
-
+    # Nothing to see here Netizen move along...
     # - RTL8188AU FIX LIBC6 BREAKS LIBGCC-9-DEV
     # -----begin fix-----
     # apt -y update
@@ -526,12 +536,12 @@ pimpmywifi_main () {
     # realtek-rtl88xxau-dkms - Realtek RTL88xxAU driver in DKMS format
 
     # add function to check for linux-headers in /lib/modules vs unname -r
-    # find_linux_headers=$(find /lib/modules -name $(uname -r) 2> /dev/null)
-    # running_kernel=$(uname -r)
-      if [ $running_kenrel = $find_linux_headers ]
-       then
+    find_linux_headers=$(find /lib/modules -name $(uname -r) 2> /dev/null)
+    running_kernel=$(uname -r)
+    if [ $running_kenrel = $find_linux_headers ]
+      then
         echo SAME
-       else
+      else
         echo DIFFERENT
       fi
     }
@@ -551,35 +561,22 @@ vbox_fix_shared_folder_permission_denied () {
     groups=$(groups $finduser | grep -i -c "vboxsf")
     if [ $groups = 1 ]
       then
-      # TRUE - user is already in vboxsf group
-      echo -e "\n  $greenminus : user is already a member of vboxsf group\n"
+        # TRUE - user is already in vboxsf group
+        echo -e "\n  $greenminus : user is already a member of vboxsf group\n"
     else
-      # FALSE - user is not in vboxsf group apply fix
-      eval adduser $USER vboxsf
-      echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder"
-      echo -e "       user added to vboxsf group "
-    fi
+        # FALSE - user is not in vboxsf group apply fix
+        eval adduser $USER vboxsf
+        echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder"
+        echo -e "       user added to vboxsf group "
+      fi
     }
 
 check_vm () {
     echo -e "\n  $greenplus detecting hypervisor type \n"
     vbox_check=$(virt-what | grep -i -c "virtualbox")  # virtualbox check
-      # if virt-what disappears from the repo
-      # alternate detection to virt-what : vbox_check=$(cat /proc/kallsyms | grep -i -c "vbox")
-      # alternate detection to virt-what : vbox_check=$(lsmod | grep -i -c "vbox")
-      # change if statement to accomodate a $vbox_check -ne 0 detection
-
     vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check
-      # if virt-what disappears from the repo
-      # alternate detection to virt-what : vmware_check=$(cat /proc/kallsyms | grep -i -c "vmware")
-      # alternate detection to virt-what : vmware_check=$(lsmod | grep -i -c "vmware")
-      # change if statement to accomodate a $vmware_check -ne 0 detection
-
-      # if $vmware_check = 0 && $vmware_check =0 then bare_metal_installation=1
-      # add double if $vbox_check && $vmware_check = 0 detection
-
-   if [ $vbox_check = 1 ]
-     then
+    if [ $vbox_check = 1 ]
+      then
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
         echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
         eval apt -y reinstall virtualbox-dkms virtualbox-guest-x11 $silent
@@ -588,18 +585,18 @@ check_vm () {
              vbox_fix_shared_folder_permission_denied
            #----------------------- end of virtualbox additional fixes
         exit_screen
-     elif  [ $vmware_check = 1 ]
-       then
-        echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
-        echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
-        eval apt -y reinstall open-vm-tools-desktop fuse $silent
-         # Additional Fixes for Vmware since were already here and detected vmware
-           #----------------------- additional vmware fixes
-           # fixes go here
-           #----------------------- end of vmware additional fixes
-        exit_screen
+      elif  [ $vmware_check = 1 ]
+        then
+          echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
+          echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
+          eval apt -y reinstall open-vm-tools-desktop fuse $silent
+          # Additional Fixes for Vmware since were already here and detected vmware
+          #----------------------- additional vmware fixes
+          # fix goes here
+          #----------------------- end of vmware additional fixes
+          exit_screen
       else
-     echo -e "\n $redstar Hypervisor not detected, Possible bare-metal installation not updating"
+        echo -e "\n $redstar Hypervisor not detected, Possible bare-metal installation not updating"
     fi
     }
 
@@ -627,9 +624,6 @@ asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
 CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
 p1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o
 7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA="  | gunzip )
-
-
-
 
 pimpmykali_menu () {
     clear
@@ -661,7 +655,7 @@ pimpmykali_menu () {
         4) fix_grub ;;
         5) fix_impacket ;;
         6) make_rootgreatagain ;;
-        7) fix_gedit ;; # added per sheeps request - still debating this 'request'
+        7) fix_gedit ;;
         8) fix_nmap ;;
         9) fix_upgrade ;;
         0) fix_all ;;
@@ -691,26 +685,26 @@ check_arg () {
       then pimpmykali_menu
      else
       case $1 in
-      --menu) pimpmykali_menu          ;; -menu) pimpmykali_menu              ;; menu) pimpmykali_menu ;;
-       --all) fix_all                  ;; -all) fix_all                       ;; all) fix_all ;;
-       --smb) fix_smbconf              ;; -smb) fix_smbconf                   ;; smb) fix_smbconf ;;
-        --go) fix_golang               ;; -go) fix_golang                     ;; go) fix_golang ;;
-     --gedit) fix_gedit                ;; -gedit) fix_gedit                   ;; gedit) fix_gedit ;;  # added per sheeps request - still debating this 'request'
-  --impacket) fix_impacket             ;; -impacket) fix_impacket             ;; impacket) fix_impacket ;;
-      --grub) fix_grub                 ;; -grub) fix_grub                     ;; grub) fix_grub ;;
-      --root) make_rootgreatagain      ;; -root) make_rootgreatagain          ;; root) make_rootgreatagain ;;
-   --missing) fix_missing              ;; -missing) fix_missing               ;; missing) fix_missing ;;
-      --help) pimpmykali_help          ;; -help) pimpmykali_help              ;; help) pimpmykali_help ;;
- --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot           ;; flameshot) fix_flameshot ;;
-     --force) force=1; fix_all $force  ;; -force)  force=1; fix_all $force    ;; force)  force=1; fix_all $force ;;
-    --borked) force=1; fix_sead_warning;; -borked) force=1; fix_sead_warning; ;; borked) force=1; fix_sead_warning; ;;
-      --nmap) fix_nmap                 ;; -nmap) fix_nmap                     ;; nmap) fix_nmap ;;
-       --bpt) bpt                      ;; -bpt) bpt                           ;; bpt) bpt;;
-   --upgrade) fix_upgrade              ;;
+      --menu) pimpmykali_menu            ;; # -menu) pimpmykali_menu              ;; menu) pimpmykali_menu ;;
+       --all) fix_all                    ;; # -all) fix_all                       ;; all) fix_all ;;
+       --smb) fix_smbconf                ;; # -smb) fix_smbconf                   ;; smb) fix_smbconf ;;
+        --go) fix_golang                 ;; # -go) fix_golang                     ;; go) fix_golang ;;
+     --gedit) fix_gedit                  ;; # -gedit) fix_gedit                   ;; gedit) fix_gedit ;;
+  --impacket) fix_impacket               ;; # -impacket) fix_impacket             ;; impacket) fix_impacket ;;
+      --grub) fix_grub                   ;; # -grub) fix_grub                     ;; grub) fix_grub ;;
+      --root) make_rootgreatagain        ;; # -root) make_rootgreatagain          ;; root) make_rootgreatagain ;;
+   --missing) fix_missing                ;; # -missing) fix_missing               ;; missing) fix_missing ;;
+      --help) pimpmykali_help            ;; # -help) pimpmykali_help              ;; help) pimpmykali_help ;;
+ --flameshot) fix_flameshot              ;; # -flameshot) fix_flameshot           ;; flameshot) fix_flameshot ;;
+     --force) force=1; fix_all $force    ;; # -force)  force=1; fix_all $force    ;; force)  force=1; fix_all $force ;;
+    --borked) force=1; fix_sead_warning  ;; # -borked) force=1; fix_sead_warning; ;; borked) force=1; fix_sead_warning; ;;
+      --nmap) fix_nmap                   ;; # -nmap) fix_nmap                     ;; nmap) fix_nmap ;;
+       --bpt) bpt                        ;; # -bpt) bpt                           ;; bpt) bpt;;
+   --upgrade) fix_upgrade                ;;
       *) pimpmykali_help ; exit 0 ;;
-     esac
+    esac
     fi
-  }
+    }
 
 exit_screen () {
     echo -e "$asciiart"
@@ -721,4 +715,4 @@ exit_screen () {
 check_for_root
 check_distro
 check_arg "$1"
-exit_screen
+exit_screenqs
