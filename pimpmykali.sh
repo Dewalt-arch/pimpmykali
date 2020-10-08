@@ -8,7 +8,7 @@
 # Revision 0.5f - flamshot, gedit and seclists have been removed from fix_missing and
 #   - now will only be a part of fix_all or as an individual Option for installation
 #   - only command line switches with -- are now valid all others have been removed
-#   
+#
 # Revision 0.5e - Nuke Impacket added to menu enter character ! to run nuke imapcket
 #   - some issues with people understanding how to use --borked on the command line
 #     a menu option of character ! was added to ease use of the nuke impacket function.
