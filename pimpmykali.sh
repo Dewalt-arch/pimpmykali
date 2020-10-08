@@ -67,7 +67,6 @@
 
 check_distro() {
     distro=$(uname -a | grep -i -c "kali") # distro check
-
     if [ $distro -ne 1 ]
      then echo -e "\n $blinkexclaim Sorry I only work on Kali Linux $blinkexclaim \n"; exit  # false
     fi
@@ -102,14 +101,9 @@ fix_section () {
     }
 
 fix_missing () {
-    # update and autoremove
     eval apt -y update $silent && eval apt -y autoremove $silent
-
-    # remove kali-undercover
     eval apt -y remove kali-undercover $silent
     echo -e "\n  $greenplus apt updated "
-
-    #just force build-essential here and be done with it
     eval apt -y install dkms build-essential $silent
     python-pip-curl
     python3_pip   $force
@@ -120,9 +114,9 @@ fix_missing () {
 fix_all () {
     fix_sources
     fix_missing $force
-    seclists      $force   # moved from fix_missing
-    fix_gedit     $force   # moved from fix_missing # added per sheeps request - still debating this 'request'
-    fix_flameshot $force   # moved from fix_missing
+    seclists      $force
+    fix_gedit     $force
+    fix_flameshot $force
     fix_grub
     fix_smbconf
     fix_impacket
@@ -435,11 +429,12 @@ bpt () {
 
 pimpmywifi_main () {
     # Nothing to see here Netizen move along...
+    # ---Under Construction---
     # - RTL8188AU FIX LIBC6 BREAKS LIBGCC-9-DEV
     # -----begin fix-----
     # apt -y update
     # apt -y remove realtek-88xxau-dkms && apt -y purge realtek-88xxau-dkms
-    # apt -y install gcc-9-base     # libc6 breaks libgcc-9-dev fix
+    # apt -y install gcc-9-base     # libc6 breaks libgcc-9-dev fix  # what todo on this one? 2019.x upgraded to 2020 throws Error
     # apt -y install linux-headers-amd64
     # apt -y install realtek-88xxau-dkms
     # apt -y upgrade
@@ -491,7 +486,7 @@ vbox_fix_shared_folder_permission_denied () {
 
 check_vm () {
     echo -e "\n  $greenplus detecting hypervisor type \n"
-    vbox_check=$(virt-what | grep -i -c "virtualbox")  # virtualbox check
+    vbox_check=$(virt-what | grep -i -c "virtualbox")    # virtualbox check
     vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check
     if [ $vbox_check = 1 ]
       then
@@ -530,8 +525,7 @@ run_update () {
     echo -e "\n  $greenplus starting pimpmyupgrade   \n"
     eval apt -y update $silent && apt -y upgrade $silent
     kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
-    echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
-    # Works well, tested multiple systems but keep an eye out for issues
+    echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
     eval apt -y install dkms build-essential linux-headers-amd64 $silent
     }
 
@@ -546,7 +540,7 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n Options are 0 thru 9 and BPT  :"
-    echo -e "\n  1 - Fix Missing             (pip pip3 golang and fix nmap)"                  # fix_missing
+    echo -e "\n  1 - Fix Missing             (pip pip3 golang nmapfix build-essential)"       # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                        # fix_smbconf
     echo -e "  3 - Fix Golang              (installs golang)"                                 # fix_golang
     echo -e "  4 - Fix Grub                (adds mitigations=off)"                            # fix_grub
@@ -599,23 +593,23 @@ check_arg () {
       then pimpmykali_menu
      else
       case $1 in
-      --menu) pimpmykali_menu            ;; # -menu) pimpmykali_menu              ;; menu) pimpmykali_menu ;;
-       --all) fix_all                    ;; # -all) fix_all                       ;; all) fix_all ;;
-       --smb) fix_smbconf                ;; # -smb) fix_smbconf                   ;; smb) fix_smbconf ;;
-        --go) fix_golang                 ;; # -go) fix_golang                     ;; go) fix_golang ;;
-     --gedit) fix_gedit                  ;; # -gedit) fix_gedit                   ;; gedit) fix_gedit ;;
-  --impacket) fix_impacket               ;; # -impacket) fix_impacket             ;; impacket) fix_impacket ;;
-      --grub) fix_grub                   ;; # -grub) fix_grub                     ;; grub) fix_grub ;;
-      --root) make_rootgreatagain        ;; # -root) make_rootgreatagain          ;; root) make_rootgreatagain ;;
-   --missing) fix_missing                ;; # -missing) fix_missing               ;; missing) fix_missing ;;
-      --help) pimpmykali_help            ;; # -help) pimpmykali_help              ;; help) pimpmykali_help ;;
- --flameshot) fix_flameshot              ;; # -flameshot) fix_flameshot           ;; flameshot) fix_flameshot ;;
-     --force) force=1; fix_all $force    ;; # -force)  force=1; fix_all $force    ;; force)  force=1; fix_all $force ;;
-    --borked) force=1; fix_sead_warning  ;; # -borked) force=1; fix_sead_warning; ;; borked) force=1; fix_sead_warning; ;;
-      --nmap) fix_nmap                   ;; # -nmap) fix_nmap                     ;; nmap) fix_nmap ;;
-       --bpt) bpt                        ;; # -bpt) bpt                           ;; bpt) bpt;;
+      --menu) pimpmykali_menu            ;;
+       --all) fix_all                    ;;
+       --smb) fix_smbconf                ;;
+        --go) fix_golang                 ;;
+     --gedit) fix_gedit                  ;;
+  --impacket) fix_impacket               ;;
+      --grub) fix_grub                   ;;
+      --root) make_rootgreatagain        ;;
+   --missing) fix_missing                ;;
+      --help) pimpmykali_help            ;;
+ --flameshot) fix_flameshot              ;;
+     --force) force=1; fix_all $force    ;;
+    --borked) force=1; fix_sead_warning  ;;
+      --nmap) fix_nmap                   ;;
+       --bpt) bpt                        ;;
    --upgrade) fix_upgrade                ;;
-      *) pimpmykali_help ; exit 0 ;;
+      *) pimpmykali_help ; exit 0        ;;
     esac
     fi
     }
