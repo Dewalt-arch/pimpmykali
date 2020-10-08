@@ -463,7 +463,7 @@ fix_impacket_array () {
      done
     }
 
-fix_impacket () {  step 3
+fix_impacket () {  
     finduser=$(logname)
     # 2020.3 - package: impacket no longer exists in repo will throw error
     eval apt -y remove impacket $silent    ## do not remove : python3-impacket impacket-scripts
@@ -616,7 +616,7 @@ run_update () {
     echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
 
     # Works well, tested multiple systems but keep an eye out for issues
-    eval apt -y install build-essential linux-headers-amd64 $silent  # generic meta package for correct linux-headers
+    eval apt -y install dkms build-essential linux-headers-amd64 $silent  # generic meta package for correct linux-headers
     #apt -y install linux-headers-$kernel_check
     #apt install -y linux-headers-5.8.0-kali2-amd64
     }
