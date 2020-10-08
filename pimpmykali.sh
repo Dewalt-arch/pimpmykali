@@ -7,7 +7,8 @@
 #
 # Revision 0.5f - flamshot, gedit and seclists have been removed from fix_missing and
 #   - now will only be a part of fix_all or as an individual Option for installation
-#
+#   - only command line switches with -- are now valid all others have been removed
+#   
 # Revision 0.5e - Nuke Impacket added to menu enter character ! to run nuke imapcket
 #   - some issues with people understanding how to use --borked on the command line
 #     a menu option of character ! was added to ease use of the nuke impacket function.
@@ -22,10 +23,11 @@
 #   - correct page has been added new version git pushd
 #   - correct http-shellshock.nse nmap script added - Thank you Alek and Blob!
 #
-#     Revision history only the latest 3 will be kept in the script everything else will be in README.md for full history
+#     Revision history for only the latest 3 revisions will be kept in the script
+#     Full Revision history can be found in README.md
 #
 #     Standard Disclaimer: Author assumes no liability for any damage
-
+#
 
 # revision var
     revision="0.5f"
@@ -529,7 +531,7 @@ run_update () {
     eval apt -y install dkms build-essential linux-headers-amd64 $silent
     }
 
-# ascii art - DONT move 
+# ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
 CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
 p1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o
