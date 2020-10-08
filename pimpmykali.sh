@@ -185,7 +185,6 @@ fix_section () {
     }
 
 fix_missing () {
-
     # update and autoremove
     eval apt -y update $silent && eval apt -y autoremove $silent
 
@@ -193,14 +192,12 @@ fix_missing () {
     eval apt -y remove kali-undercover $silent
     echo -e "\n  $greenplus apt updated "
 
+    #just force build-essential here and be done with it
+    eval apt -y install build-essential $silent
     python-pip-curl
     python3_pip   $force
-    # seclists      $force   # moved from fix_missing added to fix_all
     fix_golang    $force
-    # fix_gedit     $force   # moved to fix_all # added per sheeps request - still debating this 'request'
-    # fix_flameshot $force   # moved to fix_all
     fix_nmap
-    # fix_upgrade - removed from fix_missing and moved to only menu option 0 (all) and individually menu option 9
     }
 
 fix_all () {
