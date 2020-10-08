@@ -22,93 +22,10 @@
 #   - correct page has been added new version git pushd
 #   - correct http-shellshock.nse nmap script added - Thank you Alek and Blob!
 #
-# Revision 0.5c - fix_upgrade removed from fix_missing
-#   - fix_upgrade removed from fix_missing and is no longer 'forced' as a part of fix_missing
-#   - fix_upgrade will now only be called as a part of fix_all (menu 0) fix_upgrade (menu 9)
-#     or command line switches --upgrade -upgrade or upgrade
-#
-# Revision 0.5b - Blindpentesters Essential Collection added
-#   - added blindpentesters 'The Essential' tools and utilies collection
-#   - menu option 'BPT' for blindpentesters tools collection, installs, runs the_essentials.sh and exists
-#
-# Revision 0.5a - cosmetic fixes
-#  - minor cosmetic fixes to pimpmyupgrade functions
-#
-# Revision 0.5 - pimpmyupgrade added!! Fixes broken apt upgrade
-#   - deb-src is not enabled -- fixed function : fix_sources
-#   - linux-headers-(uname -r) not installed - fixed
-#   - new functions check_vm, virt_what, run_update are what comprise pimpmyupgrade
-#
-# Revision 0.4b : minor updates
-#   - reworked fix_section wasnt happy with how the boolean was working out, works much better
-#   - added slient 'mode' variable, uncomment silent= line to turn output on and off from apt etc
-#   - misc cleanup in the script
-#
-# Revision 0.4a : 2nd warning screen added for --borked impacket removal system
-#   - If you cant have a little fun with your own scripts your doing something wrong....
-#   - last chance warning screen ( mostly novelty ), random launch code generation on each run of --borked
-#   - list of target selection, targets locked, etc
-#   - 10 second wait timer added to last chance launch screen before operations are preformed
-#   - if no ctrl+c is entered to cancel the operation, fix_sead is run, followed by fix_impacket
-#   - added apt -y reinstall python3-impacket impacket-scripts to fix error with smbmap after impacket removal
-#
-# Revision 0.4 : Major Update for impacket
-#   - added flameshot as a part of the missing group to be installed
-#   - added clamav-exec.nse wget to fix clamav-exec.nse failed during nmap --script vuln scans
-#   - new commandline switch of --borked has been implemented for removal of impacket across various locations
-#   - added --borked notice to menu system, help system
-#   - added warning screen for --borked, only input of Y will proceed anything else exits
-#   - fix_sead_warning, fix_sead_run, fix_impacket_array, fix_impacket all executed in order with --borked
-#     - fix_sead_run removes any and all directories named impacket* in the following locations:
-#        /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/bin /home/$finduser/.local/lib ~/.local/lib ~/.local/bin
-#      - fix_sead_run, also removes via fix_impacket_array any .py or .pyc related to impacket in the following:
-#        /usr/bin/$impacket_file /usr/local/bin/$impacket_file
-#         (root)~/.local/bin/$impacket_file
-#         (user)/home/$finduser/.local/bin/$impacket_file
-#
-# Revision 0.3c:
-#   - per request kali-root-login enabling prompt has been reworked and reworded to be less confusing and
-#     to give the user a better explaniation of what the script is doing at that stage
-#   - added to note that if you dont understand what this part of the script is doing hit N
-#   - added colors for syntax highlighting in the onscreen messages of the script in places
-#   - added fix_nmap function for fixing /usr/share/nmap/scripts/clamav-exec.nse (commented out at this time
-#     clamav-exec.nse was an issue at one time but unknown if it is still relevent)
-#
-# Revision 0.3c:
-#    - emergency fix to --force everything should be functioning properly now
-#
-# Revision 0.3b:
-#   - bug fix ( Thanks Shadowboss! ) for impacket installation, cd /opt/impacket-0.9.19 was missing
-#   - feature request added : Gedit installation menu option 7, is included in fix_missing, all and force
-#   - remove clear from exit screen
-#
-# Revision 0.3a:
-#   - the extraction of the impacket-0.9.19.tar.gz was leaving /opt/impacket-0.9.19 with 700 perms
-#     and an ownership of 503:root, this has been changed to ownership root:root and all files inside
-#     /opt/impacket-0.9.19 have had their permissions set to 755 after extraction of impacket-0.9.19.tar.gz
-#   - ascii art added to the menu
-#   - added exit screen
-#
-#   Revision 0.3:
-#   - Added checks for already installed installations, added --force command ( --force will run all fixes/reinstalls )
-#   - fix_impacket : added both .py and .pyc files to impacket removal array
-#     - added on screen notification of files being removed by the array
-#   - fix_missing  : has been reworked new vars check section force type
-#     - added fix_section : fix_section is the workhorse for fix_missing
-#
-#   - 09.25.2020 - OffSec has removed python-pip from the kali repo
-#   - reworked python-pip installation to its own function python-pip-curl and installs python-pip via curl
-#
-#   Revision 0.2:
-#   - Added colorized notifications, help system, command line arguements, case based menu system
-#   - valid command line arguements are: help, all, go, grub, impacket, missing, menu, smb, grub, root
-#   - anything other than --all or -all or all , will only run that function and then exit.
-#   - command line arguements can be used with -- or - or just the word itself to try can catch for all possible cases
-#     example command line var: --help or -help or help will catch help and works for all valid command line arguements
-#     anything other the command line arugement catch exits and displays help
+#     Revision history only the latest 3 will be kept in the script everything else will be in README.md for full history
 #
 #     Standard Disclaimer: Author assumes no liability for any damage
-#
+
 
 # revision var
     revision="0.5f"
@@ -204,7 +121,7 @@ fix_all () {
     fix_sources
     fix_missing $force
     seclists      $force   # moved from fix_missing
-    fix_gedit     $force   # moved from fix_missing# added per sheeps request - still debating this 'request'
+    fix_gedit     $force   # moved from fix_missing # added per sheeps request - still debating this 'request'
     fix_flameshot $force   # moved from fix_missing
     fix_grub
     fix_smbconf
@@ -214,7 +131,7 @@ fix_all () {
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
     # python-pip-cul python3_pip fix_golang fix_nmap
     #
-    # fix_upgrade is not a part of fix_missing and only called as sub-function call of fix_all
+    # fix_upgrade is not a part of fix_missing and only called as sub-function call of fix_all or fix_upgrade itself
     }
 
 python-pip-curl () {
@@ -285,7 +202,6 @@ fix_golang () {
 fix_smbconf () {
     check_min=$(cat /etc/samba/smb.conf | grep -c -i "client min protocol")
     check_max=$(cat /etc/samba/smb.conf | grep -c -i "client max protocol")
-    # changeed to || OR  from && check for either line, not both
     if [ $check_min -ne 0 ] || [ $check_max -ne 0 ]
       then
         echo -e "\n  $green /etc/samba/smb.conf "
@@ -348,6 +264,7 @@ enable_rootlogin () {
 fix_sead_warning () {
     finduser=$(logname)
     clear
+ # fugly
  echo -e "
 
  "$bold$redexclaim$red" WARNING "$redexclaim$bold$red"  PIMPMYKALI IMPACKET REMOVAL FUNCTION  "$redexclaim$bold$red" WARNING "$redexclaim$white$norm"
@@ -420,7 +337,6 @@ fix_sead_run () {
     echo -e "  $green[<$red@@$green>]$white taking aim\n"
     echo -e "  $green[$red####$green]$white requesting launch code\n"
     echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed\n"
-
     wait_time=10 # seconds
     echo -e "  Are you sure you meant to run this script?\n"
     temp_cnt=${wait_time}
@@ -582,7 +498,7 @@ check_vm () {
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
         echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
         eval apt -y reinstall virtualbox-dkms virtualbox-guest-x11 $silent
-         # Additional Fixes for virtualbox since were already here and detected virtualbox
+         # Additional Fixes for virtualbox
            #----------------------- additional virtualbox fixes
              vbox_fix_shared_folder_permission_denied
            #----------------------- end of virtualbox additional fixes
@@ -592,7 +508,7 @@ check_vm () {
           echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
           echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
           eval apt -y reinstall open-vm-tools-desktop fuse $silent
-          # Additional Fixes for Vmware since were already here and detected vmware
+          # Additional Fixes for Vmware
           #----------------------- additional vmware fixes
           # fix goes here
           #----------------------- end of vmware additional fixes
@@ -603,6 +519,7 @@ check_vm () {
     }
 
 fix_sources () {
+    # Think about doing something different here...
     echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
     echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
     echo -e "\n  $greenplus fixed sources /etc/apt/sources.list"
@@ -614,11 +531,8 @@ run_update () {
     eval apt -y update $silent && apt -y upgrade $silent
     kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
     echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
-
     # Works well, tested multiple systems but keep an eye out for issues
-    eval apt -y install dkms build-essential linux-headers-amd64 $silent  # generic meta package for correct linux-headers
-    #apt -y install linux-headers-$kernel_check
-    #apt install -y linux-headers-5.8.0-kali2-amd64
+    eval apt -y install dkms build-essential linux-headers-amd64 $silent
     }
 
 # ascii art
@@ -641,7 +555,7 @@ pimpmykali_menu () {
     echo -e "  7 - Install Gedit           (installs gedit)"                                  # fix_gedit
     echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"         # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
-    echo -e "                              (sources.list, linux-headers, vm-video)"
+    echo -e "                              (sources.list, linux-headers, vm-video)"           #
     echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt function - the essentials
     echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                           # fix_all
@@ -663,7 +577,6 @@ pimpmykali_menu () {
         0) fix_all ;;
         !) forced=1; fix_sead_warning;;
       b|B) bpt ;;
-      # x|X) exit_screen ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
     esac
