@@ -616,7 +616,7 @@ run_update () {
     echo -e "\n  $greenplus installing linux-headers-$kernel_check \n"
 
     # Works well, tested multiple systems but keep an eye out for issues
-    eval apt -y install linux-headers-amd64 $silent  # generic meta package for correct linux-headers
+    eval apt -y install build-essential linux-headers-amd64 $silent  # generic meta package for correct linux-headers
     #apt -y install linux-headers-$kernel_check
     #apt install -y linux-headers-5.8.0-kali2-amd64
     }
