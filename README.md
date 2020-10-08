@@ -13,10 +13,15 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
-# Revision 0.5f - flamshot gedit and seclists have been removed from fix_missing and
+# Revision 0.5f
+   - flamshot, gedit and seclists have been removed from fix_missing and
    - now will only be a part of fix_all or as an individual Option for installation
+   - only command line switches with -- are now valid all others have been removed
+   - all revision history except for the most 3 recent have been removed from the script
+   - full revision history can be found here in REAME.md
 
-# Revision 0.5e - Nuke Impacket added to menu, enter character ! to run nuke impacket
+# Revision 0.5e
+   - Nuke Impacket added to menu, enter character ! to run nuke impacket
    - issues with people understanding how to use --borked on the command line
      a menu option of character ! was added to ease use of the nuke impacket function.
      the correct command is :  sudo ./pimpmykali.sh --bored   was used to call the
@@ -26,27 +31,31 @@
    - command line switches with a single - or just the name have been removed all command line
      switches are not --nameofswtich
 
-# Revision 0.5d - bugfix Thank you to @AES ! for finding the bug, nmap wget script was pulling the wrong page
+# Revision 0.5d
+   - bugfix Thank you to @AES ! for finding the bug, nmap wget script was pulling the wrong page
    - correct page has been added new version git pushd
    - unfortunatly versions 0.5c thru 0.4 are affected if you have an old version
      or havent ran pimpmykali.sh please git clone a fresh copy and re-run the nmap from the menu
      Menu Option 8 - Fix clamav-exec.nse
    - corrected http-shellshock.nse nmap script added - Thank you Alek & Blob!
 
-# Revision 0.5c - fix_upgrade removed from fix_missing
+# Revision 0.5c
+   - fix_upgrade removed from fix_missing
    - fix_upgrade removed from fix_missing and is no longer 'forced' as a part of fix_missing
    - fix_upgrade will now only be called as a part of fix_all (menu 0) or fix_upgrade (menu 9)
      or command line switches --upgrade -upgrade or upgrade
    - general code cleanup, some additional comments added
 
-# Revision 0.5b - Blindpentesters Essential Collection added
+# Revision 0.5b - The Essentials
+   - Blindpentesters Essential Collection added
    - added Blindpentesters 'The Essentials' tools and utils collection
    - menu option 'B' for blindpentesters tools collection, installs, runs the_essentials.sh and exits
 
-# Revision 0.5a - cosmetic fixes
+# Revision 0.5a
   - minor cosmetic fixes to pimpmyupgrade functions
 
-# Revision 0.5 - pimpmyupgrade added
+# Revision 0.5
+   - pimpmyupgrade added
    - fix_sources deb-src is not enabled in /etc/apt/sources.list - fixed
    - linux-headers-(uname -r) are not installed - fixed
    - new functions check_vm, virt_what, run_update are what comprise pimpmyupgrade
