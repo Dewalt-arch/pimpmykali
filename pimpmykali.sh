@@ -206,9 +206,9 @@ fix_missing () {
 fix_all () {
     fix_sources
     fix_missing $force
-    seclists      $force
-    fix_gedit     $force   # added per sheeps request - still debating this 'request'
-    fix_flameshot $force
+    seclists      $force   # moved from fix_missing
+    fix_gedit     $force   # moved from fix_missing# added per sheeps request - still debating this 'request'
+    fix_flameshot $force   # moved from fix_missing
     fix_grub
     fix_smbconf
     fix_impacket
