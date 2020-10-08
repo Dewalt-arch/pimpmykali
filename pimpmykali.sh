@@ -719,4 +719,4 @@ exit_screen () {
 check_for_root
 check_distro
 check_arg "$1"
-exit_screenqs
+exit_screen
