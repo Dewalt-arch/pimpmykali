@@ -623,7 +623,6 @@ run_update () {
     }
 
 # ascii art
-#asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmCCEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBXp1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA=" | gunzip )
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
 CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
 p1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o
@@ -637,17 +636,17 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n Options are 0 thru 9 and BPT  :"
-    echo -e "\n  1 - Fix Missing             (pip pip3 seclist gedit flameshot)"                   # fix_missing
+    echo -e "\n  1 - Fix Missing             (pip pip3 seclist gedit flameshot)"              # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                        # fix_smbconf
     echo -e "  3 - Fix Golang              (installs golang)"                                 # fix_golang
     echo -e "  4 - Fix Grub                (adds mitigations=off)"                            # fix_grub
     echo -e "  5 - Fix Impacket            (installs impacket)"                               # fix_impacket
     echo -e "  6 - Enable Root Login       (installs kali-root-login)"                        # make_rootgreatagain
-    echo -e "  7 - Install Gedit           (installs gedit)"                                  # fix_gedit # added per sheeps request - still debating this 'request'
+    echo -e "  7 - Install Gedit           (installs gedit)"                                  # fix_gedit
     echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"         # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"
-    echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"            # fix_sead_warning
+    echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt function - the essentials
     echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                           # fix_all
     echo -e "  Now with Pimpmyupgrade\n    - when prompted Yes or No select Yes to auto restart services \n"
@@ -692,21 +691,21 @@ check_arg () {
       then pimpmykali_menu
      else
       case $1 in
-      --menu) pimpmykali_menu          ;; -menu) pimpmykali_menu           ;; menu) pimpmykali_menu ;;
-       --all) fix_all                  ;; -all) fix_all                    ;; all) fix_all ;;
-       --smb) fix_smbconf              ;; -smb) fix_smbconf                ;; smb) fix_smbconf ;;
-        --go) fix_golang               ;; -go) fix_golang                  ;; go) fix_golang ;;
-     --gedit) fix_gedit                ;; -gedit) fix_gedit                ;; gedit) fix_gedit ;;  # added per sheeps request - still debating this 'request'
-  --impacket) fix_impacket             ;; -impacket) fix_impacket          ;; impacket) fix_impacket ;;
-      --grub) fix_grub                 ;; -grub) fix_grub                  ;; grub) fix_grub ;;
-      --root) make_rootgreatagain      ;; -root) make_rootgreatagain       ;; root) make_rootgreatagain ;;
-   --missing) fix_missing              ;; -missing) fix_missing            ;; missing) fix_missing ;;
-      --help) pimpmykali_help          ;; -help) pimpmykali_help           ;; help) pimpmykali_help ;;
- --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot        ;; flameshot) fix_flameshot ;;
-     --force) force=1; fix_all $force  ;; -force) force=1; fix_all $force  ;; force) force=1; fix_all $force ;;
-    --borked) force=1; fix_sead_warning;; -borked) fix_sead_warning;       ;; borked) fix_sead_warning;      ;;
-      --nmap) fix_nmap                 ;; -nmap) fix_nmap                  ;; nmap) fix_nmap ;;
-       --bpt) bpt                      ;; -bpt) bpt                        ;; bpt) bpt;;
+      --menu) pimpmykali_menu          ;; -menu) pimpmykali_menu              ;; menu) pimpmykali_menu ;;
+       --all) fix_all                  ;; -all) fix_all                       ;; all) fix_all ;;
+       --smb) fix_smbconf              ;; -smb) fix_smbconf                   ;; smb) fix_smbconf ;;
+        --go) fix_golang               ;; -go) fix_golang                     ;; go) fix_golang ;;
+     --gedit) fix_gedit                ;; -gedit) fix_gedit                   ;; gedit) fix_gedit ;;  # added per sheeps request - still debating this 'request'
+  --impacket) fix_impacket             ;; -impacket) fix_impacket             ;; impacket) fix_impacket ;;
+      --grub) fix_grub                 ;; -grub) fix_grub                     ;; grub) fix_grub ;;
+      --root) make_rootgreatagain      ;; -root) make_rootgreatagain          ;; root) make_rootgreatagain ;;
+   --missing) fix_missing              ;; -missing) fix_missing               ;; missing) fix_missing ;;
+      --help) pimpmykali_help          ;; -help) pimpmykali_help              ;; help) pimpmykali_help ;;
+ --flameshot) fix_flameshot            ;; -flameshot) fix_flameshot           ;; flameshot) fix_flameshot ;;
+     --force) force=1; fix_all $force  ;; -force)  force=1; fix_all $force    ;; force)  force=1; fix_all $force ;;
+    --borked) force=1; fix_sead_warning;; -borked) force=1; fix_sead_warning; ;; borked) force=1; fix_sead_warning; ;;
+      --nmap) fix_nmap                 ;; -nmap) fix_nmap                     ;; nmap) fix_nmap ;;
+       --bpt) bpt                      ;; -bpt) bpt                           ;; bpt) bpt;;
    --upgrade) fix_upgrade              ;;
       *) pimpmykali_help ; exit 0 ;;
      esac
