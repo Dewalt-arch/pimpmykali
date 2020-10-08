@@ -20,7 +20,7 @@
      nuke-impacket function now thanks to a new menu item of ! it can be called from
      the menu system directly without the need for command line switches, but the
      switch is still available
-   - command line switches with a single - or just the name has been removed all command line
+   - command line switches with a single - or just the name have been removed all command line
      switches are not --nameofswtich
 
 # Revision 0.5d - bugfix Thank you to @AES ! for finding the bug, nmap wget script was pulling the wrong page
