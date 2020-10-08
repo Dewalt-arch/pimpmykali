@@ -111,7 +111,7 @@
 #
 
 # revision var
-    revision="0.5e"
+    revision="0.5f"
 
 # unicorn puke:
     red=$'\e[1;31m'
