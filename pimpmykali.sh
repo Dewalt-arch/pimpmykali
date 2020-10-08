@@ -5,6 +5,9 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
+# Revision 0.5f - flamshot, gedit and seclists have been removed from fix_missing and
+#   - now will only be a part of fix_all or as an individual Option for installation
+#
 # Revision 0.5e - Nuke Impacket added to menu enter character ! to run nuke imapcket
 #   - some issues with people understanding how to use --borked on the command line
 #     a menu option of character ! was added to ease use of the nuke impacket function.
@@ -192,10 +195,10 @@ fix_missing () {
 
     python-pip-curl
     python3_pip   $force
-    seclists      $force
+    # seclists      $force   # moved from fix_missing added to fix_all
     fix_golang    $force
-    fix_gedit     $force   # added per sheeps request - still debating this 'request'
-    fix_flameshot $force
+    # fix_gedit     $force   # moved to fix_all # added per sheeps request - still debating this 'request'
+    # fix_flameshot $force   # moved to fix_all
     fix_nmap
     # fix_upgrade - removed from fix_missing and moved to only menu option 0 (all) and individually menu option 9
     }
@@ -203,13 +206,16 @@ fix_missing () {
 fix_all () {
     fix_sources
     fix_missing $force
+    seclists      $force
+    fix_gedit     $force   # added per sheeps request - still debating this 'request'
+    fix_flameshot $force
     fix_grub
     fix_smbconf
     fix_impacket
     make_rootgreatagain $force
     fix_upgrade
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
-    # python-pip-cul python3_pip seclists fix_golang fix_gedit fix_flameshot fix_nmap
+    # python-pip-cul python3_pip fix_golang fix_nmap
     #
     # fix_upgrade is not a part of fix_missing and only called as sub-function call of fix_all
     }
