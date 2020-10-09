@@ -241,7 +241,7 @@ enable_rootlogin () {
 
 fix_sead_warning () {
     clear
- # fugly - really need to clean this up, it works but its just a nightmare too look at
+ # fugly - really need to clean this up, it works but its just a nightmare too look at base64?
  echo -e "
 
  "$bold$redexclaim$red" WARNING "$redexclaim$bold$red"  PIMPMYKALI IMPACKET REMOVAL FUNCTION  "$redexclaim$bold$red" WARNING "$redexclaim$white$norm"
@@ -497,7 +497,7 @@ pimpmykali_menu () {
     clear
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
-    echo -e "\n Options are 0 thru 9 and BPT  :"
+    echo -e "\n Options are 0 thru 9 and BPT  :"                                              # function call list
     echo -e "\n  1 - Fix Missing             (pip pip3 golang nmapfix build-essential)"       # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                        # fix_smbconf
     echo -e "  3 - Fix Golang              (installs golang)"                                 # fix_golang
@@ -507,9 +507,9 @@ pimpmykali_menu () {
     echo -e "  7 - Install Gedit           (installs gedit)"                                  # fix_gedit
     echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"         # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
-    echo -e "                              (sources.list, linux-headers, vm-video)"           #
+    echo -e "                              (sources.list, linux-headers, vm-video)"           # - empty line -
     echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
-    echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt function - the essentials
+    echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
     echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                           # fix_all
     echo -e "  Now with Pimpmyupgrade\n    - when prompted Yes or No select Yes to auto restart services \n"
     echo -e "  use the --borked command line switch as a last resort to"
@@ -551,23 +551,23 @@ check_arg () {
       then pimpmykali_menu
      else
       case $1 in
-      --menu) pimpmykali_menu            ;;
-       --all) fix_all                    ;;
-       --smb) fix_smbconf                ;;
-        --go) fix_golang                 ;;
-     --gedit) fix_gedit                  ;;
-  --impacket) fix_impacket               ;;
-      --grub) fix_grub                   ;;
-      --root) make_rootgreatagain        ;;
-   --missing) fix_missing                ;;
-      --help) pimpmykali_help            ;;
- --flameshot) fix_flameshot              ;;
-     --force) force=1; fix_all $force    ;;
-    --borked) force=1; fix_sead_warning  ;;
-      --nmap) fix_nmap                   ;;
-       --bpt) bpt                        ;;
-   --upgrade) fix_upgrade                ;;
-      *) pimpmykali_help ; exit 0        ;;
+      --menu) pimpmykali_menu                  ;;
+       --all) fix_all                          ;;
+       --smb) fix_smbconf                      ;;
+        --go) fix_golang                       ;;
+     --gedit) fix_gedit                        ;;
+  --impacket) fix_impacket                     ;;
+      --grub) fix_grub                         ;;
+      --root) make_rootgreatagain              ;;
+   --missing) fix_missing                      ;;
+      --help) pimpmykali_help                  ;;
+ --flameshot) fix_flameshot                    ;;
+     --force) force=1; fix_all $force          ;;
+    --borked) force=1; fix_sead_warning $force ;;
+      --nmap) fix_nmap                         ;;
+       --bpt) bpt                              ;;
+   --upgrade) fix_upgrade                      ;;
+      *) pimpmykali_help ; exit 0              ;;
     esac
     fi
     }

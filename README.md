@@ -19,7 +19,7 @@
    - general cleanup of script, comments, etc
 
 # Revision 0.5f
-   - flamshot, gedit and seclists have been removed from fix_missing and
+   - flameshot, gedit and seclists have been removed from fix_missing and
    - now will only be a part of fix_all or as an individual Option for installation
    - only command line switches with -- are now valid all others have been removed
    - all revision history except for the most 3 recent have been removed from the script
@@ -29,12 +29,11 @@
    - Nuke Impacket added to menu, enter character ! to run nuke impacket
    - issues with people understanding how to use --borked on the command line
      a menu option of character ! was added to ease use of the nuke impacket function.
-     the correct command is :  sudo ./pimpmykali.sh --bored   was used to call the
-     nuke-impacket function now thanks to a new menu item of ! it can be called from
-     the menu system directly without the need for command line switches, but the
-     switch is still available
+     the command:  sudo ./pimpmykali.sh --bored   was used to call the nuke-impacket
+     function now thanks to a new menu item of ! it can be called from the menu system
+     directly without the need for command line switches, but the switch is still available
    - command line switches with a single - or just the name have been removed all command line
-     switches are not --nameofswtich
+     switches are now --nameofswtich as per the --help system indicates
 
 # Revision 0.5d
    - bugfix Thank you to @AES ! for finding the bug, nmap wget script was pulling the wrong page
@@ -176,4 +175,4 @@ What pimpmykali does:
 - .bashrc alias and functions ( currently commented out and is not a part of the running script )
   - adds command ex function to extract from any archive with 1 command ex
   - vpnip - displays tun0 ip address in the terminal via vpnip alias
-  - added /sbin to user path, can now ifconfig without sudo
+  - adds /usr/sbin and /sbin to path
