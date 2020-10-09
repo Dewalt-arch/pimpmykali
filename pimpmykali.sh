@@ -5,11 +5,18 @@
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
-# Revision 0.5f - flamshot, gedit and seclists have been removed from fix_missing and
+# Revision 0.5g
+#   - minor updates
+#   - moved wait_time, finduser and groups to global vars from local vars
+#   - general cleanup of script, comments, etc
+#
+# Revision 0.5f
+#   - flamshot, gedit and seclists have been removed from fix_missing and
 #   - now will only be a part of fix_all or as an individual Option for installation
 #   - only command line switches with -- are now valid all others have been removed
 #
-# Revision 0.5e - Nuke Impacket added to menu enter character ! to run nuke imapcket
+# Revision 0.5e
+#   - Nuke Impacket added to menu enter character ! to run nuke imapcket
 #   - some issues with people understanding how to use --borked on the command line
 #     a menu option of character ! was added to ease use of the nuke impacket function.
 #     the correct command is :  sudo ./pimpmykali.sh --bored   was used to call the
@@ -19,11 +26,12 @@
 #   - command line switchs with a single - or just the name has been remove all commandline
 #     line switches are not --nameofswtich
 #
-# Revision 0.5d - bugfix Thank you to AES for finding the bug, nmap wget script was pulling the wrong page
+# Revision 0.5d
+#   - bugfix Thank you to AES for finding the bug, nmap wget script was pulling the wrong page
 #   - correct page has been added new version git pushd
 #   - correct http-shellshock.nse nmap script added - Thank you Alek and Blob!
 #
-#     Revision history for only the latest 3 revisions will be kept in the script
+#     Only partial revision history will be kept in the script
 #     Full Revision history can be found in README.md
 #
 #     Standard Disclaimer: Author assumes no liability for any damage
@@ -58,10 +66,15 @@
     fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
 
 # variables needed in the script
+    wait_time=10  # 2nd warning screen wait time
     force=0
     check=""
     section=""
     type=""
+
+# varliables moved from local to global
+    finduser=$(logname)
+    groups=$(groups $finduser | grep -i -c "vboxsf") # for vbox_fix_shared_folder_permission_denied
 
 # silent mode
     silent=''                  # uncomment to see all output
@@ -84,16 +97,16 @@ check_for_root () {
 fix_section () {
     if [ $check -ne 1 ]
      then
-      # force=0 check=0 or force=1 check=0
+      # sanity check : force=0 check=0 or force=1 check=0
       echo -e "\n  $greenplus install : $section"
       eval apt -y install $section $silent
      elif [ $force = 1 ]
       then
-        # force=1 check=1
+        # sanity check : force=1 check=1
         echo -e "\n  $redstar reinstall : $section"
         eval apt -y reinstall $section $silent
      else
-       # force=0  check=1
+       # sanity check : force=0  check=1
        echo -e "\n  $greenminus $section already installed"
        echo -e "       use --force to reinstall"
     fi
@@ -115,7 +128,7 @@ fix_missing () {
 
 fix_all () {
     fix_sources
-    fix_missing $force
+    fix_missing   $force
     seclists      $force
     fix_gedit     $force
     fix_flameshot $force
@@ -126,7 +139,6 @@ fix_all () {
     fix_upgrade
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
     # python-pip-cul python3_pip fix_golang fix_nmap
-    #
     # fix_upgrade is not a part of fix_missing and only called as sub-function call of fix_all or fix_upgrade itself
     }
 
@@ -169,7 +181,6 @@ seclists () {
     }
 
 fix_nmap () {
-    # not checking for it just doing it
     rm -f /usr/share/nmap/scripts/clamav-exec.nse
     echo -e "\n  $redminus /usr/share/nmap/scripts/clamav-exec.nse removed "
     eval wget https://raw.githubusercontent.com/nmap/nmap/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
@@ -258,9 +269,8 @@ enable_rootlogin () {
     }
 
 fix_sead_warning () {
-    finduser=$(logname)
     clear
- # fugly
+ # fugly - really need to clean this up, it works but its just a nightmare too look at
  echo -e "
 
  "$bold$redexclaim$red" WARNING "$redexclaim$bold$red"  PIMPMYKALI IMPACKET REMOVAL FUNCTION  "$redexclaim$bold$red" WARNING "$redexclaim$white$norm"
@@ -304,24 +314,15 @@ fix_sead_warning () {
     }
 
 fix_sead_run () {
-    # run update just in case
     eval apt update $silent
-
-    # install pip and pip3 - pip3 is gonna get installed twice here know all about it
     python-pip-curl
     python3_pip
-
-    # gracefully attempt to remove impacket via pip and pip3
     eval pip  uninstall impacket -y $silent
     eval pip3 uninstall impacket -y $silent
-
-    # used to get the username running this script as sudo to check /home/$finduser/.local/lib and /home/$finduser/.local/bin
-    finduser=$(logname)
-
     # Not playin here... anything impacket* in the following find statement goes BYE BYE and not ask about it.. its gone
     SEAD=$(find /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/bin /home/$finduser/.local/lib ~/.local/lib ~/.local/bin -name impacket* 2> /dev/null)
-
-    # added Last Chance Launch Sequence ** WARNING SCREEN ** and 10 second time out
+    # Last Chance Launch Sequence ** WARNING SCREEN ** and 10 second time out
+    # may consider removing this.... 2nd warning screen
     clear
     echo -e "  If you've made it this far you're having a really bad day with impacket... "
     echo -e "  Enjoy the last chance launch sequence!\n"
@@ -333,7 +334,6 @@ fix_sead_run () {
     echo -e "  $green[<$red@@$green>]$white taking aim\n"
     echo -e "  $green[$red####$green]$white requesting launch code\n"
     echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed\n"
-    wait_time=10 # seconds
     echo -e "  Are you sure you meant to run this script?\n"
     temp_cnt=${wait_time}
      while [[ ${temp_cnt} -gt 0 ]];
@@ -352,7 +352,6 @@ fix_sead_run () {
     }
 
 fix_impacket_array () {
-    finduser=$(logname)
     arr=('addcomputer.py' 'atexec.py' 'dcomexec.py' 'dpapi.py' 'esentutl.py' 'findDelegation.py' 'GetADUsers.py' 'getArch.py'
          'GetNPUsers.py' 'getPac.py' 'getST.py' 'getTGT.py' 'GetUserSPNs.py' 'goldenPac.py' 'karmaSMB.py' 'kintercept.py'
          'lookupsid.py' 'mimikatz.py' 'mqtt_check.py' 'mssqlclient.py' 'mssqlinstance.py' 'netview.py' 'nmapAnswerMachine.py'
@@ -370,28 +369,17 @@ fix_impacket_array () {
 
      for impacket_file in ${arr[@]}; do
        rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file
-       # removed status of whats being removed from screen, too much screen garbage
        # echo -e "\n $greenplus $impacket_file removed"
      done
     }
 
 fix_impacket () {
-    finduser=$(logname)
-    # 2020.3 - package: impacket no longer exists in repo will throw error
     eval apt -y remove impacket $silent    ## do not remove : python3-impacket impacket-scripts
-
-    # make sure pip and pip3 are there before we attempt to uninstall gracefully
     python-pip-curl
     python3_pip
-
-    # remove impacket gracefully
     eval pip uninstall impacket -y $silent
     eval pip3 uninstall impacket -y $silent
-
-    #  call fix_impacket_arrary for .py and .pyc removal
     fix_impacket_array
-
-    # get and install new impacket-0.9.19
     eval wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz $silent
     eval tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt $silent
     cd /opt
@@ -408,10 +396,9 @@ fix_impacket () {
     eval pip install wheel $silent
     eval pip install .  $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
-    # added as a result of blobs removal of impacket and problem with smbmap after
     eval apt -y reinstall python3-impacket impacket-scripts $silent
     echo -e "\n  $greenplus installed: impacket-0.9.19 python-pip wheel impacket flask pyasn1"
-    echo -e "\n  $greenplus installed: pycryptodomes pyOpenSSL ldap3 ldapdomaindump"
+    echo -e "\n  $greenplus installed: lsassy pycryptodomes pyOpenSSL ldap3 ldapdomaindump"
     echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
     }
 
@@ -436,7 +423,8 @@ pimpmywifi_main () {
     # -----begin fix-----
     # apt -y update
     # apt -y remove realtek-88xxau-dkms && apt -y purge realtek-88xxau-dkms
-    # apt -y install gcc-9-base     # libc6 breaks libgcc-9-dev fix  # what todo on this one? 2019.x upgraded to 2020 throws Error
+    # apt -y install gcc-9-base     # libc6 breaks libgcc-9-dev fix
+    #                               # what to do on this one? 2019.x upgraded to 2020 throws Error
     # apt -y install linux-headers-amd64
     # apt -y install realtek-88xxau-dkms
     # apt -y upgrade
@@ -449,7 +437,6 @@ pimpmywifi_main () {
     # -- status: idea stage - pre-alpha development
     # realtek-rtl8188eus-dkms - Realtek RTL8188EUS driver in DKMS format
     # realtek-rtl88xxau-dkms - Realtek RTL88xxAU driver in DKMS format
-
     # add function to check for linux-headers in /lib/modules vs unname -r
     find_linux_headers=$(find /lib/modules -name $(uname -r) 2> /dev/null)
     running_kernel=$(uname -r)
@@ -472,8 +459,6 @@ virt_what() {
     }
 
 vbox_fix_shared_folder_permission_denied () {
-    finduser=$(logname)
-    groups=$(groups $finduser | grep -i -c "vboxsf")
     if [ $groups = 1 ]
       then
         # TRUE - user is already in vboxsf group

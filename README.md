@@ -13,6 +13,11 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.5g
+   - minor updates
+   - moved wait_time, finduser and groups to global vars from local vars
+   - general cleanup of script, comments, etc
+
 # Revision 0.5f
    - flamshot, gedit and seclists have been removed from fix_missing and
    - now will only be a part of fix_all or as an individual Option for installation
@@ -63,12 +68,14 @@
    - check_vm checks for virtualbox or vmware and installs proper drivers for each
    - run_update runs fix_sources, runs apt upgrade calls virt_what, calls check_vm
 
-# Revision 0.4b : minor updates
+# Revision 0.4b
+   - minor updates
    - reworked fix_section works much better now
    - added slient 'mode' variable, uncomment silent= line to turn output on and off from apt etc
    - misc cleanup in the script
 
-# Revision 0.4a : 2nd warning screen added for --borked impacket removal system
+# Revision 0.4a
+   - 2nd warning screen added for --borked impacket removal system
    - If you cant have a little fun with your own scripts your doing something wrong....
    - last chance warning screen ( mostly novelty ), random launch code generation on each run of --borked
    - list of target selection, targets locked, etc
@@ -77,7 +84,8 @@
    - if no ctrl+c is entered to cancel the operation, fix_sead is run, followed by fix_impacket
    - added apt -y reinstall python3-impacket impacket-scripts to fix error with smbmap after impacket removal
 
-# Revision 0.4 : Major Update for impacket removal
+# Revision 0.4
+   - Major Update for impacket removal
    - added flameshot as a part of the missing group to be installed
    - added clamav-exec.nse wget to fix clamav-exec.nse failed during nmap --script vuln scans
    - new commandline switch of --borked has been implemented for removal of impacket across various locations
@@ -95,7 +103,7 @@
   - added flameshot to fix_missing as a part of the default installed tools
   - emergency fix to --force, everything should be functioning now
 
-# Revision 0.3c:
+# Revision 0.3c
   - per request kali-root-login enabling prompt has been reworked and reworded to be less confusing and
     to give the user a better explanation of what the script is doing at that stage
   - added to note that if you dont understand what this part of the script is doing hit N
@@ -104,18 +112,18 @@
     clamav-exec.nse was an issue at one time but unknown if it is still relevent)
   - --force command line argument was being called without setting $force in fix_all $force - fixed
 
-# Revision 0.3b:
+# Revision 0.3b
   - bug fix ( Thanks ShadeauxBoss! for finding it ) impacket installation was missing cd /opt/impacket-0.9.19
   - feature request added : Gedit installation menu option 7, is included in fix_missing, all and force
   - remove clear from exit screen
 
-# Revision 0.3a:
+# Revision 0.3a
 - the extraction of the impacket-0.9.19.tar.gz was leaving /opt/impacket-0.9.19 with 700 perms
   and an ownership of 503:root, this has been changed to ownership root:root and all files inside
   /opt/impacket-0.9.19 have had their permissions set to 755 after extraction of impacket-0.9.19.tar.gz
 - Ascii art added to the menu
 
-# Revision 0.3:
+# Revision 0.3
 - added checks for already installed installations, added --force command ( --force will run all fixes/reinstalls )
 - fix_impacket function : added both .py and .pyc files to impacket removal array
   - added on screen notification of files being removed by the array
@@ -123,7 +131,7 @@
   - added fix_section function : fix_section is the workhorse for fix_missing
 - reworked python-pip installation to its own function python-pip-curl and installs python-pip via curl
 
-# Revision 0.2:
+# Revision 0.2
 - Added colorized notifications, help system, command line arguments, case based menu system
 - valid command line arguments are: help, all, go, grub, impacket, missing, menu, smb, grub, root
 - anything other than --all or -all or all , will only run that function and then exit.
@@ -132,18 +140,31 @@
 - example command line var: --help or -help or help will catch help and works for all valid command line arguements
   anything other the command line arugement catch exits and displays help
 
-# Fixes :
-- python-pip now removed from kali repos, installation via curl
+What pimpmykali does:
+- BlindPentesters The_Essentials tools and utilities collection
+  - menu option B
+- blank/black screen after login
+  - pimpmyupgrade menu option #9
+  - virtualbox shared folder permission denied - fixed
+  - auto-detection of virtualbox or vmware hypervisor
+- python-pip installation via curl
 - python3-pip not installed
 - seclists not installed
 - golang not installed
-- kali-root-login not installed and reneables root login
+- gedit installed (feature request)
+- flameshot installed (feature request)
+- locate installed (feature request)
+- kali-root-login not installed and re-enables root login
   - reworked and added prompt
+- nmap scripts clamav-exec.nse and http-shellshock.nse - fixed
 - impacket-0.9.19
   - removes any prior installation of impacket (gracefully and forcefully)
   - installs impacket-0.9.19
   - installs python-pip via curl
   - installs python wheel
+- impacket nuke function
+  - menu option ! (its literally the ! character)
+  - 2 warning screens
 - /etc/samba/smb.conf
   - adds the 2 lines below [global] for min max protocol
   - client min protocol = CORE
