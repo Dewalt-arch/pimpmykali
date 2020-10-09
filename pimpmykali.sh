@@ -1,40 +1,11 @@
 #!/bin/bash
 #
-# pimpmykali.sh - now with pimpmyupgrade!
-# Author: Dewalt
+# pimpmykali.sh  Author: Dewalt
 #
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
 #
-# Revision 0.5g
-#   - minor updates
-#   - moved wait_time, finduser and groups to global vars from local vars
-#   - general cleanup of script, comments, etc
-#
-# Revision 0.5f
-#   - flamshot, gedit and seclists have been removed from fix_missing and
-#   - now will only be a part of fix_all or as an individual Option for installation
-#   - only command line switches with -- are now valid all others have been removed
-#
-# Revision 0.5e
-#   - Nuke Impacket added to menu enter character ! to run nuke imapcket
-#   - some issues with people understanding how to use --borked on the command line
-#     a menu option of character ! was added to ease use of the nuke impacket function.
-#     the correct command is :  sudo ./pimpmykali.sh --bored   was used to call the
-#     nuke-impacket function now thanks to a new menu item of ! it can be called from
-#     the menu system directly without the need for command line switches, but the
-#     switch is still available
-#   - command line switchs with a single - or just the name has been remove all commandline
-#     line switches are not --nameofswtich
-#
-# Revision 0.5d
-#   - bugfix Thank you to AES for finding the bug, nmap wget script was pulling the wrong page
-#   - correct page has been added new version git pushd
-#   - correct http-shellshock.nse nmap script added - Thank you Alek and Blob!
-#
-#     Only partial revision history will be kept in the script
-#     Full Revision history can be found in README.md
-#
-#     Standard Disclaimer: Author assumes no liability for any damage
+# Full Revision history can be found in README.md
+# Standard Disclaimer: Author assumes no liability for any damage
 #
 
 # revision var
