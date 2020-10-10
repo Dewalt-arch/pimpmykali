@@ -17,6 +17,7 @@
    - minor updates
    - moved wait_time, finduser and groups to global vars from local vars
    - general cleanup of script, comments, etc
+   - 2nd warning screen of nuke impacket has been disabled and will no longer show
 
 # Revision 0.5f
    - flameshot, gedit and seclists have been removed from fix_missing and

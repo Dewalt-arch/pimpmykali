@@ -2,7 +2,8 @@
 #
 # pimpmykali.sh  Author: Dewalt
 #
-# Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )  command line arguements are valid, only catching 1 arguement
+# Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )
+# command line arguments are valid, only catching 1 arguement
 #
 # Full Revision history can be found in README.md
 # Standard Disclaimer: Author assumes no liability for any damage
@@ -45,7 +46,8 @@
 
 # varliables moved from local to global
     finduser=$(logname)
-    groups=$(groups $finduser | grep -i -c "vboxsf") # for vbox_fix_shared_folder_permission_denied
+    # for vbox_fix_shared_folder_permission_denied
+    findgroup=$(groups $finduser | grep -i -c "vboxsf")
 
 # silent mode
     silent=''                  # uncomment to see all output
@@ -110,7 +112,8 @@ fix_all () {
     fix_upgrade
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
     # python-pip-cul python3_pip fix_golang fix_nmap
-    # fix_upgrade is not a part of fix_missing and only called as sub-function call of fix_all or fix_upgrade itself
+    # fix_upgrade is not a part of fix_missing and only
+    # called as sub-function call of fix_all or fix_upgrade itself
     }
 
 python-pip-curl () {
@@ -127,7 +130,7 @@ python-pip-curl () {
     fi
     }
 
- # section= must be exact name of package in kali repo ( apt-cache search itemname )
+ # section= must be exact name of package in kali repo
  # check= custom check for that particular item
  # type= set in fix_section based on eval of $check and $force
  # force= to override force / set force var
@@ -290,30 +293,29 @@ fix_sead_run () {
     python3_pip
     eval pip  uninstall impacket -y $silent
     eval pip3 uninstall impacket -y $silent
-    # Not playin here... anything impacket* in the following find statement goes BYE BYE and not ask about it.. its gone
     SEAD=$(find /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/bin /home/$finduser/.local/lib ~/.local/lib ~/.local/bin -name impacket* 2> /dev/null)
     # Last Chance Launch Sequence ** WARNING SCREEN ** and 10 second time out
     # may consider removing this.... 2nd warning screen
-    clear
-    echo -e "  If you've made it this far you're having a really bad day with impacket... "
-    echo -e "  Enjoy the last chance launch sequence!\n"
-    echo -e "  Preparing to nuke Impacket...\n"
-    echo -e "  $green[....]$white aquiring targets\n"
-    echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD\n"
-    echo -e "  $green[-$red++$green-]$white targets locked\n"
-    echo -e "  $green[++++]$white systems ready\n"
-    echo -e "  $green[<$red@@$green>]$white taking aim\n"
-    echo -e "  $green[$red####$green]$white requesting launch code\n"
-    echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed\n"
-    echo -e "  Are you sure you meant to run this script?\n"
-    temp_cnt=${wait_time}
-     while [[ ${temp_cnt} -gt 0 ]];
-       do
-         printf "\r  You have %2d second(s) remaining to hit Ctrl+C to cancel this operation!" ${temp_cnt}
-         sleep 1
-         ((temp_cnt--))
-     done
-    echo -e "\n\n  No user input detected... Executing!!"
+    #    clear
+    #    echo -e "  If you've made it this far you're having a really bad day with impacket... "
+    #    echo -e "  Enjoy the last chance launch sequence!\n"
+    #    echo -e "  Preparing to nuke Impacket...\n"
+    #    echo -e "  $green[....]$white aquiring targets\n"
+    #    echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD\n"
+    #    echo -e "  $green[-$red++$green-]$white targets locked\n"
+    #    echo -e "  $green[++++]$white systems ready\n"
+    #    echo -e "  $green[<$red@@$green>]$white taking aim\n"
+    #    echo -e "  $green[$red####$green]$white requesting launch code\n"
+    #    echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed\n"
+    #    echo -e "  Are you sure you meant to run this script?\n"
+    #    temp_cnt=${wait_time}
+    #     while [[ ${temp_cnt} -gt 0 ]];
+    #       do
+    #         printf "\r  You have %2d second(s) remaining to hit Ctrl+C to cancel this operation!" ${temp_cnt}
+    #         sleep 1
+    #         ((temp_cnt--))
+    #      done
+    #    echo -e "\n\n  No user input detected... Executing!!"
     echo -e "\n  $fourblinkexclaim *** FIRE!! *** $fourblinkexclaim\n"
     echo -e "  $redstar function running removing :\n$SEAD\n"
     rm -rf $SEAD
@@ -323,20 +325,18 @@ fix_sead_run () {
     }
 
 fix_impacket_array () {
-    arr=('addcomputer.py' 'atexec.py' 'dcomexec.py' 'dpapi.py' 'esentutl.py' 'findDelegation.py' 'GetADUsers.py' 'getArch.py'
-         'GetNPUsers.py' 'getPac.py' 'getST.py' 'getTGT.py' 'GetUserSPNs.py' 'goldenPac.py' 'karmaSMB.py' 'kintercept.py'
-         'lookupsid.py' 'mimikatz.py' 'mqtt_check.py' 'mssqlclient.py' 'mssqlinstance.py' 'netview.py' 'nmapAnswerMachine.py'
-         'ntfs-read.py' 'ntlmrelayx.py' 'ping6.py' 'ping.py' 'psexec.py' 'raiseChild.py' 'rdp_check.py' 'registry-read.py'
-         'reg.py' 'rpcdump.py' 'rpcmap.py' 'sambaPipe.py' 'samrdump.py' 'secretsdump.py' 'services.py' 'smbclient.py'
-         'smbexec.py' 'smbrelayx.py' 'smbserver.py' 'sniffer.py' 'sniff.py' 'split.py' 'ticketConverter.py' 'ticketer.py'
-         'wmiexec.py' 'wmipersist.py' 'wmiquery.py' 'addcomputer.pyc' 'atexec.pyc' 'dcomexec.pyc' 'dpapi.pyc' 'esentutl.pyc'
-         'findDelegation.pyc' 'GetADUsers.pyc' 'getArch.pyc' 'GetNPUsers.pyc' 'getPac.pyc' 'getST.pyc' 'getTGT.pyc'
-         'GetUserSPNs.pyc' 'goldenPac.pyc' 'karmaSMB.pyc' 'kintercept.pyc' 'lookupsid.pyc' 'mimikatz.pyc' 'mqtt_check.pyc'
-         'mssqlclient.pyc' 'mssqlinstance.pyc' 'netview.pyc' 'nmapAnswerMachine.pyc' 'ntfs-read.pyc' 'ntlmrelayx.pyc'
-         'ping6.pyc' 'ping.pyc' 'psexec.pyc' 'raiseChild.pyc' 'rdp_check.pyc' 'registry-read.pyc' 'reg.pyc' 'rpcdump.pyc'
-         'rpcmap.pyc' 'sambaPipe.pyc' 'samrdump.pyc' 'secretsdump.pyc' 'services.pyc' 'smbclient.pyc' 'smbexec.pyc'
-         'smbrelayx.pyc' 'smbserver.pyc' 'sniffer.pyc' 'sniff.pyc' 'split.pyc' 'ticketConverter.pyc' 'ticketer.pyc'
-         'wmiexec.pyc' 'wmipersist.pyc' 'wmiquery.pyc' )
+    arr=('addcomputer.py' 'atexec.py' 'dcomexec.py' 'dpapi.py' 'esentutl.py' 'findDelegation.py' 'GetADUsers.py' 'getArch.py' 'GetNPUsers.py'
+         'getPac.py' 'getST.py' 'getTGT.py' 'GetUserSPNs.py' 'goldenPac.py' 'karmaSMB.py' 'kintercept.py' 'lookupsid.py' 'mimikatz.py'
+         'mqtt_check.py' 'mssqlclient.py' 'mssqlinstance.py' 'netview.py' 'nmapAnswerMachine.py' 'ntfs-read.py' 'ntlmrelayx.py' 'ping6.py'
+         'ping.py' 'psexec.py' 'raiseChild.py' 'rdp_check.py' 'registry-read.py' 'reg.py' 'rpcdump.py' 'rpcmap.py' 'sambaPipe.py' 'samrdump.py'
+         'secretsdump.py' 'services.py' 'smbclient.py' 'smbexec.py' 'smbrelayx.py' 'smbserver.py' 'sniffer.py' 'sniff.py' 'split.py'
+         'ticketConverter.py' 'ticketer.py' 'wmiexec.py' 'wmipersist.py' 'wmiquery.py' 'addcomputer.pyc' 'atexec.pyc' 'dcomexec.pyc' 'dpapi.pyc'
+         'esentutl.pyc' 'findDelegation.pyc' 'GetADUsers.pyc' 'getArch.pyc' 'GetNPUsers.pyc' 'getPac.pyc' 'getST.pyc' 'getTGT.pyc'
+         'GetUserSPNs.pyc' 'goldenPac.pyc' 'karmaSMB.pyc' 'kintercept.pyc' 'lookupsid.pyc' 'mimikatz.pyc' 'mqtt_check.pyc' 'mssqlclient.pyc'
+         'mssqlinstance.pyc' 'netview.pyc' 'nmapAnswerMachine.pyc' 'ntfs-read.pyc' 'ntlmrelayx.pyc' 'ping6.pyc' 'ping.pyc' 'psexec.pyc'
+         'raiseChild.pyc' 'rdp_check.pyc' 'registry-read.pyc' 'reg.pyc' 'rpcdump.pyc' 'rpcmap.pyc' 'sambaPipe.pyc' 'samrdump.pyc'
+         'secretsdump.pyc' 'services.pyc' 'smbclient.pyc' 'smbexec.pyc' 'smbrelayx.pyc' 'smbserver.pyc' 'sniffer.pyc' 'sniff.pyc' 'split.pyc'
+         'ticketConverter.pyc' 'ticketer.pyc' 'wmiexec.pyc' 'wmipersist.pyc' 'wmiquery.pyc' )
 
      for impacket_file in ${arr[@]}; do
        rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file
@@ -396,7 +396,7 @@ pimpmywifi_main () {
     # apt -y remove realtek-88xxau-dkms && apt -y purge realtek-88xxau-dkms
     # apt -y install gcc-9-base     # libc6 breaks libgcc-9-dev fix
     #                               # what to do on this one? 2019.x upgraded to 2020 throws Error
-    # apt -y install linux-headers-amd64
+    # apt -y install dkms build-essential linux-headers-amd64
     # apt -y install realtek-88xxau-dkms
     # apt -y upgrade
     # reboot
@@ -430,7 +430,7 @@ virt_what() {
     }
 
 vbox_fix_shared_folder_permission_denied () {
-    if [ $groups = 1 ]
+    if [ $findgroup = 1 ]
       then
         # TRUE - user is already in vboxsf group
         echo -e "\n  $greenminus : user is already a member of vboxsf group\n"
