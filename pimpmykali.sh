@@ -46,7 +46,8 @@
 
 # variables moved from local to global
     finduser=$(logname)
-    # for vbox_fix_shared_folder_permission_denied
+
+# for vbox_fix_shared_folder_permission_denied
     findgroup=$(groups $finduser | grep -i -c "vboxsf")
 
 # silent mode
