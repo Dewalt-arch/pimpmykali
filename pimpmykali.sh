@@ -420,11 +420,6 @@ pimpmywifi_main () {
     }
 
 virt_what() {
-    # DISPLAY POWER MANAGEMENT -- ISSUE
-    # if the vm's display goes 'dark' or 'power saving mode' for whatever reason virt-what is not
-    # detecting which hypervisor this is suspect its looking at the video driver or the display itself
-    # maybe implement something here to read the power management settings and drop inplace some that
-    # are not set to dim / turn off display...
     echo -e "\n  $greenplus installing virt-what \n"
     eval apt -y update $silent && apt -y install virt-what $silent
     }
@@ -432,10 +427,8 @@ virt_what() {
 vbox_fix_shared_folder_permission_denied () {
     if [ $findgroup = 1 ]
       then
-        # TRUE - user is already in vboxsf group
         echo -e "\n  $greenminus : user is already a member of vboxsf group\n"
     else
-        # FALSE - user is not in vboxsf group apply fix
         eval adduser $USER vboxsf
         echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder"
         echo -e "       user added to vboxsf group "
