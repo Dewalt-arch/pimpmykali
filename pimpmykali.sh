@@ -10,7 +10,7 @@
 #
 
 # revision var
-    revision="0.5g"
+    revision="0.5h"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -505,9 +505,7 @@ pimpmykali_menu () {
     echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
     echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                           # fix_all
-    echo -e "  Now with Pimpmyupgrade\n    - when prompted Yes or No select Yes to auto restart services \n"
-    echo -e "  use the --borked command line switch as a last resort to"
-    echo -e "  remove/reinstall impacket only!! \n"
+    echo -e "  Now with Pimpmyupgrade\n    - when prompted select Yes to auto restart services \n"
     read -n1 -p "  Enter 0 thru 9 or B  press X to exit: " menuinput
 
     case $menuinput in

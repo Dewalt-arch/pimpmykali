@@ -13,6 +13,11 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.5h
+   - minor code cleanup
+   - 2nd warning screen of nuke impacket has been disabled and will no longer show
+   - removed --borked from main menu system as the ! menu item is now available
+
 # Revision 0.5g
    - minor updates
    - moved wait_time, finduser and groups to global vars from local vars
