@@ -24,9 +24,9 @@
     norm=$'\e[21m'
 
 # launch_codes - for a little fun in the --borked scripts
-    launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))
-    launch_codes_beta=$(echo $((1 + RANDOM % 9999)))
-    launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))
+  #  launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))
+  #  launch_codes_beta=$(echo $((1 + RANDOM % 9999)))
+  #  launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))
 
 # status indicators
     greenplus='\e[1;33m[++]\e[0m'
@@ -38,7 +38,7 @@
     fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
 
 # variables needed in the script
-    wait_time=10  # 2nd warning screen wait time
+  #  wait_time=10  # 2nd warning screen wait time
     force=0
     check=""
     section=""
