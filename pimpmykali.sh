@@ -10,7 +10,7 @@
 #
 
 # revision var
-    revision="0.5h"
+    revision="0.5i"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -96,6 +96,7 @@ fix_missing () {
     eval apt -y install dkms build-essential $silent
     python-pip-curl
     python3_pip   $force
+    fix_pipxlrd
     fix_golang    $force
     fix_nmap
     }
@@ -115,6 +116,10 @@ fix_all () {
     # python-pip-cul python3_pip fix_golang fix_nmap
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
+    }
+
+fix_pipxlrd () {
+    pip install xlrd
     }
 
 python-pip-curl () {
@@ -492,7 +497,7 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n Options are 0 thru 9 and BPT  :"                                              # function call list
-    echo -e "\n  1 - Fix Missing             (pip pip3 golang nmapfix build-essential)"       # fix_missing
+    echo -e "\n  1 - Fix Missing             (pip pip3 golang nmapfix xlrd build-essential)"  # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                        # fix_smbconf
     echo -e "  3 - Fix Golang              (installs golang)"                                 # fix_golang
     echo -e "  4 - Fix Grub                (adds mitigations=off)"                            # fix_grub
