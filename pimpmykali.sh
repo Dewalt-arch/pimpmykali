@@ -96,7 +96,7 @@ fix_missing () {
     eval apt -y install dkms build-essential $silent
     python-pip-curl
     python3_pip   $force
-    fix_pipxlrd
+#    fix_pipxlrd
     fix_golang    $force
     fix_nmap
     }
@@ -118,9 +118,10 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
-fix_pipxlrd () {
-    pip install xlrd
-    }
+#fix_pipxlrd () {
+#    pip install xlrd --upgrade
+#    pip3 install xlrd --upgrade
+#    }
 
 python-pip-curl () {
     check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip")
