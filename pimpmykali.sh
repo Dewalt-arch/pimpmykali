@@ -23,10 +23,10 @@
     bold=$'\e[1m'
     norm=$'\e[21m'
 
-# launch_codes - for a little fun in the --borked scripts # (disabled)
-  #  launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))    # (disabled)
-  #  launch_codes_beta=$(echo $((1 + RANDOM % 9999)))     # (disabled)
-  #  launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))  # (disabled)
+# launch_codes - for a little fun in the --borked scripts  # (disabled)
+    # launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))    # (disabled)
+    # launch_codes_beta=$(echo $((1 + RANDOM % 9999)))     # (disabled)
+    # launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))  # (disabled)
 
 # status indicators
     greenplus='\e[1;33m[++]\e[0m'
@@ -245,7 +245,7 @@ enable_rootlogin () {
 
 fix_sead_warning () {
     clear
- # fugly - really need to clean this up, it works but its just a nightmare too look at base64?
+ # fugly - really need to clean this up, it works but its just a nightmare too look at
  echo -e "
 
  "$bold$redexclaim$red" WARNING "$redexclaim$bold$red"  PIMPMYKALI IMPACKET REMOVAL FUNCTION  "$redexclaim$bold$red" WARNING "$redexclaim$white$norm"
@@ -307,7 +307,7 @@ fix_sead_run () {
     #    echo -e "  $green[++++]$white systems ready\n"
     #    echo -e "  $green[<$red@@$green>]$white taking aim\n"
     #    echo -e "  $green[$red####$green]$white requesting launch code\n"
-    #    echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed\n"
+    #    echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed"
     #    echo -e "  Are you sure you meant to run this script?\n"
     #    temp_cnt=${wait_time}
     #     while [[ ${temp_cnt} -gt 0 ]];
