@@ -169,7 +169,7 @@ What pimpmykali does:
   - installs python wheel
 - impacket nuke function
   - menu option ! (its literally the ! character)
-  - 2 warning screens
+  - 1 warning screen (2nd warning screen removed)
 - /etc/samba/smb.conf
   - adds the 2 lines below [global] for min max protocol
   - client min protocol = CORE
