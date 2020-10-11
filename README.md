@@ -13,9 +13,6 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
-# Revision 0.5i
-   - added pip install xlrd function to fix_missing and fix_all
-   
 # Revision 0.5h
    - minor code cleanup
    - 2nd warning screen of nuke impacket has been disabled and will no longer show
