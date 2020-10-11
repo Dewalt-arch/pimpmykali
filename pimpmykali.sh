@@ -96,7 +96,7 @@ fix_missing () {
     eval apt -y install dkms build-essential $silent
     python-pip-curl
     python3_pip   $force
-#    fix_pipxlrd
+    #fix_pipxlrd   # this about this one a bit
     fix_golang    $force
     fix_nmap
     }
@@ -118,6 +118,7 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
+# think about this one for a bit
 #fix_pipxlrd () {
 #    pip install xlrd --upgrade
 #    pip3 install xlrd --upgrade
