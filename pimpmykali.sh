@@ -306,15 +306,15 @@ fix_sead_run () {
     # may consider removing this.... 2nd warning screen
     #    clear
     #    echo -e "  If you've made it this far you're having a really bad day with impacket... "
-    #    echo -e "  Enjoy the last chance launch sequence!\n"
-    #    echo -e "  Preparing to nuke Impacket...\n"
-    #    echo -e "  $green[....]$white aquiring targets\n"
-    #    echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD\n"
-    #    echo -e "  $green[-$red++$green-]$white targets locked\n"
-    #    echo -e "  $green[++++]$white systems ready\n"
-    #    echo -e "  $green[<$red@@$green>]$white taking aim\n"
-    #    echo -e "  $green[$red####$green]$white requesting launch code\n"
-    #    echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed"
+        echo -e "  Enjoy the last chance launch sequence!\n"
+        echo -e "  Preparing to nuke Impacket...\n"
+        echo -e "  $green[....]$white aquiring targets\n"
+        echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD\n"
+        echo -e "  $green[-$red++$green-]$white targets locked\n"
+        echo -e "  $green[++++]$white systems ready\n"
+        echo -e "  $green[<$red@@$green>]$white taking aim\n"
+        echo -e "  $green[$red####$green]$white requesting launch code\n"
+        echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed"
     #    echo -e "  Are you sure you meant to run this script?\n"
     #    temp_cnt=${wait_time}
     #     while [[ ${temp_cnt} -gt 0 ]];
