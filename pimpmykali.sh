@@ -475,9 +475,9 @@ check_vm () {
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
         echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11"
         # call fix_virtualbox function
-        fix_virtualbox
-         # Additional Fixes for virtualbox
+        # Additional Fixes for virtualbox
            #----------------------- additional virtualbox fixes
+             fix_virtualbox
              vbox_fix_shared_folder_permission_denied
            #----------------------- end of virtualbox additional fixes
         exit_screen
