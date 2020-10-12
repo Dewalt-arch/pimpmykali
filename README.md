@@ -17,6 +17,7 @@
    - minor code cleanup
    - 2nd warning screen of nuke impacket has been disabled and will no longer show
    - removed --borked from main menu system as the ! menu item is now available
+   - added htop to fix_missing 
 
 # Revision 0.5g
    - minor updates
