@@ -95,10 +95,11 @@ fix_missing () {
     echo -e "\n  $greenplus apt updated "
     eval apt -y install dkms build-essential $silent
     python-pip-curl
-    python3_pip   $force
-    #fix_pipxlrd   # this about this one a bit
-    fix_golang    $force
+    python3_pip $force
+    fix_htop    $force
+    fix_golang  $force
     fix_nmap
+    #fix_pipxlrd   # this about this one a bit
     }
 
 fix_all () {
@@ -147,6 +148,12 @@ python-pip-curl () {
 locate () {
     section="locate"
     check=$(whereis locate | grep -i -c "locate: /usr/bin/locate")
+    fix_section $section $check $force
+    }
+
+fix_htop () {
+    section="htop"
+    check=$(whereis htop | grep -i -c "htop: /usr/bin/htop")
     fix_section $section $check $force
     }
 
