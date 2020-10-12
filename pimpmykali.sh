@@ -462,7 +462,7 @@ check_vm () {
      ## added for rev 0.5i ----
      eval mkdir /tmp/vboxtmp
      eval mount /usr/share/virtualbox/VBoxGuestAdditions.iso /tmp/vboxtmp
-     # copying off the iso image to /tmp may be unnecssary
+     ## copying off the iso image to /tmp may be unnecssary
      eval cp -f /tmp/vboxtmp/VBoxLinuxAdditions.run /tmp/VBoxLinuxAdditions.run
      eval umount /tmp/vboxtmp
      eval rmdir /tmp/vboxtmp
