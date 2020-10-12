@@ -450,7 +450,7 @@ vbox_fix_shared_folder_permission_denied () {
       fi
     }
 
-fix_virtualbox (){
+fix_virtualbox() {
     ## added for revision 0.5i ##
     eval apt -y reinstall virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11 $silent
     eval mkdir /tmp/vboxtmp
@@ -466,7 +466,7 @@ fix_virtualbox (){
     }
 
 
-check_vm () {
+check_vm() {
     echo -e "\n  $greenplus detecting hypervisor type \n"
     vbox_check=$(virt-what | grep -i -c "virtualbox")    # virtualbox check
     vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check
