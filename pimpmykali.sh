@@ -24,9 +24,9 @@
     norm=$'\e[21m'
 
 # launch_codes - for a little fun in the --borked scripts  # (disabled)
-    # launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))    # (disabled)
-    # launch_codes_beta=$(echo $((1 + RANDOM % 9999)))     # (disabled)
-    # launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))  # (disabled)
+    launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))    # (disabled)
+    launch_codes_beta=$(echo $((1 + RANDOM % 9999)))     # (disabled)
+    launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))  # (disabled)
 
 # status indicators
     greenplus='\e[1;33m[++]\e[0m'
