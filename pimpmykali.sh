@@ -450,6 +450,22 @@ vbox_fix_shared_folder_permission_denied () {
       fi
     }
 
+fix_virtualbox (){
+    ## added for revision 0.5i ##
+    eval apt -y reinstall virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11 $silent
+    eval mkdir /tmp/vboxtmp
+    eval mount /usr/share/virtualbox/VBoxGuestAdditions.iso /tmp/vboxtmp
+    eval cp -f /tmp/vboxtmp/VBoxLinuxAdditions.run /tmp/VBoxLinuxAdditions.run
+    eval umount /tmp/vboxtmp
+    eval rmdir /tmp/vboxtmp
+    eval chmod +x /tmp/VBoxLinuxAdditions.run
+    eval /tmp/VBoxLinuxAdditions.run
+    eval rm -f /tmp/VBoxLinuxAdditions.run
+    eval /sbin/rcvboxadd quicksetup all
+    echo -e "\n  $redstar A reboot of your system is required"
+    }
+
+
 check_vm () {
     echo -e "\n  $greenplus detecting hypervisor type \n"
     vbox_check=$(virt-what | grep -i -c "virtualbox")    # virtualbox check
@@ -458,20 +474,8 @@ check_vm () {
       then
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
      echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11"
-     eval apt -y reinstall virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11 $silent
-     ## added for rev 0.5i ----
-     eval mkdir /tmp/vboxtmp
-     eval mount /usr/share/virtualbox/VBoxGuestAdditions.iso /tmp/vboxtmp
-     ## copying off the iso image to /tmp may be unnecssary
-     eval cp -f /tmp/vboxtmp/VBoxLinuxAdditions.run /tmp/VBoxLinuxAdditions.run
-     eval umount /tmp/vboxtmp
-     eval rmdir /tmp/vboxtmp
-     eval chmod +x /tmp/VBoxLinuxAdditions.run
-     eval /tmp/VBoxLinuxAdditions.run
-     eval rm -f /tmp/VBoxLinuxAdditions.run
-     eval /sbin/rcvboxadd quicksetup all
-     echo -e "\n  $redstar A reboot of your system is required"
-     ## end of add for rev 0.5i ----
+     # call fix_virtualbox function
+     fix_virtualbox
          # Additional Fixes for virtualbox
            #----------------------- additional virtualbox fixes
              vbox_fix_shared_folder_permission_denied
