@@ -470,6 +470,7 @@ check_vm () {
      eval /tmp/VBoxLinuxAdditions.run
      eval rm -f /tmp/VBoxLinuxAdditions.run
      eval /sbin/rcvboxadd quicksetup all
+     echo -e "\n  $redstar A reboot of your system is required"
      ## end of add for rev 0.5i ----
          # Additional Fixes for virtualbox
            #----------------------- additional virtualbox fixes
