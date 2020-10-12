@@ -10,7 +10,7 @@
 #
 
 # revision var
-    revision="0.5h"
+    revision="0.5i"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -457,8 +457,20 @@ check_vm () {
     if [ $vbox_check = 1 ]
       then
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
-        echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-x11"
-        eval apt -y reinstall virtualbox-dkms virtualbox-guest-x11 $silent
+     echo -e "\n  $greenplus installing virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11"
+     eval apt -y reinstall virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11 $silent
+     ## added for rev 0.5i ----
+     eval mkdir /tmp/vboxtmp
+     eval mount /usr/share/virtualbox/VBoxGuestAdditions.iso /tmp/vboxtmp
+     # copying off the iso image to /tmp may be unnecssary
+     eval cp -f /tmp/vboxtmp/VBoxLinuxAdditions.run /tmp/VBoxLinuxAdditions.run
+     eval umount /tmp/vboxtmp
+     eval rmdir /tmp/vboxtmp
+     eval chmod +x /tmp/VBoxLinuxAdditions.run
+     eval /tmp/VBoxLinuxAdditions.run
+     eval rm -f /tmp/VBoxLinuxAdditions.run
+     eval /sbin/rcvboxadd quicksetup all
+     ## end of add for rev 0.5i ----
          # Additional Fixes for virtualbox
            #----------------------- additional virtualbox fixes
              vbox_fix_shared_folder_permission_denied
