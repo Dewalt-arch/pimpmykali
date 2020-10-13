@@ -15,7 +15,7 @@
 
 # Revision 0.5i - virtualbox specific fixes
    - virtualbox-guest-addditions-iso added to check_vm as a part of fix_upgrade
-   - VBoxLinuxAdditions.Run execution added to check_vm as a part of fix_upgrade
+   - VBoxLinuxAdditions.run execution added to check_vm as a part of fix_upgrade
    - '/sbin/rcvboxadd quicksetup all' added to check_vm as a part of fix_upgrade
 
 # Revision 0.5h
