@@ -38,7 +38,7 @@
     fourblinkexclaim='\e[1;31m[\e[5;31m!!!!\e[0m\e[1;31m]\e[0m'
 
 # variables needed in the script
-  #  wait_time=10  # 2nd warning screen wait time (disabled)
+    # wait_time=10  # 2nd warning screen wait time (disabled)
     force=0
     check=""
     section=""
