@@ -149,7 +149,7 @@ python-pip-curl () {
 
 fix_rockyou () {
     cd /usr/share/wordlists
-    gunzip /usr/share/wordlists/rockyou.txt.gz
+    gzip -dq /usr/share/wordlists/rockyou.txt.gz
     echo -e "\n  $greenplus gunzip /usr/share/wordlists/rockyou.txt.gz"
     }
 
