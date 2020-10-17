@@ -8,9 +8,10 @@
 # Full Revision history can be found in README.md
 # Standard Disclaimer: Author assumes no liability for any damage
 #
+# add gunzip /usr/share/wordlists/rockyou.txt.gz
 
 # revision var
-    revision="0.5i"
+    revision="0.5j"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -90,6 +91,7 @@ fix_section () {
     }
 
 fix_missing () {
+    fix_sources
     eval apt -y update $silent && eval apt -y autoremove $silent
     eval apt -y remove kali-undercover $silent
     echo -e "\n  $greenplus apt updated "
@@ -99,11 +101,11 @@ fix_missing () {
     fix_htop    $force
     fix_golang  $force
     fix_nmap
+    fix_rockyou
     #fix_pipxlrd   # this about this one a bit
     }
 
 fix_all () {
-    fix_sources
     fix_missing   $force
     seclists      $force
     fix_gedit     $force
@@ -144,6 +146,12 @@ python-pip-curl () {
  # type= set in fix_section based on eval of $check and $force
  # force= to override force / set force var
  # fix_section $section $check $force
+
+fix_rockyou () {
+    cd /usr/share/wordlists
+    gunzip /usr/share/wordlists/rockyou.txt.gz
+    echo -e "\n  $greenplus gunzip /usr/share/wordlists/rockyou.txt.gz"
+    }
 
 locate () {
     section="locate"
@@ -598,6 +606,7 @@ check_arg () {
 exit_screen () {
     echo -e "$asciiart"
     echo -e "\n\n    All Done! Happy Hacking! \n"
+
     exit
     }
 

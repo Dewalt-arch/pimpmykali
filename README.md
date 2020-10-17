@@ -13,6 +13,11 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 0.5j - rockyou.txt.gz
+   - added fix_rockyou function
+   - added gunzip /usr/share/wordlists/rockyou.txt.gz
+     - fix_missing and fix_all both call this function
+     
 # Revision 0.5i - virtualbox specific fixes
    - virtualbox-guest-addditions-iso added to check_vm as a part of fix_upgrade
    - VBoxLinuxAdditions.run execution added to check_vm as a part of fix_upgrade
