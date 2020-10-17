@@ -494,6 +494,7 @@ check_vm() {
           echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
           echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
           eval apt -y reinstall open-vm-tools-desktop fuse $silent
+          echo -e "\n  $greenplus restarting vmware tools"
           eval restart-vm-tools
           # Additional Fixes for Vmware
           #----------------------- additional vmware fixes
