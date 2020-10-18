@@ -237,6 +237,13 @@ fix_bad_apt_hash (){
     echo "all" > /etc/gcrypt/hwf.deny
     }
 
+fix_vscode () {
+    eval curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+    eval mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+    eval echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list
+    eval apt update && apt install code
+    }
+
 fix_sources () {
     # Think about doing something different here...
     fix_bad_apt_hash
@@ -606,6 +613,7 @@ check_arg () {
     --borked) force=1; fix_sead_warning $force ;;
       --nmap) fix_nmap                         ;;
        --bpt) bpt                              ;;
+    --vscode) fix_vscode                       ;; # hidden switch
    --upgrade) fix_upgrade                      ;;
       *) pimpmykali_help ; exit 0              ;;
     esac
