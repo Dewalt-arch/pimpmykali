@@ -8,7 +8,7 @@
 # Full Revision history can be found in README.md
 # Standard Disclaimer: Author assumes no liability for any damage
 
-# revision var
+# revision var var vavr var varv avr varv avr 
     revision="1.0.0"
 
 # unicorn puke:
