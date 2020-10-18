@@ -234,6 +234,28 @@ fix_grub () {
     fi
     }
 
+fix_bad_apt_hash (){
+    mkdir -p /etc/gcrypt
+    echo "all" > /etc/gcrypt/hwf.deny
+    }
+
+fix_sources () {
+    # Think about doing something different here...
+    fix_bad_apt_hash
+    echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
+    echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
+    echo -e "\n  $greenplus fixed sources /etc/apt/sources.list"
+    }
+
+run_update () {
+    fix_sources
+    echo -e "\n  $greenplus starting pimpmyupgrade   \n"
+    eval apt -y update $silent && apt -y upgrade $silent
+    kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
+    echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
+    eval apt -y install dkms build-essential linux-headers-amd64 $silent
+    }
+
 make_rootgreatagain () {
     echo -e "\n KALI-ROOT-LOGIN INSTALLATION:   "$red"*** READ CAREFULLY! ***"$white" \n"
     echo -e " On Kali 2019.x and prior the default user was root"
@@ -473,6 +495,9 @@ fix_virtualbox() {
     echo -e "\n  $redstar A reboot of your system is required"
     }
 
+# vmtools_service_missing (){
+# think about this one
+# }
 
 check_vm() {
     echo -e "\n  $greenplus detecting hypervisor type \n"
@@ -498,28 +523,12 @@ check_vm() {
           eval restart-vm-tools
           # Additional Fixes for Vmware
           #----------------------- additional vmware fixes
-          # fix goes here
+          # vmtools_service_missing
           #----------------------- end of vmware additional fixes
           exit_screen
       else
         echo -e "\n $redstar Hypervisor not detected, Possible bare-metal installation not updating"
     fi
-    }
-
-fix_sources () {
-    # Think about doing something different here...
-    echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
-    echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
-    echo -e "\n  $greenplus fixed sources /etc/apt/sources.list"
-    }
-
-run_update () {
-    fix_sources
-    echo -e "\n  $greenplus starting pimpmyupgrade   \n"
-    eval apt -y update $silent && apt -y upgrade $silent
-    kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
-    echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
-    eval apt -y install dkms build-essential linux-headers-amd64 $silent
     }
 
 # ascii art - DONT move
