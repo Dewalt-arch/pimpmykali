@@ -613,6 +613,7 @@ check_arg () {
     }
 
 exit_screen () {
+    eval apt -y --fix-broken install >/dev/null 2>&1
     echo -e "$asciiart"
     echo -e "\n\n    All Done! Happy Hacking! \n"
 
