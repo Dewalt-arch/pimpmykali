@@ -16,7 +16,8 @@
 # Revision 1.0.0
   - pimpmykali has reached a state of consistency and stability in the function it preforms
     version is being bumped to v1.0.0 to be more in line with version numbering standards.
-  
+  - Atom has replaced gedit, gedit will no longer be installed by pimpmykali
+
 # Revision 0.5j - rockyou.txt.gz
   - added fix_rockyou function
   - added gzip -dq /usr/share/wordlists/rockyou.txt.gz
