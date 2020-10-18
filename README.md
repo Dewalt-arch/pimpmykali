@@ -13,13 +13,17 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 1.0.0
+  - pimpmykali has reached a state of consistency and stability in the function it preforms
+    version is being bumped to v1.0.0 to be more in line with version numbering standards.
+  
 # Revision 0.5j - rockyou.txt.gz
-   - added fix_rockyou function
-   - added gzip -dq /usr/share/wordlists/rockyou.txt.gz
-     - fix_missing and fix_all both call this function
-   - added restart-vm-tools as a part of menu 9 pimpmyupgrade
-   - added fix for bad apt hash issue (automatically applied)
-   - revision is going to be bumped to v1.0.0 upon next release 
+  - added fix_rockyou function
+  - added gzip -dq /usr/share/wordlists/rockyou.txt.gz
+   - fix_missing and fix_all both call this function
+  - added restart-vm-tools as a part of menu 9 pimpmyupgrade
+  - added fix for bad apt hash issue (automatically applied)
+  - revision is going to be bumped to v1.0.0 upon next release
 
 # Revision 0.5i - virtualbox specific fixes
    - virtualbox-guest-addditions-iso added to check_vm as a part of fix_upgrade

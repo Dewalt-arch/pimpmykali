@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # pimpmykali.sh  Author: Dewalt
-# git clone https://github.com/Dewalt-arch/pimpmykali 
+# git clone https://github.com/Dewalt-arch/pimpmykali
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )
 # command line arguments are valid, only catching 1 arguement
 #
@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="0.5j"
+    revision="1.0.0"
 
 # unicorn puke:
     red=$'\e[1;31m'
