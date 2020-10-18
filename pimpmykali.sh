@@ -7,8 +7,6 @@
 #
 # Full Revision history can be found in README.md
 # Standard Disclaimer: Author assumes no liability for any damage
-#
-# add gunzip /usr/share/wordlists/rockyou.txt.gz
 
 # revision var
     revision="0.5j"

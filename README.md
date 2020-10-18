@@ -18,6 +18,8 @@
    - added gzip -dq /usr/share/wordlists/rockyou.txt.gz
      - fix_missing and fix_all both call this function
    - added restart-vm-tools as a part of menu 9 pimpmyupgrade
+   - added fix for bad apt hash issue (automatically applied)
+   - revision is going to be bumped to v1.0.0 upon next release 
 
 # Revision 0.5i - virtualbox specific fixes
    - virtualbox-guest-addditions-iso added to check_vm as a part of fix_upgrade
