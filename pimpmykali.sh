@@ -237,7 +237,17 @@ fix_bad_apt_hash (){
     echo "all" > /etc/gcrypt/hwf.deny
     }
 
-fix_vscode () {
+install_sublime () {
+    echo -e "\n  $greenplus installing sublime text editor"
+    eval wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+    eval apt-get install apt-transport-https
+    eval echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+    eval apt update
+    eval apt -y install sublime-text
+    }
+
+install_vscode () {
+    echo -e "\n  $greenplus installing vscode"
     eval curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
     eval mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
     eval echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list
@@ -613,7 +623,8 @@ check_arg () {
     --borked) force=1; fix_sead_warning $force ;;
       --nmap) fix_nmap                         ;;
        --bpt) bpt                              ;;
-    --vscode) fix_vscode                       ;; # hidden switch
+    --vscode) install_vscode                   ;; # hidden switch
+      --subl) install_sublime                  ;; # hidden switch
    --upgrade) fix_upgrade                      ;;
       *) pimpmykali_help ; exit 0              ;;
     esac
