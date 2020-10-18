@@ -106,7 +106,8 @@ fix_missing () {
 fix_all () {
     fix_missing   $force
     seclists      $force
-    fix_gedit     $force
+    #fix_gedit     $force
+    install_atom
     fix_flameshot $force
     fix_grub
     fix_smbconf
@@ -189,11 +190,11 @@ fix_flameshot () {
     fix_section $section $check $force
      }
 
-fix_gedit () {
-    section="gedit"
-    check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
-    fix_section $section $check $force
-    }
+#fix_gedit () {
+#    section="gedit"
+#    check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
+#    fix_section $section $check $force
+#    }
 
 fix_golang () {
     section="golang"
@@ -571,7 +572,7 @@ pimpmykali_menu () {
     echo -e "  4 - Fix Grub                (adds mitigations=off)"                            # fix_grub
     echo -e "  5 - Fix Impacket            (installs impacket)"                               # fix_impacket
     echo -e "  6 - Enable Root Login       (installs kali-root-login)"                        # make_rootgreatagain
-    echo -e "  7 - Install Gedit           (installs gedit)"                                  # fix_gedit
+    echo -e "  7 - Install Atom            (installs atom)"                                   # install_atom
     echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"         # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"           # - empty line -
@@ -588,7 +589,7 @@ pimpmykali_menu () {
         4) fix_grub ;;
         5) fix_impacket ;;
         6) make_rootgreatagain ;;
-        7) fix_gedit ;;
+        7) install_atom ;;  #was fix_gedit - Gedit Go BYE BYE!
         8) fix_nmap ;;
         9) fix_upgrade ;;
         0) fix_all ;;
@@ -605,7 +606,7 @@ pimpmykali_help () {
             "--smb        only run smb.conf fix \n --go         only fix/install golang"\
             "\n --impacket   only fix/install impacket \n --grub       only add mitigations=off"\
             "\n --root       only enable root login \n --missing    install all common missing packages" \
-            "\n --menu       its the menu \n --gedit      only install gedit\n --flameshot  only fix/install flameshot" \
+            "\n --menu       its the menu \n --atom       only install atom\n --flameshot  only fix/install flameshot" \
             "\n --borked     only to be used as last resort to remove-reinstall impacket" \
             "\n --upgrade    fix apt upgrade with detection for virtualbox or vmware\n --help       your looking at it"
     exit
@@ -620,7 +621,6 @@ check_arg () {
        --all) fix_all                          ;;
        --smb) fix_smbconf                      ;;
         --go) fix_golang                       ;;
-     --gedit) fix_gedit                        ;;
   --impacket) fix_impacket                     ;;
       --grub) fix_grub                         ;;
       --root) make_rootgreatagain              ;;
@@ -633,7 +633,7 @@ check_arg () {
        --bpt) bpt                              ;;
     --vscode) install_vscode                   ;; # hidden switch
       --subl) install_sublime                  ;; # hidden switch
-      --atom) install_atom                     ;; # hidden switch 
+      --atom) install_atom                     ;;
    --upgrade) fix_upgrade                      ;;
       *) pimpmykali_help ; exit 0              ;;
     esac
