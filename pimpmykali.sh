@@ -237,6 +237,14 @@ fix_bad_apt_hash (){
     echo "all" > /etc/gcrypt/hwf.deny
     }
 
+install_atom () {
+    eval apt -y update
+    eval wget -qO- https://atom.io/download/deb -O /tmp/atom.deb >/dev/null 2>&1
+    eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
+    eval rm -f /tmp/atom.deb
+    eval apt -y --fix-broken install >/dev/null 2>&1
+}
+
 install_sublime () {
     echo -e "\n  $greenplus installing sublime text editor"
     eval wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
@@ -625,6 +633,7 @@ check_arg () {
        --bpt) bpt                              ;;
     --vscode) install_vscode                   ;; # hidden switch
       --subl) install_sublime                  ;; # hidden switch
+      --atom) install_atom                     ;; # hidden switch 
    --upgrade) fix_upgrade                      ;;
       *) pimpmykali_help ; exit 0              ;;
     esac
