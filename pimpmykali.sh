@@ -585,7 +585,7 @@ pimpmykali_menu () {
         4) fix_grub ;;
         5) fix_impacket ;;
         6) make_rootgreatagain ;;
-        7) install_atom ;;  
+        7) install_atom ;;
         8) fix_nmap ;;
         9) fix_upgrade ;;
         0) fix_all ;;
