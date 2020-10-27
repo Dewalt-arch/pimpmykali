@@ -498,7 +498,7 @@ vbox_fix_shared_folder_permission_denied () {
       then
         echo -e "\n  $greenminus : user is already a member of vboxsf group\n"
     else
-        eval adduser $USER vboxsf
+        eval adduser $finduser vboxsf
         echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder"
         echo -e "       user added to vboxsf group "
       fi
@@ -518,10 +518,6 @@ fix_virtualbox() {
     eval /sbin/rcvboxadd quicksetup all
     echo -e "\n  $redstar A reboot of your system is required"
     }
-
-# vmtools_service_missing (){
-# think about this one
-# }
 
 check_vm() {
     echo -e "\n  $greenplus detecting hypervisor type \n"
@@ -547,7 +543,7 @@ check_vm() {
           eval restart-vm-tools
           # Additional Fixes for Vmware
           #----------------------- additional vmware fixes
-          # vmtools_service_missing
+          #
           #----------------------- end of vmware additional fixes
           exit_screen
       else
@@ -589,7 +585,7 @@ pimpmykali_menu () {
         4) fix_grub ;;
         5) fix_impacket ;;
         6) make_rootgreatagain ;;
-        7) install_atom ;;  #was fix_gedit - Gedit Go BYE BYE!
+        7) install_atom ;;  
         8) fix_nmap ;;
         9) fix_upgrade ;;
         0) fix_all ;;
