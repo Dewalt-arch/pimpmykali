@@ -13,6 +13,9 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 1.0.1 Python-Requests
+  - added python requests and colorama installations to fix_missing and fix_all 
+
 # Revision 1.0.0 Atom replaces Gedit  
   - pimpmykali has reached a state of consistency and stability in the function it preforms
     version is being bumped to v1.0.0 to be more in line with version numbering standards.

@@ -100,6 +100,7 @@ fix_missing () {
     fix_golang  $force
     fix_nmap
     fix_rockyou
+    fix_python_requests
     #fix_pipxlrd   # this about this one a bit
     }
 
@@ -232,6 +233,17 @@ fix_grub () {
 	      echo -e "\n  $redexclaim Reboot for changes to take effect \n"
     fi
     }
+
+fix_python_requests (){
+    # requires python pip to be installed via curl
+    # eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent
+    # eval python /tmp/get-pip.py $silent
+    # rm -f /tmp/get-pip.py
+    eval git clone https://github.com/psf/requests /opt/requests
+    cd /opt/requests
+    eval pip install colorama
+    eval pip install .
+}
 
 fix_bad_apt_hash (){
     mkdir -p /etc/gcrypt
