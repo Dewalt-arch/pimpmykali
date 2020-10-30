@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.0"
+    revision="1.0.1"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -236,7 +236,7 @@ fix_grub () {
 
 fix_python_requests (){
     # requires python pip to be installed via curl
-    # should already be installed by fix_missing or fix_all by the time this is called 
+    # should already be installed by fix_missing or fix_all by the time this is called
     # eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent
     # eval python /tmp/get-pip.py $silent
     # rm -f /tmp/get-pip.py
