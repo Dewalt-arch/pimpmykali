@@ -243,6 +243,8 @@ fix_python_requests (){
     cd /opt/requests
     eval pip install colorama
     eval pip install .
+    echo -e "\n  $greenplus installed python2 module : requests"
+    echo -e "\n  $greenplus installed python2 module : colorama"
 }
 
 fix_bad_apt_hash (){
