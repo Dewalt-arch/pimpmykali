@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.1"
+    revision="1.0.2"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -289,7 +289,8 @@ fix_sources () {
 run_update () {
     fix_sources
     echo -e "\n  $greenplus starting pimpmyupgrade   \n"
-    eval apt -y update $silent && apt -y upgrade $silent
+    eval apt -y update $silent
+    # COMMENTED OUT DUE TO MSF6 RELEASED && apt -y upgrade $silent
     kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
     echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
     eval apt -y install dkms build-essential linux-headers-amd64 $silent

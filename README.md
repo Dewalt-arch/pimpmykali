@@ -13,8 +13,13 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
+# Revision 1.0.2 - Apt Upgrade Commented Out
+  - Due to Metasploit being upgraded from msf5 -> MSF6
+    apt upgrade has been commented out and will not be run
+    at this time. 
+
 # Revision 1.0.1 Python-Requests
-  - added python requests and colorama installations to fix_missing (menu option 1) and (menu option 0) fix_all 
+  - added python requests and colorama installations to fix_missing (menu option 1) and (menu option 0) fix_all
 
 # Revision 1.0.0 Atom replaces Gedit  
   - pimpmykali has reached a state of consistency and stability in the function it preforms
