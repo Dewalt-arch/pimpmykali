@@ -15,8 +15,8 @@
 
 # Revision 1.0.2 - Apt Upgrade Commented Out
   - Due to Metasploit being upgraded from msf5 -> MSF6
-    apt upgrade has been commented out and will not be run
-    at this time. 
+    apt upgrade has been commented out and will NOT be run
+    at this time.
 
 # Revision 1.0.1 Python-Requests
   - added python requests and colorama installations to fix_missing (menu option 1) and (menu option 0) fix_all
