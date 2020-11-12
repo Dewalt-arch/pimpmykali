@@ -18,12 +18,12 @@
     - will not be called by any other function
     - only menu option D will execute the downgrade
     - metasploit will complain about 2 versions of reline being installed but do not believe it is an issue
-    - apt upgrade is still commented out at this time
+    - places a hold on metasploit-framework so it will not be upgraded in the future
   - Pimpmyupgrade menu option 9
     - apt upgrade will only be called from this function and from no where else in the script will apt upgrade be called
     - mark metasploit-framework to be ignored in the upgrade process
     - preform apt upgrade without upgrading metasploit-framework
-    - unmark metasploit-framework from being held back
+    - unmark metasploit-framework from being held back 
 
 # Revision 1.0.2 - Apt Upgrade Commented Out
   - Due to Metasploit being upgraded from msf5 -> MSF6
