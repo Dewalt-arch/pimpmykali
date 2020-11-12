@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.2"
+    revision="1.0.3"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -190,12 +190,6 @@ fix_flameshot () {
     check=$(whereis flameshot | grep -i -c "/usr/bin/flameshot")
     fix_section $section $check $force
      }
-
-#fix_gedit () {
-#    section="gedit"
-#    check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
-#    fix_section $section $check $force
-#    }
 
 fix_golang () {
     section="golang"
@@ -472,6 +466,17 @@ bpt () {
     exit_screen
     }
 
+downgrade_msf () {
+    eval apt -y remove metasploit-framework
+    wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
+    eval dpkg -i /tmp/metasploit-framework_5.deb
+    eval gem cleanup reline
+    eval msfdb init
+    rm -f /tmp/metasploit-framework_5.deb
+    echo -e "\n  $greenplus metasploit downgraded \n"
+    exit_screen
+}
+
 pimpmywifi_main () {
     # Nothing to see here Netizen move along...
     # ---Under Construction---
@@ -590,6 +595,7 @@ pimpmykali_menu () {
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"           # - empty line -
     echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
+    echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)\n"                   # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
     echo -e "  0 - Fix ALL                 (runs only 1 thru 9) \n"                           # fix_all
     echo -e "  Now with Pimpmyupgrade\n    - when prompted select Yes to auto restart services \n"
@@ -607,6 +613,7 @@ pimpmykali_menu () {
         9) fix_upgrade ;;
         0) fix_all ;;
         !) forced=1; fix_sead_warning;;
+      d|D) downgrade_msf ;;
       b|B) bpt ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
