@@ -463,6 +463,7 @@ only_upgrade () {
     echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
     eval apt -y install dkms build-essential linux-headers-amd64 $silent
     check_vm
+    echo -e "\n  $greenplus releasing hold on package: metasploit-framework"
     eval apt-mark unhold metasploit-framework
     exit_screen
     }
