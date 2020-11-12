@@ -674,7 +674,7 @@ check_arg () {
     --vscode) install_vscode                   ;; # hidden switch
       --subl) install_sublime                  ;; # hidden switch
       --atom) install_atom                     ;;
-   --upgrade) fix_upgrade                      ;;
+   --upgrade) only_upgrade                     ;;
       *) pimpmykali_help ; exit 0              ;;
     esac
     fi
