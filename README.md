@@ -24,6 +24,8 @@
     - mark metasploit-framework to be ignored in the upgrade process
     - preform apt upgrade without upgrading metasploit-framework
     - unmark metasploit-framework from being held back
+  - Fix All menu option 0 (modified)
+    - now only runs menu options 1 thru 8 , does not include menu 9 (pimpmyupgrade)
 
 # Revision 1.0.2 - Apt Upgrade Commented Out
   - Due to Metasploit being upgraded from msf5 -> MSF6
