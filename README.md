@@ -13,7 +13,7 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 
-# Revision 1.0.3 - Metasploit 6 to Metasploit 5 Downgrade
+# Revision 1.0.3 - Metasploit 6 to Metasploit 5 Downgrade / Apt Upgrade returns!
   - Menu option D has been added to preform the downgrade
     - will not be called by any other function
     - only menu option D will execute the downgrade
