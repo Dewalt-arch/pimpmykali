@@ -621,7 +621,7 @@ pimpmykali_menu () {
     echo -e "  Now with Pimpmyupgrade\n    - when prompted select Yes to auto restart services \n"
     read -n1 -p "  Enter 0 thru 9 or B  press X to exit: " menuinput
 
-    case $menuinput in
+    case $menuinput in 
         1) fix_missing ;;
         2) fix_smbconf ;;
         3) fix_golang ;;
