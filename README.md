@@ -23,7 +23,7 @@
     - apt upgrade will only be called from this function and from no where else in the script will apt upgrade be called
     - mark metasploit-framework to be ignored in the upgrade process
     - preform apt upgrade without upgrading metasploit-framework
-    - unmark metasploit-framework from being held back 
+    - unmark metasploit-framework from being held back
 
 # Revision 1.0.2 - Apt Upgrade Commented Out
   - Due to Metasploit being upgraded from msf5 -> MSF6
