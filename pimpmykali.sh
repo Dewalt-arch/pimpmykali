@@ -452,8 +452,24 @@ fix_impacket () {
     echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
     }
 
+only_upgrade () {
+    virt_what
+    fix_sources
+    echo -e "\n  $greenplus starting pimpmyupgrade   \n"
+    echo -e "\n  $greenplus holding back package: metasploit-framework"
+    eval apt-mark hold metasploit-framework
+    eval apt -y update $silent && apt -y upgrade $silent
+    kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
+    echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
+    eval apt -y install dkms build-essential linux-headers-amd64 $silent
+    check_vm
+    eval apt-mark unhold metasploit-framework
+    exit_screen
+    }
+
 fix_upgrade () {
     virt_what
+    fix_sources
     run_update
     check_vm
     }
@@ -473,7 +489,9 @@ downgrade_msf () {
     eval gem cleanup reline
     eval msfdb init
     rm -f /tmp/metasploit-framework_5.deb
+    apt-mark hold metasploit-framework
     echo -e "\n  $greenplus metasploit downgraded \n"
+    echo -e "\n  $greenplus hold placed on metasploit-framework \n"
     exit_screen
 }
 
@@ -592,8 +610,9 @@ pimpmykali_menu () {
     echo -e "  6 - Enable Root Login       (installs kali-root-login)"                        # make_rootgreatagain
     echo -e "  7 - Install Atom            (installs atom)"                                   # install_atom
     echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"         # fix_nmap
-    echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # fix_upgrade
+    echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # only_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"           # - empty line -
+    echo -e "                              (holds metasploit-framework will not upgrade)\n"   # - empty line -
     echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)\n"                   # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
@@ -610,7 +629,7 @@ pimpmykali_menu () {
         6) make_rootgreatagain ;;
         7) install_atom ;;
         8) fix_nmap ;;
-        9) fix_upgrade ;;
+        9) only_upgrade ;;
         0) fix_all ;;
         !) forced=1; fix_sead_warning;;
       d|D) downgrade_msf ;;
