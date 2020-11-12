@@ -15,9 +15,10 @@
 
 # Revision 1.0.3 - Metasploit 6 to Metasploit 5 Downgrade
   - Menu option D has been added to preform the downgrade
-    - will not be called by any other function, only D will execute the downgrade
-    - metasploit will complain about 2 versions of reline being installed but do not belive it is an issue
-    - apt upgrade is still commented out at this time 
+    - will not be called by any other function
+    - only menu option D will execute the downgrade
+    - metasploit will complain about 2 versions of reline being installed but do not believe it is an issue
+    - apt upgrade is still commented out at this time
     - mileage may vary
 
 # Revision 1.0.2 - Apt Upgrade Commented Out
