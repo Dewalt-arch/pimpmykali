@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.3"
+    revision="1.0.3a"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -135,6 +135,7 @@ python-pip-curl () {
       eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent
       eval python /tmp/get-pip.py $silent
       rm -f /tmp/get-pip.py
+      eval pip install setuptools
       echo -e "\n  $greenplus python-pip installed"
     else
       echo -e "\n  $greenminus python-pip already installed"
@@ -621,7 +622,7 @@ pimpmykali_menu () {
     echo -e "  Now with Pimpmyupgrade\n    - when prompted select Yes to auto restart services \n"
     read -n1 -p "  Enter 0 thru 9 or B  press X to exit: " menuinput
 
-    case $menuinput in 
+    case $menuinput in
         1) fix_missing ;;
         2) fix_smbconf ;;
         3) fix_golang ;;
