@@ -15,12 +15,13 @@
 
 # Revision 1.0.4 - fix theHarvester
  - This is only to be used in the following case :
+   - Menu option H
    - Kali 2020.4 has been apt upgraded and python3.9 is installed
    - theHarvester is not functioning and is getting an error on uvloop
    - this will set python3 to default to python3.9
    - git clones uvloop, applies fixes and recompiles
    - git clones theHarvester, applies fixes and installs
- - additional checks will be added in the future 
+ - additional checks will be added in the future
 
 # Revision 1.0.3 - Metasploit 6 to Metasploit 5 Downgrade Option / Apt Upgrade returns!
   - Menu option D has been added to preform the downgrade
