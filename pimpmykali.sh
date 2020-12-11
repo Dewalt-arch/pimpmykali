@@ -481,12 +481,16 @@ fix_theharvester () {
   cd /bin
   ln -sf python3.9 python3
   eval apt -y install autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev
+  echo -e "\n  $greenplus installed: autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev"
   eval pip3 install Cython Sphinx psutil pyOpenSSL flake8
+  echo -e "\n  $greenplus installed: Cython Sphinx psutil pyOpenSSL flake8"
   cd /opt
   eval rm -rf /opt/theHarvester /opt/uvloop
+  echo -e "\n  $greenplus removed: /opt/theHarvester /opt/uvloop"
 
   ## fix_uvloop
   eval git clone https://github.com/MagicStack/uvloop /opt/uvloop
+  echo -e "\n  $greenplus cloned: uvloop"
   cd /opt/uvloop
   eval git submodule init
   eval git submodule update
@@ -496,15 +500,18 @@ fix_theharvester () {
   rm -f /tmp/newMakefile
   eval make
   eval python3 setup.py install
+  echo -e "\n  $greenplus uvloop compiled and installed"
 
   ## theHarvester
   eval git clone https://github.com/laramies/theHarvester /opt/theHarvester
+  echo -e "\n  $greenplus cloned: theHarvester"
   cd /opt/theHarvester
   # remove remove : uvloop==0.14.0; platform_system != "Windows" from base.txt
   eval head -n 16 /opt/theHarvester/requirements/base.txt > /tmp/newbase.txt
   cp -f /tmp/newbase.txt  /opt/theHarvester/requirements/base.txt
   rm -f /tmp/newbase.txt
   eval pip3 install .
+  echo -e "\n  $greenplus theHarvester fixes applied and installed"
   exit_screen
 }
 
