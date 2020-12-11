@@ -15,7 +15,7 @@
 
 # Revision 1.0.4 - fix theHarvester
  - This is only to be used in the following case :
-   - Menu option H
+   - Menu option H and will only be called via menu option H
    - Kali 2020.4 has been apt upgraded and python3.9 is installed
    - theHarvester is not functioning and is getting an error on uvloop
    - this will set python3 to default to python3.9
