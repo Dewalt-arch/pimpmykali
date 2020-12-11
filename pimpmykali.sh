@@ -653,7 +653,7 @@ pimpmykali_menu () {
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
     echo -e "  0 - Fix ALL                 (runs only 1 thru 8) \n"                           # fix_all
     echo -e "  Now with Pimpmyupgrade\n    - when prompted select Yes to auto restart services \n"
-    read -n1 -p "  Enter 0 thru 9 or B  press X to exit: " menuinput
+    read -n1 -p "  Enter 0 thru 9, B, D, H or ! press X to exit: " menuinput
 
     case $menuinput in
         1) fix_missing ;;
