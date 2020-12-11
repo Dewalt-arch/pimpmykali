@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.3a"
+    revision="1.0.4"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -647,6 +647,7 @@ pimpmykali_menu () {
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # only_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"           # - empty line -
     echo -e "                              (holds metasploit-framework will not upgrade)\n"   # - empty line -
+    echo -e "  H - Fix theHarvester        (fixes theHarvester)\n"                            # fix_theharvester
     echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)\n"                   # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
@@ -668,6 +669,7 @@ pimpmykali_menu () {
         !) forced=1; fix_sead_warning;;
       d|D) downgrade_msf ;;
       b|B) bpt ;;
+      h|H) fix_theharvester ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
     esac
