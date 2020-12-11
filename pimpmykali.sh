@@ -632,7 +632,7 @@ p1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o
 
 pimpmykali_menu () {
     clear
-    echo -e $green"$asciiart"$white
+    echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
     echo -e "\n Options are 0 thru 9 and BPT  :"                                              # function call list
