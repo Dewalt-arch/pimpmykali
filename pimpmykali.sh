@@ -476,6 +476,38 @@ fix_upgrade () {
     check_vm
     }
 
+fix_theharvester () {
+  # need to put a check in here for /bin/python3.9
+  cd /bin
+  ln -sf python3.9 python3
+  eval apt -y install autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev
+  eval pip3 install Cython Sphinx psutil pyOpenSSL flake8
+  cd /opt
+  eval rm -rf /opt/theHarvester /opt/uvloop
+
+  ## fix_uvloop
+  eval git clone https://github.com/MagicStack/uvloop /opt/uvloop
+  cd /opt/uvloop
+  eval git submodule init
+  eval git submodule update
+  ## make change to the Makefile here change python to python3
+  eval cat /opt/uvloop/Makefile | sed 's/PYTHON ?= python/PYTHON ?= python3/' > /tmp/newMakefile
+  cp -f /tmp/newMakefile Makefile
+  rm -f /tmp/newMakefile
+  eval make
+  eval python3 setup.py install
+
+  ## theHarvester
+  eval git clone https://github.com/laramies/theHarvester /opt/theHarvester
+  cd /opt/theHarvester
+  # remove remove : uvloop==0.14.0; platform_system != "Windows" from base.txt
+  eval head -n 16 /opt/theHarvester/requirements/base.txt > /tmp/newbase.txt
+  cp -f /tmp/newbase.txt  /opt/theHarvester/requirements/base.txt
+  rm -f /tmp/newbase.txt
+  eval pip3 install .
+  exit_screen
+}
+
 bpt () {
     rm -rf /opt/the-essentials
     git clone https://github.com/blindpentester/the-essentials /opt/the-essentials
@@ -676,6 +708,7 @@ check_arg () {
       --subl) install_sublime                  ;; # hidden switch
       --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;
+ --harvester) fix_theharvester                 ;;
       *) pimpmykali_help ; exit 0              ;;
     esac
     fi
