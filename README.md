@@ -13,6 +13,7 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option 0, then run D, then 9
+  (youll need to run pimpmykali 3 times)
 - if your having problems with theHarvester run menu option H
 
 # Revision 1.0.4 - fix theHarvester
