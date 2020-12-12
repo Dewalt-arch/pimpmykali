@@ -12,6 +12,8 @@
 - git clone https://github.com/Dewalt-arch/pimpmykali
 - cd pimpmykali
 - sudo ./pimpmykali.sh
+- For a new kali vm, run menu option 0, then run D, then 9
+- if your having problems with theHarvester run menu option H
 
 # Revision 1.0.4 - fix theHarvester
  - This is only to be used in the following case :
