@@ -16,6 +16,9 @@
   (youll need to run pimpmykali 3 times)
 - if your having problems with theHarvester run menu option H
 
+# Revision 1.0.5 - Gedit returns!
+  - gedit has been added to fix_all and fix_missing functions
+
 # Revision 1.0.4 - fix theHarvester
  - This is only to be used in the following case :
    - Menu option H and will only be called via menu option H

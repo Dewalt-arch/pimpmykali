@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.4"
+    revision="1.0.5"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -96,18 +96,19 @@ fix_missing () {
     eval apt -y install dkms build-essential $silent
     python-pip-curl
     python3_pip $force
+    fix_gedit   $force  # restored to its former glory
     fix_htop    $force
     fix_golang  $force
     fix_nmap
     fix_rockyou
     fix_python_requests
-    #fix_pipxlrd   # this about this one a bit
+    #fix_pipxlrd        # think about this one a bit
     }
 
 fix_all () {
     fix_missing   $force
     seclists      $force
-    #fix_gedit     $force
+    fix_gedit     $force
     install_atom
     fix_flameshot $force
     fix_grub
@@ -116,7 +117,7 @@ fix_all () {
     make_rootgreatagain $force
     fix_upgrade
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
-    # python-pip-cul python3_pip fix_golang fix_nmap
+    # python-pip-curl python3_pip fix_golang fix_nmap
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
     }
@@ -147,6 +148,12 @@ python-pip-curl () {
  # type= set in fix_section based on eval of $check and $force
  # force= to override force / set force var
  # fix_section $section $check $force
+
+fix_gedit () {
+     section="gedit"
+     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
+     fix_section $section $check $force
+     }
 
 fix_rockyou () {
     cd /usr/share/wordlists
@@ -643,7 +650,7 @@ pimpmykali_menu () {
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
     echo -e "\n Options are 0 thru 9 and BPT  :"                                              # function call list
-    echo -e "\n  1 - Fix Missing             (pip pip3 golang nmapfix xlrd build-essential)"  # fix_missing
+    echo -e "\n  1 - Fix Missing             (pip pip3 golang gedit nmapfix build-essential)" # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                        # fix_smbconf
     echo -e "  3 - Fix Golang              (installs golang)"                                 # fix_golang
     echo -e "  4 - Fix Grub                (adds mitigations=off)"                            # fix_grub
