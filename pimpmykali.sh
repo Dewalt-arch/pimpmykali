@@ -652,7 +652,7 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
-    echo -e "\n Options are 0 thru 9 and BPT  :"                                              # function call list
+    echo -e "\n Options are 0 thru 9, !, D or B :"                                              # function call list
     echo -e "\n  1 - Fix Missing             (pip pip3 golang gedit nmapfix build-essential)" # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                        # fix_smbconf
     echo -e "  3 - Fix Golang              (installs golang)"                                 # fix_golang
