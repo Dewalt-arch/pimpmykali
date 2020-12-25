@@ -16,8 +16,7 @@
   (youll need to run pimpmykali.sh 3 times)
   - currently working on a function to script 0, D and 9 together!
 
-# Revision 1.0.7 - go enviornment variable export
-# statements added to .zshrc and .bashrc
+# Revision 1.0.7 - GOPATH statements added to .zshrc and .bashrc 
   - function will check for GOPATH in .zshrc and .bashrc
   - Checks added for root and regular users
   - if "GOPATH" is not found in either .zshrc or .bashrc, statements will be added:
