@@ -14,15 +14,15 @@
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option 0, then run D, then 9
   (youll need to run pimpmykali.sh 3 times)
-  - currently working on a function to script 0, D and 9 together! 
+  - currently working on a function to script 0, D and 9 together!
 
-# Revision 1.0.7 - GO Lang - Enviornment Variables added to .zshrc and .bashrc
+# Revision 1.0.7 - GO Lang - export statements added to .zshrc and .bashrc
   - function will check for GOPATH in .zshrc and .bashrc
   - Checks added for root and regular users
-  - if "GOPATH" is not found in either .zshrc or .bashrc, variables will be added:
+  - if "GOPATH" is not found in either .zshrc or .bashrc, statements will be added:
     - export GOPATH=$HOME/go
     - export PATH=$PATH:$GOPATH/bin
-  - if "GOPATH" is found, no changes will be made to either .zshrc or .bashrc
+  - if "GOPATH" is found in .zshrc or .bashrc, no changes will be made
   - Menu Options 0 (Fix All), 1 (Fix Missing) or 3 (Fix GoLang) will activate this function
 
 # Revision 1.0.6 - theHarvester fix removed
