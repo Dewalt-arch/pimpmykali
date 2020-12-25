@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.5"
+    revision="1.0.6"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -93,7 +93,7 @@ fix_missing () {
     eval apt -y update $silent && eval apt -y autoremove $silent
     eval apt -y remove kali-undercover $silent
     echo -e "\n  $greenplus apt updated "
-    eval apt -y install dkms build-essential $silent
+    eval apt -y install dkms build-essential autogen automake python3-setuptools python3-distutils python3.9-dev $silent
     python-pip-curl
     python3_pip $force
     fix_gedit   $force  # restored to its former glory
@@ -108,7 +108,6 @@ fix_missing () {
 fix_all () {
     fix_missing   $force
     seclists      $force
-    fix_gedit     $force
     install_atom
     fix_flameshot $force
     fix_grub
@@ -483,44 +482,48 @@ fix_upgrade () {
     check_vm
     }
 
-fix_theharvester () {
-  # need to put a check in here for /bin/python3.9
-  cd /bin
-  ln -sf python3.9 python3
-  eval apt -y install autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev
-  echo -e "\n  $greenplus installed: autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev"
-  eval pip3 install Cython Sphinx psutil pyOpenSSL flake8
-  echo -e "\n  $greenplus installed: Cython Sphinx psutil pyOpenSSL flake8"
-  cd /opt
-  eval rm -rf /opt/theHarvester /opt/uvloop
-  echo -e "\n  $greenplus removed: /opt/theHarvester /opt/uvloop"
-
-  ## fix_uvloop
-  eval git clone https://github.com/MagicStack/uvloop /opt/uvloop
-  echo -e "\n  $greenplus cloned: uvloop"
-  cd /opt/uvloop
-  eval git submodule init
-  eval git submodule update
-  ## make change to the Makefile here change python to python3
-  eval cat /opt/uvloop/Makefile | sed 's/PYTHON ?= python/PYTHON ?= python3/' > /tmp/newMakefile
-  cp -f /tmp/newMakefile Makefile
-  rm -f /tmp/newMakefile
-  eval make
-  eval python3 setup.py install
-  echo -e "\n  $greenplus uvloop compiled and installed"
-
-  ## theHarvester
-  eval git clone https://github.com/laramies/theHarvester /opt/theHarvester
-  echo -e "\n  $greenplus cloned: theHarvester"
-  cd /opt/theHarvester
-  # remove remove : uvloop==0.14.0; platform_system != "Windows" from base.txt
-  eval head -n 16 /opt/theHarvester/requirements/base.txt > /tmp/newbase.txt
-  cp -f /tmp/newbase.txt  /opt/theHarvester/requirements/base.txt
-  rm -f /tmp/newbase.txt
-  eval pip3 install .
-  echo -e "\n  $greenplus theHarvester fixes applied and installed"
-  exit_screen
-}
+# Python 3.9.1rc1 has been released out of RC Status and appears stable Python 3.9.1
+# 12.25.2020 theHarvester fix removed from pimpmykali.sh currently only commented out
+# if no further action is required on theHarvester code will be removed.
+# -----------------------------------------------------------------------------------
+#fix_theharvester () {
+#  # need to put a check in here for /bin/python3.9
+#  cd /bin
+#  ln -sf python3.9 python3
+#  eval apt -y install autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev
+#  echo -e "\n  $greenplus installed: autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev"
+#  eval pip3 install Cython Sphinx psutil pyOpenSSL flake8
+#  echo -e "\n  $greenplus installed: Cython Sphinx psutil pyOpenSSL flake8"
+#  cd /opt
+#  eval rm -rf /opt/theHarvester /opt/uvloop
+#  echo -e "\n  $greenplus removed: /opt/theHarvester /opt/uvloop"
+#
+#  ## fix_uvloop
+#  eval git clone https://github.com/MagicStack/uvloop /opt/uvloop
+#  echo -e "\n  $greenplus cloned: uvloop"
+#  cd /opt/uvloop
+#  eval git submodule init
+#  eval git submodule update
+#  ## make change to the Makefile here change python to python3
+#  eval cat /opt/uvloop/Makefile | sed 's/PYTHON ?= python/PYTHON ?= python3/' > /tmp/newMakefile
+#  cp -f /tmp/newMakefile Makefile
+#  rm -f /tmp/newMakefile
+#  eval make
+#  eval python3 setup.py install
+#  echo -e "\n  $greenplus uvloop compiled and installed"
+#
+#  ## theHarvester
+#  eval git clone https://github.com/laramies/theHarvester /opt/theHarvester
+#  echo -e "\n  $greenplus cloned: theHarvester"
+#  cd /opt/theHarvester
+#  # remove remove : uvloop==0.14.0; platform_system != "Windows" from base.txt
+#  eval head -n 16 /opt/theHarvester/requirements/base.txt > /tmp/newbase.txt
+#  cp -f /tmp/newbase.txt  /opt/theHarvester/requirements/base.txt
+#  rm -f /tmp/newbase.txt
+#  eval pip3 install .
+#  echo -e "\n  $greenplus theHarvester fixes applied and installed"
+#  exit_screen
+# }
 
 bpt () {
     rm -rf /opt/the-essentials
@@ -661,13 +664,13 @@ pimpmykali_menu () {
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # only_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"           # - empty line -
     echo -e "                              (holds metasploit-framework will not upgrade)\n"   # - empty line -
-    echo -e "  H - Fix theHarvester        (fixes theHarvester)\n"                            # fix_theharvester
+    # echo -e "  H - Fix theHarvester        (fixes theHarvester)\n"                            # fix_theharvester
     echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)\n"                   # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
     echo -e "  0 - Fix ALL                 (runs only 1 thru 8) \n"                           # fix_all
     echo -e "  Now with Pimpmyupgrade\n    - when prompted select Yes to auto restart services \n"
-    read -n1 -p "  Enter 0 thru 9, B, D, H or ! press X to exit: " menuinput
+    read -n1 -p "  Enter 0 thru 9, B, D, or ! press X to exit: " menuinput
 
     case $menuinput in
         1) fix_missing ;;
@@ -683,7 +686,7 @@ pimpmykali_menu () {
         !) forced=1; fix_sead_warning;;
       d|D) downgrade_msf ;;
       b|B) bpt ;;
-      h|H) fix_theharvester ;;
+      # h|H) fix_theharvester ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
     esac

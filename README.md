@@ -16,6 +16,12 @@
   (youll need to run pimpmykali 3 times)
 - if your having problems with theHarvester run menu option H
 
+# Revision 1.0.6 - theHarvester fix removed
+  - Python 3.9.1rc1 has been released fully and is no longer in RC Status
+  - Python3.9.1 has arrived!
+  - theHarvester fix is no longer necessary and has been commented as of this Revision
+  - if no further complications, code will be removed completely
+  
 # Revision 1.0.5 - Gedit returns!
   - gedit has been added to fix_all and fix_missing functions
 
