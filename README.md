@@ -33,7 +33,7 @@
 # Revision 1.0.5 - Gedit returns!
   - gedit has been added to fix_all and fix_missing functions
 
-# Revision 1.0.4 - fix theHarvester
+# Revision 1.0.4 - fix theHarvester (removed in 1.0.6)
  - This is only to be used in the following case :
    - Menu option H and will only be called via menu option H
    - Kali 2020.4 has been apt upgraded and python3.9 is installed
