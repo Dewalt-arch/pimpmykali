@@ -13,11 +13,20 @@
 - cd pimpmykali
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option 0, then run D, then 9
-  (youll need to run pimpmykali 3 times)
-- if your having problems with theHarvester run menu option H
+  (youll need to run pimpmykali.sh 3 times)
+  - currently working on a function to script 0, D and 9 together! 
+
+# Revision 1.0.7 - GO Lang - Enviornment Variables added to .zshrc and .bashrc
+  - function will check for GOPATH in .zshrc and .bashrc
+  - Checks added for root and regular users
+  - if "GOPATH" is not found in either .zshrc or .bashrc, variables will be added:
+    - export GOPATH=$HOME/go
+    - export PATH=$PATH:$GOPATH/bin
+  - if "GOPATH" is found, no changes will be made to either .zshrc or .bashrc
+  - Menu Options 0 (Fix All), 1 (Fix Missing) or 3 (Fix GoLang) will activate this function
 
 # Revision 1.0.6 - theHarvester fix removed
-  - Python3.9.1 has arrived! No longer in Release Candidate status! 
+  - Python3.9.1 has arrived! No longer in Release Candidate status!
   - theHarvester fix is no longer necessary and has been commented as of this Revision
   - if no further complications, code will be removed completely
 

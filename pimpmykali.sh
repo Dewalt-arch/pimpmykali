@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.6"
+    revision="1.0.7"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -202,6 +202,51 @@ fix_golang () {
     section="golang"
     check=$(whereis go  | grep -i -c "/usr/bin/go")
     fix_section $section $check $force
+    fix_go_path
+    }
+
+fix_go_path() {
+    findrealuser=$(who | awk '{print $1}')
+    if [ $findrealuser == "root" ]
+     then
+      check_zshrc=$(cat /root/.zshrc | grep -c GOPATH)
+       if [ $check_zshrc -ne 0 ]
+         then
+          echo -e "\n  $redminus GOPATH Variables for $findrealuser already exist in /root/.zshrc - Not changing"
+         else
+          echo -e "\n  $greenplus Adding GOPATH Variables to /root/.zshrc"
+          eval echo -e 'export GOPATH=\$HOME/go' >> /root/.zshrc
+          eval echo -e 'export PATH=\$PATH:\$GOPATH/bin' >> /root/.zshrc
+       fi
+      check_root_bashrc=$(cat /root/.bashrc | grep -c GOPATH)
+       if [ $check_root_bashrc -ne 0 ]
+        then
+         echo -e "\n  $redminus GOPATH Variables for $findrealuser already exist in /root/.bashrc - Not changing"
+        else
+         echo -e "\n  $greenplus Adding GOPATH Variables to /root/.bashrc"
+         eval echo -e 'export GOPATH=\$HOME/go' >> /root/.bashrc
+         eval echo -e 'export PATH=\$PATH:\$GOPATH/bin' >> /root/.bashrc
+       fi
+     else
+      check_user_zshrc=$(cat /home/$findrealuser/.zshrc | grep -c GOPATH)
+       if [ $check_user_zshrc -ne 0 ]
+        then
+         echo -e "\n  $redminus GOPATH Variables for user $findrealuser already exist in /home/$findrealuser/.zshrc  - Not Changing"
+        else
+         echo -e "\n  $greenplus Adding GOPATH Variables to /home/$findrealuser/.zshrc"
+         eval echo -e 'export GOPATH=\$HOME/go' >> /home/$findrealuser/.zshrc
+         eval echo -e 'export PATH=\$PATH:\$GOPATH/bin' >> /home/$findrealuser/.zshrc
+       fi
+      check_user_bashrc=$(cat /home/$findrealuser/.bashrc | grep -c GOPATH)
+       if [ $check_user_bashrc -ne 0 ]
+        then
+         echo -e "\n  $redminus GOPATH Variables for user $findrealuser already exist in /home/$findrealuser/.bashrc - Not Changing"
+        else
+         echo -e "\n  $greenplus Adding GOPATH Variables to /home/$findrealuser/.bashrc"
+         eval echo -e 'export GOPATH=\$HOME/go' >> /home/$findrealuser/.bashrc
+         eval echo -e 'export PATH=\$PATH:\$GOPATH/bin' >> /home/$findrealuser/.bashrc
+       fi
+    fi
     }
 
 fix_smbconf () {
