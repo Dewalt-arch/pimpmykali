@@ -669,7 +669,6 @@ pimpmykali_menu () {
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)\n"                   # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
     echo -e "  0 - Fix ALL                 (runs only 1 thru 8) \n"                           # fix_all
-    echo -e "  Now with Pimpmyupgrade\n    - when prompted select Yes to auto restart services \n"
     read -n1 -p "  Enter 0 thru 9, B, D, or ! press X to exit: " menuinput
 
     case $menuinput in
