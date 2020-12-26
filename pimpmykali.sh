@@ -209,8 +209,8 @@ fix_go_path() {
     findrealuser=$(who | awk '{print $1}')
     if [ $findrealuser == "root" ]
      then
-      check_zshrc=$(cat /root/.zshrc | grep -c GOPATH)
-       if [ $check_zshrc -ne 0 ]
+      check_root_zshrc=$(cat /root/.zshrc | grep -c GOPATH)
+       if [ $check_root_zshrc -ne 0 ]
          then
           echo -e "\n  $redminus GOPATH Variables for $findrealuser already exist in /root/.zshrc - Not changing"
          else
