@@ -14,7 +14,7 @@
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option N
 
-# Revision 1.0.8 - New Menu Item n or N - Intended for new vm's
+# Revision 1.0.8 - New Menu Item n or N
   - function will run fix_all, fix_missing, downgrade metasploit and pimpmyupgrade
   - executes menu options 0, D and 9 from a single menu item.
   - On-screen Menu display has been reworked and cleaned up a bit
