@@ -772,7 +772,7 @@ check_arg () {
       --subl) install_sublime                  ;; # hidden switch
       --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;
-# --harvester) fix_theharvester                 ;;
+# --harvester) fix_theharvester                ;; 
       *) pimpmykali_help ; exit 0              ;;
     esac
     fi
