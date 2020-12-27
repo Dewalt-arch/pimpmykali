@@ -12,9 +12,13 @@
 - git clone https://github.com/Dewalt-arch/pimpmykali
 - cd pimpmykali
 - sudo ./pimpmykali.sh
-- For a new kali vm, run menu option 0, then run D, then 9
-  (youll need to run pimpmykali.sh 3 times)
-  - currently working on a function to script 0, D and 9 together!
+- For a new kali vm, run menu option N
+
+# Revision 1.0.8 - New Menu Item n or N - Intended for new vm's
+  - function will run fix_all, fix_missing, downgrade metasploit and
+  - will run pimpmyupgrade (menu options 0, D and 9) from a single menu item.
+  - Menu on screen display has been reworked and cleaned up a bit
+  - This saves the user from running menu 0, then running D then running 9 individually.
 
 # Revision 1.0.7 - GOPATH statements added to .zshrc and .bashrc
   - function will check for GOPATH in .zshrc and .bashrc

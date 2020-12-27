@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.7"
+    revision="1.0.8"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -517,7 +517,6 @@ only_upgrade () {
     check_vm
     echo -e "\n  $greenplus releasing hold on package: metasploit-framework"
     eval apt-mark unhold metasploit-framework
-    exit_screen
     }
 
 fix_upgrade () {
@@ -588,8 +587,7 @@ downgrade_msf () {
     apt-mark hold metasploit-framework
     echo -e "\n  $greenplus metasploit downgraded \n"
     echo -e "\n  $greenplus hold placed on metasploit-framework \n"
-    exit_screen
-}
+    }
 
 pimpmywifi_main () {
     # Nothing to see here Netizen move along...
@@ -697,24 +695,26 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
-    echo -e "\n Options are 0 thru 9, !, D or B :"                                              # function call list
-    echo -e "\n  1 - Fix Missing             (pip pip3 golang gedit nmapfix build-essential)" # fix_missing
-    echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                        # fix_smbconf
-    echo -e "  3 - Fix Golang              (installs golang)"                                 # fix_golang
-    echo -e "  4 - Fix Grub                (adds mitigations=off)"                            # fix_grub
-    echo -e "  5 - Fix Impacket            (installs impacket)"                               # fix_impacket
-    echo -e "  6 - Enable Root Login       (installs kali-root-login)"                        # make_rootgreatagain
-    echo -e "  7 - Install Atom            (installs atom)"                                   # install_atom
-    echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"         # fix_nmap
-    echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"          # only_upgrade
-    echo -e "                              (sources.list, linux-headers, vm-video)"           # - empty line -
-    echo -e "                              (holds metasploit-framework will not upgrade)\n"   # - empty line -
-    # echo -e "  H - Fix theHarvester        (fixes theHarvester)\n"                            # fix_theharvester
-    echo -e "  ! - Nuke Impacket           (Type ! character for this menu item)\n"           # fix_sead_warning
-    echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)\n"                   # downgrade_msf
-    echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"     # bpt
-    echo -e "  0 - Fix ALL                 (runs only 1 thru 8) \n"                           # fix_all
-    read -n1 -p "  Enter 0 thru 9, B, D, or ! press X to exit: " menuinput
+    echo -e "\n  Menu Options:"                                                                 # function call list
+    echo -e "\n  1 - Fix Missing             (pip pip3 golang gedit nmapfix build-essential)"   # fix_missing
+    echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                          # fix_smbconf
+    echo -e "  3 - Fix Golang              (installs golang)"                                   # fix_golang
+    echo -e "  4 - Fix Grub                (adds mitigations=off)"                              # fix_grub
+    echo -e "  5 - Fix Impacket            (installs impacket)"                                 # fix_impacket
+    echo -e "  6 - Enable Root Login       (installs kali-root-login)"                          # make_rootgreatagain
+    echo -e "  7 - Install Atom            (installs atom)"                                     # install_atom
+    echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"           # fix_nmap
+    echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"            # only_upgrade
+    echo -e "                              (sources.list, linux-headers, vm-video )"              # -
+    echo -e "                              (will not upgrade: metasploit-framework)"              # -
+    echo -e "  0 - Fix ALL                 (runs only 1 thru 8) \n"                             # fix_all
+    echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali" # menu item only no function
+    echo -e "      This will run Fix All (0), Metasploit Downgrade (D) and Pimpmyupgrade (9)\n" #
+    echo -e "  Additional Functions : "                                                         # optional line
+    echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"           # fix_sead_warning
+    echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                       # downgrade_msf
+    echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"       # bpt
+    read -n1 -p "  Enter 0 thru 9, N, B, D, or ! press X to exit: " menuinput
 
     case $menuinput in
         1) fix_missing ;;
@@ -728,6 +728,7 @@ pimpmykali_menu () {
         9) only_upgrade ;;
         0) fix_all ;;
         !) forced=1; fix_sead_warning;;
+      n|N) fix_all; downgrade_msf; only_upgrade;;
       d|D) downgrade_msf ;;
       b|B) bpt ;;
       # h|H) fix_theharvester ;;
