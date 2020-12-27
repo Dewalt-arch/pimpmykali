@@ -16,7 +16,7 @@
 
 # Revision 1.0.8 - New Menu Item n or N - Intended for new vm's
   - function will run fix_all, fix_missing, downgrade metasploit and pimpmyupgrade
-  - menu options 0, D and 9) from a single menu item.
+  - executes menu options 0, D and 9 from a single menu item.
   - On-screen Menu display has been reworked and cleaned up a bit
   - This saves the user from running menu 0, then running D then running 9 individually.
 
