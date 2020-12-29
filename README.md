@@ -14,7 +14,7 @@
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option N
 
-# Revision 1.0.10 - python module: xlrd added
+# Revision 1.1.0 - python module: xlrd added
   - added installation of pip install xlrd to fix missing
   - general code cleanup
 
