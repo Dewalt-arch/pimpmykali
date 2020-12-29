@@ -14,11 +14,11 @@
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option N
 
-# Revision 1.0.9 - Qemu/Libvirt Hypervisor Detection added
+# Revision 1.0.9 - Qemu/Libvirt Detection added
   - Thank you m4ul3r! It was his idea and testing that we are able to add this!
   - detection of "kvm" hypervisor
   - upon that detection xserver-xorg-video-qxl spice-vdagent are installed
-  
+
 # Revision 1.0.8 - New Menu Item n or N
   - function will run fix_all, fix_missing, downgrade metasploit and pimpmyupgrade
   - executes menu options 0, D and 9 from a single menu item.
