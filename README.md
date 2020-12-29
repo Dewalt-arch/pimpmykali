@@ -15,7 +15,7 @@
 - For a new kali vm, run menu option N
 
 # Revision 1.1.0 - python module: xlrd added
-  - added installation of pip install xlrd==1.2.0 to fix missing
+  - added pip install xlrd==1.2.0 to fix missing
   - general code cleanup
   - Thank you to hackza for testing functions on Mac Vmware Fusion!
 
