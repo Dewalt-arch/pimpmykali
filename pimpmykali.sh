@@ -102,7 +102,7 @@ fix_missing () {
     fix_nmap
     fix_rockyou
     fix_python_requests
-    fix_pipxlrd        # think about this one a bit
+    fix_pipxlrd        # xlrd added 12.29.2020
     }
 
 fix_all () {
@@ -123,9 +123,9 @@ fix_all () {
 
 
 fix_pipxlrd () {
-     eval pip install xlrd --upgrade
-     echo -e "\n  $greenplus python module : xlrd installed \n"
-     # pip3 install xlrd --upgrade
+    eval pip install xlrd --upgrade
+    # eval pip3 install xlrd --upgrade
+    echo -e "\n  $greenplus python module : xlrd installed \n"
     }
 
 python-pip-curl () {
