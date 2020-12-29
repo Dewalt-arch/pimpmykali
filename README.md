@@ -15,10 +15,10 @@
 - For a new kali vm, run menu option N
 
 # Revision 1.1.0 - python module: xlrd added
-  - added installation of pip install xlrd to fix missing
+  - added installation of pip install xlrd==1.2.0 to fix missing
   - general code cleanup
   - Thank you to hackza for testing functions on Mac Vmware Fusion!
-  
+
 # Revision 1.0.9 - Qemu/Libvirt Detection added
   - Thank you m4ul3r! It was his idea and testing that we are able to add this!
   - detection of "kvm" hypervisor
