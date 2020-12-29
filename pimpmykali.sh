@@ -123,7 +123,7 @@ fix_all () {
 
 
 fix_pipxlrd () {
-    eval pip install xlrd --upgrade
+    eval pip install xlrd==1.2.0 --upgrade
     # eval pip3 install xlrd --upgrade
     echo -e "\n  $greenplus python module : xlrd installed \n"
     }
