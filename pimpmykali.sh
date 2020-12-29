@@ -126,7 +126,7 @@ fix_pipxlrd () {
      eval pip install xlrd --upgrade
      echo -e "\n  $greenplus python module : xlrd installed \n"
      # pip3 install xlrd --upgrade
-   }
+    }
 
 python-pip-curl () {
     check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip")
@@ -150,10 +150,10 @@ python-pip-curl () {
  # fix_section $section $check $force
 
 fix_gedit () {
-     section="gedit"
-     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
-     fix_section $section $check $force
-     }
+    section="gedit"
+    check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
+    fix_section $section $check $force
+    }
 
 fix_rockyou () {
     cd /usr/share/wordlists
@@ -197,7 +197,7 @@ fix_flameshot () {
     section="flameshot"
     check=$(whereis flameshot | grep -i -c "/usr/bin/flameshot")
     fix_section $section $check $force
-     }
+    }
 
 fix_golang () {
     section="golang"
@@ -293,7 +293,7 @@ fix_python_requests (){
     eval pip install .
     echo -e "\n  $greenplus installed python2 module : requests"
     echo -e "\n  $greenplus installed python2 module : colorama"
-}
+    }
 
 fix_bad_apt_hash (){
     mkdir -p /etc/gcrypt
@@ -306,7 +306,7 @@ install_atom () {
     eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
     eval rm -f /tmp/atom.deb
     eval apt -y --fix-broken install >/dev/null 2>&1
-}
+    }
 
 install_sublime () {
     echo -e "\n  $greenplus installing sublime text editor"
