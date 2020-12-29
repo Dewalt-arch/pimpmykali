@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.0.8"
+    revision="1.0.9"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -656,6 +656,7 @@ check_vm() {
     echo -e "\n  $greenplus detecting hypervisor type \n"
     vbox_check=$(virt-what | grep -i -c "virtualbox")    # virtualbox check
     vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check
+    qemu_check=$(virt-what | grep -i -c "kvm")           # m4ul3r Qemu/libvirt check
     if [ $vbox_check = 1 ]
       then
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
@@ -679,6 +680,11 @@ check_vm() {
           #
           #----------------------- end of vmware additional fixes
           exit_screen
+       elif  [ $qemu_check = 1 ]
+         then
+          echo -e "\n  $greenplus *** QEMU/LIBVIRT DETECTED *** \n"
+          eval apt -y reinstall xserver-xorg-video-qxl spice-vdagent
+          echo -e "\n  $greenplus installing xserver-xorg-video-qxl spice-vdagent"
       else
         echo -e "\n $redstar Hypervisor not detected, Possible bare-metal installation not updating"
     fi
@@ -772,7 +778,7 @@ check_arg () {
       --subl) install_sublime                  ;; # hidden switch
       --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;
-# --harvester) fix_theharvester                ;; 
+# --harvester) fix_theharvester                ;;
       *) pimpmykali_help ; exit 0              ;;
     esac
     fi
