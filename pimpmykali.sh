@@ -102,7 +102,7 @@ fix_missing () {
     fix_nmap
     fix_rockyou
     fix_python_requests
-    #fix_pipxlrd        # think about this one a bit
+    fix_pipxlrd        # think about this one a bit
     }
 
 fix_all () {
@@ -121,11 +121,12 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
-# think about this one for a bit
-#fix_pipxlrd () {
-#    pip install xlrd --upgrade
-#    pip3 install xlrd --upgrade
-#    }
+
+fix_pipxlrd () {
+     eval pip install xlrd --upgrade
+     echo -e "\n  $greenplus pip module : xlrd installed \n"
+     # pip3 install xlrd --upgrade
+   }
 
 python-pip-curl () {
     check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip")

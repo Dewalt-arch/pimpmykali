@@ -14,6 +14,9 @@
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option N
 
+# Revision 1.0.10 - python module: xlrd added
+  - added installation of pip install xlrd to fix missing 
+
 # Revision 1.0.9 - Qemu/Libvirt Detection added
   - Thank you m4ul3r! It was his idea and testing that we are able to add this!
   - detection of "kvm" hypervisor
