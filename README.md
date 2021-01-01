@@ -14,6 +14,10 @@
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option N
 
+# Revision 1.1.1 - quick fix
+  - Quick fix applied to modifiy a specific function that was calling
+  - the exit_screen when it should not have been
+
 # Revision 1.1.0 - python module: xlrd added
   - added pip install xlrd==1.2.0 to fix missing
   - general code cleanup
