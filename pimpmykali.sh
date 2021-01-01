@@ -372,11 +372,30 @@ enable_rootlogin () {
     echo -e "\n\nEnabling Root Login Give root a password"
     passwd root
     echo -e "\n  $greenplus root login enabled \n"
+    # Give option to copy all of /home/kali to /root  or just make the Default dirs and base configs?
+    # Possibly do something using a bash array here, but were talking 2 different arrays one for the files one for the dirs
+    # - .config does not exist in /root at all or in /etc/skel
+    # if exist /root/something then dont copy if it does not exist then preform copy from /home/kali
+    # [ -d "/root/Desktop"   ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Desktop
+    # [ -d "/root/Documents" ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Documents
+    # [ -d "/root/Downloads" ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Downloads
+    # [ -d "/root/Music"     ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Music
+    # [ -d "/root/Templates" ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Templates
+    # [ -d "/root/Public"    ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Public
+    # [ -d "/root/Videos"    ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Videos
+    # [ -d "/root/.config    ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; cp -Rvf /home/kali/.config /root
+    # [ -f "/root/.zshrc"    ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; cp -Rvf /etc/skel/.zshrc /root
+    # [ -f "/root/.bashrc"   ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; cp -Rvf /etc/skel/.bashrc /root
+      # run golang path fix at this point on these 2 files
+      # but at this point if were doing a cp -Rvf from /home/kali anyway, just copy it all ..
+      # decisions...
+      # create new function to be called from here to create default /root homedir directories and base config files
+      # setup_root_homedir () { }
     }
 
 fix_sead_warning () {
     clear
- # fugly - really need to clean this up, it works but its just a nightmare too look at
+ # fugly - really need to clean this up, it works but its just a nightmare to look at
  echo -e "
 
  "$bold$redexclaim$red" WARNING "$redexclaim$bold$red"  PIMPMYKALI IMPACKET REMOVAL FUNCTION  "$redexclaim$bold$red" WARNING "$redexclaim$white$norm"
@@ -432,7 +451,7 @@ fix_sead_run () {
     #    echo -e "  If you've made it this far you're having a really bad day with impacket... "
     echo -e "  Enjoy the last chance launch sequence!\n"
     echo -e "  Preparing to nuke Impacket...\n"
-    echo -e "  $green[....]$white aquiring targets\n"
+    echo -e "  $green[....]$white acquiring targets\n"
     echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD\n"
     echo -e "  $green[-$red++$green-]$white targets locked\n"
     echo -e "  $green[++++]$white systems ready\n"
@@ -656,7 +675,7 @@ fix_virtualbox() {
 check_vm() {
     echo -e "\n  $greenplus detecting hypervisor type \n"
     vbox_check=$(virt-what | grep -i -c "virtualbox")    # virtualbox check
-    vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check
+    vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check - vmware check works on Mac VMWare Fusion
     qemu_check=$(virt-what | grep -i -c "kvm")           # m4ul3r Qemu/libvirt check
     if [ $vbox_check = 1 ]
       then
@@ -668,7 +687,7 @@ check_vm() {
              fix_virtualbox
              vbox_fix_shared_folder_permission_denied
            #----------------------- end of virtualbox additional fixes
-        exit_screen
+           # exit_screen
       elif  [ $vmware_check = 1 ]
         then
           echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
@@ -680,7 +699,7 @@ check_vm() {
           #----------------------- additional vmware fixes
           #
           #----------------------- end of vmware additional fixes
-          exit_screen
+          # exit_screen
        elif  [ $qemu_check = 1 ]
          then
           echo -e "\n  $greenplus *** QEMU/LIBVIRT DETECTED *** \n"
