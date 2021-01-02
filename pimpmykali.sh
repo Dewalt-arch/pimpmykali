@@ -392,14 +392,14 @@ ask_homekali_to_root () {
         n|N) echo -e "\n\n  $redexclaim skipping copy of /home/kali to /root" ;;
         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_homekali_to_root;;
       esac
-      }
+    }
 
 preform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
     eval cp -Rvf /home/kali/.* /home/kali/* /root >/dev/null 2>&1
     eval chown -R root:root /root
     echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
-}
+    }
 # 01.02.2021 rev 1.1.2 --- end copy to /root warning screens and functions ---
 
 fix_sead_warning () {
