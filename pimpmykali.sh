@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.1.1"
+    revision="1.1.2"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -344,23 +344,21 @@ run_update () {
     }
 
 make_rootgreatagain () {
-    echo -e "\n KALI-ROOT-LOGIN INSTALLATION:   "$red"*** READ CAREFULLY! ***"$white" \n"
-    echo -e " On Kali 2019.x and prior the default user was root"
-    echo -e " On Kali 2020.1 and newer this was changed, the default user was changed to be "
-    echo -e " an" $yellow$bold"actual user"$norm$white" on the system and not "$red$bold"root"$norm$white", this user is : kali (by default) "
-    echo -e " \n  Your existing user configurations will not be affected or altered. "
-    echo -e "  This will "$red"ONLY"$white" reenable the ability to login as root at boot and does "$red"NOT"$white" replace"
-    echo -e "  any existing user, remove any user files or user configurations."
-    echo -e "\n  If you wish to re-enable the ability to login to kali as root at the login screen "
-    echo -e "  and be root all the time, press Y "
-    echo -e "\n  If not, press N and the script will skip this section "
-    echo -e "\n  "$bold$red"If you are confused or dont understand what"$norm$white
-    echo -e "  "$bold$red"this part of the script is doing, press N"$norm$white
-    echo -e "\n  Do you want to re-enable the ability to login as root in kali?"
-    read -n1 -p "  Please type Y or N : " userinput
+    echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 1   "$red"*** READ CAREFULLY! ***"$white" \n"
+    echo -e "   On Kali 2019.x and prior the default user was root"
+    echo -e "   On Kali 2020.1 and newer this was changed, the default user was changed to be "
+    echo -e "   an" $yellow$bold"actual user"$norm$white" on the system and not "$red$bold"root"$norm$white", this user is : kali (by default) "
+    echo -e "\n   Press Y - If you wish to re-enable the ability to login as root and be root all the time"
+    echo -e "     If you choose Yes - a second screen will prompt you to copy all of /home/kali to /root"
+    echo -e "     as there is nothing in the /root directory by default"
+    echo -e "\n   Press N - The script will skip this section, and not re-enable the login as root function"
+    echo -e "\n   "$bold$red"If you are confused or dont understand what"$norm$white
+    echo -e "   "$bold$red"this part of the script is doing, press N"$norm$white
+    echo -e "\n   Do you want to re-enable the ability to login as root in kali?"
+    read -n1 -p "   Please type Y or N : " userinput
     case $userinput in
         y|Y) enable_rootlogin $force;;
-        n|N) echo -e "\n $redexclaim skipping root login setup" ;;
+        n|N) echo -e "\n\n $redexclaim skipping root login setup" ;;
         *) echo -e "\n invalid key try again Y or N"; make_rootgreatagain;;
     esac
     }
@@ -372,26 +370,37 @@ enable_rootlogin () {
     echo -e "\n\nEnabling Root Login Give root a password"
     passwd root
     echo -e "\n  $greenplus root login enabled \n"
-    # Give option to copy all of /home/kali to /root  or just make the Default dirs and base configs?
-    # Possibly do something using a bash array here, but were talking 2 different arrays one for the files one for the dirs
-    # - .config does not exist in /root at all or in /etc/skel
-    # if exist /root/something then dont copy if it does not exist then preform copy from /home/kali
-    # [ -d "/root/Desktop"   ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Desktop
-    # [ -d "/root/Documents" ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Documents
-    # [ -d "/root/Downloads" ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Downloads
-    # [ -d "/root/Music"     ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Music
-    # [ -d "/root/Templates" ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Templates
-    # [ -d "/root/Public"    ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Public
-    # [ -d "/root/Videos"    ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; mkdir /root/Videos
-    # [ -d "/root/.config    ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; cp -Rvf /home/kali/.config /root
-    # [ -f "/root/.zshrc"    ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; cp -Rvf /etc/skel/.zshrc /root
-    # [ -f "/root/.bashrc"   ] && echo "Directory /path/to/dir exists. skipping..." || echo "Error: Directory /path/to/dir does not exists."; cp -Rvf /etc/skel/.bashrc /root
-      # run golang path fix at this point on these 2 files
-      # but at this point if were doing a cp -Rvf from /home/kali anyway, just copy it all ..
-      # decisions...
-      # create new function to be called from here to create default /root homedir directories and base config files
-      # setup_root_homedir () { }
+    ask_homekali_to_root
     }
+
+# 1.2.2021 rev 1.1.2 - new screens for copying from /home/kali to /root, no detection, all based on used input
+ask_homekali_to_root () {
+    echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 2   "$red"*** READ CAREFULLY! ***"$white" \n"
+    echo -e "   This section of the script is only executed if Y was selected at the enable root login prompt\n"
+    echo -e "   If you are planning on operating your kali install as root instead of the user kali, "
+    echo -e "   by default there is nothing in /root, This script has the ability to copy everything"
+    echo -e "   from /home/kali to /root for you. \n"
+    echo -e "  $red Warning:$white This copy function $red will overwrite $white anything in /root with the entire contents of /home/kali !! "
+    echo -e "   The copy statement that is going to be preformed if you select Y is: "
+    echo -e "    cp -Rvf /home/kali/* /home/kali/.* /root"
+    echo -e "\n   Would you like to copy everything from /home/kali to /root ?"
+    echo -e "     Press Y - to copy everything from /home/kali to /root"
+    echo -e "     Press N - do not copy anything to /root and skip this function\n"
+    read -n1 -p "   Please type Y or N : " userinput
+      case $userinput in
+        y|Y) preform_copy_to_root;;
+        n|N) echo -e "\n\n  $redexclaim skipping copy of /home/kali to /root" ;;
+        *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_homekali_to_root;;
+      esac
+      }
+
+preform_copy_to_root () {
+    echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
+    eval cp -Rvf /home/kali/.* /home/kali/* /root >/dev/null 2>&1
+    eval chown -R root:root /root
+    echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
+}
+# --- end copy to /root warning screens and functions ---
 
 fix_sead_warning () {
     clear
