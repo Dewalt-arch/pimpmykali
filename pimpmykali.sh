@@ -374,6 +374,7 @@ enable_rootlogin () {
     }
 
 # 01.02.2021 rev 1.1.2 - new screens for copying from /home/kali to /root, no detection, all based on used input
+# add detection for /root/Desktop or something generic in /root if detected throw error and no preform copy function
 ask_homekali_to_root () {
     echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 2   "$red"*** READ CAREFULLY! ***"$white" \n"
     echo -e "   This section of the script is only executed if Y was selected at the enable root login prompt\n"
@@ -393,6 +394,10 @@ ask_homekali_to_root () {
         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_homekali_to_root;;
       esac
     }
+
+# Add middle man function here for "Are you sure you want to do this? Y/N"
+# if yes - execute copy function
+# if no  - do not preform copy function
 
 preform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
