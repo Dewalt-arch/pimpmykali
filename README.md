@@ -20,14 +20,14 @@
     are no files or directories in /root once the root login is enabled and they login as root
     This is the default as root was disabled, there is nothing in /root
 
-  - This function ONLY executes If the user selects Y at the enable root login prompt
+  - This function ONLY executes If the user selects Yes at the enable root login prompt
 
   - A second screen and prompt was added to the Enable Root Login function
     and prompts the user to copy everything from /home/kali to /root
     - Y selection will copy all of /home/kali to /root
     - N selection will skip the copy and end this function
   - No file-checking will be preformed
-  - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Y is selected
+  - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Yes is selected
 
 # Revision 1.1.1 - quick fix
   - Quick fix applied to modifiy a specific function that was calling
