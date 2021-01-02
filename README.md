@@ -1,12 +1,12 @@
 # pimpmykali.sh
 
 # Fixes for new imported Kali Linux virtual machines
-  - Author assumes zero liability for any data loss or misuse of pimpmykali 
+  - Author assumes zero liability for any data loss or misuse of pimpmykali
   - Can be used on a bare metal machines, but thats on you
 
 # Github index updated added +x permission:
-- Script should now be executable upon clone (perms: 755 rwxr-xr-x added to github)
-  - you should not need to chmod +x pimpmykali.sh upon git clone anymore
+  - Script is now be executable upon clone (perms: 755 rwxr-xr-x added to github)
+  - There is no need to chmod +x pimpmykali.sh upon git clone
 
 # Installation script:
   - rm -rf pimpmykali/
