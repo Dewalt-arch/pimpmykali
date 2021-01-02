@@ -28,8 +28,7 @@
     - N selection will skip the copy and end this function
   - No file-checking will be preformed
   - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Y is selected
-    - Zero Liability is assumed for any data loss or misuse of this function
-
+    
 # Revision 1.1.1 - quick fix
   - Quick fix applied to modifiy a specific function that was calling
   - the exit_screen when it should not have been
