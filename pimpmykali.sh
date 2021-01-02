@@ -373,7 +373,7 @@ enable_rootlogin () {
     ask_homekali_to_root
     }
 
-# 1.2.2021 rev 1.1.2 - new screens for copying from /home/kali to /root, no detection, all based on used input
+# 01.02.2021 rev 1.1.2 - new screens for copying from /home/kali to /root, no detection, all based on used input
 ask_homekali_to_root () {
     echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 2   "$red"*** READ CAREFULLY! ***"$white" \n"
     echo -e "   This section of the script is only executed if Y was selected at the enable root login prompt\n"
@@ -400,7 +400,7 @@ preform_copy_to_root () {
     eval chown -R root:root /root
     echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
 }
-# --- end copy to /root warning screens and functions ---
+# 01.02.2021 rev 1.1.2 --- end copy to /root warning screens and functions ---
 
 fix_sead_warning () {
     clear
