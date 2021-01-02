@@ -16,12 +16,11 @@
   - For a new kali vm, run menu option N
 
 # Revision 1.1.2 - copy /home/kali to /root screen and prompt
-  - This function ONLY executes If the user selects Y at the enable root login prompt
-
   - Recently there have been a number of users wanting to run as root in kali but finding there
     are no files or directories in /root once the root login is enabled and they login as root
-
     This is the default as root was disabled, there is nothing in /root
+
+  - This function ONLY executes If the user selects Y at the enable root login prompt
 
   - A second screen and prompt was added to the Enable Root Login function
     and prompts the user to copy everything from /home/kali to /root
