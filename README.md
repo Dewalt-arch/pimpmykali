@@ -23,12 +23,12 @@
   - This function ONLY executes If the user selects Yes at the enable root login prompt
 
   - A second screen and prompt was added to the Enable Root Login function
-    and prompts the user to copy everything from /home/kali to /root
+    - Prompts the user to copy everything from /home/kali to /root (And we mean everything!)
     - Y selection will copy all of /home/kali to /root
     - N selection will skip the copy and end this function
   - No file-checking will be preformed
   - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Yes is selected
-  - Function does NOT remove anything from /home/kali 
+  - Function does NOT remove anything from /home/kali
 
 # Revision 1.1.1 - quick fix
   - Quick fix applied to modifiy a specific function that was calling
