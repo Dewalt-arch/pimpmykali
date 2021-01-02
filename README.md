@@ -30,7 +30,7 @@
     - Y selection will copy all of /home/kali to /root
     - N selection will skip the copy and end this function
   - No file-checking will be preformed
-  - Warning: This WILL overwrite anything in /root with the contents of /home/kali
+  - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Y is selected
 
 # Revision 1.1.1 - quick fix
   - Quick fix applied to modifiy a specific function that was calling
