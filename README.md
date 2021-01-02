@@ -20,7 +20,7 @@
   - Recently there have been a number of users wanting to run as root in kali but finding there
     are no files or directories in /root once the root login is enabled and they login as root
 
-    This is the default as root was disabled there is not anything in /root
+    This is the default as root was disabled, there is nothing in /root
 
   - A second screen and prompt was added to the Enable Root Login function
     and prompts the user to copy everything from /home/kali to /root
