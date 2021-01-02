@@ -382,7 +382,7 @@ ask_homekali_to_root () {
     echo -e "   by default there is nothing in /root, This script has the ability to copy everything"
     echo -e "   from /home/kali to /root for you. \n"
     echo -e "  $red Warning:$white This copy function $red will overwrite $white anything in /root with the entire contents of /home/kali"
-    echo -e "   The copy statement that is going to be preformed if you select Y is:\n "
+    echo -e "   The copy statement that is going to be performed if you select Y is:\n "
     echo -e "    cp -Rvf /home/kali/* /home/kali/.* /root"
     echo -e "\n   Would you like to copy everything from /home/kali to /root ?"
     echo -e "     Press Y - to copy everything from /home/kali to /root"
