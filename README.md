@@ -14,8 +14,7 @@
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option N
 
-# Revision 1.1.2 - ask_homekali_to_root and copy_to_root_warning functions
-  - copy /home/kali to /root screen and prompt
+# Revision 1.1.2 - copy /home/kali to /root screen and prompt
     This function ONLY executes If the user selects Y at the enable root login prompt
 
   - Recently there have been a number of users wanting to run as root in kali but finding there
