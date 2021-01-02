@@ -14,9 +14,9 @@
 - sudo ./pimpmykali.sh
 - For a new kali vm, run menu option N
 
-# Revision 1.1.2 - copy /home/kali to /root (read carefully)
+# Revision 1.1.2 - copy /home/kali to /root 
     This function only executes If the user selects Y at the enable root login prompt
-    
+
   - Recently there have been a number of users wanting to run as root in kali but finding there
     are no files or directories in /root once the root login is enabled and they login as root
 
