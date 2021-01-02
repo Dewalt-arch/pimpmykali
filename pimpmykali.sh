@@ -377,7 +377,7 @@ enable_rootlogin () {
 # add detection for /root/Desktop or something generic in /root if detected throw error and no preform copy function
 ask_homekali_to_root () {
     echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 2   "$red"*** READ CAREFULLY! ***"$white" \n"
-    echo -e "   This section of the script is only executed if Y was selected at the enable root login prompt\n"
+    echo -e "   This section of the script is only executed if Yes was selected at the enable root login prompt\n"
     echo -e "   If you are planning on operating your kali install as root instead of the user kali, "
     echo -e "   by default there is nothing in /root, This script has the ability to copy everything"
     echo -e "   from /home/kali to /root for you. \n"
