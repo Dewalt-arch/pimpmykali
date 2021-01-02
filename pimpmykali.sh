@@ -389,7 +389,7 @@ ask_homekali_to_root () {
     echo -e "     Press N - do not copy anything to /root and skip this function\n"
     read -n1 -p "   Please type Y or N : " userinput
       case $userinput in
-        y|Y) preform_copy_to_root;;
+        y|Y) perform_copy_to_root;;
         n|N) echo -e "\n\n  $redexclaim skipping copy of /home/kali to /root" ;;
         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_homekali_to_root;;
       esac
@@ -400,7 +400,7 @@ ask_homekali_to_root () {
 # if yes - execute copy function (preform_copy_to_root)
 # if no  - do not preform copy function - does nothing
 
-preform_copy_to_root () {
+perform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
     eval cp -Rvf /home/kali/.* /home/kali/* /root >/dev/null 2>&1
     eval chown -R root:root /root
