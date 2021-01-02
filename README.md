@@ -18,7 +18,7 @@
 # Revision 1.1.2 - copy /home/kali to /root screen and prompt
   - Recently there have been a number of users wanting to run as root in kali but finding there
     are no files or directories in /root once the root login is enabled and they login as root.
-    
+
     This is the default as root was disabled, there is nothing in /root
 
   - This function ONLY executes If the user selects Yes at the enable root login prompt
@@ -27,7 +27,7 @@
     - Prompts the user to copy everything from /home/kali to /root (And we mean everything!)
     - Y selection will copy all of /home/kali to /root
     - N selection will skip the copy and end this function
-  - No file-checking will be preformed
+  - No file-checking will be performed
   - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Yes is selected
   - Function does NOT remove anything from /home/kali
 
