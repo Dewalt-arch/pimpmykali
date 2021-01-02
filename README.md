@@ -1,18 +1,19 @@
 # pimpmykali.sh
 
 # Fixes for new imported Kali Linux virtual machines
-- could be used on a bare metal machines, but thats on you
+  - Author assumes zero liability for any data loss or misuse of pimpmykali 
+  - Can be used on a bare metal machines, but thats on you
 
 # Github index updated added +x permission:
 - Script should now be executable upon clone (perms: 755 rwxr-xr-x added to github)
   - you should not need to chmod +x pimpmykali.sh upon git clone anymore
 
 # Installation script:
-- rm -rf pimpmykali/
-- git clone https://github.com/Dewalt-arch/pimpmykali
-- cd pimpmykali
-- sudo ./pimpmykali.sh
-- For a new kali vm, run menu option N
+  - rm -rf pimpmykali/
+  - git clone https://github.com/Dewalt-arch/pimpmykali
+  - cd pimpmykali
+  - sudo ./pimpmykali.sh
+  - For a new kali vm, run menu option N
 
 # Revision 1.1.2 - copy /home/kali to /root screen and prompt
   - This function ONLY executes If the user selects Y at the enable root login prompt
@@ -28,7 +29,7 @@
     - N selection will skip the copy and end this function
   - No file-checking will be preformed
   - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Y is selected
-    
+
 # Revision 1.1.1 - quick fix
   - Quick fix applied to modifiy a specific function that was calling
   - the exit_screen when it should not have been
