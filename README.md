@@ -17,7 +17,8 @@
 
 # Revision 1.1.2 - copy /home/kali to /root screen and prompt
   - Recently there have been a number of users wanting to run as root in kali but finding there
-    are no files or directories in /root once the root login is enabled and they login as root
+    are no files or directories in /root once the root login is enabled and they login as root.
+    
     This is the default as root was disabled, there is nothing in /root
 
   - This function ONLY executes If the user selects Yes at the enable root login prompt
