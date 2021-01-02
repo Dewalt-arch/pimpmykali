@@ -23,7 +23,7 @@
     This is the default as root was disabled there is not anything in /root
 
   - A second screen and prompt was added to the Enable Root Login function
-    This prompts the user to copy everything from /home/kali to /root
+    and prompts the user to copy everything from /home/kali to /root
     - Y selection will copy all of /home/kali to /root
     - N selection will skip the copy and end this function
   - No file-checking will be preformed
