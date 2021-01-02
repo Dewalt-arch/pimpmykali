@@ -28,6 +28,7 @@
     - N selection will skip the copy and end this function
   - No file-checking will be preformed
   - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Yes is selected
+  - Function does NOT remove anything from /home/kali 
 
 # Revision 1.1.1 - quick fix
   - Quick fix applied to modifiy a specific function that was calling
