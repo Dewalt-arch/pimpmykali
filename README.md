@@ -22,7 +22,7 @@
 
   - A second screen and prompt was added to the Root Login Enable function
   - This prompts the user to copy everything from /home/kali to /root
-    - Y selection copy of /home/kali to /root is preformed
+    - Y selection will copy all of /home/kali to /root
     - N selection will skip this copy and end this function
   - No file-checking is preformed
   - This WILL overwrite anything in /root with the contents of /home/kali
