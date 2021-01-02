@@ -21,11 +21,11 @@
     This is the default as root was disabled there is not anything in /root
 
   - A second screen and prompt was added to the Root Login Enable function
-  - This prompts the user to copy everything from /home/kali to /root
+    This prompts the user to copy everything from /home/kali to /root
     - Y selection will copy all of /home/kali to /root
-    - N selection will skip this copy and end this function
-  - No file-checking is preformed
-  - This WILL overwrite anything in /root with the contents of /home/kali
+    - N selection will skip the copy and end this function
+  - No file-checking will be preformed
+  - Warning: This WILL overwrite anything in /root with the contents of /home/kali
 
 # Revision 1.1.1 - quick fix
   - Quick fix applied to modifiy a specific function that was calling
