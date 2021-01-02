@@ -16,6 +16,7 @@
 
 # Revision 1.1.2 - copy /home/kali to /root screen and prompt
     This function ONLY executes If the user selects Y at the enable root login prompt
+    This would be menu option 6 - Fix root login, and is included as a part of Fix All 
 
   - Recently there have been a number of users wanting to run as root in kali but finding there
     are no files or directories in /root once the root login is enabled and they login as root
