@@ -395,9 +395,10 @@ ask_homekali_to_root () {
       esac
     }
 
-# Add middle man function here for "Are you sure you want to do this? Y/N"
-# if yes - execute copy function
-# if no  - do not preform copy function
+# Add middle man function between ask_homehome_to_root and preform_copy_to_root for
+# "Are you sure you want to do this? Y/N"
+# if yes - execute copy function (preform_copy_to_root)
+# if no  - do not preform copy function - does nothing 
 
 preform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
