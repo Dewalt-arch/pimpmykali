@@ -79,7 +79,7 @@
  - additional checks will be added in the future
 
 # Revision 1.0.3 - Metasploit 6 to Metasploit 5 Downgrade Option / Apt Upgrade returns!
-  - Menu option D has been added to preform the downgrade
+  - Menu option D has been added to perform the downgrade
     - will not be called by any other function
     - only menu option D will execute the downgrade
     - metasploit will complain about 2 versions of reline being installed but do not believe it is an issue
@@ -88,7 +88,7 @@
     - set as a stand alone function, and will not be called from any other function in the script
     - apt upgrade will only be called from this function
     - mark metasploit-framework to be ignored in the upgrade process
-    - preform apt upgrade without upgrading metasploit-framework
+    - perform apt upgrade without upgrading metasploit-framework
     - unmark metasploit-framework from being held back
   - Fix All menu option 0 (modified)
     - now only runs menu options 1 thru 8 , does not include menu 9 (pimpmyupgrade)
@@ -102,7 +102,7 @@
   - added python requests and colorama installations to fix_missing (menu option 1) and (menu option 0) fix_all
 
 # Revision 1.0.0 Atom replaces Gedit  
-  - pimpmykali has reached a state of consistency and stability in the function it preforms
+  - pimpmykali has reached a state of consistency and stability in the function it performs
     version is being bumped to v1.0.0 to be more in line with version numbering standards.
   - Atom has replaced gedit, gedit will no longer be installed by pimpmykali
 
@@ -192,7 +192,7 @@
    - last chance warning screen ( mostly novelty ), random launch code generation on each run of --borked
    - list of target selection, targets locked, etc
    - seriously if you made it to --borked 2nd warning your having a bad day with impacket.. enjoy the giggle
-   - 10 second wait timer added to last chance launch screen before operations are preformed
+   - 10 second wait timer added to last chance launch screen before operations are performed
    - if no ctrl+c is entered to cancel the operation, fix_sead is run, followed by fix_impacket
    - added apt -y reinstall python3-impacket impacket-scripts to fix error with smbmap after impacket removal
 
