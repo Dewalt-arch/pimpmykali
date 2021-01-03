@@ -20,7 +20,7 @@
   - Gives the user a last chance to abort the function
   - There is no major functional change between 1.1.2 and 1.1.3 other than the addition
     of the single added prompt to the copy /home/kali to /root function
-  - Answering Y - performs copy function, no additional prompts will be added beyond this point
+  - Answering Y - performs copy function
   - Answering N - skips copy function and proceeds on to the next section of the script
 
 # Revision 1.1.2 - copy /home/kali to /root screen and prompt
