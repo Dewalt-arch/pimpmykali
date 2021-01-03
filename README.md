@@ -268,89 +268,88 @@ Menu breakdown of what pimpmykali does: (section is being updated - section is n
 Menu Option 1 - Fix missing
 - fix_sources
     - uncomment #deb-src from /etc/apt/sources.list
-  - python-pip installation via curl
-  - python3-pip installed
-  - seclists installed
-  - gedit installed (feature request)
-  - flameshot installed (feature request)
-  - locate installed (feature request)
-  - fix_rockyou function
-    - gunzip's /usr/share/wordlists/rockyou.gz to /usr/share/wordlists/rockyou.txt
-  - fix_golang function
-    - installs golang
-    - adds golang GOPATH to .bashrc and .zshrc
-  - installs htop
-  - installs python requests
-  - installs python xlrd
+- python-pip installation via curl
+- python3-pip installed
+- seclists installed
+- gedit installed (feature request)
+- flameshot installed (feature request)
+- locate installed (feature request)
+- fix_rockyou function
+  - gunzip's /usr/share/wordlists/rockyou.gz to /usr/share/wordlists/rockyou.txt
+- fix_golang function
+  - installs golang
+  - adds golang GOPATH to .bashrc and .zshrc
+- installs htop
+- installs python requests
+- installs python xlrd
 
 Menu Option 2 - Fix smb.conf
 - Fix /etc/samba/smb.conf
-    - adds client min protocol = CORE  below [global]
-    - adds client max protocol = SMB3  below [global]
+  - adds client min protocol = CORE  below [global]
+  - adds client max protocol = SMB3  below [global]
 
-- Menu Option 3 - Fix Golang
-  - Installs golang
-    - checks for GOPATH in .bashrc and .zshrc
-      - if GOPATH is found, adds nothing
-      - if not found, adds GOPATH statements to both .zshrc and .bashrc
+Menu Option 3 - Fix Golang
+- Installs golang
+  - checks for GOPATH in .bashrc and .zshrc
+    - if GOPATH is found, adds nothing
+    - if not found, adds GOPATH statements to both .zshrc and .bashrc
 
-- Menu Option 4 - Fix Grub
-  - adds mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT
-    - disables spectre and meltdown mitigations
+Menu Option 4 - Fix Grub
+- adds mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT
+  - disables spectre and meltdown mitigations
 
-- Menu Option 5
-  - Installs Impacket-0.9.19
+Menu Option 5
+- Installs Impacket-0.9.19
 
-- Menu Option 6 - Enable root login
-  - installs kali-root-login
-    - prompts for root password
-    - copy /home/kali to /root prompt (1.1.2)
-      - added are you sure? prompt to copy /home/kali to /root prompt (1.1.3)
+Menu Option 6 - Enable root login
+- installs kali-root-login
+  - prompts for root password
+  - copy /home/kali to /root prompt (1.1.2)
+    - added are you sure? prompt to copy /home/kali to /root prompt (1.1.3)
 
-- Menu Option 7
-  - installs Atom text editor
+Menu Option 7
+- installs Atom text editor
 
-- Menu Option 8 - Fix Nmap
-  - wget 2 nmap script fixes
-    - clamav-exec.nse
-    - http-shellshock.nse (Thank you Alek!)
+Menu Option 8 - Fix Nmap
+- wget 2 nmap script fixes
+  - clamav-exec.nse
+  - http-shellshock.nse (Thank you Alek!)
 
 Menu Option 9 - Pimpmyupgrade
-  - additional notes will be added
-  - performs apt ugprade and holds back metasploit-framework from being upgraded
-    - due to msf6 to msf5 downgrade
-  - fix : black screen after login
-    - add additional details here
-  - fix : Hypervisor detection (vmware, virtualbox, qemu/libvirt)
-    - add additional details here
-  - fix : virtualbox shared folder fix applied     
+- additional notes will be added
+- performs apt ugprade and holds back metasploit-framework from being upgraded
+  - due to msf6 to msf5 downgrade
+- fix : black screen after login
+  - add additional details here
+- fix : Hypervisor detection (vmware, virtualbox, qemu/libvirt)
+  - add additional details here
+- fix : virtualbox shared folder fix applied     
 
 Menu Option 0 - Fix all
-  - Executes Functions 1 thru 8 Only
+- Executes Functions 1 thru 8 Only
 
-- Menu option N  (New Users/New VM's Should start here!)
-  - executes fix all ( menu options 1 thru 8 )
-  - executes menu option D (downgrad metasploit)
-  - executes menu opiion 9 (pimpmyupgrade)
+Menu option N  (New Users/New VM's Should start here!)
+- executes fix all ( menu options 1 thru 8 )
+- executes menu option D (downgrad metasploit)
+- executes menu opiion 9 (pimpmyupgrade)
 
-- Menu Option B    
-  - BlindPentesters The_Essentials tools and utilities collection
-    - Install all of BlindPentesters favorite tools and utilities to /opt! (aprox 8GB)
-    - For a full list of the_essentials.sh script and its inner workings
-    - https://github.com/blindpentester/the-essentials
+Menu Option B    
+- BlindPentesters The_Essentials tools and utilities collection
+  - Install all of BlindPentesters favorite tools and utilities to /opt! (aprox 8GB)
+  - For a full list of the_essentials.sh script and its inner workings
+  - https://github.com/blindpentester/the-essentials
 
-- Menu Option D - Downgrade metasploit-framework from 6 to 5
-    - included in menu option N
-    - downgrades metasploit-framework (msfconsole) from msf6 to msf5
-      - this is a temporary solution and will eventually be removed
+Menu Option D - Downgrade metasploit-framework from 6 to 5
+- included in menu option N
+  - downgrades metasploit-framework (msfconsole) from msf6 to msf5
+  - this is a temporary solution and will eventually be removed
 
-- Menu Option ! - Nuke Impacket (yes its literally the ! character)        
-  - removes any prior installation of impacket (gracefully and forcefully)
-    - installs impacket-0.9.19
-    - installs python-pip via curl
-    - installs python wheel
-    - menu option ! (its literally the ! character)
-    - 1 warning screen (2nd warning screen removed)
+Menu Option ! - Nuke Impacket (yes its literally the ! character)        
+- removes any prior installation of impacket (gracefully and forcefully)
+  - installs impacket-0.9.19
+  - installs python-pip via curl
+  - installs python wheel
+  - 1 warning screen (2nd warning screen removed)
 
 # TODO   
   - cleaned up todo list
