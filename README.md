@@ -317,7 +317,7 @@ Menu Option 7
 - installs Atom text editor
 
 Menu Option 8 - Fix Nmap
-- wget 2 nmap script fixes
+- wget nmap script fixes
   - clamav-exec.nse
   - http-shellshock.nse (Thank you Alek!)
 
