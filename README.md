@@ -258,7 +258,7 @@
 - anything other than --all or -all or all , will only run that function and then exit.
 - command line arguments can be used with -- or - or just the word itself to try can catch for all possible cases
 
-- example command line var: --help or -help or help will catch help and works for all valid command line arguements
+- example command line var: --help or -help or help will catch help and works for all valid command line arguments
   anything other the command line arugement catch exits and displays help
 
 # Menu Breakdown of Pimpmykali
@@ -281,7 +281,7 @@ Menu breakdown of what pimpmykali does: (section is being updated - section is n
     - adds golang GOPATH to .bashrc and .zshrc
   - installs htop
   - installs python requests
-  - installs python xlrd 
+  - installs python xlrd
 
 - Menu Option 2 - Fix smb.conf
   - Fix /etc/samba/smb.conf
