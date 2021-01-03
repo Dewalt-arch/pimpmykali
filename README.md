@@ -17,7 +17,7 @@
 
 # Revision 1.1.3 - added Are you sure prompt
   - Added a "Are you sure you want to copy all files from /home/kali to /root" prompt
-  - Gives the user a last chance to abort the function before the copy is performed
+  - Gives the user a last chance to abort the copy function
   - There is no major functional change between 1.1.2 and 1.1.3 other than the addition
   - of the single added prompt to the copy /home/kali to /root function
 
