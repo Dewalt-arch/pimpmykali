@@ -302,10 +302,9 @@ Menu Option 3 - Fix Golang
 
 Menu Option 4 - Fix Grub
 - adds mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT
-  - disables spectre and meltdown mitigations
 
 Menu Option 5
-- Installs Impacket-0.9.19
+- installs Impacket-0.9.19
 
 Menu Option 6 - Enable root login
 - installs kali-root-login
