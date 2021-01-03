@@ -265,6 +265,11 @@
 
 Menu breakdown of what pimpmykali does: (section is being updated - section is not complete)
 
+Menu option N  (New Users/New VM's Should start here!)
+- executes fix all ( menu options 1 thru 8 )
+- executes menu option D (downgrad metasploit)
+- executes menu opiion 9 (pimpmyupgrade)
+
 Menu Option 1 - Fix missing
 - fix_sources
     - uncomment #deb-src from /etc/apt/sources.list
@@ -328,14 +333,9 @@ Menu Option 9 - Pimpmyupgrade
 Menu Option 0 - Fix all
 - Executes Functions 1 thru 8 Only
 
-Menu option N  (New Users/New VM's Should start here!)
-- executes fix all ( menu options 1 thru 8 )
-- executes menu option D (downgrad metasploit)
-- executes menu opiion 9 (pimpmyupgrade)
-
 Menu Option B    
 - BlindPentesters The_Essentials tools and utilities collection
-  - Install all of BlindPentesters favorite tools and utilities to /opt! (aprox 8GB)
+  - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
   - For a full list of the_essentials.sh script and its inner workings
   - https://github.com/blindpentester/the-essentials
 
