@@ -395,7 +395,7 @@ ask_homekali_to_root () {
       esac
     }
 
-# Add middle man function between ask_homehome_to_root and preform_copy_to_root for
+# Add middle man function between ask_homekali_to_root and perform_copy_to_root for
 # "Are you sure you want to do this? Y/N"
 # if yes - execute copy function (preform_copy_to_root)
 # if no  - do not preform copy function - does nothing
