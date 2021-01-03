@@ -331,7 +331,7 @@ Menu Option 9 - Pimpmyupgrade
 - fix : virtualbox shared folder fix applied     
 
 Menu Option 0 - Fix all
-- Executes Functions 1 thru 8 Only
+- Executes Menu options 1 thru 8 Only
 
 Menu Option B    
 - BlindPentesters The_Essentials tools and utilities collection
