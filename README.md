@@ -268,10 +268,14 @@ What pimpmykali does:
   - pimpmyupgrade menu option #9
   - virtualbox shared folder permission denied - fixed
   - auto-detection of virtualbox or vmware hypervisor
+  - added hold to metasplot-framework from being upgraded due to msf5 downgrade
+    - eventually this hold will be removed
+- metasploit-framework downgrade (menu option D) msf6 -> msf5 downgrade    
 - python-pip installation via curl
-- python3-pip not installed
-- seclists not installed
-- golang not installed
+- python3-pip installed
+- seclists installed
+- golang installed
+  - added GOPATH statements to both .bashrc and .zshrc
 - gedit installed (feature request)
 - flameshot installed (feature request)
 - locate installed (feature request)
