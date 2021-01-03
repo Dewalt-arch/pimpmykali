@@ -263,7 +263,8 @@
 
 # Menu Breakdown of Pimpmykali
 
-Menu breakdown of what pimpmykali does: (section is being updated - section is not complete)
+Menu breakdown of what pimpmykali does:
+ - section is being updated and incomplete ( there is a lot to add )
 
 Menu option N  (New Users/New VM's Should start here!)
 - executes fix all ( menu options 1 thru 8 )
