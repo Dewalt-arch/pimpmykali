@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.1.2"
+    revision="1.1.3"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -373,8 +373,7 @@ enable_rootlogin () {
     ask_homekali_to_root
     }
 
-# 01.02.2021 rev 1.1.2 - new screens for copying from /home/kali to /root, no detection, all based on used input
-# add detection for /root/Desktop or something generic in /root if detected throw error and no preform copy function
+# 01.02.2021 rev 1.1.2 --- begin : new screens for copying from /home/kali to /root, no detection, all based on used input
 ask_homekali_to_root () {
     echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 2   "$red"*** READ CAREFULLY! ***"$white" \n"
     echo -e "   This section of the script is only executed if Yes was selected at the enable root login prompt\n"
@@ -389,16 +388,23 @@ ask_homekali_to_root () {
     echo -e "     Press N - do not copy anything to /root and skip this function\n"
     read -n1 -p "   Please type Y or N : " userinput
       case $userinput in
-        y|Y) perform_copy_to_root;;
+        y|Y) ask_are_you_sure;;
         n|N) echo -e "\n\n  $redexclaim skipping copy of /home/kali to /root" ;;
         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_homekali_to_root;;
       esac
     }
 
-# Add middle man function between ask_homekali_to_root and perform_copy_to_root for
-# "Are you sure you want to do this? Y/N"
-# if yes - execute copy function (preform_copy_to_root)
-# if no  - do not preform copy function - does nothing
+# 01.03.2021 rev 1.1.3 --- begin : added are you sure prompt
+ask_are_you_sure () {
+    echo -e "\n\n   Are you sure you want to copy all of /home/kali to /root ?"
+    read -n1 -p "   Please type Y or N : "
+      case $userinput in
+       y|Y) perform_copy_to_root;;
+       n|N) echo -e "\n\n $redexclaim Skipping copy fo /home/kali to /root - not copying ";;
+       *) echo -e "\n\n $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
+     esac
+    }
+# 01.03.2021 rev 1.1.3 --- end : added are you sure prompt
 
 perform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
@@ -406,7 +412,7 @@ perform_copy_to_root () {
     eval chown -R root:root /root
     echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
     }
-# 01.02.2021 rev 1.1.2 --- end copy to /root warning screens and functions ---
+# 01.02.2021 rev 1.1.2 --- end : copy to /root warning screens and functions
 
 fix_sead_warning () {
     clear
