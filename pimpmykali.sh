@@ -389,8 +389,8 @@ ask_homekali_to_root () {
     read -n1 -p "   Please type Y or N : " userinput
       case $userinput in
         y|Y) ask_are_you_sure;;
-        n|N) echo -e "\n\n   $redexclaim skipping copy of /home/kali to /root" ;;
-        *) echo -e "\n\n   $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_homekali_to_root;;
+        n|N) echo -e "\n\n  $redexclaim skipping copy of /home/kali to /root" ;;
+        *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_homekali_to_root;;
       esac
     }
 
@@ -400,8 +400,8 @@ ask_are_you_sure () {
     read -n1 -p "   Please type Y or N : " userinput
       case $userinput in
        y|Y) perform_copy_to_root;;
-       n|N) echo -e "\n\n    $redexclaim Skipping copy fo /home/kali to /root - not copying ";;
-       *) echo -e "\n\n   $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
+       n|N) echo -e "\n\n  $redexclaim skipping copy fo /home/kali to /root - not copying ";;
+       *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
      esac
     }
 # 01.03.2021 rev 1.1.3 --- end : added are you sure prompt
