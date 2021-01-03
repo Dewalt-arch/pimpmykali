@@ -337,7 +337,7 @@ Menu Option 0 - Fix all
 Menu Option B    
 - BlindPentesters The_Essentials tools and utilities collection
   - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
-  - For a full list of the_essentials.sh script and its inner workings
+  - Click the link below for a full list of the_essentials.sh script and its inner workings
   - https://github.com/blindpentester/the-essentials
 
 Menu Option D - Downgrade metasploit-framework from 6 to 5
