@@ -269,7 +269,7 @@ Menu breakdown of what pimpmykali does:
 
 Menu option N  (New Users/New VM's Should start here!)
 - executes fix all ( menu options 1 thru 8 )
-- executes menu option D (downgrad metasploit)
+- executes menu option D (downgrade metasploit)
 - executes menu opiion 9 (pimpmyupgrade)
 
 Menu Option 1 - Fix missing
