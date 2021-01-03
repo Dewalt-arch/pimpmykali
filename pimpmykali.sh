@@ -397,7 +397,7 @@ ask_homekali_to_root () {
 # 01.03.2021 rev 1.1.3 --- begin : added are you sure prompt
 ask_are_you_sure () {
     echo -e "\n\n   Are you sure you want to copy all of /home/kali to /root ?"
-    read -n1 -p "   Please type Y or N : "
+    read -n1 -p "   Please type Y or N : " userinput 
       case $userinput in
        y|Y) perform_copy_to_root;;
        n|N) echo -e "\n\n $redexclaim Skipping copy fo /home/kali to /root - not copying ";;
