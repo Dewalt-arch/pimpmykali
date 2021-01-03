@@ -345,7 +345,7 @@ Menu Option D - Downgrade metasploit-framework from 6 to 5
   - downgrades metasploit-framework (msfconsole) from msf6 to msf5
   - this is a temporary solution and will eventually be removed
 
-Menu Option ! - Nuke Impacket (yes its literally the ! character)        
+Menu Option ! - Nuke Impacket (yes its literally the ! character)
 - removes any prior installation of impacket (gracefully and forcefully)
   - installs impacket-0.9.19
   - installs python-pip via curl
