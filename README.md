@@ -322,7 +322,7 @@ Menu Option 8 - Fix Nmap
 
 Menu Option 9 - Pimpmyupgrade
 - additional notes will be added
-- performs apt ugprade and holds back metasploit-framework from being upgraded
+- performs apt ugprade and places hold on metasploit-framework from being upgraded
   - due to msf6 to msf5 downgrade
 - fix : black screen after login
   - add additional details here
