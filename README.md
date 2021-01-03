@@ -277,7 +277,8 @@ What pimpmykali does:
 - locate installed (feature request)
 - kali-root-login not installed and re-enables root login
   - reworked and added prompt
-  - reworked and added 2nd prompt to copy /home/kali to /root
+  - 1.1.2 - added prompt to copy /home/kali to /root
+  - 1.1.3 - added "Are you sure?" prompt
 - nmap scripts clamav-exec.nse and http-shellshock.nse - fixed
 - impacket-0.9.19
   - removes any prior installation of impacket (gracefully and forcefully)
