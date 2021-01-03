@@ -294,7 +294,4 @@ What pimpmykali does:
   - added mitigations=off
 
 # TODO   
-- .bashrc alias and functions ( currently commented out and is not a part of the running script )
-  - adds command ex function to extract from any archive with 1 command ex
-  - vpnip - displays tun0 ip address in the terminal via vpnip alias
-  - adds /usr/sbin and /sbin to path
+  - cleaned up todo list 
