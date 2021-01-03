@@ -265,8 +265,8 @@
 
 Menu breakdown of what pimpmykali does: (section is being updated - section is not complete)
 
-- Menu Option 1 - Fix missing
-  - fix_sources
+Menu Option 1 - Fix missing
+- fix_sources
     - uncomment #deb-src from /etc/apt/sources.list
   - python-pip installation via curl
   - python3-pip installed
@@ -283,8 +283,8 @@ Menu breakdown of what pimpmykali does: (section is being updated - section is n
   - installs python requests
   - installs python xlrd
 
-- Menu Option 2 - Fix smb.conf
-  - Fix /etc/samba/smb.conf
+Menu Option 2 - Fix smb.conf
+- Fix /etc/samba/smb.conf
     - adds client min protocol = CORE  below [global]
     - adds client max protocol = SMB3  below [global]
 
