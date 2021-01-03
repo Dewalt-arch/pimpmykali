@@ -24,6 +24,7 @@
   - Answering N - skips copy function and proceeds on to the next section of the script
 
 # Revision 1.1.2 - copy /home/kali to /root screen and prompt
+  - 1.1.2 Notes updated to reflect 1.1.3 addition and changes to 1.1.2 function 
   - Recently there have been a number of users wanting to run as root in kali but finding there
     are no files or directories in /root once the root login is enabled and they login as root.
 
@@ -33,8 +34,8 @@
 
   - A second screen and prompt was added to the Enable Root Login function
     - Prompts the user to copy everything from /home/kali to /root (And we mean everything!)
-    - Y selection will copy all of /home/kali to /root
-    - N selection will skip the copy and end this function
+    - Answering Y - will prompt user for "Are you sure?" added in 1.1.3
+    - Answering N - will skip the copy and end this function
   - No file-checking will be performed
   - Warning: This WILL overwrite anything in /root with the contents of /home/kali if Yes is selected
   - Function does NOT remove anything from /home/kali
