@@ -18,8 +18,12 @@
 
 # Revision 1.1.4 - Fix Broken XFCE Icons
   - added apt -y reinstall xfce4-settings to the end of Menu N and 9
-  - created seperate menu function F to apply this fix only 
-
+  - created seperate menu function F to apply this fix only
+  - restores FileManager (Folder Icon on Taskbar) function  
+  - restores TerminalEmulator (Terminal Icon) function
+  - restores "File System" icon on desktop function
+  - restores "Home" icon on desktop function
+  
 # Revision 1.1.3 - added Are you sure prompt
   - Added "Are you sure you want to copy all files from /home/kali to /root" prompt
   - Gives the user a last chance to abort the function
