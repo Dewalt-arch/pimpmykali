@@ -18,7 +18,7 @@
 
 # Revision 1.1.4 - Fix Broken XFCE Icons
   - menu function F to apply this fix only
-    - Menu N and 9 will apply fix automatically 
+    - Menu N and 9 will apply fix automatically as a part of their function 
   - restores FileManager (Folder Icon on Taskbar) function  
   - restores TerminalEmulator (Terminal Icon) function
   - restores "File System" icon on desktop function
