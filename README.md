@@ -23,8 +23,7 @@
   - restores TerminalEmulator (Terminal Icon) function
   - restores "File System" icon on desktop function
   - restores "Home" icon on desktop function
-    - apt -y reinstall xfce4-settings
-      
+
 # Revision 1.1.3 - added Are you sure prompt
   - Added "Are you sure you want to copy all files from /home/kali to /root" prompt
   - Gives the user a last chance to abort the function
