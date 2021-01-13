@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.1.3"
+    revision="1.1.4"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -121,6 +121,22 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
+# 01.04.21 - Busted Terminal Icon Fix (USER ONLY!) - Move along Netizen - Not ready for prime time
+# fix_busted_terminal_icon() {
+#    finduser=$(logname)
+#    if [ $finduser == "root" ]
+#     then
+#      cat /root/.config/xfce4/panel/launcher-6/16056225211.desktop | sed 's/Exec\=exo\-open \-\-launch TerminalEmulator/Exec\=qterminal''/' > /tmp/iconfix.tmp
+#      cp -f /tmp/iconfix.tmp /root/.config/xfce4/panel/launcher-6/16056225211.desktop
+#      rm -f /tmp/iconfix.tmp
+#    else
+#       [ -d "/home/$finduser/.config/xfce4/panel/launcher-6/16056225211.desktop" ] && echo file is here  || echo file is not here
+#      cat /home/$finduser/.config/xfce4/panel/launcher-6/16056225211.desktop | sed 's/Exec\=exo\-open \-\-launch TerminalEmulator/Exec\=qterminal''/' > /tmp/iconfix.tmp
+#      cp -f /tmp/iconfix.tmp /home/$finduser/.config/xfce4/panel/launcher-6/16056225211.desktop
+#      rm -f /tmp/iconfix.tmp
+#    fi
+#    echo -e "\n  $greenplus Terminal Icon has been fixed! \n"
+#    }
 
 fix_pipxlrd () {
     eval pip install xlrd==1.2.0 --upgrade
@@ -545,6 +561,12 @@ fix_impacket () {
     echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
     }
 
+fix_broken_xfce() {
+    echo -e "\n  $greenplus Applying broken XFCE Fix  \n "
+    eval apt -y reinstall xfce4-settings
+    echo -e "\n  $greenplus Broken XFCE Fix applied: xfce4-settings reinstalled  \n"
+  }
+
 only_upgrade () {
     virt_what
     fix_sources
@@ -558,7 +580,9 @@ only_upgrade () {
     check_vm
     echo -e "\n  $greenplus releasing hold on package: metasploit-framework"
     eval apt-mark unhold metasploit-framework
-    }
+    # add fix for broken filemanager / terminal icon
+     fix_broken_xfce
+   }
 
 fix_upgrade () {
     virt_what
@@ -758,6 +782,8 @@ pimpmykali_menu () {
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
     echo -e "      This will run Fix All (0), Metasploit Downgrade (D) and Pimpmyupgrade (9)\n"   #
     echo -e "  Additional Functions : "                                                           # optional line
+    echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically)"      # fix_broken_xfce
+    echo -e "                              (fixes broken xfce icons TerminalEmulator Not Found)"  #
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
@@ -775,6 +801,7 @@ pimpmykali_menu () {
         9) only_upgrade ;;
         0) fix_all ;;
         !) forced=1; fix_sead_warning;;
+      f|F) fix_broken_xfce;;
       n|N) fix_all; downgrade_msf; only_upgrade;;
       d|D) downgrade_msf ;;
       b|B) bpt ;;
