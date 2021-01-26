@@ -27,7 +27,7 @@
     - 1 - Fix Missing
     - 0 - Fix All (Runs only options 1 thru 8)
     - N - New VM Setup
-  - Seperate menu option of S to only run spike fix by itself is available
+  - separate menu option of S to only run spike fix by itself is available
 
 
 # Revision 1.1.4 - Fix Broken XFCE Icons
