@@ -18,7 +18,7 @@
 
 # Revision 1.1.5 - Fix SPIKE
   - menu option S to apply this fix only
-  - fix_spike will be applied thru the following menu options
+  - fix_spike will be applied thru the following menu options automatically
     - 1 - Fix Missing (fix_spike is a part of fix_missing)
     - 0 - Fix All (Runs only options 1 thru 8)
     - N - New VM Setup  
