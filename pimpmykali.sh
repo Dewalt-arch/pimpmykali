@@ -133,8 +133,9 @@ python-pip-curl () {
     if [ $check_pip -ne 1 ]
      then
       echo -e "\n  $greenplus installing pip"
-      eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent
-      eval python3 /tmp/get-pip.py $silent
+      eval curl https://raw.githubusercontent.com/pypa/get-pip/3843bff3a0a61da5b63ea0b7d34794c5c51a2f11/2.7/get-pip.py -o /tmp/get-pip.py $silent
+      # get-pip.py was updated on 01-23-2021 and now will not install with python only python3
+      eval python /tmp/get-pip.py $silent
       rm -f /tmp/get-pip.py
       eval pip install setuptools
       echo -e "\n  $greenplus python-pip installed"
