@@ -134,7 +134,7 @@ python-pip-curl () {
      then
       echo -e "\n  $greenplus installing pip"
       eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent
-      eval python /tmp/get-pip.py $silent
+      eval python3 /tmp/get-pip.py $silent
       rm -f /tmp/get-pip.py
       eval pip install setuptools
       echo -e "\n  $greenplus python-pip installed"
