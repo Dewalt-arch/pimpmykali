@@ -24,7 +24,7 @@
   - apt adds hold to spike to prevent accidental future upgrades
   - apt hold will be removed at a future date once 2.9-1kali7 issues are resolved
   - fix_spike can be accessed thru the following menu options
-    - 1 - Fix Missing
+    - 1 - Fix Missing (fix_spike is a part of fix_missing)
     - 0 - Fix All (Runs only options 1 thru 8)
     - N - New VM Setup
   - separate menu option of S to only run spike fix by itself is available
