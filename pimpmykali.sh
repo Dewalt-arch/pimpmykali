@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.1.4"
+    revision="1.1.5"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -103,6 +103,7 @@ fix_missing () {
     fix_rockyou
     fix_python_requests
     fix_pipxlrd        # xlrd added 12.29.2020
+    fix_spike
     }
 
 fix_all () {
@@ -120,23 +121,6 @@ fix_all () {
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
     }
-
-# 01.04.21 - Busted Terminal Icon Fix (USER ONLY!) - Move along Netizen - Not ready for prime time
-# fix_busted_terminal_icon() {
-#    finduser=$(logname)
-#    if [ $finduser == "root" ]
-#     then
-#      cat /root/.config/xfce4/panel/launcher-6/16056225211.desktop | sed 's/Exec\=exo\-open \-\-launch TerminalEmulator/Exec\=qterminal''/' > /tmp/iconfix.tmp
-#      cp -f /tmp/iconfix.tmp /root/.config/xfce4/panel/launcher-6/16056225211.desktop
-#      rm -f /tmp/iconfix.tmp
-#    else
-#       [ -d "/home/$finduser/.config/xfce4/panel/launcher-6/16056225211.desktop" ] && echo file is here  || echo file is not here
-#      cat /home/$finduser/.config/xfce4/panel/launcher-6/16056225211.desktop | sed 's/Exec\=exo\-open \-\-launch TerminalEmulator/Exec\=qterminal''/' > /tmp/iconfix.tmp
-#      cp -f /tmp/iconfix.tmp /home/$finduser/.config/xfce4/panel/launcher-6/16056225211.desktop
-#      rm -f /tmp/iconfix.tmp
-#    fi
-#    echo -e "\n  $greenplus Terminal Icon has been fixed! \n"
-#    }
 
 fix_pipxlrd () {
     eval pip install xlrd==1.2.0 --upgrade
@@ -164,6 +148,19 @@ python-pip-curl () {
  # type= set in fix_section based on eval of $check and $force
  # force= to override force / set force var
  # fix_section $section $check $force
+
+fix_spike () {
+    # Added 01-26-2021 Current version of spike throws error, revert to old version
+    echo -e "\n  $greenplus removing SPIKE...\n"
+    eval apt -y remove spike
+    wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_amd64.deb -O /tmp/spike_2.9-1kali6_amd64.deb
+    echo -e "\n  $greenplus installing spike 2.9... \n"
+    eval dpkg -i /tmp/spike_2.9-1kali6_amd64.deb
+    echo -e "\n  $greenplus spike 2.9 installed \n"
+    echo -e "\n  $greenplus setting apt hold on spike package"
+    eval apt-mark hold spike
+    echo -e "\n  $greenplus apt hold placed on spike package"
+    }
 
 fix_gedit () {
     section="gedit"
@@ -784,6 +781,7 @@ pimpmykali_menu () {
     echo -e "  Additional Functions : "                                                           # optional line
     echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically)"      # fix_broken_xfce
     echo -e "                              (fixes broken xfce icons TerminalEmulator Not Found)"  #
+    echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
@@ -801,7 +799,8 @@ pimpmykali_menu () {
         9) only_upgrade ;;
         0) fix_all ;;
         !) forced=1; fix_sead_warning;;
-      f|F) fix_broken_xfce;;
+      f|F) fix_broken_xfce ;;
+      s|S) fix_spike ;;
       n|N) fix_all; downgrade_msf; only_upgrade;;
       d|D) downgrade_msf ;;
       b|B) bpt ;;
