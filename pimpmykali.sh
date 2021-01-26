@@ -151,6 +151,7 @@ python-pip-curl () {
 
 fix_spike () {
     # Added 01-26-2021 Current version of spike throws error, revert to old version
+    echo -e "\n  $greenplus Fix SPIKE \n"
     echo -e "\n  $greenplus removing SPIKE...\n"
     eval apt -y --allow-change-held-packages remove spike
     wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_amd64.deb -O /tmp/spike_2.9-1kali6_amd64.deb
