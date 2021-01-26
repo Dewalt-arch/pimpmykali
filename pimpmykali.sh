@@ -158,6 +158,7 @@ fix_spike () {
     echo -e "\n  $greenplus installing spike 2.9... \n"
     eval dpkg -i /tmp/spike_2.9-1kali6_amd64.deb
     echo -e "\n  $greenplus spike 2.9 installed \n"
+    rm -f /tmp/spike_2.9-1kali6_amd64.deb
     echo -e "\n  $greenplus setting apt hold on spike package"
     eval apt-mark hold spike
     echo -e "\n  $greenplus apt hold placed on spike package"
