@@ -17,18 +17,16 @@
   - For a new kali vm, run menu option N
 
 # Revision 1.1.5 - Fix SPIKE
-  - current version of spike2.9-1kali7 throws undefined symbol error
-  - removes spike2.9-1kali7
-  - installs spike_2.9-1kali6
-  - reverts spike to prior version
-  - apt adds hold to spike to prevent accidental future upgrades
-  - apt hold will be removed at a future date once 2.9-1kali7 issues are resolved
-  - fix_spike can be accessed thru the following menu options
+  - menu option S to apply this fix only
+  - fix_spike will be applied thru the following menu options
     - 1 - Fix Missing (fix_spike is a part of fix_missing)
     - 0 - Fix All (Runs only options 1 thru 8)
-    - N - New VM Setup
-  - menu option S to apply this fix only
-
+    - N - New VM Setup  
+  - current version of spike2.9-1kali7 throws undefined symbol error
+  - removes spike2.9-1kali7
+  - installs spike_2.9-1kali6 (reverts spike to prior version)
+  - apt adds hold to spike to prevent accidental future upgrades
+  - apt hold will be removed at a future date once 2.9-1kali7 issues are resolved
 
 # Revision 1.1.4 - Fix Broken XFCE Icons
   - menu option F to apply this fix only
