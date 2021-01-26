@@ -16,6 +16,9 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.1.6 - update to curl get-pip.py   
+  - script has been updated to point directly to the python2.7 get-pip.py
+
 # Revision 1.1.5 - Fix SPIKE
   - menu option S to apply this fix only
   - fix_spike will be applied thru the following menu options automatically
