@@ -27,11 +27,11 @@
     - 1 - Fix Missing (fix_spike is a part of fix_missing)
     - 0 - Fix All (Runs only options 1 thru 8)
     - N - New VM Setup
-  - separate menu option of S to only run spike fix by itself is available
+  - menu option S to apply this fix only
 
 
 # Revision 1.1.4 - Fix Broken XFCE Icons
-  - menu function F to apply this fix only
+  - menu option F to apply this fix only
     - Menu N and 9 will apply fix automatically as a part of their function
   - restores FileManager (Folder Icon on Taskbar) function  
   - restores TerminalEmulator (Terminal Icon) function
