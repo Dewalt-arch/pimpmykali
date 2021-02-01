@@ -107,7 +107,7 @@ fix_missing () {
     fix_python_requests
     fix_pipxlrd          # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
-#    fix_assetfinder
+#    fix_assetfinder     # 02.01.21 Hold 
     }
 
 fix_all () {
