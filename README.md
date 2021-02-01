@@ -16,6 +16,14 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.1.7 - libguestfs-tools cifs-utils added
+  - libguestfs-tools added to fix_missing
+  - cifs-utils added to fix_missing
+  - Items will be installed via the following :
+    - 1 - Fix Missing
+    - 0 - Fix All (Runs only options 1 thru 8)
+    - N - New VM Setup  
+
 # Revision 1.1.6 - update to curl get-pip.py   
   - script has been updated to point directly to the python2.7 get-pip.py
 

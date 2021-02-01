@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.1.6"
+    revision="1.1.7"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -51,7 +51,7 @@
 
 # silent mode
     silent=''                  # uncomment to see all output
-    # silent='>/dev/null 2>&1' # uncomment to hide all output
+    # silent='>/dev/null 2>&1' # uncomment to hide all output10
 
 check_distro() {
     distro=$(uname -a | grep -i -c "kali") # distro check
@@ -93,16 +93,19 @@ fix_missing () {
     eval apt -y update $silent && eval apt -y autoremove $silent
     eval apt -y remove kali-undercover $silent
     echo -e "\n  $greenplus apt updated "
-    eval apt -y install dkms build-essential autogen automake python3-setuptools python3-distutils python3.9-dev $silent
+    # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
+    eval apt -y install dkms build-essential autogen automake python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils $silent
     python-pip-curl
     python3_pip $force
-    fix_gedit   $force  # restored to its former glory
+    fix_gedit   $force    # restored to its former glory
     fix_htop    $force
     fix_golang  $force
     fix_nmap
     fix_rockyou
+#    fix_gowitness        # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
+#    think about this one for a minute, multiple different arch's
     fix_python_requests
-    fix_pipxlrd        # xlrd added 12.29.2020
+    fix_pipxlrd          # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
     }
 
@@ -152,7 +155,7 @@ python-pip-curl () {
  # fix_section $section $check $force
 
 fix_spike () {
-    # Added 01-26-2021 Current version of spike throws error, revert to old version
+    # Added 01.26.2021 Current version of spike throws error, revert to old version
     echo -e "\n  $greenplus Fix SPIKE "
     echo -e "\n  $greenplus removing SPIKE...\n"
     eval apt -y --allow-change-held-packages remove spike
@@ -165,6 +168,22 @@ fix_spike () {
     eval apt-mark hold spike
     echo -e "\n  $greenplus apt hold placed on spike package"
     }
+
+#fix_gowitness () {
+#    # 01.27.2021 - added due to 404 errors with go get -u github.com/sensepost/gowitness
+#    # multiple different archs need an if statement to detect arch type and grab right binary.
+#    echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
+#    wget https://github.com/sensepost/gowitness/releases/download/2.3.0/gowitness-2.3.0-linux-amd64 -O /usr/bin/gowitness
+#    chmod +x /usr/bin/gowitness
+#    echo -e "\n  $greenplus gowitness installed \n"
+#
+     # this will only work after golang is installed and gopath has been added to .bashrc and .zshrc
+     # isgoinstalled=$(go --version | grep -i -c "go version go") check that its installed
+     # export | grep GOPATH check that GOPATH is set and active
+     # if both conditions are met install :
+     # go get -u gorm.io/gorm
+     # go get -u github.com/sensepost/gowitness
+     # }
 
 fix_gedit () {
     section="gedit"
@@ -786,6 +805,7 @@ pimpmykali_menu () {
     echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically)"      # fix_broken_xfce
     echo -e "                              (fixes broken xfce icons TerminalEmulator Not Found)"  #
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
+    # echo -e "  G - Fix Gowitness           (install gowitness prebuilt binary)"                   # fix_gowitness
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
@@ -805,6 +825,7 @@ pimpmykali_menu () {
         !) forced=1; fix_sead_warning;;
       f|F) fix_broken_xfce ;;
       s|S) fix_spike ;;
+      # g|g) fix_gowitness ;;
       n|N) fix_all; downgrade_msf; only_upgrade;;
       d|D) downgrade_msf ;;
       b|B) bpt ;;
