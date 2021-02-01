@@ -107,6 +107,7 @@ fix_missing () {
     fix_python_requests
     fix_pipxlrd          # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
+#    fix_assetfinder
     }
 
 fix_all () {
@@ -124,6 +125,15 @@ fix_all () {
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
     }
+
+
+#fix_assetfinder () {
+#    echo -e "\n  $greenplus installing assetfinder \n"
+#    wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder-linux-amd64-0.1.1.tgz
+#    eval tar xvfz /tmp/assetfinder-linux-amd64-0.1.1.tgz -C /usr/bin
+#    rm -f /tmp/assetfinder-linux-amd64-0.1.1.tgz
+#    echo -e "\n  $greenplus assetfinder installed \n"
+#    }
 
 fix_pipxlrd () {
     eval pip install xlrd==1.2.0 --upgrade
