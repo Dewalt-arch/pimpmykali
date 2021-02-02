@@ -643,7 +643,8 @@ fix_broken_xfce() {
     echo -e "\n  $greenplus Applying broken XFCE Fix  \n "
     eval apt -y reinstall xfce4-settings
     echo -e "\n  $greenplus Broken XFCE Fix applied: xfce4-settings reinstalled  \n"
-  }
+    fix_xfcepower
+    }
 
 only_upgrade () {
     virt_what
@@ -660,7 +661,7 @@ only_upgrade () {
     eval apt-mark unhold metasploit-framework
     # add fix for broken filemanager / terminal icon
     fix_broken_xfce
-   }
+    }
 
 fix_upgrade () {
     virt_what
