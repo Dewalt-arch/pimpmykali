@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.1.7"
+    revision="1.1.8"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -22,10 +22,30 @@
     bold=$'\e[1m'
     norm=$'\e[21m'
 
-# launch_codes - for a little fun in the --borked scripts  # (disabled)
-    launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))    # (disabled)
-    launch_codes_beta=$(echo $((1 + RANDOM % 9999)))     # (disabled)
-    launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))  # (disabled)
+# more unicorn puke...*sigh* added for senpai, taste the rainbow!
+# now with 100% more unicorn puke! enjoy a color for no color!!
+    color_nocolor='\e[0m'
+    color_black='\e[0;30m'
+    color_grey='\e[1;30m'
+    color_red='\e[0;31m'
+    color_light_red='\e[1;31m'
+    color_green='\e[0;32m'
+    color_light_green='\e[1;32m'
+    color_brown='\e[0;33m'
+    color_yellow='\e[1;33m'
+    color_blue='\e[0;34m'
+    color_light_blue='\e[1;34m'
+    color_purple='\e[0;35m'
+    color_light_purple='\e[1;35m'
+    color_cyan='\e[0;36m'
+    color_light_cyan='\e[1;36m'
+    color_light_grey='\e[0;37m'
+    color_white='\e[1;37m'
+
+# nuke impacket function launch_code generator
+    launch_codes_alpha=$(echo $((1 + RANDOM % 9999)))
+    launch_codes_beta=$(echo $((1 + RANDOM % 9999)))
+    launch_codes_charlie=$(echo $((1 + RANDOM % 9999)))
 
 # status indicators
     greenplus='\e[1;33m[++]\e[0m'
@@ -53,10 +73,13 @@
     silent=''                  # uncomment to see all output
     # silent='>/dev/null 2>&1' # uncomment to hide all output10
 
+# 02.02.21 - rev 1.1.8 - fix_xfce_root fix_xfce_user fix_xfcepower external configuration file
+    raw_xfce="https://raw.githubusercontent.com/Dewalt-arch/pimpmyi3-config/main/xfce4/xfce4-power-manager.xml"
+
 check_distro() {
     distro=$(uname -a | grep -i -c "kali") # distro check
     if [ $distro -ne 1 ]
-     then echo -e "\n $blinkexclaim Sorry I only work on Kali Linux $blinkexclaim \n"; exit  # false
+     then echo -e "\n $blinkexclaim Kali Linux Not Detected - WSL/WSL2/Anything else is unsupported $blinkexclaim \n"; exit
     fi
     }
 
@@ -102,12 +125,13 @@ fix_missing () {
     fix_golang  $force
     fix_nmap
     fix_rockyou
-#    fix_gowitness        # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
-#    think about this one for a minute, multiple different arch's
+    silence_pcbeep        # 02.02.2021 - turn off terminal pc beep
+    fix_xfcepower         # 02.02.2021 - disable xfce power management for user and root
     fix_python_requests
-    fix_pipxlrd          # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
+    fix_pipxlrd           # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
-#    fix_assetfinder     # 02.01.21 Hold 
+    # fix_gowitness        # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
+    # fix_assetfinder      # 02.01.21 Hold
     }
 
 fix_all () {
@@ -126,8 +150,32 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
+# 02.02.21 - rev 1.1.8 - Turn off XFCE Power Management for user
+fix_xfce_root() {
+    eval wget $raw_xfce -O /root/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
+    echo -e "\n  $greenplus turned off xfce power management root \n"
+  	}
 
-#fix_assetfinder () {
+# 02.02.21 - rev 1.1.8 - Turn off XFCE Power Management for $finduser
+fix_xfce_user() {
+    eval wget $raw_xfce -O /home/$finduser/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
+    echo -e "\n  $greenplus turned off xfce power management for $finduser \n"
+	  }
+
+# 02.02.21 - rev 1.1.8 - Turn off XFCE Power - detection statements
+fix_xfcepower () {
+    [[ -f "/home/$finduser/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml" ]] && fix_xfce_user || echo -e "\n  $greenminus xfce power management file not found"
+    [[ -f "/root/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml" ]] && fix_xfce_root || echo -e "\n  $greenminus xfce power management file not found"
+  	}
+
+# 02.02.21 - rev 1.1.8 - Turn off / Silence PCSPKR beep
+silence_pcbeep () {
+    echo -e "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+    echo -e "\n  $greenplus Terminal Beep Silenced! /etc/modprobe.d/nobeep.conf \n"
+    }
+
+# Need to add arch type detection and then grab the right file
+# fix_assetfinder () {
 #    echo -e "\n  $greenplus installing assetfinder \n"
 #    wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder-linux-amd64-0.1.1.tgz
 #    eval tar xvfz /tmp/assetfinder-linux-amd64-0.1.1.tgz -C /usr/bin
@@ -164,8 +212,8 @@ python-pip-curl () {
  # force= to override force / set force var
  # fix_section $section $check $force
 
+# 01.26.2021 - rev 1.1.5 - Current version of spike throws undefined symbol error, revert to old version
 fix_spike () {
-    # Added 01.26.2021 Current version of spike throws error, revert to old version
     echo -e "\n  $greenplus Fix SPIKE "
     echo -e "\n  $greenplus removing SPIKE...\n"
     eval apt -y --allow-change-held-packages remove spike
@@ -179,21 +227,21 @@ fix_spike () {
     echo -e "\n  $greenplus apt hold placed on spike package"
     }
 
-#fix_gowitness () {
-#    # 01.27.2021 - added due to 404 errors with go get -u github.com/sensepost/gowitness
-#    # multiple different archs need an if statement to detect arch type and grab right binary.
-#    echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
-#    wget https://github.com/sensepost/gowitness/releases/download/2.3.0/gowitness-2.3.0-linux-amd64 -O /usr/bin/gowitness
-#    chmod +x /usr/bin/gowitness
-#    echo -e "\n  $greenplus gowitness installed \n"
+# fix_gowitness () {
+#   # 01.27.2021 - added due to 404 errors with go get -u github.com/sensepost/gowitness
+#   # multiple different archs need an if statement to detect arch type and grab right binary.
+#   echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
+#   wget https://github.com/sensepost/gowitness/releases/download/2.3.0/gowitness-2.3.0-linux-amd64 -O /usr/bin/gowitness
+#   chmod +x /usr/bin/gowitness
+#   echo -e "\n  $greenplus gowitness installed \n"
 #
-     # this will only work after golang is installed and gopath has been added to .bashrc and .zshrc
-     # isgoinstalled=$(go --version | grep -i -c "go version go") check that its installed
-     # export | grep GOPATH check that GOPATH is set and active
-     # if both conditions are met install :
-     # go get -u gorm.io/gorm
-     # go get -u github.com/sensepost/gowitness
-     # }
+#   this will only work after golang is installed and gopath has been added to .bashrc and .zshrc
+#   isgoinstalled=$(go --version | grep -i -c "go version go") check that its installed
+#   export | grep GOPATH check that GOPATH is set and active
+#   if both conditions are met install :
+#   go get -u gorm.io/gorm
+#   go get -u github.com/sensepost/gowitness
+#   }
 
 fix_gedit () {
     section="gedit"
@@ -419,7 +467,7 @@ enable_rootlogin () {
     ask_homekali_to_root
     }
 
-# 01.02.2021 rev 1.1.2 --- begin : new screens for copying from /home/kali to /root, no detection, all based on used input
+# 01.02.2021 - rev 1.1.2 begin - new screens for copying from /home/kali to /root, no detection, all based on used input
 ask_homekali_to_root () {
     echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 2   "$red"*** READ CAREFULLY! ***"$white" \n"
     echo -e "   This section of the script is only executed if Yes was selected at the enable root login prompt\n"
@@ -440,7 +488,7 @@ ask_homekali_to_root () {
       esac
     }
 
-# 01.03.2021 rev 1.1.3 --- begin : added are you sure prompt
+# 01.03.2021 - rev 1.1.3 begin - added are you sure prompt
 ask_are_you_sure () {
     echo -e "\n\n   Are you sure you want to copy all of /home/kali to /root ?"
     read -n1 -p "   Please type Y or N : " userinput
@@ -450,15 +498,15 @@ ask_are_you_sure () {
        *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
      esac
     }
-# 01.03.2021 rev 1.1.3 --- end : added are you sure prompt
 
+# 01.02.2021 - rev 1.1.2 - copy to /root warning screens and function
 perform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
     eval cp -Rvf /home/kali/.* /home/kali/* /root >/dev/null 2>&1
     eval chown -R root:root /root
     echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
     }
-# 01.02.2021 rev 1.1.2 --- end : copy to /root warning screens and functions
+
 
 fix_sead_warning () {
     clear
@@ -517,13 +565,13 @@ fix_sead_run () {
     #    clear
     #    echo -e "  If you've made it this far you're having a really bad day with impacket... "
     echo -e "  Enjoy the last chance launch sequence!\n"
-    echo -e "  Preparing to nuke Impacket...\n"
-    echo -e "  $green[....]$white acquiring targets\n"
-    echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD\n"
-    echo -e "  $green[-$red++$green-]$white targets locked\n"
-    echo -e "  $green[++++]$white systems ready\n"
-    echo -e "  $green[<$red@@$green>]$white taking aim\n"
-    echo -e "  $green[$red####$green]$white requesting launch code\n"
+    echo -e "  Preparing to nuke Impacket... \n"
+    echo -e "  $green[....]$white acquiring targets \n"
+    echo -e "  $green[$red+$green..$red+$green]$white targets selected\n$SEAD \n"
+    echo -e "  $green[-$red++$green-]$white targets locked \n"
+    echo -e "  $green[++++]$white systems ready \n"
+    echo -e "  $green[<$red@@$green>]$white taking aim \n"
+    echo -e "  $green[$red####$green]$white requesting NukeImpacket launch codes \n"
     echo -e "  $green[$red$launch_codes_alpha-$launch_codes_beta-$launch_codes_charlie$green]$white launch code confirmed"
     #    echo -e "  Are you sure you meant to run this script?\n"
     #    temp_cnt=${wait_time}
@@ -611,7 +659,7 @@ only_upgrade () {
     echo -e "\n  $greenplus releasing hold on package: metasploit-framework"
     eval apt-mark unhold metasploit-framework
     # add fix for broken filemanager / terminal icon
-     fix_broken_xfce
+    fix_broken_xfce
    }
 
 fix_upgrade () {

@@ -16,6 +16,19 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.1.8 - Quality of life improvements
+  - xfce power management is now disabled
+    - fix_xfcepower fix_xfce_root fix_xfce_user
+      - will also be executed in menu option F - Fix Icons 
+  - pc speaker beep now disabled /etc/modprobe.d/nobeep.conf
+    - silence_pcbeep
+  - Items will be installed via the following :
+    - 1 - Fix Missing
+    - 0 - Fix All (Runs only options 1 thru 8)
+    - N - New VM Setup  
+  - Updated Readme.md documentation for menu items S, F
+  - Minor updates for a few prompts  
+
 # Revision 1.1.7 - libguestfs-tools cifs-utils added
   - libguestfs-tools added to fix_missing
   - cifs-utils added to fix_missing
@@ -266,7 +279,7 @@
   - --force command line argument was being called without setting $force in fix_all $force - fixed
 
 # Revision 0.3b
-  - bug fix ( Thanks ShadeauxBoss! for finding it ) impacket installation was missing cd /opt/impacket-0.9.19
+  - bug fix impacket installation was missing cd /opt/impacket-0.9.19
   - feature request added : Gedit installation menu option 7, is included in fix_missing, all and force
   - remove clear from exit screen
 
@@ -299,7 +312,7 @@ Menu breakdown of what pimpmykali does:
 - This section is being provided as a brief overview
 
 Menu option N  (New Users/New VM's Should start here!)
-- executes fix all ( menu options 1 thru 8 )
+- executes menu option 0 fix all ( menu options 1 thru 8 )
 - executes menu option D (downgrade metasploit)
 - executes menu opiion 9 (pimpmyupgrade)
 
@@ -320,6 +333,8 @@ Menu Option 1 - Fix missing
 - installs htop
 - installs python requests
 - installs python xlrd
+- disables xfce power management
+- blacklists pcspkr kernel module /etc/modprobe.d/nobeep.conf
 
 Menu Option 2 - Fix smb.conf
 - Fix /etc/samba/smb.conf
@@ -371,10 +386,19 @@ Menu Option B
   - Click the link below for a full list of the_essentials.sh script and its inner workings
   - https://github.com/blindpentester/the-essentials
 
+Menu Option F
+  - Fixes XFCE Broken Icons "TerminalEmulator" Not Found
+  - Fixes XFCE Open Catfish instead of Thunar when double clicking Home or FileSystem Icon
+    - this fix is a temporary fix and will be removed once xfce has been corrected
+
+Menu Option S - Fix Spike
+  - Fixes undefined symbol error thrown when using generic_send_tcp
+    - this fix is temporary and will be removed once a corrected version is available  
+
 Menu Option D - Downgrade metasploit-framework from 6 to 5
 - included in menu option N
   - downgrades metasploit-framework (msfconsole) from msf6 to msf5
-  - this is a temporary solution and will eventually be removed
+  - this is a temporary solution and will eventually be removed once a corrected version is available
 
 Menu Option ! - Nuke Impacket (yes its literally the ! character)
 - removes any prior installation of impacket (gracefully and forcefully)
@@ -384,4 +408,4 @@ Menu Option ! - Nuke Impacket (yes its literally the ! character)
   - 1 warning screen (2nd warning screen removed)
 
 # TODO   
-  - cleaned up todo list
+  - clean up todo list :)
