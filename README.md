@@ -17,9 +17,10 @@
   - For a new kali vm, run menu option N
 
 # Revision 1.1.8 - Quality of life improvements
+  - Added install for theharvester
   - xfce power management is now disabled
     - fix_xfcepower fix_xfce_root fix_xfce_user
-      - will also be executed in menu option F - Fix Icons 
+      - will also be executed in menu option F - Fix Icons
   - pc speaker beep now disabled /etc/modprobe.d/nobeep.conf
     - silence_pcbeep
   - Items will be installed via the following :

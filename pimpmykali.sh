@@ -125,6 +125,7 @@ fix_missing () {
     fix_golang  $force
     fix_nmap
     fix_rockyou
+    fix_theharvester      # 02.02.2021 - added theharvester to fix_missing
     silence_pcbeep        # 02.02.2021 - turn off terminal pc beep
     fix_xfcepower         # 02.02.2021 - disable xfce power management for user and root
     fix_python_requests
@@ -290,6 +291,13 @@ fix_nmap () {
 fix_flameshot () {
     section="flameshot"
     check=$(whereis flameshot | grep -i -c "/usr/bin/flameshot")
+    fix_section $section $check $force
+    }
+
+# 02.02.21 - rev 1.1.8 - install theharvester
+fix_theharvester () {
+    section="theharvester"
+    check=$(whereis theharvester | grep -i -c "/usr/bin/theharvester")
     fix_section $section $check $force
     }
 
@@ -711,7 +719,7 @@ fix_upgrade () {
 #  eval pip3 install .
 #  echo -e "\n  $greenplus theHarvester fixes applied and installed"
 #  exit_screen
-# }
+#  }
 
 bpt () {
     rm -rf /opt/the-essentials
@@ -864,7 +872,6 @@ pimpmykali_menu () {
     echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically)"      # fix_broken_xfce
     echo -e "                              (fixes broken xfce icons TerminalEmulator Not Found)"  #
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
-    # echo -e "  G - Fix Gowitness           (install gowitness prebuilt binary)"                   # fix_gowitness
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
