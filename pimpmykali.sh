@@ -69,6 +69,10 @@
 # for vbox_fix_shared_folder_permission_denied
     findgroup=$(groups $finduser | grep -i -c "vboxsf")
 
+# Log file declartion
+#   logfile=/tmp/pmk.log
+#   log='| tee -a $logfile'
+
 # silent mode
     silent=''                  # uncomment to see all output
     # silent='>/dev/null 2>&1' # uncomment to hide all output10
@@ -87,6 +91,8 @@ check_for_root () {
     if [ "$EUID" -ne 0 ]
       then echo -e "\n\n Script must be run with sudo ./pimpmykali.sh or as root \n"
       exit
+      # else
+      # [[ ! -f "/tmp/pmk.log" ]] && touch /tmp/pmk.log || echo -e "\n Pimpmykali Log " > /tmp/pmk.log; date >> /tmp/pmk.log
     fi
     }
 
@@ -121,6 +127,7 @@ fix_missing () {
     python-pip-curl
     python3_pip $force
     fix_gedit   $force    # restored to its former glory
+    fix_root_connectionrefused
     fix_htop    $force
     fix_golang  $force
     fix_nmap
@@ -131,8 +138,8 @@ fix_missing () {
     fix_python_requests
     fix_pipxlrd           # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
-    # fix_gowitness        # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
-    # fix_assetfinder      # 02.01.21 Hold
+    # fix_gowitness       # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
+    # fix_assetfinder     # 02.01.21 Hold
     }
 
 fix_all () {
@@ -243,6 +250,13 @@ fix_spike () {
 #   go get -u gorm.io/gorm
 #   go get -u github.com/sensepost/gowitness
 #   }
+
+fix_root_connectionrefused () {
+# fix root gedit connection refused
+    echo -e "\n  $greenplus Adding root to xhost : xhost +SI:localuser:root \n"
+    eval xhost +SI:localuser:root
+    echo -e "\n  $greenplus root added to xhost"
+    }
 
 fix_gedit () {
     section="gedit"
@@ -869,7 +883,8 @@ pimpmykali_menu () {
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
     echo -e "      This will run Fix All (0), Metasploit Downgrade (D) and Pimpmyupgrade (9)\n"   #
     echo -e "  Additional Functions : "                                                           # optional line
-    echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically)"      # fix_broken_xfce
+    echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically    )"  # fix_broken_xfce
+    echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused            )"  # fix_root_connectionrefused
     echo -e "                              (fixes broken xfce icons TerminalEmulator Not Found)"  #
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
@@ -891,6 +906,7 @@ pimpmykali_menu () {
         !) forced=1; fix_sead_warning;;
       f|F) fix_broken_xfce ;;
       s|S) fix_spike ;;
+      g|G) fix_root_connectionrefused ;;
       # g|g) fix_gowitness ;;
       n|N) fix_all; downgrade_msf; only_upgrade;;
       d|D) downgrade_msf ;;

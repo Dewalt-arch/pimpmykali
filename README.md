@@ -16,6 +16,9 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.1.9 - Gedit Connection Refused
+  - added fix for gedit as root connection refused 
+
 # Revision 1.1.8 - Quality of life improvements
   - Added install for theharvester
   - xfce power management is now disabled
