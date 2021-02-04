@@ -17,7 +17,12 @@
   - For a new kali vm, run menu option N
 
 # Revision 1.1.9 - Gedit Connection Refused
-  - added fix for gedit as root connection refused 
+  - added fix for gedit as root connection refused
+  - Fix will be installed via :
+    - 1 - Fix Missing
+    - 0 - Fix All
+    - N - New VM Setup
+  - Menu item G to apply only this fix
 
 # Revision 1.1.8 - Quality of life improvements
   - Added install for theharvester
