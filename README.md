@@ -17,7 +17,7 @@
   - For a new kali vm, run menu option N
 
 # Revision 1.2.0 - Menu Option N Modified
- - Kali 2021.1 + MSF-6.0.30-DEV Has been Released Live in the Kali Repo 
+ - Kali 2021.1 + MSF-6.0.30-DEV Has been released live in the Kali Repo 
  - Downgrade Metasploit has been removed from Menu Option N
  - Kali 2021.1 has been released with metasploit-framework 6.0.30-dev
  - Downgrade Metasploit is now only available via menu option D
