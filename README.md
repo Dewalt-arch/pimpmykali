@@ -20,6 +20,7 @@
  - Downgrade Metasploit has been removed from Menu Option N
  - Kali 2021.1 has been released with metasploit-framework 6.0.30-dev
  - Downgrade Metasploit is now only available via menu option D
+ - Minor code cleanup
 
 # Revision 1.1.9 - Gedit Connection Refused
   - added fix for gedit as root connection refused
