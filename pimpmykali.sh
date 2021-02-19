@@ -107,9 +107,9 @@ fix_section () {
       eval apt -y install $section $silent
      elif [ $force = 1 ]
       then
-        # sanity check : force=1 check=1
-        echo -e "\n  $redstar reinstall : $section"
-        eval apt -y reinstall $section $silent
+       # sanity check : force=1 check=1
+       echo -e "\n  $redstar reinstall : $section"
+       eval apt -y reinstall $section $silent
      else
        # sanity check : force=0  check=1
        echo -e "\n  $greenminus $section already installed"
