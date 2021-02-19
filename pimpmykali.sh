@@ -92,6 +92,7 @@ check_for_root () {
       then echo -e "\n\n Script must be run with sudo ./pimpmykali.sh or as root \n"
       exit
        else
+        # 02.19.21 - Kali 2021.1 + MSF 6.0.30-DEV Released
         # Remove any prior hold on metasploit-framework at startup
         eval apt-mark unhold metasploit-framework >/dev/null 2>&1
         # Possible future logging option - work in progress
