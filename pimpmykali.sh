@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.1.9"
+    revision="1.2.0"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -158,6 +158,7 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
+
 # 02.02.21 - rev 1.1.8 - Turn off XFCE Power Management for user
 fix_xfce_root() {
     eval wget $raw_xfce -O /root/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
@@ -181,15 +182,6 @@ silence_pcbeep () {
     echo -e "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
     echo -e "\n  $greenplus Terminal Beep Silenced! /etc/modprobe.d/nobeep.conf \n"
     }
-
-# Need to add arch type detection and then grab the right file
-# fix_assetfinder () {
-#    echo -e "\n  $greenplus installing assetfinder \n"
-#    wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder-linux-amd64-0.1.1.tgz
-#    eval tar xvfz /tmp/assetfinder-linux-amd64-0.1.1.tgz -C /usr/bin
-#    rm -f /tmp/assetfinder-linux-amd64-0.1.1.tgz
-#    echo -e "\n  $greenplus assetfinder installed \n"
-#    }
 
 fix_pipxlrd () {
     eval pip install xlrd==1.2.0 --upgrade
@@ -881,7 +873,7 @@ pimpmykali_menu () {
     echo -e "                              (will not upgrade: metasploit-framework)"              # -
     echo -e "  0 - Fix ALL                 (runs only 1 thru 8) \n"                               # fix_all
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
-    echo -e "      This will run Fix All (0), Metasploit Downgrade (D) and Pimpmyupgrade (9)\n"   #
+    echo -e "                     This will run Fix All (0) and Pimpmyupgrade (9)\n"              #
     echo -e "  Additional Functions : "                                                           # optional line
     echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically    )"  # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused            )"  # fix_root_connectionrefused
@@ -908,7 +900,7 @@ pimpmykali_menu () {
       s|S) fix_spike ;;
       g|G) fix_root_connectionrefused ;;
       # g|g) fix_gowitness ;;
-      n|N) fix_all; downgrade_msf; only_upgrade;;
+      n|N) fix_all; only_upgrade;;
       d|D) downgrade_msf ;;
       b|B) bpt ;;
       # h|H) fix_theharvester ;;
