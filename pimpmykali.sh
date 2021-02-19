@@ -119,6 +119,7 @@ fix_section () {
 
 fix_missing () {
     fix_sources
+    eval apt-mark unhold metasploit-framework   # Added 02.19.21 due to 2021.1 being released remove hold from prior runs of PMK before 1.2.0 
     eval apt -y update $silent && eval apt -y autoremove $silent
     eval apt -y remove kali-undercover $silent
     echo -e "\n  $greenplus apt updated "
