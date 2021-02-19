@@ -91,8 +91,11 @@ check_for_root () {
     if [ "$EUID" -ne 0 ]
       then echo -e "\n\n Script must be run with sudo ./pimpmykali.sh or as root \n"
       exit
-      # else
-      # [[ ! -f "/tmp/pmk.log" ]] && touch /tmp/pmk.log || echo -e "\n Pimpmykali Log " > /tmp/pmk.log; date >> /tmp/pmk.log
+       else
+        # Remove any prior hold on metasploit-framework at startup
+        eval apt-mark unhold metasploit-framework >/dev/null 2>&1
+        # Possible future logging option - work in progress 
+        # [[ ! -f "/tmp/pmk.log" ]] && touch /tmp/pmk.log || echo -e "\n Pimpmykali Log " > /tmp/pmk.log; date >> /tmp/pmk.log
     fi
     }
 
@@ -119,7 +122,7 @@ fix_section () {
 
 fix_missing () {
     fix_sources
-    eval apt-mark unhold metasploit-framework   # Added 02.19.21 due to 2021.1 being released remove hold from prior runs of PMK before 1.2.0 
+      # Added 02.19.21 due to 2021.1 being released remove hold from prior runs of PMK before 1.2.0
     eval apt -y update $silent && eval apt -y autoremove $silent
     eval apt -y remove kali-undercover $silent
     echo -e "\n  $greenplus apt updated "
