@@ -94,7 +94,7 @@ check_for_root () {
        else
         # Remove any prior hold on metasploit-framework at startup
         eval apt-mark unhold metasploit-framework >/dev/null 2>&1
-        # Possible future logging option - work in progress 
+        # Possible future logging option - work in progress
         # [[ ! -f "/tmp/pmk.log" ]] && touch /tmp/pmk.log || echo -e "\n Pimpmykali Log " > /tmp/pmk.log; date >> /tmp/pmk.log
     fi
     }
@@ -122,7 +122,6 @@ fix_section () {
 
 fix_missing () {
     fix_sources
-      # Added 02.19.21 due to 2021.1 being released remove hold from prior runs of PMK before 1.2.0
     eval apt -y update $silent && eval apt -y autoremove $silent
     eval apt -y remove kali-undercover $silent
     echo -e "\n  $greenplus apt updated "
@@ -688,49 +687,6 @@ fix_upgrade () {
     check_vm
     }
 
-# Python 3.9.1rc1 has been released out of RC Status and appears stable Python 3.9.1
-# 12.25.2020 theHarvester fix removed from pimpmykali.sh currently only commented out
-# if no further action is required on theHarvester code will be removed.
-# -----------------------------------------------------------------------------------
-#fix_theharvester () {
-#  # need to put a check in here for /bin/python3.9
-#  cd /bin
-#  ln -sf python3.9 python3
-#  eval apt -y install autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev
-#  echo -e "\n  $greenplus installed: autogen automake libtool libuv1 libuv1-dev python3-setuptools python3-distutils python3.9-dev"
-#  eval pip3 install Cython Sphinx psutil pyOpenSSL flake8
-#  echo -e "\n  $greenplus installed: Cython Sphinx psutil pyOpenSSL flake8"
-#  cd /opt
-#  eval rm -rf /opt/theHarvester /opt/uvloop
-#  echo -e "\n  $greenplus removed: /opt/theHarvester /opt/uvloop"
-#
-#  ## fix_uvloop
-#  eval git clone https://github.com/MagicStack/uvloop /opt/uvloop
-#  echo -e "\n  $greenplus cloned: uvloop"
-#  cd /opt/uvloop
-#  eval git submodule init
-#  eval git submodule update
-#  ## make change to the Makefile here change python to python3
-#  eval cat /opt/uvloop/Makefile | sed 's/PYTHON ?= python/PYTHON ?= python3/' > /tmp/newMakefile
-#  cp -f /tmp/newMakefile Makefile
-#  rm -f /tmp/newMakefile
-#  eval make
-#  eval python3 setup.py install
-#  echo -e "\n  $greenplus uvloop compiled and installed"
-#
-#  ## theHarvester
-#  eval git clone https://github.com/laramies/theHarvester /opt/theHarvester
-#  echo -e "\n  $greenplus cloned: theHarvester"
-#  cd /opt/theHarvester
-#  # remove remove : uvloop==0.14.0; platform_system != "Windows" from base.txt
-#  eval head -n 16 /opt/theHarvester/requirements/base.txt > /tmp/newbase.txt
-#  cp -f /tmp/newbase.txt  /opt/theHarvester/requirements/base.txt
-#  rm -f /tmp/newbase.txt
-#  eval pip3 install .
-#  echo -e "\n  $greenplus theHarvester fixes applied and installed"
-#  exit_screen
-#  }
-
 bpt () {
     rm -rf /opt/the-essentials
     git clone https://github.com/blindpentester/the-essentials /opt/the-essentials
@@ -749,38 +705,6 @@ downgrade_msf () {
     apt-mark hold metasploit-framework
     echo -e "\n  $greenplus metasploit downgraded \n"
     echo -e "\n  $greenplus hold placed on metasploit-framework \n"
-    }
-
-pimpmywifi_main () {
-    # Nothing to see here Netizen move along...
-    # ---Under Construction---
-    # - RTL8188AU FIX LIBC6 BREAKS LIBGCC-9-DEV
-    # -----begin fix-----
-    # apt -y update
-    # apt -y remove realtek-88xxau-dkms && apt -y purge realtek-88xxau-dkms
-    # apt -y install gcc-9-base     # libc6 breaks libgcc-9-dev fix
-    #                               # what to do on this one? 2019.x upgraded to 2020 throws Error
-    # apt -y install dkms build-essential linux-headers-amd64
-    # apt -y install realtek-88xxau-dkms
-    # apt -y upgrade
-    # reboot
-    # iwconfig
-    # -----end fix------
-    # detect wifi chipset
-    # install proper dkms driver based upon detection
-    # or just give a menu for a selection of drivers?
-    # -- status: idea stage - pre-alpha development
-    # realtek-rtl8188eus-dkms - Realtek RTL8188EUS driver in DKMS format
-    # realtek-rtl88xxau-dkms - Realtek RTL88xxAU driver in DKMS format
-    # add function to check for linux-headers in /lib/modules vs unname -r
-    find_linux_headers=$(find /lib/modules -name $(uname -r) 2> /dev/null)
-    running_kernel=$(uname -r)
-    if [ $running_kenrel = $find_linux_headers ]
-      then
-        echo SAME
-      else
-        echo DIFFERENT
-      fi
     }
 
 virt_what() {
