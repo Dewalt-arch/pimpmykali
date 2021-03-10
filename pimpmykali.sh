@@ -668,15 +668,15 @@ only_upgrade () {
     virt_what
     fix_sources
     echo -e "\n  $greenplus starting pimpmyupgrade   \n"
-    echo -e "\n  $greenplus holding back package: metasploit-framework"
-    eval apt-mark hold metasploit-framework
+    # echo -e "\n  $greenplus holding back package: metasploit-framework"
+    # eval apt-mark hold metasploit-framework
     eval apt -y update $silent && apt -y upgrade $silent
     kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
     echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
     eval apt -y install dkms build-essential linux-headers-amd64 $silent
     check_vm
-    echo -e "\n  $greenplus releasing hold on package: metasploit-framework"
-    eval apt-mark unhold metasploit-framework
+    # echo -e "\n  $greenplus releasing hold on package: metasploit-framework"
+    # eval apt-mark unhold metasploit-framework
     # add fix for broken filemanager / terminal icon
     fix_broken_xfce
     }
