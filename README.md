@@ -16,6 +16,9 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.2.1 - Menu Option N Modified
+  - minor code cleanup, no major changes. 
+
 # Revision 1.2.0 - Menu Option N Modified
  - Kali 2021.1 + MSF-6.0.30-DEV have been released live in the Kali Repo
  - Downgrade Metasploit has been removed from menu option N

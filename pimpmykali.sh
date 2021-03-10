@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.2.0"
+    revision="1.2.1"
 
 # unicorn puke:
     red=$'\e[1;31m'
