@@ -148,7 +148,7 @@ fix_missing () {
 
 fix_all () {
     fix_missing   $force
-    seclists      $force
+    # seclists      $force
     install_atom
     fix_flameshot $force
     fix_grub
@@ -284,11 +284,11 @@ python3_pip () {
     fix_section $section $check $force
     }
 
-seclists () {
-    section="seclists"
-    check=$(whereis seclists | grep -i -c "seclists: /usr/bin/seclists /usr/share/seclists")
-    fix_section $section $check $force
-    }
+#seclists () {
+#    section="seclists"
+#    check=$(whereis seclists | grep -i -c "seclists: /usr/bin/seclists /usr/share/seclists")
+#    fix_section $section $check $force
+#    }
 
 fix_nmap () {
     rm -f /usr/share/nmap/scripts/clamav-exec.nse
