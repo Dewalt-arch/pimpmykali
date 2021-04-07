@@ -16,8 +16,26 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.2.2 - A number of changes / updates
+  - Added Menu option M added - Install MS Vscode
+    - individual option, not adding to fix_missing, fix_all or newvm
+  - Added Menu option C added - Install Google-Chrome (gowitness dependancy)
+  - Added google-chrome to fix_missing which will be activated by
+    - menu option 1 fix missing
+    - menu option 0 fix all
+    - menu option N new vm setup
+  - /etc/apt/sources.list function rewritten
+    - function will now only search for a specific line in sources.list
+    - "#deb-src http://http.kali.org/kali kali-rolling main contrib non-free" or
+    - "# deb-src http://http.kali.org/kali kali-rolling main contrib non-free"
+    - if found, script will sed out the # and enable deb-src
+    - no other modifications are made to sources.list
+  - Downgrade Metasploit function has been removed - Menu option D
+  - virt-what function upgraded, check added for already existing
+  - enable root login prompt moved in the script should appear sooner during execution
+  
 # Revision 1.2.1 - Menu Option N Modified
-  - minor code cleanup, no major changes. 
+  - minor code cleanup, no major changes.
 
 # Revision 1.2.0 - Menu Option N Modified
  - Kali 2021.1 + MSF-6.0.30-DEV have been released live in the Kali Repo

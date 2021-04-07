@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.2.1"
+    revision="1.2.2-TEST"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -142,6 +142,7 @@ fix_missing () {
     fix_python_requests
     fix_pipxlrd           # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
+    check_chrome
     # fix_gowitness       # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     # fix_assetfinder     # 02.01.21 Hold
     }
@@ -162,6 +163,18 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
+#04.06.21 - rev 1.2.2. - add google-chrome due to gowitness dependancy
+check_chrome(){
+  [[ -f "/usr/bin/google-chrome" ]] && echo -e "\n  $greenminus google-chrome already installed - skipping  \n" || fix_chrome;
+}
+
+fix_chrome() {
+    echo -e "\n  $greenplus Gowitness dependancy fix: Downloading - google-chrome \n"
+    eval wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
+    echo -e "\n  $greenplus Gowitness dependancy fix: Installing - google-chrome \n"
+    eval dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+    rm -f /tmp/google-chrome-stable_current_amd64.deb
+}
 
 # 02.02.21 - rev 1.1.8 - Turn off XFCE Power Management for user
 fix_xfce_root() {
@@ -438,12 +451,37 @@ install_vscode () {
     }
 
 fix_sources () {
-    # Think about doing something different here...
     fix_bad_apt_hash
-    echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
-    echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
-    echo -e "\n  $greenplus fixed sources /etc/apt/sources.list"
+    # new fix_sources main function - 04.06.2021 rev 1.2.2
+    # checks only for "#deb-src http://http.kali.org/kali kali-rolling main contrib non-free" or
+    # checks only for "# deb-src http://http.kali.org/kali kali-rolling main contrib non-free"
+    # if found sed and removes "#" or "# " to enable deb-src
+    # no other modifications are made to /etc/apt/sources.list
+
+    check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://http.kali.org/kali kali-rolling main contrib non-free")
+    check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://http.kali.org/kali kali-rolling main contrib non-free")
+
+    if [[ $check_space = 0 && $check_nospace = 0 ]]; then
+    	echo -e "\n  $greenminus # deb-src or #deb-sec not found - skipping"
+    elif [ $check_space = 1 ]; then
+      echo -e "\n  $greenplus # deb-src with space found in sources.list uncommenting and enabling deb-src"
+      cat /etc/apt/sources.list | sed 's/\# deb-src http\:\/\/http\.kali\.org\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/http\.kali\.org\/kali kali-rolling main contrib non\-free''/' > /tmp/new-sources.list
+      cat /tmp/new-sources.list > /etc/apt/sources.list
+      rm  /tmp/new-sources.list
+      echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
+    elif [ $check_nospace = 1 ]; then
+      echo -e "\n  $greenplus #deb-src without space found in sources.list uncommenting and enabling deb-src"
+      cat /etc/apt/sources.list | sed 's/\#deb-src http\:\/\/http\.kali\.org\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/http\.kali\.org\/kali kali-rolling main contrib non\-free''/' > /tmp/new-sources.list
+      cat /tmp/new-sources.list > /etc/apt/sources.list
+      rm  /tmp/new-sources.list
+      echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
+    fi
+
+    # old function - leaving in code for now will remove at a later date - 04.06.2021
+    # echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
+    # echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
     }
+
 
 run_update () {
     fix_sources
@@ -696,21 +734,30 @@ bpt () {
     exit_screen
     }
 
-downgrade_msf () {
-    eval apt -y remove metasploit-framework
-    wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
-    eval dpkg -i /tmp/metasploit-framework_5.deb
-    eval gem cleanup reline
-    eval msfdb init
-    rm -f /tmp/metasploit-framework_5.deb
-    apt-mark hold metasploit-framework
-    echo -e "\n  $greenplus metasploit downgraded \n"
-    echo -e "\n  $greenplus hold placed on metasploit-framework \n"
-    }
+#downgrade_msf () {
+#    eval apt -y remove metasploit-framework
+#    wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
+#    eval dpkg -i /tmp/metasploit-framework_5.deb
+#    eval gem cleanup reline
+#    eval msfdb init
+#    rm -f /tmp/metasploit-framework_5.deb
+#    apt-mark hold metasploit-framework
+#    echo -e "\n  $greenplus metasploit downgraded \n"
+#    echo -e "\n  $greenplus hold placed on metasploit-framework \n"
+#    }
 
 virt_what() {
-    echo -e "\n  $greenplus installing virt-what \n"
-    eval apt -y update $silent && apt -y install virt-what $silent
+    # Upgraded virt-what function - 04.07.2021 rev 1.2.2
+    # detection of /usr/sbin/virt-what
+    [ -f "/usr/sbin/virt-what" ] && virtwhat=1 ||  virtwhat=0
+
+    if [ $virtwhat = 1 ]
+     then
+       echo -e "\n  $greenminus virt-what already installed - skipping \n"
+     else
+       echo -e "\n  $greenplus installing virt-what \n"
+       eval apt -y install virt-what $silent
+    fi
     }
 
 vbox_fix_shared_folder_permission_denied () {
@@ -721,7 +768,7 @@ vbox_fix_shared_folder_permission_denied () {
         eval adduser $finduser vboxsf
         echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder"
         echo -e "       user added to vboxsf group "
-      fi
+    fi
     }
 
 fix_virtualbox() {
@@ -733,7 +780,7 @@ fix_virtualbox() {
     eval umount /tmp/vboxtmp
     eval rmdir /tmp/vboxtmp
     eval chmod +x /tmp/VBoxLinuxAdditions.run
-    eval /tmp/VBoxLinuxAdditions.run
+    eval /tmp/VBoxLinuxAdditions.run install --force
     eval rm -f /tmp/VBoxLinuxAdditions.run
     eval /sbin/rcvboxadd quicksetup all
     echo -e "\n  $redstar A reboot of your system is required"
@@ -807,9 +854,12 @@ pimpmykali_menu () {
     echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically    )"  # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused            )"  # fix_root_connectionrefused
     echo -e "                              (fixes broken xfce icons TerminalEmulator Not Found)"  #
+    echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                              # check_chrome / fix_chrome
+    echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                            # install_vscode
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
-    echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
+    # downgrade metasploit - commented out 04.06.2021
+    # echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
     read -n1 -p "  Enter 0 thru 9, N, B, D, or ! press X to exit: " menuinput
 
@@ -828,9 +878,10 @@ pimpmykali_menu () {
       f|F) fix_broken_xfce ;;
       s|S) fix_spike ;;
       g|G) fix_root_connectionrefused ;;
+      c|C) check_chrome;;
       # g|g) fix_gowitness ;;
       n|N) fix_all; only_upgrade;;
-      d|D) downgrade_msf ;;
+      # d|D) downgrade_msf ;; # commented out 04.06.2021
       b|B) bpt ;;
       # h|H) fix_theharvester ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
