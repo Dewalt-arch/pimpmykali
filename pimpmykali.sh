@@ -148,6 +148,7 @@ fix_missing () {
     }
 
 fix_all () {
+    make_rootgreatagain $force
     fix_missing   $force
     seclists      $force
     install_atom
