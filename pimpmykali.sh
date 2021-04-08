@@ -156,7 +156,6 @@ fix_all () {
     fix_grub
     fix_smbconf
     fix_impacket
-    make_rootgreatagain $force
     fix_upgrade
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
     # python-pip-curl python3_pip fix_golang fix_nmap
