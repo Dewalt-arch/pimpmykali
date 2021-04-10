@@ -892,12 +892,12 @@ pimpmykali_menu () {
     echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)" # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused)"              # fix_root_connectionrefused
     echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                          # check_chrome / fix_chrome
-    echo -e "  M - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
+    echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
     # echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf  # - commented out 04.06.2021
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
-    read -n1 -p "  Enter 0 thru 9, N, B, D, or ! press X to exit: " menuinput
+    read -n1 -p "  Enter 0 thru 9, N, B, F, G, C, V, S or ! press X to exit: " menuinput
 
     case $menuinput in
         1) fix_missing ;;
@@ -915,7 +915,7 @@ pimpmykali_menu () {
       s|S) fix_spike ;;
       g|G) fix_root_connectionrefused ;;
       c|C) check_chrome;;
-      m|M) install_vscode;;
+      v|V) install_vscode;;
       # g|g) fix_gowitness ;;
       n|N) fix_all; only_upgrade;;
       # d|D) downgrade_msf ;; # commented out 04.06.2021
