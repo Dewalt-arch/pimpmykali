@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.2.2"
+    revision="1.2.3"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -69,9 +69,9 @@
 # for vbox_fix_shared_folder_permission_denied
     findgroup=$(groups $finduser | grep -i -c "vboxsf")
 
-# Log file declartion
-#   logfile=/tmp/pmk.log
-#   log='| tee -a $logfile'
+# Logging
+#    LOG_FILE=/tmp/pimpmykali.log
+#    exec > >(tee ${LOG_FILE}) 2>&1
 
 # silent mode
     silent=''                  # uncomment to see all output
@@ -121,11 +121,39 @@ fix_section () {
     section=""
     }
 
+apt_update() {
+    echo -e "\n  $greenplus running: apt update \n"
+    eval apt -y update
+}
+
+apt_upgrade() {
+    echo -e "\n  $greenplus running: apt upgrade \n"
+    eval apt -y upgrade
+  }
+
+apt_autoremove() {
+    echo -e "\n  $greenplus running: apt autoremove \n"
+    eval apt -y autoremove
+}
+
+apt_update_complete() {
+    echo -e "\n  $greenplus apt update - complete"
+}
+
+apt_upgrade_complete() {
+    echo -e "\n  $greenplus apt upgrade - complete"
+}
+
+apt_autoremove_complete() {
+    echo -e "\n  $greenplus apt autoremove - complete"
+}
+
 fix_missing () {
     fix_sources
-    eval apt -y update $silent && eval apt -y autoremove $silent
+    apt_update && apt_update_complete
+    apt_autoremove && apt_autoremove_complete
+    # eval apt -y update $silent && eval apt -y autoremove $silent
     eval apt -y remove kali-undercover $silent
-    echo -e "\n  $greenplus apt updated "
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
     eval apt -y install dkms build-essential autogen automake python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils $silent
     python-pip-curl
@@ -148,8 +176,8 @@ fix_missing () {
     }
 
 fix_all () {
-    make_rootgreatagain $force
     fix_missing   $force
+    make_rootgreatagain $force
     seclists      $force
     install_atom
     fix_flameshot $force
@@ -157,13 +185,19 @@ fix_all () {
     fix_smbconf
     fix_impacket
     fix_upgrade
+    # fix_broken_xfce - not be necessary as of 2021.1 - code to be removed from script at later date
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
     # python-pip-curl python3_pip fix_golang fix_nmap
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
-#04.06.21 - rev 1.2.2. - add google-chrome due to gowitness dependancy
+# lightdm theme change to light or dark mode maybe
+# cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Light/Kali-Dark''/'
+# cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Dark/Kali-Light''/'
+# add optional ugly-background fix?
+
+# 04.06.21 - rev 1.2.2 - add google-chrome due to gowitness dependancy
 check_chrome(){
   [[ -f "/usr/bin/google-chrome" ]] && echo -e "\n  $greenminus google-chrome already installed - skipping  \n" || fix_chrome;
 }
@@ -207,7 +241,7 @@ fix_pipxlrd () {
     }
 
 python-pip-curl () {
-    check_pip=$(pip --version | grep -i -c "/usr/local/lib/python2.7/dist-packages/pip")
+    check_pip=$(whereis pip | grep -i -c "/usr/local/bin/pip2.7")
     if [ $check_pip -ne 1 ]
      then
       echo -e "\n  $greenplus installing pip"
@@ -426,7 +460,8 @@ fix_bad_apt_hash (){
     }
 
 install_atom () {
-    eval apt -y update
+    apt_update  && apt_update_complete
+    #eval apt -y update
     eval wget -qO- https://atom.io/download/deb -O /tmp/atom.deb >/dev/null 2>&1
     eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
     eval rm -f /tmp/atom.deb
@@ -438,7 +473,7 @@ install_sublime () {
     eval wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
     eval apt-get install apt-transport-https
     eval echo "deb https://download.sublimetext.com/ apt/stable/" > /etc/apt/sources.list.d/sublime-text.list
-    eval apt update
+    apt_update && apt_update_complete
     eval apt -y install sublime-text
     }
 
@@ -447,7 +482,7 @@ install_vscode () {
     eval curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
     eval mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
     eval echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list
-    eval apt update && apt install code
+    apt_update && apt_update_complete && apt -y install code
     }
 
 fix_sources () {
@@ -485,8 +520,9 @@ fix_sources () {
 
 run_update () {
     fix_sources
-    echo -e "\n  $greenplus starting pimpmyupgrade   \n"
-    eval apt -y update $silent
+    echo -e "\n  $greenplus starting: pimpmyupgrade   \n"
+    apt_update && apt_update_complete
+    # eval apt -y update $silent
     # COMMENTED OUT DUE TO MSF6 RELEASED && apt -y upgrade $silent
     kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
     echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
@@ -610,7 +646,7 @@ fix_sead_warning () {
     }
 
 fix_sead_run () {
-    eval apt update $silent
+    apt_update && apt_update_complete
     python-pip-curl
     python3_pip
     eval pip  uninstall impacket -y $silent
@@ -703,26 +739,26 @@ fix_broken_xfce() {
     }
 
 only_upgrade () {
-    virt_what
     fix_sources
     echo -e "\n  $greenplus starting pimpmyupgrade   \n"
     # echo -e "\n  $greenplus holding back package: metasploit-framework"
     # eval apt-mark hold metasploit-framework
-    eval apt -y update $silent && apt -y upgrade $silent
+    apt_update && apt_update_complete && apt_upgrade && apt_upgrade_complete
+    # eval apt -y update && apt -y upgrade
     kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
     echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
     eval apt -y install dkms build-essential linux-headers-amd64 $silent
+    virt_what   # Alek fix - 04.10.2021 Function moved
     check_vm
     # echo -e "\n  $greenplus releasing hold on package: metasploit-framework"
     # eval apt-mark unhold metasploit-framework
     # add fix for broken filemanager / terminal icon
-    fix_broken_xfce
     }
 
 fix_upgrade () {
-    virt_what
     fix_sources
     run_update
+    virt_what   # 04.10.2021 Function moved to be after run_update
     check_vm
     }
 
@@ -831,9 +867,11 @@ p1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o
 7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA="  | gunzip )
 
 pimpmykali_menu () {
+    # DATE=$(date +%x); TIME=$(date +%X)
     clear
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
+    #echo -e "\n     $DATE $TIME                               Rev:$revision"
     echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
     echo -e "\n  Menu Options:"                                                                   # function call list
     echo -e "\n  1 - Fix Missing             (pip pip3 golang gedit nmapfix build-essential)"     # fix_missing
@@ -850,16 +888,14 @@ pimpmykali_menu () {
     echo -e "  0 - Fix ALL                 (runs only 1 thru 8) \n"                               # fix_all
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
     echo -e "                     This will run Fix All (0) and Pimpmyupgrade (9)\n"              #
-    echo -e "  Additional Functions : "                                                           # optional line
-    echo -e "  F - Broken XFCE Icons fix   (will be executed in menu N and 9 automatically    )"  # fix_broken_xfce
-    echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused            )"  # fix_root_connectionrefused
-    echo -e "                              (fixes broken xfce icons TerminalEmulator Not Found)"  #
-    echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                              # check_chrome / fix_chrome
-    echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                            # install_vscode
+    echo -e "  Stand alone functions (only apply the single selection)"                           # optional line
+    echo -e "  F - Broken XFCE Icons fix   (stand-alone functioon: only applies broken xfce fix)" # fix_broken_xfce
+    echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused)"              # fix_root_connectionrefused
+    echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                          # check_chrome / fix_chrome
+    echo -e "  M - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
-    # downgrade metasploit - commented out 04.06.2021
-    # echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
+    # echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf  # - commented out 04.06.2021
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
     read -n1 -p "  Enter 0 thru 9, N, B, D, or ! press X to exit: " menuinput
 
@@ -879,6 +915,7 @@ pimpmykali_menu () {
       s|S) fix_spike ;;
       g|G) fix_root_connectionrefused ;;
       c|C) check_chrome;;
+      m|M) install_vscode;;
       # g|g) fix_gowitness ;;
       n|N) fix_all; only_upgrade;;
       # d|D) downgrade_msf ;; # commented out 04.06.2021
@@ -920,7 +957,7 @@ check_arg () {
     --borked) force=1; fix_sead_warning $force ;;
       --nmap) fix_nmap                         ;;
        --bpt) bpt                              ;;
-    --vscode) install_vscode                   ;; # hidden switch
+    --vscode) install_vscode                   ;;
       --subl) install_sublime                  ;; # hidden switch
       --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;

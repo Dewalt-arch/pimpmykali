@@ -16,6 +16,25 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.2.3 - fix_broken_xfce
+  - only_upgrade function modified
+      - function virt_what was called to early in only_upgrade
+      - moved to later part of the only_upgrade function after apt update
+    - fix_broken_xfce function is no longer necessary as of Kali 2021.1
+    - fix_broken_xfce removed from all script processing
+    - fix_broken_xfce has been moved to stand alone function (menu F)
+      - not be called by any other part of the script except (menu F)
+    - fix_broken_xfce (menu F)
+      - left as a stand alone function as a fail-safe for older versions of Kali
+      - fix_broken_xfce code and function will be removed completely at a future date  
+  - fix_upgrade function modified
+    - virt_what function was called before run_update
+    - virt_what function moved, now called after run_update
+  - apt_update function added, now gives on screen display of running process function
+  - apt_upgrade function added, now gives on screen display of running process function
+  - apt_autoremove function added, now gives on screen display of running process function
+
+
 # Revision 1.2.2 - A number of changes / updates
   - Added Menu option M added - Install MS Vscode
     - individual option, not adding to fix_missing, fix_all or newvm
@@ -33,7 +52,7 @@
   - Downgrade Metasploit function has been removed - Menu option D
   - virt-what function upgraded, check added for already existing
   - enable root login prompt moved in the script should appear sooner during execution
-  
+
 # Revision 1.2.1 - Menu Option N Modified
   - minor code cleanup, no major changes.
 
