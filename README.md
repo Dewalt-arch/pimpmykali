@@ -22,8 +22,8 @@
       - moved to later part of the only_upgrade function after apt update
     - fix_broken_xfce function is no longer necessary as of Kali 2021.1
     - fix_broken_xfce removed from all script processing
-    - fix_broken_xfce has been moved to stand alone function (menu F)
-      - not be called by any other part of the script except (menu F)
+    - fix_broken_xfce has been moved to stand alone function
+      - not called by any other part of the script except (menu F)
     - fix_broken_xfce (menu F)
       - left as a stand alone function as a fail-safe for older versions of Kali
       - fix_broken_xfce code and function will be removed completely at a future date  
