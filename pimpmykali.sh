@@ -889,7 +889,7 @@ pimpmykali_menu () {
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
     echo -e "                     This will run Fix All (0) and Pimpmyupgrade (9)\n"              #
     echo -e "  Stand alone functions (only apply the single selection)"                           # optional line
-    echo -e "  F - Broken XFCE Icons fix   (stand-alone functioon: only applies broken xfce fix)" # fix_broken_xfce
+    echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)" # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused)"              # fix_root_connectionrefused
     echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                          # check_chrome / fix_chrome
     echo -e "  M - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
