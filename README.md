@@ -20,7 +20,7 @@
   - Added to menu options : 1 - Fix Missing, 0 - Fix All, and N - new vm setup
   - libssl-dev
   - set
-  - gcc-mingw-w64-x86-64-win32 
+  - gcc-mingw-w64-x86-64-win32
 
 # Revision 1.2.3 - fix_broken_xfce
   - only_upgrade function modified
@@ -42,8 +42,6 @@
 
 
 # Revision 1.2.2 - A number of changes / updates
-  - Added Menu option M added - Install MS Vscode
-    - individual option, not adding to fix_missing, fix_all or newvm
   - Added Menu option C added - Install Google-Chrome (gowitness dependancy)
   - Added google-chrome to fix_missing which will be activated by
     - menu option 1 fix missing
