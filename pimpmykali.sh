@@ -124,29 +124,29 @@ fix_section () {
 apt_update() {
     echo -e "\n  $greenplus running: apt update \n"
     eval apt -y update
-}
+    }
 
 apt_upgrade() {
     echo -e "\n  $greenplus running: apt upgrade \n"
     eval apt -y upgrade
-  }
+    }
 
 apt_autoremove() {
     echo -e "\n  $greenplus running: apt autoremove \n"
     eval apt -y autoremove
-}
+    }
 
 apt_update_complete() {
     echo -e "\n  $greenplus apt update - complete"
-}
+    }
 
 apt_upgrade_complete() {
     echo -e "\n  $greenplus apt upgrade - complete"
-}
+    }
 
 apt_autoremove_complete() {
     echo -e "\n  $greenplus apt autoremove - complete"
-}
+    }
 
 fix_missing () {
     fix_sources
@@ -170,6 +170,7 @@ fix_missing () {
     fix_python_requests
     fix_pipxlrd           # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
+    fix_set
     check_chrome
     # fix_gowitness       # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     # fix_assetfinder     # 02.01.21 Hold
@@ -199,8 +200,8 @@ fix_all () {
 
 # 04.06.21 - rev 1.2.2 - add google-chrome due to gowitness dependancy
 check_chrome(){
-  [[ -f "/usr/bin/google-chrome" ]] && echo -e "\n  $greenminus google-chrome already installed - skipping  \n" || fix_chrome;
-}
+    [[ -f "/usr/bin/google-chrome" ]] && echo -e "\n  $greenminus google-chrome already installed - skipping  \n" || fix_chrome;
+    }
 
 fix_chrome() {
     echo -e "\n  $greenplus Gowitness dependancy fix: Downloading - google-chrome \n"
@@ -208,7 +209,7 @@ fix_chrome() {
     echo -e "\n  $greenplus Gowitness dependancy fix: Installing - google-chrome \n"
     eval dpkg -i /tmp/google-chrome-stable_current_amd64.deb
     rm -f /tmp/google-chrome-stable_current_amd64.deb
-}
+    }
 
 # 02.02.21 - rev 1.1.8 - Turn off XFCE Power Management for user
 fix_xfce_root() {
@@ -295,7 +296,7 @@ fix_spike () {
 #   }
 
 fix_root_connectionrefused () {
-# fix root gedit connection refused
+    # fix root gedit connection refused
     echo -e "\n  $greenplus Adding root to xhost : xhost +SI:localuser:root \n"
     eval xhost +SI:localuser:root
     echo -e "\n  $greenplus root added to xhost"
@@ -305,6 +306,11 @@ fix_gedit () {
     section="gedit"
     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
     fix_section $section $check $force
+    }
+
+fix_set() {
+    # move these to their individual respecitive functions at a later date - 04.11.2021 rev 1.2.4
+    eval apt -y install libssl-dev set gcc-mingw-w64-x86-64-win32
     }
 
 fix_rockyou () {
@@ -892,7 +898,7 @@ pimpmykali_menu () {
     echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)" # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused)"              # fix_root_connectionrefused
     echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                          # check_chrome / fix_chrome
-    echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
+    #echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
     # echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf  # - commented out 04.06.2021
@@ -915,7 +921,7 @@ pimpmykali_menu () {
       s|S) fix_spike ;;
       g|G) fix_root_connectionrefused ;;
       c|C) check_chrome;;
-      v|V) install_vscode;;
+    #  v|V) install_vscode;;
       # g|g) fix_gowitness ;;
       n|N) fix_all; only_upgrade;;
       # d|D) downgrade_msf ;; # commented out 04.06.2021
@@ -957,7 +963,7 @@ check_arg () {
     --borked) force=1; fix_sead_warning $force ;;
       --nmap) fix_nmap                         ;;
        --bpt) bpt                              ;;
-    --vscode) install_vscode                   ;;
+    #--vscode) install_vscode                   ;;
       --subl) install_sublime                  ;; # hidden switch
       --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;
