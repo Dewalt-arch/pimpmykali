@@ -927,7 +927,7 @@ pimpmykali_menu () {
       s|S) fix_spike ;;
       g|G) fix_root_connectionrefused ;;
       c|C) check_chrome;;
-      # v|V) install_vscode;;
+      v|V) install_vscode;;
       # g|g) fix_gowitness ;;
       n|N) fix_all; only_upgrade;;
       # d|D) downgrade_msf ;; # commented out 04.06.2021
