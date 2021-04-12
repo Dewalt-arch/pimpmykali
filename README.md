@@ -16,10 +16,6 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
-# Update Pimpmykali
-   - cd pimpmykali
-   - git pull   
-
 # Revision 1.2.4 - added common missing items
   - Added to menu options : 1 - Fix Missing, 0 - Fix All, and N - new vm setup
     - libssl-dev
