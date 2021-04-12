@@ -21,7 +21,7 @@
     - gcc-mingw-w64-x86-64-win32
     - libssl-dev
     - set
-  - Resolved an issue with vscode installer menu option V
+  - Resolved an issue with vscode installer menu option v or V
 
 # Revision 1.2.3 - fix_broken_xfce
   - only_upgrade function modified
