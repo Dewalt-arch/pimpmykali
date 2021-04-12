@@ -21,7 +21,7 @@
     - libssl-dev
     - set (social engineering toolkit)
     - gcc-mingw-w64-x86-64-win32
-  - Resolved an issue with vscode installer
+  - Resolved an issue with vscode installer menu option V
 
 # Revision 1.2.3 - fix_broken_xfce
   - only_upgrade function modified
