@@ -484,11 +484,17 @@ install_sublime () {
     }
 
 install_vscode () {
-    echo -e "\n  $greenplus installing vscode"
-    eval curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-    eval mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-    eval echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list
-    apt_update && apt_update_complete && apt -y install code
+    check_vscode=$(cat /etc/apt/sources.list | grep -c "https://packages.microsoft.com/repos/vscode stable main")
+
+    if [[ $check_vscode = 0 ]]; then
+      echo -e "\n  $greenplus installing vscode"
+      echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" >> /etc/apt/sources.list
+      eval curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+      eval mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+      apt_update && apt_update_complete && apt -y install code
+    else
+    	echo -e "\n  $greenminus  vscode repo found in sources.list - skipping"
+    fi
     }
 
 fix_sources () {
@@ -898,7 +904,7 @@ pimpmykali_menu () {
     echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)" # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused)"              # fix_root_connectionrefused
     echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                          # check_chrome / fix_chrome
-    #echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
+    echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
     # echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf  # - commented out 04.06.2021
@@ -963,7 +969,7 @@ check_arg () {
     --borked) force=1; fix_sead_warning $force ;;
       --nmap) fix_nmap                         ;;
        --bpt) bpt                              ;;
-    #--vscode) install_vscode                   ;;
+    --vscode) install_vscode                   ;;
       --subl) install_sublime                  ;; # hidden switch
       --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;

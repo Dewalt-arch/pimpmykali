@@ -19,9 +19,9 @@
 # Revision 1.2.4 - added common missing items
   - Added to menu options : 1 - Fix Missing, 0 - Fix All, and N - new vm setup
   - libssl-dev
-  - set
+  - set (social engineering toolkit)
   - gcc-mingw-w64-x86-64-win32
-
+  
 # Revision 1.2.3 - fix_broken_xfce
   - only_upgrade function modified
       - function virt_what was called to early in only_upgrade
