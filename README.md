@@ -18,10 +18,10 @@
 
 # Revision 1.2.4 - added common missing items
   - Added to menu options : 1 - Fix Missing, 0 - Fix All, and N - new vm setup
-  - libssl-dev
-  - set (social engineering toolkit)
-  - gcc-mingw-w64-x86-64-win32
-  - Resolved an issue with MS Vscode installer 
+    - libssl-dev
+    - set (social engineering toolkit)
+    - gcc-mingw-w64-x86-64-win32
+  - Resolved an issue with vscode installer
 
 # Revision 1.2.3 - fix_broken_xfce
   - only_upgrade function modified
