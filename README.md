@@ -18,9 +18,9 @@
 
 # Revision 1.2.4 - added common missing items
   - Added to menu options : 1 - Fix Missing, 0 - Fix All, and N - new vm setup
-    - gcc-mingw-w64-x86-64-win32
-    - libssl-dev
-    - set
+    - install gcc-mingw-w64-x86-64-win32
+    - install libssl-dev
+    - install set 
   - Resolved an issue with vscode installer menu option v or V
 
 # Revision 1.2.3 - fix_broken_xfce
