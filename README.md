@@ -21,7 +21,8 @@
   - libssl-dev
   - set (social engineering toolkit)
   - gcc-mingw-w64-x86-64-win32
-  
+  - Resolved an issue with MS Vscode installer 
+
 # Revision 1.2.3 - fix_broken_xfce
   - only_upgrade function modified
       - function virt_what was called to early in only_upgrade
