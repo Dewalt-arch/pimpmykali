@@ -782,17 +782,17 @@ bpt () {
     exit_screen
     }
 
-#downgrade_msf () {
-#    eval apt -y remove metasploit-framework
-#    wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
-#    eval dpkg -i /tmp/metasploit-framework_5.deb
-#    eval gem cleanup reline
-#    eval msfdb init
-#    rm -f /tmp/metasploit-framework_5.deb
-#    apt-mark hold metasploit-framework
-#    echo -e "\n  $greenplus metasploit downgraded \n"
-#    echo -e "\n  $greenplus hold placed on metasploit-framework \n"
-#    }
+downgrade_msf () {
+    eval apt -y remove metasploit-framework
+    wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
+    eval dpkg -i /tmp/metasploit-framework_5.deb
+    eval gem cleanup reline
+    eval msfdb init
+    rm -f /tmp/metasploit-framework_5.deb
+    apt-mark hold metasploit-framework
+    echo -e "\n  $greenplus metasploit downgraded \n"
+    echo -e "\n  $greenplus hold placed on metasploit-framework \n"
+    }
 
 virt_what() {
     # Upgraded virt-what function - 04.07.2021 rev 1.2.2
@@ -907,7 +907,7 @@ pimpmykali_menu () {
     echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
-    # echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf  # - commented out 04.06.2021
+    echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf  # - commented out 04.06.2021
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
     read -n1 -p "  Enter 0 thru 9, N, B, F, G, C, V, S or ! press X to exit: " menuinput
 
@@ -930,7 +930,7 @@ pimpmykali_menu () {
       v|V) install_vscode;;
       # g|g) fix_gowitness ;;
       n|N) fix_all; only_upgrade;;
-      # d|D) downgrade_msf ;; # commented out 04.06.2021
+      d|D) downgrade_msf ;; # commented out 04.06.2021
       b|B) bpt ;;
       # h|H) fix_theharvester ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
