@@ -16,10 +16,10 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
-# Revision 1.2.4 - added common missing items
+# Revision 1.2.5 - Downgrade MSF to 5 re-enabled
   - Downgrade from MSF 6 to 5 has been re-enabled
     - due to a recent (somewhat odd) demand to re-enable the downgrade
-    - function has been re-enabled. Menu Option D
+    - function has been re-enabled. Menu Option D only
 
 # Revision 1.2.4 - added common missing items
   - Added to menu options : 1 - Fix Missing, 0 - Fix All, and N - new vm setup
