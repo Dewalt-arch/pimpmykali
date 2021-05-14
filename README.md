@@ -16,6 +16,11 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.2.6 - GoWitness Precompiled Binary - Installed
+  - Gowitness Precompiled binary is downloaded and installed to /usr/bin/gowitness
+    - checks for google-chrome installation, if not installed, install it
+    - installs gowitness precompiled binary to /usr/bin/gowitness 
+
 # Revision 1.2.5 - Downgrade MSF to 5 re-enabled
   - Downgrade from MSF 6 to 5 has been re-enabled
     - due to a recent (somewhat odd) demand to re-enable the downgrade

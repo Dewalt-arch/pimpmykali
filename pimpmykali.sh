@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.2.5"
+    revision="1.2.6"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -172,7 +172,7 @@ fix_missing () {
     fix_spike
     fix_set
     check_chrome
-    # fix_gowitness       # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
+    fix_gowitness       # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     # fix_assetfinder     # 02.01.21 Hold
     }
 
@@ -279,21 +279,21 @@ fix_spike () {
     echo -e "\n  $greenplus apt hold placed on spike package"
     }
 
-# fix_gowitness () {
-#   # 01.27.2021 - added due to 404 errors with go get -u github.com/sensepost/gowitness
-#   # multiple different archs need an if statement to detect arch type and grab right binary.
-#   echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
-#   wget https://github.com/sensepost/gowitness/releases/download/2.3.0/gowitness-2.3.0-linux-amd64 -O /usr/bin/gowitness
-#   chmod +x /usr/bin/gowitness
-#   echo -e "\n  $greenplus gowitness installed \n"
-#
-#   this will only work after golang is installed and gopath has been added to .bashrc and .zshrc
-#   isgoinstalled=$(go --version | grep -i -c "go version go") check that its installed
-#   export | grep GOPATH check that GOPATH is set and active
-#   if both conditions are met install :
-#   go get -u gorm.io/gorm
-#   go get -u github.com/sensepost/gowitness
-#   }
+# Think about this, prevents updating to the latest and greatest version should a newer one be avialable
+# check_gowitness () {
+#    [[ -f "/usr/bin/gowitness" ]] && echo -e "\n  $greenminus gowitness already installed - skipping  \n" || fix_gowitness;
+#    }
+
+fix_gowitness () {
+   echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
+   rm -f /tmp/releases.gowitness > /dev/null
+   check_chrome
+   wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
+   current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
+   wget https://github.com$current_build -O /usr/bin/gowitness
+   chmod +x /usr/bin/gowitness
+   rm -f /tmp/releases.gowitness > /dev/null
+   }
 
 fix_root_connectionrefused () {
     # fix root gedit connection refused
@@ -901,7 +901,8 @@ pimpmykali_menu () {
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
     echo -e "                     This will run Fix All (0) and Pimpmyupgrade (9)\n"              #
     echo -e "  Stand alone functions (only apply the single selection)"                           # optional line
-    echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)" # fix_broken_xfce
+    echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)"  # fix_broken_xfce
+    echo -e "  W - Gowitness Precomiled    (download and install gowitness)"                      # fix_gowitness
     echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused)"              # fix_root_connectionrefused
     echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                          # check_chrome / fix_chrome
     echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
@@ -928,7 +929,7 @@ pimpmykali_menu () {
       g|G) fix_root_connectionrefused ;;
       c|C) check_chrome;;
       v|V) install_vscode;;
-      # g|g) fix_gowitness ;;
+      w|W) fix_gowitness ;;
       n|N) fix_all; only_upgrade;;
       d|D) downgrade_msf ;; # commented out 04.06.2021
       b|B) bpt ;;
