@@ -1,3 +1,4 @@
+Test branchParentMode
 # pimpmykali.sh
 
 # Fixes for new imported Kali Linux virtual machines
