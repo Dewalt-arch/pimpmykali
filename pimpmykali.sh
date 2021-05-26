@@ -822,7 +822,8 @@ vbox_fix_shared_folder_permission_denied () {
 fix_virtualbox() {
     ## added for revision 0.5i ##
     eval mkdir /tmp/vboxtmp
-    eval apt -y reinstall virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11 $silent
+    eval apt -y reinstall virtualbox-dkms virtualbox-guest-x11 $silent
+    # virtualbox-guest-additions-iso virtualbox-guest-x11 $silent
     # virtualbox-guest-additions-iso leaving so it gets installed and we dont have to create a bunch of dirs
     # may not need the following once the kali repo is updatedf
     # may keep this function as is, so it is always getting the most updated version from Oracle not the Kali Repo
