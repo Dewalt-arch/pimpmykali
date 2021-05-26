@@ -16,6 +16,12 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Revision 1.2.7 - Virtualbox Guest ISO Downloaded from virtualbox.org 
+  - Virtualbox Guest OS Tools Only :
+   - An issue has arisen that the Kali repo has the incorrect version of the
+   - virtualbox guest os tools, function has been rewritten to always pull the
+   - most current version from download.virtualbox.org/LATEST directly not the kali repo
+
 # Revision 1.2.6 - GoWitness Binary - Installed
   - Gowitness Precompiled binary is downloaded and installed to /usr/bin/gowitness
     - checks for google-chrome installation, if not installed, install it

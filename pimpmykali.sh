@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.2.6"
+    revision="1.2.7"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -821,8 +821,21 @@ vbox_fix_shared_folder_permission_denied () {
 
 fix_virtualbox() {
     ## added for revision 0.5i ##
-    eval apt -y reinstall virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11 $silent
     eval mkdir /tmp/vboxtmp
+    eval apt -y reinstall virtualbox-dkms virtualbox-guest-additions-iso virtualbox-guest-x11 $silent
+    # virtualbox-guest-additions-iso leaving so it gets installed and we dont have to create a bunch of dirs
+    # may not need the following once the kali repo is updatedf
+    # may keep this function as is, so it is always getting the most updated version from Oracle not the Kali Repo
+    # which seems to lag behind
+    #
+    # Side Step the Kali Repo as it is the wrong version not current
+    # This will always pull the latest version from download.virtualbox.org/virtualbox/LATEST
+     # check version
+     wget http://download.virtualbox.org/virtualbox/LATEST.TXT -O /tmp/vbox-latest
+     vboxver=$(cat /tmp/vbox-latest)
+     # get new iso and place over old one in /usr/share/virtualbox
+     wget http://download.virtualbox.org/virtualbox/$vboxver/VBoxGuestAdditions_$vboxver.iso -O /usr/share/virtualbox/VBoxGuestAdditions.iso
+     # end of sidestep
     eval mount /usr/share/virtualbox/VBoxGuestAdditions.iso /tmp/vboxtmp
     eval cp -f /tmp/vboxtmp/VBoxLinuxAdditions.run /tmp/VBoxLinuxAdditions.run
     eval umount /tmp/vboxtmp
