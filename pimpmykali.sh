@@ -608,6 +608,8 @@ ask_are_you_sure () {
 # 01.02.2021 - rev 1.1.2 - copy to /root warning screens and function
 perform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
+    # WebBrowser=firefox  check /home/kali/.config/xfce4/helpers.rc if default browser has been selected or not
+    # if file not exist set firefox as the default for root, user can change it later if not already set 
     eval cp -Rvf /home/kali/.* /home/kali/* /root >/dev/null 2>&1
     eval chown -R root:root /root
     echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
