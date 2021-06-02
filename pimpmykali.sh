@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.2.7"
+    revision="1.2.8"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -484,16 +484,18 @@ install_sublime () {
     }
 
 install_vscode () {
-    check_vscode=$(cat /etc/apt/sources.list | grep -c "https://packages.microsoft.com/repos/vscode stable main")
+    # check_vscode=$(cat /etc/apt/sources.list | grep -c "https://packages.microsoft.com/repos/vscode stable main")
+    check_vscode=$(whereis code | grep -i -c "code")
 
-    if [[ $check_vscode = 0 ]]; then
-      echo -e "\n  $greenplus installing vscode"
-      echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" >> /etc/apt/sources.list
-      eval curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-      eval mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-      apt_update && apt_update_complete && apt -y install code
+    if [[  -f /usr/bin/code ]]; then
+      echo -e "\n  $greenminus  vscode already installed - skipping"
     else
-    	echo -e "\n  $greenminus  vscode repo found in sources.list - skipping"
+    	echo -e "\n  $greenplus installing vscode"
+      #echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" >> /etc/apt/sources.list
+      #eval curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+      #eval mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+      apt_update && apt_update_complete && apt -y install code-oss
+      echo -e "\n  $greenplus  vscode - installed "
     fi
     }
 
