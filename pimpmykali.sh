@@ -468,12 +468,17 @@ fix_bad_apt_hash (){
     }
 
 install_atom () {
-    apt_update  && apt_update_complete
-    echo -e "\n  $greenplus installing atom"
-    eval wget -qO- https://atom.io/download/deb -O /tmp/atom.deb >/dev/null 2>&1
-    eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
-    eval rm -f /tmp/atom.deb
-    eval apt -y --fix-broken install >/dev/null 2>&1
+    if [ -f /usr/bin/atom ]
+     then
+       echo -e "\n  $greenminus atom already installed - skipping"
+    else
+      apt_update  && apt_update_complete
+      echo -e "\n  $greenplus installing atom"
+      eval wget -qO- https://atom.io/download/deb -O /tmp/atom.deb >/dev/null 2>&1
+      eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
+      eval rm -f /tmp/atom.deb
+      eval apt -y --fix-broken install >/dev/null 2>&1
+    fi
     }
 
 install_sublime () {
