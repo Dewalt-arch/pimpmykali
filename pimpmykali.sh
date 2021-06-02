@@ -603,12 +603,48 @@ ask_are_you_sure () {
 # 01.02.2021 - rev 1.1.2 - copy to /root warning screens and function
 perform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
-    # WebBrowser=firefox  check /home/kali/.config/xfce4/helpers.rc if default browser has been selected or not
-    # if file not exist set firefox as the default for root, user can change it later if not already set
+    # add call to check_helpers here before doing the copy from /home/kali to /root
     eval cp -Rvf /home/kali/.* /home/kali/* /root >/dev/null 2>&1
     eval chown -R root:root /root
     echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
     }
+
+# check_helpers() {
+  # check /home/kalie/.config/xfce4/helpers.rc for default settings of WebBrowser TerminalEmulator FileManager
+  # may need this in the copy to root function above , code is commented out and only a place holder currently
+#    if [ -f /home/kali/.config/xfce4/helpers.rc ]
+#     then
+#      check_browser=$(cat /home/kali/.config/xfce4/helpers.rc | grep -c "WebBrowser")
+#      if [ $check_browser = 1 ]
+#       then
+#        check_which_browser=$(cat /home/kali/.config/xfce4/helpers.rc | grep "WebBrowser" | cut -d "=" -f2)
+#        echo "WebBrowser is set and default browser is $check_which_browser"
+#      else
+#        echo "Browser is not set... "
+#      fi
+#
+#      check_terminal=$(cat /home/kali/.config/xfce4/helpers.rc | grep -c "TerminalEmulator")
+#      if [ $check_terminal = 1 ]
+#       then
+#        check_which_terminal=$(cat /home/kali/.config/xfce4/helpers.rc | grep  "TerminalEmulator" | cut -d "=" -f2)
+#        echo "TerminalEmulator is set and default terminal is $check_which_terminal"
+#       else
+#        echo "Default TerminalEmulator is not set"
+#      fi
+#
+#      check_filemanager=$(cat /home/kali/.config/xfce4/helpers.rc | grep -c "FileManager")
+#      if [ $check_filemanager = 1 ]
+#       then
+#        check_which_filemanager=$(cat /home/kali/.config/xfce4/helpers.rc | grep "FileManager" | cut -d "=" -f2)
+#        echo "FileManager is set and default file manager is $check_which_filemanager"
+#       else
+#        echo "Default FileManager is not set"
+#      fi
+#     else
+#      echo "/home/kali/.config/xfce4/helpers.rc does not exist - do something about it"
+#    fi
+#   }
+
 
 fix_sead_warning () {
     clear
