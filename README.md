@@ -18,9 +18,11 @@
 
 # Revision 1.2.8 - Kali 2021.2 Updates
   - Changed installation for VSCode to use code-oss from repo
-  - Additional notes will be added if any further changes made
-  - Revision history is going to be moved to changelog.txt in a separate file
-    - cleanup the github readme.md page
+  - Virtualbox guest-os-tools were being installed twice - fixed
+  - misc minor fixes / cosmetic fixes
+  -
+  - Complete revision history has been moved to changelog.txt
+    - clean up the readme.md page
     - Most recent update will always be displayed in readme.md (this page)
 
 # Menu Breakdown of Pimpmykali

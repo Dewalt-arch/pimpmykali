@@ -62,6 +62,7 @@
     check=""
     section=""
     type=""
+    menu=""
 
 # variables moved from local to global
     finduser=$(logname)
@@ -69,7 +70,7 @@
 # for vbox_fix_shared_folder_permission_denied
     findgroup=$(groups $finduser | grep -i -c "vboxsf")
 
-# Logging
+#    Logging
 #    LOG_FILE=/tmp/pimpmykali.log
 #    exec > >(tee ${LOG_FILE}) 2>&1
 
@@ -87,16 +88,32 @@ check_distro() {
     fi
     }
 
+# May change check_distro
+#    check_distro() {
+#        # distro=$(uname -a | grep -i -c "kali") # distro check
+#        # may change the distro check
+#
+#        if [ -f /etc/os-release ]
+#        then
+#         distro=$(cat /etc/os-release | grep -c "kali")
+#         if [ $distro = 0 ]
+#           then echo -e "\n $blinkexclaim Kali Linux Not Detected - WSL/WSL2/Anything else is unsupported $blinkexclaim \n"; exit
+#         else
+#           echo "System is Kali Linux - Proceeding..."
+#         fi
+#        else
+#         echo "Unable to determine distro - /etc/os-release does not exist"
+#       fi
+
+
 check_for_root () {
     if [ "$EUID" -ne 0 ]
       then echo -e "\n\n Script must be run with sudo ./pimpmykali.sh or as root \n"
       exit
-       else
-        # 02.19.21 - Kali 2021.1 + MSF 6.0.30-DEV Released
-        # Remove any prior hold on metasploit-framework at startup
-        eval apt-mark unhold metasploit-framework >/dev/null 2>&1
-        # Possible future logging option - work in progress
-        # [[ ! -f "/tmp/pmk.log" ]] && touch /tmp/pmk.log || echo -e "\n Pimpmykali Log " > /tmp/pmk.log; date >> /tmp/pmk.log
+    else
+      # 02.19.21 - Kali 2021.1 + MSF 6.0.30-DEV Released
+      # Remove any prior hold on metasploit-framework at startup
+      eval apt-mark unhold metasploit-framework >/dev/null 2>&1
     fi
     }
 
@@ -152,7 +169,6 @@ fix_missing () {
     fix_sources
     apt_update && apt_update_complete
     apt_autoremove && apt_autoremove_complete
-    # eval apt -y update $silent && eval apt -y autoremove $silent
     eval apt -y remove kali-undercover $silent
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
     eval apt -y install dkms build-essential autogen automake python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils $silent
@@ -173,7 +189,6 @@ fix_missing () {
     fix_set
     check_chrome
     fix_gowitness       # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
-    # fix_assetfinder     # 02.01.21 Hold
     }
 
 fix_all () {
@@ -185,8 +200,6 @@ fix_all () {
     fix_grub
     fix_smbconf
     fix_impacket
-    fix_upgrade
-    # fix_broken_xfce - not be necessary as of 2021.1 - code to be removed from script at later date
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
     # python-pip-curl python3_pip fix_golang fix_nmap
     # fix_upgrade is not a part of fix_missing and only
@@ -247,7 +260,6 @@ python-pip-curl () {
      then
       echo -e "\n  $greenplus installing pip"
       # 01.26.2021 - get-pip.py throwing an error, commented out and pointed wget directly to the python2.7 get-pip.py
-      # eval curl curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent
       eval curl https://raw.githubusercontent.com/pypa/get-pip/3843bff3a0a61da5b63ea0b7d34794c5c51a2f11/2.7/get-pip.py -o /tmp/get-pip.py $silent
       eval python /tmp/get-pip.py $silent
       rm -f /tmp/get-pip.py
@@ -278,11 +290,6 @@ fix_spike () {
     eval apt-mark hold spike
     echo -e "\n  $greenplus apt hold placed on spike package"
     }
-
-# Think about this, prevents updating to the latest and greatest version should a newer one be avialable
-# check_gowitness () {
-#    [[ -f "/usr/bin/gowitness" ]] && echo -e "\n  $greenminus gowitness already installed - skipping  \n" || fix_gowitness;
-#    }
 
 fix_gowitness () {
    echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
@@ -447,11 +454,6 @@ fix_grub () {
     }
 
 fix_python_requests (){
-    # requires python pip to be installed via curl
-    # already installed by fix_missing or fix_all by the time this is called
-    # eval curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py $silent
-    # eval python /tmp/get-pip.py $silent
-    # rm -f /tmp/get-pip.py
     eval git clone https://github.com/psf/requests /opt/requests
     cd /opt/requests
     eval pip install colorama
@@ -467,7 +469,7 @@ fix_bad_apt_hash (){
 
 install_atom () {
     apt_update  && apt_update_complete
-    #eval apt -y update
+    echo -e "\n  $greenplus installing atom"
     eval wget -qO- https://atom.io/download/deb -O /tmp/atom.deb >/dev/null 2>&1
     eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
     eval rm -f /tmp/atom.deb
@@ -497,10 +499,6 @@ install_vscode () {
 fix_sources () {
     fix_bad_apt_hash
     # new fix_sources main function - 04.06.2021 rev 1.2.2
-    # checks only for "#deb-src http://http.kali.org/kali kali-rolling main contrib non-free" or
-    # checks only for "# deb-src http://http.kali.org/kali kali-rolling main contrib non-free"
-    # if found sed and removes "#" or "# " to enable deb-src
-    # no other modifications are made to /etc/apt/sources.list
 
     check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://http.kali.org/kali kali-rolling main contrib non-free")
     check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://http.kali.org/kali kali-rolling main contrib non-free")
@@ -520,19 +518,12 @@ fix_sources () {
       rm  /tmp/new-sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     fi
-
-    # old function - leaving in code for now will remove at a later date - 04.06.2021
-    # echo "deb http://http.kali.org/kali kali-rolling main contrib non-free" > /etc/apt/sources.list
-    # echo "deb-src http://http.kali.org/kali kali-rolling main contrib non-free" >>/etc/apt/sources.list
     }
-
 
 run_update () {
     fix_sources
     echo -e "\n  $greenplus starting: pimpmyupgrade   \n"
     apt_update && apt_update_complete
-    # eval apt -y update $silent
-    # COMMENTED OUT DUE TO MSF6 RELEASED && apt -y upgrade $silent
     kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
     echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
     eval apt -y install dkms build-essential linux-headers-amd64 $silent
@@ -612,6 +603,7 @@ perform_copy_to_root () {
 # check_helpers() {
   # check /home/kalie/.config/xfce4/helpers.rc for default settings of WebBrowser TerminalEmulator FileManager
   # may need this in the copy to root function above , code is commented out and only a place holder currently
+  # if /root/.config/xfce4/helpers.rc AND /home/kali/.config/xfce4/helpers.rc does not exist create a new file for /root/.config/xfce4/helpers.rc
 #    if [ -f /home/kali/.config/xfce4/helpers.rc ]
 #     then
 #      check_browser=$(cat /home/kali/.config/xfce4/helpers.rc | grep -c "WebBrowser")
@@ -620,7 +612,7 @@ perform_copy_to_root () {
 #        check_which_browser=$(cat /home/kali/.config/xfce4/helpers.rc | grep "WebBrowser" | cut -d "=" -f2)
 #        echo "WebBrowser is set and default browser is $check_which_browser"
 #      else
-#        echo "Browser is not set... "
+#        echo "Browser is not set"
 #      fi
 #
 #      check_terminal=$(cat /home/kali/.config/xfce4/helpers.rc | grep -c "TerminalEmulator")
@@ -744,7 +736,6 @@ fix_impacket_array () {
 
      for impacket_file in ${arr[@]}; do
        rm -f /usr/bin/$impacket_file /usr/local/bin/$impacket_file ~/.local/bin/$impacket_file /home/$finduser/.local/bin/$impacket_file
-       # echo -e "\n $greenplus $impacket_file removed"
      done
     }
 
@@ -787,24 +778,20 @@ fix_broken_xfce() {
 only_upgrade () {
     fix_sources
     echo -e "\n  $greenplus starting pimpmyupgrade   \n"
-    # echo -e "\n  $greenplus holding back package: metasploit-framework"
-    # eval apt-mark hold metasploit-framework
     apt_update && apt_update_complete && apt_upgrade && apt_upgrade_complete
-    # eval apt -y update && apt -y upgrade
-    kernel_check=$(ls /lib/modules | sort -n | tail -n 1)
-    echo -e "\n  $greenplus installing dkms build-essential linux-headers-$kernel_check \n"
-    eval apt -y install dkms build-essential linux-headers-amd64 $silent
-    virt_what   # Alek fix - 04.10.2021 Function moved
+    run_update
+    virt_what
     check_vm
-    # echo -e "\n  $greenplus releasing hold on package: metasploit-framework"
-    # eval apt-mark unhold metasploit-framework
-    # add fix for broken filemanager / terminal icon
     }
 
 fix_upgrade () {
     fix_sources
+    apt_update
+    apt_update_complete
     run_update
-    virt_what   # 04.10.2021 Function moved to be after run_update
+    apt_upgrade
+    apt_upgrade_complete
+    virt_what
     check_vm
     }
 
@@ -830,7 +817,6 @@ downgrade_msf () {
 
 virt_what() {
     # Upgraded virt-what function - 04.07.2021 rev 1.2.2
-    # detection of /usr/sbin/virt-what
     [ -f "/usr/sbin/virt-what" ] && virtwhat=1 ||  virtwhat=0
 
     if [ $virtwhat = 1 ]
@@ -961,26 +947,26 @@ pimpmykali_menu () {
     read -n1 -p "  Enter 0 thru 9, N, B, F, G, C, V, S or ! press X to exit: " menuinput
 
     case $menuinput in
-        1) fix_missing ;;
-        2) fix_smbconf ;;
-        3) fix_golang ;;
-        4) fix_grub ;;
-        5) fix_impacket ;;
-        6) make_rootgreatagain ;;
-        7) install_atom ;;
+        1) fix_missing;;
+        2) fix_smbconf;;
+        3) fix_golang;;
+        4) fix_grub;;
+        5) fix_impacket;;
+        6) make_rootgreatagain;;
+        7) install_atom;;
         8) fix_nmap ;;
-        9) only_upgrade ;;
-        0) fix_all ;;
+        9) only_upgrade;;
+        0) fix_all; run_update; virt_what; check_vm;;
         !) forced=1; fix_sead_warning;;
-      f|F) fix_broken_xfce ;;
-      s|S) fix_spike ;;
+      f|F) fix_broken_xfce;;
+      s|S) fix_spike;;
       g|G) fix_root_connectionrefused ;;
       c|C) check_chrome;;
       v|V) install_vscode;;
-      w|W) fix_gowitness ;;
-      n|N) fix_all; only_upgrade;;
-      d|D) downgrade_msf ;; # commented out 04.06.2021
-      b|B) bpt ;;
+      w|W) fix_gowitness;;
+      n|N) fix_all; fix_upgrade;;
+      d|D) downgrade_msf;;
+      b|B) bpt;;
       # h|H) fix_theharvester ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
