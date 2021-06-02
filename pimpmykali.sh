@@ -483,17 +483,12 @@ install_sublime () {
     eval apt -y install sublime-text
     }
 
+# 06.01.21 - Function rewrite code-oss was added to Kali repo
 install_vscode () {
-    # check_vscode=$(cat /etc/apt/sources.list | grep -c "https://packages.microsoft.com/repos/vscode stable main")
-    check_vscode=$(whereis code | grep -i -c "code")
-
     if [[  -f /usr/bin/code ]]; then
       echo -e "\n  $greenminus  vscode already installed - skipping"
     else
     	echo -e "\n  $greenplus installing vscode"
-      #echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" >> /etc/apt/sources.list
-      #eval curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-      #eval mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
       apt_update && apt_update_complete && apt -y install code-oss
       echo -e "\n  $greenplus  vscode - installed "
     fi
@@ -609,12 +604,11 @@ ask_are_you_sure () {
 perform_copy_to_root () {
     echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
     # WebBrowser=firefox  check /home/kali/.config/xfce4/helpers.rc if default browser has been selected or not
-    # if file not exist set firefox as the default for root, user can change it later if not already set 
+    # if file not exist set firefox as the default for root, user can change it later if not already set
     eval cp -Rvf /home/kali/.* /home/kali/* /root >/dev/null 2>&1
     eval chown -R root:root /root
     echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
     }
-
 
 fix_sead_warning () {
     clear
