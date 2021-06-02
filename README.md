@@ -37,7 +37,7 @@
 
 - Menu Option 1 - Fix missing
   - fix_sources
-  - uncomment #deb-src from /etc/apt/sources.list
+    - uncomment #deb-src from /etc/apt/sources.list
   - python-pip installation via curl
   - python3-pip installed
   - seclists installed
