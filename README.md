@@ -1,5 +1,7 @@
 # pimpmykali.sh
 
+https://i2.paste.pics/590bf3dc92e353ca358a4af8b33ac527.png
+
 # Fixes for new imported Kali Linux virtual machines
   - Author assumes zero liability for any data loss or misuse of pimpmykali
   - Can be used on a bare metal machines, but thats on you
