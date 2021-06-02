@@ -27,6 +27,7 @@
   - Complete revision history has been moved to changelog.txt
     - clean up the readme.md page
     - Most recent update will always be displayed in readme.md (this page)
+    - Screenshot added to readme.md
 
 # Menu Breakdown of Pimpmykali
 
