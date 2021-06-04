@@ -453,7 +453,7 @@ fix_grub () {
     fi
     }
 
-fix_python_requests (){
+fix_python_requests () {
     eval git clone https://github.com/psf/requests /opt/requests
     cd /opt/requests
     eval pip install colorama
@@ -462,7 +462,7 @@ fix_python_requests (){
     echo -e "\n  $greenplus installed python2 module : colorama"
     }
 
-fix_bad_apt_hash (){
+fix_bad_apt_hash () {
     mkdir -p /etc/gcrypt
     echo "all" > /etc/gcrypt/hwf.deny
     }
@@ -490,7 +490,7 @@ install_sublime () {
     eval apt -y install sublime-text
     }
 
-# 06.01.21 - Function rewrite code-oss was added to Kali repo
+# 06.01.21 - Function rewrite code-oss was added to Kali 2021.2 repo
 install_vscode () {
     if [[  -f /usr/bin/code ]]; then
       echo -e "\n  $greenminus  vscode already installed - skipping"
@@ -606,7 +606,7 @@ perform_copy_to_root () {
     }
 
 # check_helpers() {
-  # check /home/kalie/.config/xfce4/helpers.rc for default settings of WebBrowser TerminalEmulator FileManager
+  # check /home/kali/.config/xfce4/helpers.rc for default settings of WebBrowser TerminalEmulator FileManager
   # may need this in the copy to root function above , code is commented out and only a place holder currently
   # if /root/.config/xfce4/helpers.rc AND /home/kali/.config/xfce4/helpers.rc does not exist create a new file for /root/.config/xfce4/helpers.rc
 #    if [ -f /home/kali/.config/xfce4/helpers.rc ]
@@ -791,11 +791,9 @@ only_upgrade () {
 
 fix_upgrade () {
     fix_sources
-    apt_update
-    apt_update_complete
+    apt_update && apt_update_complete
     run_update
-    apt_upgrade
-    apt_upgrade_complete
+    apt_upgrade && apt_upgrade_complete
     virt_what
     check_vm
     }
@@ -822,7 +820,7 @@ downgrade_msf () {
 
 virt_what() {
     # Upgraded virt-what function - 04.07.2021 rev 1.2.2
-    [ -f "/usr/sbin/virt-what" ] && virtwhat=1 ||  virtwhat=0
+    [ -f "/usr/sbin/virt-what" ] && virtwhat=1 || virtwhat=0
 
     if [ $virtwhat = 1 ]
      then

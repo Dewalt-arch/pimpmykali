@@ -45,13 +45,13 @@
   - flameshot installed (feature request)
   - locate installed (feature request)
   - fix_rockyou function
-    - gunzip's /usr/share/wordlists/rockyou.gz to /usr/share/wordlists/rockyou.txt
+    - gunzip /usr/share/wordlists/rockyou.gz to /usr/share/wordlists/rockyou.txt
   - fix_golang function
     - installs golang
     - adds golang GOPATH to .bashrc and .zshrc
   - installs htop
   - installs python requests
-  - installs python xlrd
+  - installs python xlrd==1.2.0
   - disables xfce power management
   - blacklists pcspkr kernel module /etc/modprobe.d/nobeep.conf
 
@@ -75,8 +75,8 @@
 - Menu Option 6 - Enable root login
   - installs kali-root-login
     - prompts for root password
-    - copy /home/kali to /root prompt (1.1.2)
-    - added are you sure? prompt to copy /home/kali to /root prompt (1.1.3)
+    - copy /home/kali/* to /root prompt (1.1.2)
+    - prompt are you sure? to copy /home/kali to /root prompt (1.1.3)
 
 - Menu Option 7
   - installs Atom text editor
@@ -93,22 +93,28 @@
   - fix : virtualbox shared folder fix applied     
 
 - Menu Option 0 - Fix all (1-8)
-  - Executes ONLY Menu options 1 thru 8 Only
-
-- Menu Option B    
-  - BlindPentesters The_Essentials tools and utilities collection
-    - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
-    - Click the link below for a full list of the_essentials.sh script and its inner workings
-    - https://github.com/blindpentester/the-essentials
+  - Executes ONLY Menu options 1 thru 8
 
 - Menu Option F
   - Fixes XFCE Broken Icons "TerminalEmulator" Not Found
   - Fixes XFCE Open Catfish instead of Thunar when double clicking Home or FileSystem Icon
     - this fix is a temporary fix and will be removed once xfce has been corrected
 
+- Menu Option W
+  - Install GoWitness precompiled binary
+
+- Menu Option G
+  - Apply gedit unable to open display as root fix
+
+- Menu Option C
+  - Install Google-Chrome
+
+- Menu Option V
+  - Install MS VSCode
+
 - Menu Option S - Fix Spike
   - Fixes undefined symbol error thrown when using generic_send_tcp
-    - this fix is temporary and will be removed once a corrected version is available  
+    - this fix is temporary and will be removed once a corrected version is available
 
 - Menu Option D - Downgrade metasploit-framework from 6 to 5
   - downgrades metasploit-framework (msfconsole) from msf6 to msf5
@@ -119,6 +125,12 @@
     - installs impacket-0.9.19
     - installs python-pip via curl
     - installs python wheel
+
+- Menu Option B    
+  - BlindPentesters The_Essentials tools and utilities collection
+    - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
+    - Click the link below for a full list of the_essentials.sh script and its inner workings
+    - https://github.com/blindpentester/the-essentials
 
 # TODO   
   - clean up todo list :)
