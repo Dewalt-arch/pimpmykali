@@ -817,7 +817,14 @@ downgrade_msf () {
     echo -e "\n  $greenplus metasploit downgraded \n"
     echo -e "\n  $greenplus hold placed on metasploit-framework \n"
     }
-
+gnome_disable_power_save () {
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing #(Disables automatic suspend on charging)
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing #(Disables automatic suspend on battery)
+    gsettings set org.gnome.settings-daemon.plugins.power power-button-action nothing #(Power button does nothing)
+    gsettings set org.gnome.settings-daemon.plugins.power idle-brightness 0
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0
+    gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+}
 virt_what() {
     # Upgraded virt-what function - 04.07.2021 rev 1.2.2
     [ -f "/usr/sbin/virt-what" ] && virtwhat=1 || virtwhat=0
@@ -947,6 +954,7 @@ pimpmykali_menu () {
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
     echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf  # - commented out 04.06.2021
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
+    echo -e "  P - DisablePowerSavingOptions (Disables all Power Saving options for gnome Desktop Environment)\n" # gnome_disable_power_save
     read -n1 -p "  Enter 0 thru 9, N, B, F, G, C, V, S or ! press X to exit: " menuinput
 
     case $menuinput in
@@ -970,6 +978,7 @@ pimpmykali_menu () {
       n|N) fix_all; fix_upgrade;;
       d|D) downgrade_msf;;
       b|B) bpt;;
+      p|P) gnome_disable_power_save;;
       # h|H) fix_theharvester ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
