@@ -19,8 +19,8 @@
   - For a new kali vm, run menu option N
 
 # Code Contributors
-  - blindpentester [a link] (https://github.com/blindpentester)
-  - pswalia2u [a link] (https://github.com/pswalia2u)
+  - blindpentester https://github.com/blindpentester
+  - pswalia2u https://github.com/pswalia2u
 
 # Revision 1.2.9
   - Code contribution pswalia2u!! Thank you!
