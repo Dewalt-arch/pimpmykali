@@ -5,11 +5,11 @@
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )
 # command line arguments are valid, only catching 1 arguement
 #
-# Full Revision history can be found in README.md
+# Full Revision history can be found in changelog.txt
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.2.8"
+    revision="1.2.9"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -66,6 +66,7 @@
 
 # variables moved from local to global
     finduser=$(logname)
+    detected_env=""
 
 # for vbox_fix_shared_folder_permission_denied
     findgroup=$(groups $finduser | grep -i -c "vboxsf")
@@ -167,6 +168,7 @@ apt_autoremove_complete() {
 
 fix_missing () {
     fix_sources
+    fix_hushlogin         # 06.18.2021 - added fix for .hushlogin file
     apt_update && apt_update_complete
     apt_autoremove && apt_autoremove_complete
     eval apt -y remove kali-undercover $silent
@@ -182,13 +184,13 @@ fix_missing () {
     fix_rockyou
     fix_theharvester      # 02.02.2021 - added theharvester to fix_missing
     silence_pcbeep        # 02.02.2021 - turn off terminal pc beep
-    fix_xfcepower         # 02.02.2021 - disable xfce power management for user and root
+    disable_power_checkde # 06.18.2021 - disable gnome or xfce power management based on desktop environment detection
     fix_python_requests
     fix_pipxlrd           # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
     fix_set
     check_chrome
-    fix_gowitness       # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
+    fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     }
 
 fix_all () {
@@ -206,7 +208,7 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
-# lightdm theme change to light or dark mode maybe
+# lightdm theme change to light or dark mode
 # cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Light/Kali-Dark''/'
 # cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Dark/Kali-Light''/'
 # add optional ugly-background fix?
@@ -216,6 +218,7 @@ check_chrome(){
     [[ -f "/usr/bin/google-chrome" ]] && echo -e "\n  $greenminus google-chrome already installed - skipping  \n" || fix_chrome;
     }
 
+# 04.06.21 - rev 1.2.2 - add google-chrome due to gowitness dependancy
 fix_chrome() {
     echo -e "\n  $greenplus Gowitness dependancy fix: Downloading - google-chrome \n"
     eval wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
@@ -224,23 +227,90 @@ fix_chrome() {
     rm -f /tmp/google-chrome-stable_current_amd64.deb
     }
 
-# 02.02.21 - rev 1.1.8 - Turn off XFCE Power Management for user
-fix_xfce_root() {
-    eval wget $raw_xfce -O /root/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
-    echo -e "\n  $greenplus turned off xfce power management root \n"
-  	}
+# 06.18.2021 - fix_hushlogin rev 1.2.9
+fix_hushlogin() {
+    echo -e "\n  $greenplus Checking for .hushlogin"
+    if [ $finduser = "root" ]
+     then
+      if [ -f /root/.hushlogin ]
+       then
+        echo -e "\n  $greenminus /$finduser/.hushlogin exists - skipping"
+      else
+        echo -e "\n   $greenplus Creating file /$finduser/.hushlogin"
+        touch /$finduser/.hughlogin
+      fi
+    else
+      if [ -f /home/$finduser/.hushlogin ]
+       then
+        echo -e "\n  $greenminus /home/$finduser/.hushlogin exists - skipping"
+      else
+        echo -e "\n  $greenplus Creating file /home/$finduser/.hushlogin"
+        touch /home/$finduser/.hushlogin
+      fi
+    fi
+    }
 
-# 02.02.21 - rev 1.1.8 - Turn off XFCE Power Management for $finduser
-fix_xfce_user() {
-    eval wget $raw_xfce -O /home/$finduser/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
-    echo -e "\n  $greenplus turned off xfce power management for $finduser \n"
-	  }
+# 06.18.2021 - disable_power_gnome rev 1.2.9
+disable_power_gnome() {
+    # CODE CONTRIBUTION : pswalia2u - https://github.com/pswalia2u
+    echo -e "\n  $greenplus Gnome detected - Disabling Power Savings"
+    # ac power
+    sudo -i -u $finduser gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # Disables automatic suspend on charging)
+     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing"
+    sudo -i -u $finduser gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0         # Disables Inactive AC Timeout
+     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0"
+    # battery power
+    sudo -i -u $finduser gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing # Disables automatic suspend on battery)
+     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing"
+    sudo -i -u $finduser gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0    # Disables Inactive Battery Timeout
+     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0"
+    # power button
+    sudo -i -u $finduser gsettings set org.gnome.settings-daemon.plugins.power power-button-action nothing         # Power button does nothing
+     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power power-button-action nothing"
+    # idle brightness
+    sudo -i -u $finduser gsettings set org.gnome.settings-daemon.plugins.power idle-brightness 0                   # Disables Idle Brightness
+     echo -e "  $greenplus org.gnome.settings-daemon.plugins.power idle-brightness 0"
+    # screensaver activation
+    sudo -i -u $finduser gsettings set org.gnome.desktop.session idle-delay 0                                      # Disables Idle Activation of screensaver
+     echo -e "  $greenplus org.gnome.desktop.session idle-delay 0"
+    # screensaver lock
+    sudo -i -u $finduser gsettings set org.gnome.desktop.screensaver lock-enabled false                            # Disables Locking
+     echo -e "  $greenplus org.gnome.desktop.screensaver lock-enabled false\n"
+    }
 
-# 02.02.21 - rev 1.1.8 - Turn off XFCE Power - detection statements
-fix_xfcepower () {
-    [[ -f "/home/$finduser/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml" ]] && fix_xfce_user || echo -e "\n  $greenminus xfce power management file not found"
-    [[ -f "/root/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml" ]] && fix_xfce_root || echo -e "\n  $greenminus xfce power management file not found"
-  	}
+# 06.18.2021 - disable_power_xfce rev 1.2.9 replaces fix_xfce_power fix_xfce_user and fix_xfce_root functions
+disable_power_xfce() {
+    if [ $finduser = "root" ]
+     then
+      echo -e "\n  $greenplus XFCE Detected - disabling xfce power management \n"
+      eval wget $raw_xfce -O /root/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
+      echo -e "\n  $greenplus XFCE power management disabled for user: $finduser \n"
+    else
+      echo -e "\n  $greenplus XFCE Detected - disabling xfce power management \n"
+      eval wget $raw_xfce -O /home/$finduser/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
+      echo -e "\n  $greenplus XFCE power management disabled for user: $finduser \n"
+    fi
+    }
+
+# disable_power_kde() {
+#    # need to work up a kde power management solution before implementing
+# }
+
+# 06.18.2021 - disable_power_checkde rev 1.2.9
+disable_power_checkde() {
+    detect_xfce=$(ps -e | grep -c -E '^.* xfce4-session$')
+    detect_gnome=$(ps -e | grep -c -E '^.* gnome-session-*')
+    #detect_kde=$(ps -e | grep -c -E '^.* kded4$')
+    [ $detect_gnome -ne 0 ] && detected_env="GNOME"
+    [ $detect_xfce -ne 0 ] && detected_env="XFCE"
+    # need to work up a kde power management solution before implementing
+    # [ $detect_kde -ne 0 ] && detected_env="KDE"
+    echo -e "\n  $greenplus Detected Environment: $detected_env"
+    [ $detected_env = "GNOME" ] && disable_power_gnome
+    [ $detected_env = "XFCE" ] && disable_power_xfce
+    [ $detected_env = "" ] && echo -e "\n  $redexclaim Unable to determine desktop environment"
+    # [ $detected_env = "KDE" ] && disable_power_kde
+    }
 
 # 02.02.21 - rev 1.1.8 - Turn off / Silence PCSPKR beep
 silence_pcbeep () {
@@ -292,15 +362,15 @@ fix_spike () {
     }
 
 fix_gowitness () {
-   echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
-   rm -f /tmp/releases.gowitness > /dev/null
-   check_chrome
-   wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
-   current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
-   wget https://github.com$current_build -O /usr/bin/gowitness
-   chmod +x /usr/bin/gowitness
-   rm -f /tmp/releases.gowitness > /dev/null
-   }
+    echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
+    rm -f /tmp/releases.gowitness > /dev/null
+    check_chrome
+    wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
+    current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
+    wget https://github.com$current_build -O /usr/bin/gowitness
+    chmod +x /usr/bin/gowitness
+    rm -f /tmp/releases.gowitness > /dev/null
+    }
 
 fix_root_connectionrefused () {
     # fix root gedit connection refused
@@ -313,6 +383,7 @@ fix_gedit () {
     section="gedit"
     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
     fix_section $section $check $force
+    fix_root_connectionrefused
     }
 
 fix_set() {
@@ -426,30 +497,30 @@ fix_smbconf () {
     check_min=$(cat /etc/samba/smb.conf | grep -c -i "client min protocol")
     check_max=$(cat /etc/samba/smb.conf | grep -c -i "client max protocol")
     if [ $check_min -ne 0 ] || [ $check_max -ne 0 ]
-      then
-        echo -e "\n  $green /etc/samba/smb.conf "
-        echo -e "\n  $redminus client min protocol is already set not changing\n  $redminus client max protocol is already set not changing"
-      else
-        cat /etc/samba/smb.conf | sed 's/\[global\]/\[global\]\n   client min protocol = CORE\n   client max protocol = SMB3\n''/' > /tmp/fix_smbconf.tmp
-        cat /tmp/fix_smbconf.tmp > /etc/samba/smb.conf
-        rm -f /tmp/fix_smbconf.tmp
-        echo -e "\n  $greenplus /etc/samba/smb.conf updated"
-        echo -e "\n  $greenplus added : client min protocol = CORE\n  $greenplus added : client max protocol = SMB3"
+     then
+      echo -e "\n  $green /etc/samba/smb.conf "
+      echo -e "\n  $redminus client min protocol is already set not changing\n  $redminus client max protocol is already set not changing"
+    else
+      cat /etc/samba/smb.conf | sed 's/\[global\]/\[global\]\n   client min protocol = CORE\n   client max protocol = SMB3\n''/' > /tmp/fix_smbconf.tmp
+      cat /tmp/fix_smbconf.tmp > /etc/samba/smb.conf
+      rm -f /tmp/fix_smbconf.tmp
+      echo -e "\n  $greenplus /etc/samba/smb.conf updated"
+      echo -e "\n  $greenplus added : client min protocol = CORE\n  $greenplus added : client max protocol = SMB3"
     fi
     }
 
 fix_grub () {
     check_grub=$(cat /etc/default/grub | grep -i -c "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"" )
     if [ $check_grub -ne 1 ]
-      then
-        echo -e "\n  $redexclaim Error: /etc/default/grub is not the default config - not changing"
-      else
-        cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
-        cat /tmp/fix_grub.tmp > /etc/default/grub
-        rm -f /tmp/fix_grub.tmp
-        update-grub
-        echo -e "\n  $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
-	      echo -e "\n  $redexclaim Reboot for changes to take effect \n"
+     then
+      echo -e "\n  $redexclaim Error: /etc/default/grub is not the default config - not changing"
+    else
+      cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
+      cat /tmp/fix_grub.tmp > /etc/default/grub
+      rm -f /tmp/fix_grub.tmp
+      update-grub
+      echo -e "\n  $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
+      echo -e "\n  $redexclaim Reboot for changes to take effect \n"
     fi
     }
 
@@ -470,7 +541,7 @@ fix_bad_apt_hash () {
 install_atom () {
     if [ -f /usr/bin/atom ]
      then
-       echo -e "\n  $greenminus atom already installed - skipping"
+      echo -e "\n  $greenminus atom already installed - skipping"
     else
       apt_update  && apt_update_complete
       echo -e "\n  $greenplus installing atom"
@@ -501,13 +572,11 @@ install_vscode () {
     fi
     }
 
+# 04.06.2021 fix_sources rev 1.2.2
 fix_sources () {
     fix_bad_apt_hash
-    # new fix_sources main function - 04.06.2021 rev 1.2.2
-
     check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://http.kali.org/kali kali-rolling main contrib non-free")
     check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://http.kali.org/kali kali-rolling main contrib non-free")
-
     if [[ $check_space = 0 && $check_nospace = 0 ]]; then
     	echo -e "\n  $greenminus # deb-src or #deb-sec not found - skipping"
     elif [ $check_space = 1 ]; then
@@ -589,7 +658,7 @@ ask_homekali_to_root () {
 ask_are_you_sure () {
     echo -e "\n\n   Are you sure you want to copy all of /home/kali to /root ?"
     read -n1 -p "   Please type Y or N : " userinput
-      case $userinput in
+     case $userinput in
        y|Y) perform_copy_to_root;;
        n|N) echo -e "\n\n  $redexclaim skipping copy fo /home/kali to /root - not copying ";;
        *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
@@ -818,14 +887,14 @@ downgrade_msf () {
     echo -e "\n  $greenplus hold placed on metasploit-framework \n"
     }
 
+# Upgraded virt-what function - 04.07.2021 rev 1.2.2
 virt_what() {
-    # Upgraded virt-what function - 04.07.2021 rev 1.2.2
     [ -f "/usr/sbin/virt-what" ] && virtwhat=1 || virtwhat=0
 
     if [ $virtwhat = 1 ]
      then
        echo -e "\n  $greenminus virt-what already installed - skipping \n"
-     else
+    else
        echo -e "\n  $greenplus installing virt-what \n"
        eval apt -y install virt-what $silent
     fi
@@ -833,12 +902,12 @@ virt_what() {
 
 vbox_fix_shared_folder_permission_denied () {
     if [ $findgroup = 1 ]
-      then
-        echo -e "\n  $greenminus : user is already a member of vboxsf group\n"
+     then
+      echo -e "\n  $greenminus : user is already a member of vboxsf group\n"
     else
-        eval adduser $finduser vboxsf
-        echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder"
-        echo -e "       user added to vboxsf group "
+      eval adduser $finduser vboxsf
+      echo -e "\n  $greenplus fix applied : virtualbox permission denied on shared folder"
+      echo -e "       user added to vboxsf group "
     fi
     }
 
@@ -920,7 +989,6 @@ pimpmykali_menu () {
     clear
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
-    #echo -e "\n     $DATE $TIME                               Rev:$revision"
     echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
     echo -e "\n  Menu Options:"                                                                   # function call list
     echo -e "\n  1 - Fix Missing             (pip pip3 golang gedit nmapfix build-essential)"     # fix_missing
@@ -938,6 +1006,7 @@ pimpmykali_menu () {
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
     echo -e "                     This will run Fix All (0) and Pimpmyupgrade (9)\n"              #
     echo -e "  Stand alone functions (only apply the single selection)"                           # optional line
+    echo -e "  P - Disable PowerManagement (Gnome/XFCE Detection Disable Power Management)"       # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)"  # fix_broken_xfce
     echo -e "  W - Gowitness Precomiled    (download and install gowitness)"                      # fix_gowitness
     echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused)"              # fix_root_connectionrefused
@@ -945,7 +1014,7 @@ pimpmykali_menu () {
     echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
     echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
-    echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf  # - commented out 04.06.2021
+    echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
     echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
     read -n1 -p "  Enter 0 thru 9, N, B, F, G, C, V, S or ! press X to exit: " menuinput
 
@@ -970,6 +1039,7 @@ pimpmykali_menu () {
       n|N) fix_all; fix_upgrade;;
       d|D) downgrade_msf;;
       b|B) bpt;;
+      p|P) disable_power_checkde;;
       # h|H) fix_theharvester ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;

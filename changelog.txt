@@ -1,4 +1,4 @@
-Revision 1.2.8 - Kali 2021.2 Updates - 06.01.2021 / Kali 2021.2 Released
+Revision 1.2.8 - Kali 2021.2 Updates
   - Changed installation for VSCode to use code-oss from repo
   - Virtualbox guest-os-tools were being installed twice - fixed
   - Added check for atom, if already installed, skip installation
@@ -7,7 +7,7 @@ Revision 1.2.8 - Kali 2021.2 Updates - 06.01.2021 / Kali 2021.2 Released
   - Complete revision history has been moved to changelog.txt
     - clean up the readme.md page
     - Most recent update will always be displayed in readme.md (this page)
-    - Screenshot added to readme.md 
+    - Screenshot added to readme.md
 
 Revision 1.2.7 - Virtualbox Guest ISO Downloaded from virtualbox.org
   - Virtualbox Guest OS Tools Only :

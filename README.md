@@ -18,16 +18,26 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
-# Revision 1.2.8 - Kali 2021.2 Updates
-  - Changed installation for VSCode to use code-oss from repo
-  - Virtualbox guest-os-tools were being installed twice - fixed
-  - Added check for atom, if already installed, skip installation
-  - misc minor fixes / cosmetic fixes
-  -
-  - Complete revision history has been moved to changelog.txt
-    - clean up the readme.md page
-    - Most recent update will always be displayed in readme.md (this page)
-    - Screenshot added to readme.md
+# Code Contributors
+  - blindpentester [a link] (https://github.com/blindpentester)
+  - pswalia2u [a link] (https://github.com/pswalia2u)
+
+# Revision 1.2.9
+  - Code contribution pswalia2u!! Thank you!
+    - visit pswalia2u's github at https://github.com/pswalia2u
+    - Disable Gnome Power Management
+  - New Menu option P - Power management disable (standalone function)
+  - rewrite of disable power management functions
+    - new function disable_power_checkde
+      - check which desktop environment is running (xfce, gnome)
+      - disable power management for that environment
+    - new function disable_power_gnome (pswalia2u)
+    - disable_power_xfce replaces the following functions
+      - functions fix_xfce_user fix_xfce_root fix_xfce_power removed
+  - new function fix_hushlogin
+    - check for .hushlogin if file does not exist, create .hushlogin
+  - revision 1.2.8 history moved to changelog.txt
+  - code contributors section added to readme.md
 
 # Menu Breakdown of Pimpmykali
 
@@ -94,6 +104,12 @@
 
 - Menu Option 0 - Fix all (1-8)
   - Executes ONLY Menu options 1 thru 8
+
+- Menu Option P - Disable Power Management
+  - Based upon detection disable power management for that environment
+  - Detect desktop environment
+    - XFCE
+    - Gnome
 
 - Menu Option F
   - Fixes XFCE Broken Icons "TerminalEmulator" Not Found
