@@ -1003,8 +1003,7 @@ pimpmykali_menu () {
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"              # only_upgrade
     echo -e "                              (sources.list, linux-headers, vm-video)"               # -
     echo -e "  0 - Fix ONLY 1 thru 8       (runs only 1 thru 8) \n"                               # fix_all
-    echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
-    echo -e "                     This will run Fix All (0) and Pimpmyupgrade (9)\n"              #
+    echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali\n" # menu item only no function
     echo -e "  Stand alone functions (only apply the single selection)"                           # optional line
     echo -e "  P - Disable PowerManagement (Gnome/XFCE Detection Disable Power Management)"       # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)"  # fix_broken_xfce
