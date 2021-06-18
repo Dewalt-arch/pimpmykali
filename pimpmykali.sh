@@ -253,6 +253,7 @@ fix_hushlogin() {
 # 06.18.2021 - disable_power_gnome rev 1.2.9
 disable_power_gnome() {
     # CODE CONTRIBUTION : pswalia2u - https://github.com/pswalia2u
+    fix_hushlogin
     echo -e "\n  $greenplus Gnome detected - Disabling Power Savings"
     # ac power
     sudo -i -u $finduser gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # Disables automatic suspend on charging)
