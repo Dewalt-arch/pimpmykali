@@ -1001,8 +1001,7 @@ pimpmykali_menu () {
     echo -e "  7 - Install Atom            (installs atom)"                                       # install_atom
     echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"             # fix_nmap
     echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"              # only_upgrade
-    echo -e "                              (sources.list, linux-headers, vm-video )"              # -
-    echo -e "                              (will not upgrade: metasploit-framework)"              # -
+    echo -e "                              (sources.list, linux-headers, vm-video)\n"             # -
     echo -e "  0 - Fix ALL                 (runs only 1 thru 8) \n"                               # fix_all
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali"   # menu item only no function
     echo -e "                     This will run Fix All (0) and Pimpmyupgrade (9)\n"              #
