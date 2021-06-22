@@ -21,7 +21,7 @@
 # Code Contributors
   - blindpentester https://github.com/blindpentester
   - pswalia2u https://github.com/pswalia2u
-  - Alek nhttps://github.com/onomastus
+  - Alek https://github.com/onomastus
 
 
 # Revision 1.2.9
