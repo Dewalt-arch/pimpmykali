@@ -22,6 +22,7 @@
   - blindpentester https://github.com/blindpentester
   - pswalia2u https://github.com/pswalia2u
   - Alek https://github.com/onomastus
+  - Gr1mmie https://github.com/Gr1mmie
 
 
 # Revision 1.2.9
