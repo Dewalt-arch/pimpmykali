@@ -23,8 +23,7 @@
   - pswalia2u https://github.com/pswalia2u
   - Alek https://github.com/onomastus
   - Gr1mmie https://github.com/Gr1mmie
-
-
+  
 # Revision 1.2.9
   - Code contribution pswalia2u!! Thank you!
     - visit pswalia2u's github at https://github.com/pswalia2u
