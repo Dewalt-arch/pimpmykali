@@ -174,6 +174,7 @@ fix_missing () {
     eval apt -y remove kali-undercover $silent
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
     eval apt -y install dkms build-essential autogen automake python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils $silent
+    # check_python          # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
     python-pip-curl
     python3_pip $force
     fix_gedit   $force    # restored to its former glory
@@ -325,6 +326,29 @@ fix_pipxlrd () {
     echo -e "\n  $greenplus python module : xlrd installed \n"
     }
 
+# Thinking about this before implementation
+# 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
+# check_python() {
+#    # check if python is python2
+#    is_python2=$(ls -la /bin/python | grep -i -c "python2")
+#    # check if python is python3
+#    is_python3=$(ls -la /bin/python | grep -i -c "python3")
+#
+#    if [ $is_python2 = 1 ]
+#     then
+#      echo -e "\n  $greenplus python is python2 - skipping "
+#     else
+#      if [ $is_python3 = 1 ]
+#       then
+#        echo -e "\n  $redminus python is python3 ... installing python-is-python2 \n\n"
+#        eval apt -y install python-is-python2
+#        echo -e "\n  $greenplus python is now python2 "
+#       else
+#        echo -e "\n  $redexclaim Unable to determine python value"
+#      fi
+#    fi
+#    }
+
 python-pip-curl () {
     check_pip=$(whereis pip | grep -i -c "/usr/local/bin/pip2.7")
     if [ $check_pip -ne 1 ]
@@ -376,6 +400,8 @@ fix_gowitness () {
 fix_root_connectionrefused () {
     # fix root gedit connection refused
     echo -e "\n  $greenplus Adding root to xhost : xhost +SI:localuser:root \n"
+    # 07.02.21 - may need to consider using the sudo -i -u $finduser here
+    # eval sudo -i -u $finduser xhost +SI:localuser:root
     eval xhost +SI:localuser:root
     echo -e "\n  $greenplus root added to xhost"
     }
