@@ -23,7 +23,9 @@
   - pswalia2u https://github.com/pswalia2u
   - Alek https://github.com/onomastus
   - Gr1mmie https://github.com/Gr1mmie
-  
+  - 0xC0FFEE Home Lab Build
+    https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
+
 # Revision 1.2.9
   - Code contribution pswalia2u!! Thank you!
     - visit pswalia2u's github at https://github.com/pswalia2u
