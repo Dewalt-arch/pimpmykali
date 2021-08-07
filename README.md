@@ -28,7 +28,7 @@
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
 # Revision 1.2.9
-  - Bug fix : Aksheet! ( https://github.com/Aksheet10 ) Thank you!
+  - Bug fix : Aksheet ( https://github.com/Aksheet10 ) Thank you!
     - no revision change, minor fix no major impacket on Pimpmykali (pun intended)
     - an apt -y remove impacket was still being called in options 5 and !
       - removed line
