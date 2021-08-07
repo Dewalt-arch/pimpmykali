@@ -23,14 +23,15 @@
   - pswalia2u https://github.com/pswalia2u
   - Alek https://github.com/onomastus
   - Gr1mmie https://github.com/Gr1mmie
+  - Aksheet https://github.com/Aksheet10
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
 # Revision 1.2.9
-  - Bug fix : Brainless!! Thank you!
+  - Bug fix : Aksheet! ( https://github.com/Aksheet10 ) Thank you!
     - no revision change, minor fix no major impacket on Pimpmykali (pun intended)
     - an apt -y remove impacket was still being called in options 5 and !
-      - removed line 
+      - removed line
   - Code contribution pswalia2u!! Thank you!
     - visit pswalia2u's github at https://github.com/pswalia2u
     - Disable Gnome Power Management
