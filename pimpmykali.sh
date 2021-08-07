@@ -474,7 +474,7 @@ fix_golang () {
     check=$(whereis go  | grep -i -c "/usr/bin/go")
     fix_section $section $check $force
     fix_go_path
-    }
+  }
 
 fix_go_path() {
     findrealuser=$(who | awk '{print $1}')
@@ -841,7 +841,6 @@ fix_impacket_array () {
     }
 
 fix_impacket () {
-    eval apt -y remove impacket $silent    ## do not remove : python3-impacket impacket-scripts
     python-pip-curl
     python3_pip
     eval pip uninstall impacket -y $silent
