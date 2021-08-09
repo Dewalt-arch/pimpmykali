@@ -1104,7 +1104,7 @@ pimpmykali_menu () {
     echo -e "  0 - Fix ONLY 1 thru 8       (runs only 1 thru 8) \n"                               # fix_all
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali\n" # menu item only no function
     echo -e "  Stand alone functions (only apply the single selection)"                           # optional line
-    echo -e "  M - Mayor MPP Course Setup  (adds everything you need for Mayors MPP Course)"      # Mayor MPP Course
+    echo -e "  M - Mayor MPP Course Setup  (adds requirments needed for Mayors MPP Course)"       # mayor_mpp 
     echo -e "  P - Disable PowerManagement (Gnome/XFCE Detection Disable Power Management)"       # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)"  # fix_broken_xfce
     echo -e "  W - Gowitness Precomiled    (download and install gowitness)"                      # fix_gowitness
