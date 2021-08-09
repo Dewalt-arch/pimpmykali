@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.2.9"
+    revision="1.3.0"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -78,6 +78,7 @@
 # silent mode
     silent=''                  # uncomment to see all output
     # silent='>/dev/null 2>&1' # uncomment to hide all output10
+    export DEBIAN_FRONTEND=noninteractive
 
 # 02.02.21 - rev 1.1.8 - fix_xfce_root fix_xfce_user fix_xfcepower external configuration file
     raw_xfce="https://raw.githubusercontent.com/Dewalt-arch/pimpmyi3-config/main/xfce4/xfce4-power-manager.xml"
@@ -902,6 +903,7 @@ bpt () {
     }
 
 downgrade_msf () {
+    echo -e "\n  $greenplus Downgrading Metasploit from v6.x to 5.1.101 \n"
     eval apt -y remove metasploit-framework
     wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
     eval dpkg -i /tmp/metasploit-framework_5.deb
@@ -1004,6 +1006,78 @@ check_vm() {
     fi
     }
 
+mayor_mpp() {
+    # additions to PMK 1.3.0 - Mayor MPP Course additions
+    fix_sources
+    apt_update  && apt_update_complete
+    # check_msfversion=$(apt list --installed | grep -i metasploit | cut -d " " -f2 | cut -d "." -f1)
+    # add check for msf version? if not 5 then place hold before upgrade and then downgrade
+    apt_upgrade && apt_upgrade_complete
+    downgrade_msf
+    echo -e "\n  $greenplus installing apt-transport-https dnsutils dotnet-sdk-3.1"
+    apt -y install apt-transport-https dnsutils dotnet-sdk-3.1
+    # download directly to /tmp and install
+    echo -e "\n  $greenplus installing packages-microsoft-prod.deb"
+    wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+    dpkg -i /tmp/packages-microsoft-prod.deb
+    rm -f /tmp/packages-microsoft-prod.deb
+    # git clone Covenant to /opt
+    # add check and prompt if /opt/Covenant already exists, what to do with it
+    echo -e "\n  $greenplus installing covenant to /opt/Covenant"
+    [ -d /opt/Covenant ] && rm -rf /opt/Covenant; git clone --recurse-submodules https://github.com/ZeroPointSecurity/Covenant.git /opt/Covenant || git clone --recurse-submodules https://github.com/ZeroPointSecurity/Covenant.git
+    # create /usr/local/bin/startcovenant.sh
+    echo -e "\n  $greenplus creating /usr/local/bin/startcovenant.sh"
+    echo '#!/bin/bash' > /usr/local/bin/startcovenant.sh
+    echo 'kill_covenant=$(pgrep -f "sudo dotnet run --project /opt/Covenant/Covenant")' >> /usr/local/bin/startcovenant.sh
+    echo 'kill_covenant_debug=$(pgrep -f "/opt/Covenant/Covenant/bin/Debug/netcoreapp3.1/Covenant")' >> /usr/local/bin/startcovenant.sh
+    echo 'if [[ $kill_covenant -ne 0 || $kill_covenant_debug -ne 0 ]]; then' >> /usr/local/bin/startcovenant.sh
+    echo '  sudo kill $kill_covenant $kill_covenant_debug' >> /usr/local/bin/startcovenant.sh
+    echo '  sudo dotnet run --project /opt/Covenant/Covenant' >> /usr/local/bin/startcovenant.sh
+    echo 'else' >> /usr/local/bin/startcovenant.sh
+    echo '  sudo dotnet run --project /opt/Covenant/Covenant' >> /usr/local/bin/startcovenant.sh
+    echo 'fi' >> /usr/local/bin/startcovenant.sh
+    # change mode of script to +x
+    echo -e "\n  $greenplus making executable /usr/local/bin/startcovenant.sh"
+    chmod +x /usr/local/bin/startcovenant.sh
+    # symlink /usr/local/bin/startcovenant.sh to /usr/local/bin/startcovenant
+    echo -e "\n  $greenplus symlinking /usr/local/bin/startcovenant.sh to /usr/local/bin/covenant"
+    ln -sf /usr/local/bin/startcovenant.sh /usr/local/bin/covenant
+
+    #make desktop icon
+    findrealuser=$(who | awk '{print $1}')
+    if [ $findrealuser == "root" ]
+      then
+        echo -e "\n  $greenplus creating desktop icon /root/Desktop/Start Covenent"
+        echo '[Desktop Entry]' > /root/Desktop/"Start Covenant.desktop"
+        echo 'Version=1.0' >> /root/Desktop/"Start Covenant.desktop"
+        echo 'Type=Application' >> /root/Desktop/"Start Covenant.desktop"
+        echo 'Name=Start Covenant' >> /root/Desktop/"Start Covenant.desktop"
+        echo 'Comment=Start Covenant' >> /root/Desktop/"Start Covenant.desktop"
+        echo 'Exec=/usr/local/bin/covenant' >> /root/Desktop/"Start Covenant.desktop"
+        echo 'Icon=cpu' >> /root/Desktop/"Start Covenant.desktop"
+        echo 'Path=' >> /root/Desktop/"Start Covenant.desktop"
+        echo 'Terminal=true' >> /root/Desktop/"Start Covenant.desktop"
+        echo 'StartupNotify=false' >> /root/Desktop/"Start Covenant.desktop"
+        chown $finduser:$finduser /$finduser/Desktop/"Start Covenant.desktop"
+        chmod +x /$finduser/Desktop/"Start Covenant.desktop"
+      else
+        echo -e "\n  $greenplus creating desktop icon /home/$finduser/Start Covenent"
+        echo '[Desktop Entry]' > /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'Version=1.0' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'Type=Application' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'Name=Start Covenant' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'Comment=Start Covenant' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'Exec=/usr/local/bin/covenant' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'Icon=cpu' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'Path=' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'Terminal=true' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        echo 'StartupNotify=false' >> /home/$finduser/Desktop/"Start Covenant.desktop"
+        chown $finduser:$finduser /home/$finduser/Desktop/"Start Covenant.desktop"
+        chmod +x /home/$finduser/Desktop/"Start Covenant.desktop"
+      fi
+    }
+
+
 # ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
 CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
@@ -1030,6 +1104,7 @@ pimpmykali_menu () {
     echo -e "  0 - Fix ONLY 1 thru 8       (runs only 1 thru 8) \n"                               # fix_all
     echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali\n" # menu item only no function
     echo -e "  Stand alone functions (only apply the single selection)"                           # optional line
+    echo -e "  M - Mayor MPP Course Setup  (adds everything you need for Mayors MPP Course)"      # Mayor MPP Course
     echo -e "  P - Disable PowerManagement (Gnome/XFCE Detection Disable Power Management)"       # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)"  # fix_broken_xfce
     echo -e "  W - Gowitness Precomiled    (download and install gowitness)"                      # fix_gowitness
@@ -1064,6 +1139,7 @@ pimpmykali_menu () {
       d|D) downgrade_msf;;
       b|B) bpt;;
       p|P) disable_power_checkde;;
+      m|M) mayor_mpp;;
       # h|H) fix_theharvester ;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
