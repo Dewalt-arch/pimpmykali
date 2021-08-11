@@ -27,7 +27,7 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
-# Revision 1.3.0 - TheMayor's Movement, Pivoting and Persistance course added
+# Revision 1.3.0 - TheMayor's Movement, Pivoting and Persistance course requirements for kali linux added
   - This is a stand alone function and is not called by any other part of Pimpmykali
   - Menu option M - setup for Mayors Movement, Pivoting and Persistance course
     - installs covenant and all additional required packages
