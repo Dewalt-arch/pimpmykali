@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.3.0"
+    revision="1.3.1"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -174,7 +174,7 @@ fix_missing () {
     apt_autoremove && apt_autoremove_complete
     eval apt -y remove kali-undercover $silent
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
-    eval apt -y install dkms build-essential autogen automake python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils $silent
+    eval apt -y install dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils $silent
     # check_python          # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
     python-pip-curl
     python3_pip $force
@@ -193,6 +193,7 @@ fix_missing () {
     fix_set
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
+    fix_qterminal_history
     }
 
 fix_all () {
@@ -250,6 +251,33 @@ fix_hushlogin() {
         touch /home/$finduser/.hushlogin
       fi
     fi
+    }
+
+# 08.18.2021 - fix_qterminal_history - set history for unlimited scrollback
+fix_qterminal_history() {
+    findrealuser=$(who | awk '{print $1}')
+    if [[ $findrealuser = "root" ]]
+     then
+      check_qterminal=$(sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | grep -c "HistoryLimited=true")
+      if [[ $check_qterminal = 1 ]]
+       then
+        echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
+        sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=False":g > /tmp/tmp_qterminal.ini
+       sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /root/.config/qterminal.org/qterminal.ini
+      else
+        echo -e "\n  $greenplus Qterminal $findrealuser already set for unlimited scrollback - skipping"
+      fi
+      else
+      check_qterminal=$(sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | grep -c "HistoryLimited=true")
+      if [[ $check_qterminal = 1 ]]
+       then
+        echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
+        sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=False":g > /tmp/tmp_qterminal.ini
+       sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /home/$findrealuser/.config/qterminal.org/qterminal.ini
+      else
+        echo -e "\n  $greenplus Qterminal for $findrealuser already set for unlimited scrollback - skipping"
+      fi
+     fi
     }
 
 # 06.18.2021 - disable_power_gnome rev 1.2.9
@@ -1090,31 +1118,33 @@ pimpmykali_menu () {
     echo -e "$asciiart"
     echo -e "\n     Select a option from menu:                           Rev:$revision"
     echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
-    echo -e "\n  Menu Options:"                                                                   # function call list
-    echo -e "\n  1 - Fix Missing             (pip pip3 golang gedit nmapfix build-essential)"     # fix_missing
-    echo -e "  2 - Fix /etc/samba/smb.conf (adds the 2 missing lines)"                            # fix_smbconf
-    echo -e "  3 - Fix Golang              (installs golang, adds GOPATH= to .zshrc and .bashrc)" # fix_golang
-    echo -e "  4 - Fix Grub                (adds mitigations=off)"                                # fix_grub
-    echo -e "  5 - Fix Impacket            (installs impacket)"                                   # fix_impacket
-    echo -e "  6 - Enable Root Login       (installs kali-root-login)"                            # make_rootgreatagain
-    echo -e "  7 - Install Atom            (installs atom)"                                       # install_atom
-    echo -e "  8 - Fix nmap scripts        (clamav-exec.nse and http-shellshock.nse)"             # fix_nmap
-    echo -e "  9 - Pimpmyupgrade           (apt upgrade with vbox/vmware detection)"              # only_upgrade
-    echo -e "                              (sources.list, linux-headers, vm-video)"               # -
-    echo -e "  0 - Fix ONLY 1 thru 8       (runs only 1 thru 8) \n"                               # fix_all
-    echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali\n" # menu item only no function
-    echo -e "  Stand alone functions (only apply the single selection)"                           # optional line
-    echo -e "  M - Mayor MPP Course Setup  (adds requirments needed for Mayors MPP Course)"       # mayor_mpp 
-    echo -e "  P - Disable PowerManagement (Gnome/XFCE Detection Disable Power Management)"       # disable_power_checkde # Thanks pswalia2u!!
-    echo -e "  F - Broken XFCE Icons fix   (stand-alone function: only applies broken xfce fix)"  # fix_broken_xfce
-    echo -e "  W - Gowitness Precomiled    (download and install gowitness)"                      # fix_gowitness
-    echo -e "  G - Fix Gedit Conn Refused  (fixes gedit as root connection refused)"              # fix_root_connectionrefused
-    echo -e "  C - Missing Google-Chrome   (install google-chrome only)"                          # check_chrome / fix_chrome
-    echo -e "  V - Install MS-Vscode       (install microsoft vscode only)"                       # install_vscode
-    echo -e "  S - Fix Spike               (remove spike and install spike v2.9)"                 # fix_spike
-    echo -e "  ! - Nuke Impacket           (Type the ! character for this menu item)"             # fix_sead_warning
-    echo -e "  D - Downgrade Metasploit    (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
-    echo -e "  B - BlindPentesters         'The Essentials' tools & utilies collection\n"         # bpt
+    echo -e "\n  Menu Options:"                                                                    # function call list
+    echo -e "\n  1 - Fix Missing            (pip pip3 golang gedit nmapfix build-essential)"       # fix_missing
+    echo -e "  2 - Fix /etc/samba/smb.conf  (adds the 2 missing lines)"                            # fix_smbconf
+    echo -e "  3 - Fix Golang               (installs golang, adds GOPATH= to .zshrc and .bashrc)" # fix_golang
+    echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                # fix_grub
+    echo -e "  5 - Fix Impacket             (installs impacket)"                                   # fix_impacket
+    echo -e "  6 - Enable Root Login        (installs kali-root-login)"                            # make_rootgreatagain
+    echo -e "  7 - Install Atom             (installs atom)"                                       # install_atom
+    echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"             # fix_nmap
+    echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"              # only_upgrade
+    echo -e "                               (sources.list, linux-headers, vm-video)"               # -
+    echo -e "  0 - Fix ONLY 1 thru 8        (runs only 1 thru 8) \n"                               # fix_all
+    echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali\n"  # menu item only no function
+    echo -e "  Stand alone functions (only apply the single selection)"                            # optional line
+    echo -e "  M - Mayor MPP Course Setup   (adds requirments needed for Mayors MPP Course)"       # mayor_mpp
+    echo -e "  B - BlindPentesters          'The Essentials' tools & utilies collection"           # bpt
+    echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"       # disable_power_checkde # Thanks pswalia2u!!
+    echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"  # fix_broken_xfce
+    echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                      # fix_gowitness
+    echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"              # fix_root_connectionrefused
+    echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                          # check_chrome / fix_chrome
+    echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                       # install_vscode
+    echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                 # fix_spike
+    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"             # fix_sead_warning
+    echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
+    echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback\n"       # fix_qterminal_history
+
     read -n1 -p "  Enter 0 thru 9, N, B, F, G, C, V, S or ! press X to exit: " menuinput
 
     case $menuinput in
@@ -1141,6 +1171,7 @@ pimpmykali_menu () {
       p|P) disable_power_checkde;;
       m|M) mayor_mpp;;
       # h|H) fix_theharvester ;;
+      q|Q) fix_qterminal_history;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
     esac

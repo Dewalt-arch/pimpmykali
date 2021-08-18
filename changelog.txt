@@ -1,3 +1,24 @@
+# Revision 1.2.9
+  - Bug fix : Aksheet ( https://github.com/Aksheet10 ) Thank you!
+    - no revision change, minor fix no major impacket on Pimpmykali (pun intended)
+    - an apt -y remove impacket was still being called in options 5 and !
+      - removed line
+  - Code contribution pswalia2u!! Thank you!
+    - visit pswalia2u's github at https://github.com/pswalia2u
+    - Disable Gnome Power Management
+  - New Menu option P - Power management disable (standalone function)
+  - rewrite of disable power management functions
+    - new function disable_power_checkde
+      - check which desktop environment is running (xfce, gnome)
+      - disable power management for that environment
+    - new function disable_power_gnome (pswalia2u)
+    - disable_power_xfce replaces the following functions
+      - functions fix_xfce_user fix_xfce_root fix_xfce_power removed
+  - new function fix_hushlogin
+    - check for .hushlogin if file does not exist, create .hushlogin
+  - revision 1.2.8 history moved to changelog.txt
+  - code contributors section added to readme.md
+
 Revision 1.2.8 - Kali 2021.2 Updates
   - Changed installation for VSCode to use code-oss from repo
   - Virtualbox guest-os-tools were being installed twice - fixed

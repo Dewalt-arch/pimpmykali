@@ -27,6 +27,15 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.3.1 - Minor quality of life improvements
+  - XFCE Qterminal scrollback now automatically set to unlimited
+    - New Menu option Q for this Qterminal Scrollback fix function
+    - Menu Options N, 0 and 1 will also call this function
+    - Menu option Q - To only apply this fix
+      - ~/.config/qterminal.org/qterminal.ini  
+        - if HistoryLimited=True is found set it to HistoryLimited=False
+
+
 # Revision 1.3.0 - TheMayor's Movement, Pivoting and Persistance course requirements for kali linux added
   - This is a stand alone function and is not called by any other part of Pimpmykali
   - Menu option M - setup for Mayors Movement, Pivoting and Persistance course
@@ -42,27 +51,6 @@
   - Added environment variable to remove restart services on apt upgrade, will now default to this setting
   - Special Note:
   - Pimpmykali has been stored in the github arctic vault! (dont ask for updates in 1000 years)
-
-# Revision 1.2.9
-  - Bug fix : Aksheet ( https://github.com/Aksheet10 ) Thank you!
-    - no revision change, minor fix no major impacket on Pimpmykali (pun intended)
-    - an apt -y remove impacket was still being called in options 5 and !
-      - removed line
-  - Code contribution pswalia2u!! Thank you!
-    - visit pswalia2u's github at https://github.com/pswalia2u
-    - Disable Gnome Power Management
-  - New Menu option P - Power management disable (standalone function)
-  - rewrite of disable power management functions
-    - new function disable_power_checkde
-      - check which desktop environment is running (xfce, gnome)
-      - disable power management for that environment
-    - new function disable_power_gnome (pswalia2u)
-    - disable_power_xfce replaces the following functions
-      - functions fix_xfce_user fix_xfce_root fix_xfce_power removed
-  - new function fix_hushlogin
-    - check for .hushlogin if file does not exist, create .hushlogin
-  - revision 1.2.8 history moved to changelog.txt
-  - code contributors section added to readme.md
 
 # Menu Breakdown of Pimpmykali
 
@@ -172,6 +160,12 @@
     - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
     - Click the link below for a full list of the_essentials.sh script and its inner workings
     - https://github.com/blindpentester/the-essentials
+
+- Menu Option Q
+  - Set Qterminal for unlimited scrollback
+     - check for HistoryLimited=True in ~/.config/qterminal.org/qterminal.ini
+       - if found set HistoryLimited=False (unlimited scrollback)
+       - if already set to False, exit function     
 
 # TODO   
   - clean up todo list :)
