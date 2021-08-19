@@ -1143,7 +1143,7 @@ pimpmykali_menu () {
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                 # fix_spike
     echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"             # fix_sead_warning
     echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
-    echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback\n"       # fix_qterminal_history
+    #echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback\n"       # fix_qterminal_history
 
     read -n1 -p "  Enter 0 thru 9, N, B, F, G, C, V, S or ! press X to exit: " menuinput
 
@@ -1171,7 +1171,7 @@ pimpmykali_menu () {
       p|P) disable_power_checkde;;
       m|M) mayor_mpp;;
       # h|H) fix_theharvester ;;
-      q|Q) fix_qterminal_history;;
+      # q|Q) fix_qterminal_history;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
     esac

@@ -28,13 +28,7 @@
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
 # Revision 1.3.1 - Minor quality of life improvements
-  - XFCE Qterminal scrollback now automatically set to unlimited
-    - New Menu option Q for this Qterminal Scrollback fix function
-    - Menu Options N, 0 and 1 will also call this function
-    - Menu option Q - To only apply this fix
-      - ~/.config/qterminal.org/qterminal.ini  
-        - if HistoryLimited=True is found set it to HistoryLimited=False
-
+  - Minor code cleanup
 
 # Revision 1.3.0 - TheMayor's Movement, Pivoting and Persistance course requirements for kali linux added
   - This is a stand alone function and is not called by any other part of Pimpmykali
