@@ -262,7 +262,7 @@ fix_qterminal_history() {
       if [[ $check_qterminal = 1 ]]
        then
         echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
-        sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=False":g > /tmp/tmp_qterminal.ini
+        sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=false":g > /tmp/tmp_qterminal.ini
         sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /root/.config/qterminal.org/qterminal.ini
       else
         echo -e "\n  $greenplus Qterminal $findrealuser already set for unlimited scrollback - skipping"
@@ -272,7 +272,7 @@ fix_qterminal_history() {
       if [[ $check_qterminal = 1 ]]
        then
         echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
-        sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=False":g > /tmp/tmp_qterminal.ini
+        sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=false":g > /tmp/tmp_qterminal.ini
         sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /home/$findrealuser/.config/qterminal.org/qterminal.ini
       else
         echo -e "\n  $greenplus Qterminal for $findrealuser already set for unlimited scrollback - skipping"
