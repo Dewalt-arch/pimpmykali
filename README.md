@@ -32,6 +32,7 @@
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
 # Revision 1.3.2 - Pimpmykali-Mirrors and updates
+  - Speedtest for kali linux repo mirrors (http only at this time)
   - menu option = Pimpmykali-Mirrors (Yes it is literally the = (equals character)
     - obtain kali mirror list and process
       - round-trip-time ping test to all mirrors, select top 10 with shortest rtt
