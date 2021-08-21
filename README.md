@@ -33,6 +33,7 @@
 
 # Revision 1.3.2 - Pimpmykali-Mirrors and updates
   - Speedtest for kali linux repo mirrors (http only at this time)
+  - This function will only be executed via menu option =  
   - menu option = Pimpmykali-Mirrors (Yes it is literally the = (equals character)
     - obtain kali mirror list and process
       - round-trip-time ping test to all mirrors, select top 10 with shortest rtt
