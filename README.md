@@ -1,6 +1,6 @@
 # pimpmykali.sh
 
-[![2021-08-20-22-02.png](https://i.postimg.cc/3Rd3kcf1/2021-08-20-22-02.png)](https://postimg.cc/HcDqKBg8)
+[![pmk1-3-2.png](https://i.postimg.cc/N0SDRyfX/pmk1-3-2.png)](https://postimg.cc/VS9X8kts)
 
 # Fixes for new imported Kali Linux virtual machines
   - Author assumes zero liability for any data loss or misuse of pimpmykali
@@ -45,6 +45,7 @@
         - create backup of original sources.list in /etc/apt/sources.list_date_time
         - write new deb and deb-src lines with new mirror to /etc/apt/sources.list
         - N exits and makes no change to /etc/apt/sources.list
+  - added --mirrors for command line use sudo./pimpmykali.sh --mirrors
 
   - menu option 6 - enable root login
      - password prompt now checks exit code if failure, restart password function
@@ -53,6 +54,9 @@
   - fix_sources function updated to use wildcards
 
   - Initial Menu clean up, added bold color to "New VM Setup" Menu option N
+
+  - Added Sublime text editor installer - Menu Option L
+
   - Revision History for 1.3.1 and 1.3.0 moved to changelog.txt
   - Minor code cleanup
 
