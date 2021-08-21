@@ -18,8 +18,8 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
-# Special Thanks!
-  - Crazy_Man - pimpmykali-mirrors testing
+# Special Thanks to Pimpmykali-Mirrors Testers!!
+  - Crazy_Man - https://github.com/The-Crazy-Man
   - Andro - pimpmykali-mirrors testing
 
 # Code Contributors
