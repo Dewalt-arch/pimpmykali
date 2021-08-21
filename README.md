@@ -39,8 +39,8 @@
       - small download >1MB from the top 10 mirrors, select top 5 fastest transfers
       - large download 10MB test the final 5 mirrors, select fastest transfer
     - generate new /etc/apt/sources.list with the new selected mirror
-    - prompt Y or N to write new changes to /etc/apt/sources.list
-      - Y writes changes /etc/apt/sources.list
+      - prompt Y or N to write new changes to /etc/apt/sources.list
+        - Y writes changes /etc/apt/sources.list
         - create backup of original sources.list in /etc/apt/sources.list_date_time
         - write new deb and deb-src lines with new mirror to /etc/apt/sources.list
       - N exits and makes no change to /etc/apt/sources.list
