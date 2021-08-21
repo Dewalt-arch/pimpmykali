@@ -52,26 +52,8 @@
   - fix_sources function updated to use wildcards
 
   - Initial Menu clean up, added bold color to "New VM Setup" Menu option N
+  - Revision History for 1.3.1 and 1.3.0 moved to changelog.txt
   - Minor code cleanup
-
-# Revision 1.3.1 - Minor code cleanup
-  - Minor code cleanup
-
-# Revision 1.3.0 - TheMayor's Movement, Pivoting and Persistance course requirements for kali linux added
-  - This is a stand alone function and is not called by any other part of Pimpmykali
-  - Menu option M - setup for Mayors Movement, Pivoting and Persistance course
-    - installs covenant and all additional required packages
-    - downgrades msf to v5 ( auto-magic it is not going to ask about it )
-    - creates startup script for covenant /usr/local/bin/startcovenant.sh
-      - script checks if covenant is already running, if it is, kill covenant and start
-      - otherwise just start covenant
-    - startcovent.sh script is symlinked to /usr/local/bin/covenant for easy startup
-    - command line to start covenant is 'covenant' from anywhere as it is in the /usr/local/bin path
-    - creates desktop icon for "Start Covenant"
-      - final desktop icon for "Start Covenant" has not been finalized and may change without notice  
-  - Added environment variable to remove restart services on apt upgrade, will now default to this setting
-  - Special Note:
-  - Pimpmykali has been stored in the github arctic vault! (dont ask for updates in 1000 years)
 
 # Menu Breakdown of Pimpmykali
 
