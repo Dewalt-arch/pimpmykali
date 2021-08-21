@@ -629,7 +629,7 @@ install_vscode () {
     fi
     }
 
-# 04.06.2021 fix_sources rev 1.2.2
+# 04.06.2021 fix_sources rev 1.2.2 / rev 1.3.2 updated to add wildcards
 fix_sources () {
     fix_bad_apt_hash
     check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://.*/kali kali-rolling main contrib non-free")
@@ -1123,7 +1123,7 @@ mayor_mpp() {
       fi
     }
 
-#---- begin pimpmykali-mirrors ----
+#---- begin pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 get_mirrorlist() {
   	cleanup
     echo -e "\n  $greenplus Pimpmykali-Mirrors - kali repo mirror speedtest"
@@ -1217,7 +1217,7 @@ cleanup() {
   	}
 
 # function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-#---- end pimpmykali-mirrors ----
+#---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 
 # ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
