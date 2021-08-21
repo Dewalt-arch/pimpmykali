@@ -43,7 +43,7 @@
         - Y writes changes /etc/apt/sources.list
         - create backup of original sources.list in /etc/apt/sources.list_date_time
         - write new deb and deb-src lines with new mirror to /etc/apt/sources.list
-      - N exits and makes no change to /etc/apt/sources.list
+        - N exits and makes no change to /etc/apt/sources.list
 
   - menu option 6 - enable root login
      - password prompt now checks exit code if failure, restart password function
