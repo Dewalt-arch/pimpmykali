@@ -1248,7 +1248,7 @@ pimpmykali_menu () {
     echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"  # menu item only no function
     echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. its the equals symbol = )\n" # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
     echo -e " Key  Stand alone functions    only apply the single selection"                             # optional line
-    echo -e " ---  ------------             ------------"
+    echo -e " ---  ------------             -------------------------------"
     echo -e "  M - Mayor MPP Course Setup   (adds requirments needed for Mayors MPP Course)"        # mayor_mpp
     echo -e "  B - BlindPentesters          (The Essentials tools & utilies collection)"            # bpt
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
