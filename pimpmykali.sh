@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.3.1"
+    revision="1.3.2"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -21,6 +21,7 @@
     white=$'\e[0m'
     bold=$'\e[1m'
     norm=$'\e[21m'
+    reset=$'\e[0m'
 
 # more unicorn puke...*sigh* added for senpai, taste the rainbow!
 # now with 100% more unicorn puke! enjoy a color for no color!!
@@ -665,7 +666,7 @@ make_rootgreatagain () {
     echo -e "   On Kali 2020.1 and newer this was changed, the default user was changed to be "
     echo -e "   an" $yellow$bold"actual user"$norm$white" on the system and not "$red$bold"root"$norm$white", this user is : kali (by default) "
     echo -e "\n   Press Y - If you wish to re-enable the ability to login as root and be root all the time"
-    echo -e "     If you choose Yes - a second screen will prompt you to copy all of /home/kali to /root"
+    echo -e "     If you choose Yes - a second screen will prompt you to copy all of /home/$finduser to /root"
     echo -e "     as there is nothing in the /root directory by default"
     echo -e "\n   Press N - The script will skip this section, and not re-enable the login as root function"
     echo -e "\n   "$bold$red"If you are confused or dont understand what"$norm$white
@@ -685,6 +686,15 @@ enable_rootlogin () {
     fix_section $section $check $force
     echo -e "\n\nEnabling Root Login Give root a password"
     passwd root
+    if [ "$?" -ne 0 ]
+     then
+      echo -e "\n  $redexclaim - Passwords did not match - restarting this function"
+      enable_rootlogin
+    else
+      echo -e "\n  $greenplus - Password updated"
+    fi
+
+    #add check for exit status if fails re-call this function
     echo -e "\n  $greenplus root login enabled \n"
     ask_homekali_to_root
     }
@@ -695,39 +705,46 @@ ask_homekali_to_root () {
     echo -e "   This section of the script is only executed if Yes was selected at the enable root login prompt\n"
     echo -e "   If you are planning on operating your kali install as root instead of the user kali, "
     echo -e "   by default there is nothing in /root, This script has the ability to copy everything"
-    echo -e "   from /home/kali to /root for you. \n"
+    echo -e "   from /home/$finduser to /root for you. \n"
     echo -e "  $red Warning:$white This copy function $red will overwrite $white anything in /root with the entire contents of /home/kali"
     echo -e "   The copy statement that is going to be performed if you select Y is:\n "
-    echo -e "    cp -Rvf /home/kali/* /home/kali/.* /root"
-    echo -e "\n   Would you like to copy everything from /home/kali to /root ?"
-    echo -e "     Press Y - to copy everything from /home/kali to /root"
+    echo -e "    cp -Rvf /home/$finduser/* /home/$finduser/.* /root"
+    echo -e "\n   Would you like to copy everything from /home/$finduser to /root ?"
+    echo -e "     Press Y - to copy everything from /home/$finduser to /root"
     echo -e "     Press N - do not copy anything to /root and skip this function\n"
     read -n1 -p "   Please type Y or N : " userinput
       case $userinput in
         y|Y) ask_are_you_sure;;
-        n|N) echo -e "\n\n  $redexclaim skipping copy of /home/kali to /root" ;;
+        n|N) echo -e "\n\n  $redexclaim skipping copy of /home/$finduser to /root" ;;
         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_homekali_to_root;;
       esac
     }
 
 # 01.03.2021 - rev 1.1.3 begin - added are you sure prompt
 ask_are_you_sure () {
-    echo -e "\n\n   Are you sure you want to copy all of /home/kali to /root ?"
+    echo -e "\n\n   Are you sure you want to copy all of /home/$finduser to /root ?"
     read -n1 -p "   Please type Y or N : " userinput
      case $userinput in
        y|Y) perform_copy_to_root;;
-       n|N) echo -e "\n\n  $redexclaim skipping copy fo /home/kali to /root - not copying ";;
+       n|N) echo -e "\n\n  $redexclaim skipping copy fo /home/$finduser to /root - not copying ";;
        *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
      esac
     }
 
 # 01.02.2021 - rev 1.1.2 - copy to /root warning screens and function
 perform_copy_to_root () {
-    echo -e "\n\n  $greenplus Copying everything from /home/kali to /root... Please wait..."
+    echo -e "\n\n  $greenplus Copying everything from /home/$finduser to /root... Please wait..."
     # add call to check_helpers here before doing the copy from /home/kali to /root
-    eval cp -Rvf /home/kali/.* /home/kali/* /root >/dev/null 2>&1
-    eval chown -R root:root /root
-    echo -e "\n  $greenplus Everything from /home/kali has been copied to /root"
+     if [[ $finduser = "root" ]]
+      then
+       echo -e "Your already root!"
+     else
+       # [[ ! -d /root/Desktop ]] && cp -RVf /home/$findrealuser/kali/Desktop /root/Desktop
+       echo -e "\n\n cp -Rvf /home/$finduser/.* /home/$finduser/* \n\n"
+       eval cp -Rvf /home/$finduser/.* /home/$finduser/* /root >/dev/null 2>&1
+       eval chown -R root:root /root
+       echo -e "\n  $greenplus Everything from /home/$finduser has been copied to /root"
+     fi
     }
 
 # check_helpers() {
@@ -1105,6 +1122,101 @@ mayor_mpp() {
       fi
     }
 
+#---- begin pimpmykali-mirrors ----
+get_mirrorlist() {
+  	cleanup
+    echo -e "\n  $greenplus Pimpmykali-Mirrors - kali repo mirror speedtest"
+    curl -s http://http.kali.org/README.mirrorlist | grep -i "README" | cut -d ">" -f2 | cut -d "\"" -f2 | grep -i "http://" | \
+    sed s:"http\:\/\/http.kali.org\/README.meta4":"":g | sed s:"http\:\/\/http.kali.org\/README.metalink":"":g | sort -u > /tmp/timetest.list
+  	}
+
+best_ping() {
+    [[ -f /tmp/kali-ping ]] && rm -f /tmp/kali-ping
+	  echo -e "\n  $greenplus Testing kali mirrors round-trip-time, selecting the top 10"
+    mirror=$(cat /tmp/timetest.list | sort -u | sed s:"http\:\/\/":"":g)
+     for i in $mirror; do
+       current_mirror=$(echo $i | cut -d "/" -f1)
+       current_file=$(echo $i | cut -d "/" -f2-10)
+       avg_rtt_mirror=$(ping -c 3 $current_mirror | grep -i rtt | cut -d "=" -f2 | cut -d "/" -f2)
+    	  if [[ $avg_rtt_mirror = "" ]]
+         then
+          echo -e "    $redexclaim Failed to respond: $current_mirror"
+         else
+          echo -e "    $greenplus Testing $current_mirror rtt time: $avg_rtt_mirror"ms" "
+          echo "$avg_rtt_mirror:$current_mirror" >> /tmp/kali-ping
+        fi
+     done
+     best_rtt=$(cat /tmp/kali-ping | sed -r '/^\s*$/d' | sort -nr | tail -n1 | cut -d ":" -f1)
+     best_rttmirror=$(cat /tmp/kali-ping | sed -r '/^\s*$/d' | sort -nr | tail -n1 | cut -d ":" -f2)
+     #echo -e "  $greenplus Best rtt result : $best_rtt"ms" at $best_rttmirror"
+    }
+
+small_speedtest() {
+  	echo > /tmp/mirrors_speedtest
+    echo -e "\n  $greenplus Testing top 10 mirrors - small transfer >1MB, select top 5"
+    for i in $(cat /tmp/kali-ping | sed -r '/^\s*$/d' | sort -n | head -n10 | cut -d ":" -f2); do
+  	  active_mirror=$(cat /tmp/timetest.list | grep "$i" | grep "README" | sed -r '/^\s*$/d')
+  	  active_mirror_display=$(cat /tmp/timetest.list | grep "$i" | grep "README" | cut -d "/" -f3| sed -r '/^\s*$/d')
+  	  get_download=$(curl -s "$active_mirror" --w %{speed_download} -o /dev/null)
+   	  mb_speed=$(($get_download / 1024 / 1024))
+  	  echo "$get_download:$active_mirror:$mb_speed" >> /tmp/mirrors_speedtest
+      echo -e "    $greenplus $active_mirror_display speed: $get_download b/sec"
+  	done
+  	}
+
+large_speedtest() {
+  	echo > /tmp/mirrors_speedtest
+  	echo -e "\n  $greenplus Testing top 5 mirrors from small transfer - large tranfer (10MB)"
+  	for i in $(cat /tmp/kali-ping | sed -r '/^\s*$/d' | sort -n | head -n5 | cut -d ":" -f2); do
+  	  active_mirror=$(cat /tmp/timetest.list | grep "$i" | grep "README" | sed s:"README":"dists/kali-rolling/Contents-amd64.gz":g | sed -r '/^\s*$/d')
+  	  active_mirror_display=$(cat /tmp/timetest.list | grep "$i" | grep "README" | cut -d "/" -f3| sed -r '/^\s*$/d')
+   	  get_download=$(curl --max-time 30 -s -r 0-10485760 "$active_mirror" --w %{speed_download} -o /dev/null)
+   	  mb_speed=$(($get_download / 1024 / 1024))
+  	  echo "$get_download:$active_mirror:$mb_speed" >> /tmp/mirrors_speedtest
+  	  echo -e "    $greenplus $active_mirror_display speed: $get_download b/sec ($mb_speed MB/sec)"
+  	done
+  	}
+
+gen_new_sources() {
+  	i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
+  	mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.*\/kali kali\-rolling main contrib no\n-free")
+  	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
+  	if [[ $mod_deb = 1 ]]
+  	 then
+   	  cat /etc/apt/sources.list | sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g > /tmp/sources.list
+   	 else
+      echo "unable to find deb http://*/kali in /etc/apt/sources.list"
+    fi
+    if [[ $mod_debsrc = 1 ]]
+     then
+      i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
+      cat /tmp/sources.list | sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g > /tmp/final.list
+     else
+      echo "unable to find deb-src in /etc/apt/sources.list"
+    fi
+    echo -e "\n  $greenplus Based on tests the best selection is: $i "
+    echo -e "\n  Preview of the new /etc/apt/sources.list:"
+    newdeb=$(cat /etc/apt/sources.list | grep "deb http://" | sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
+    newdebsrc=$(cat /tmp/sources.list | grep "deb-src http://"| sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
+    echo -e "\n  $newdeb\n  $newdebsrc"
+    #cat /tmp/final.list  #> /etc/apt/sources.list
+    # add code or function here to ask to apply the changes and backup existing /etc/apt/sources.list
+    echo -e "\n\n   Save new changes to /etc/apt/sources.list ?"
+    read -n1 -p "   Please type Y or N : " userinput
+    sourcefile=/etc/apt/sources.list
+     case $userinput in
+       y|Y) echo -e "\n\n  $greenplus Saving changes to /etc/apt/sources.list"; cp $sourcefile ${sourcefile}_$(date +%F-%T); cat /tmp/final.list > /etc/apt/sources.list;; #add call to apt_update?
+       n|N) echo -e "\n\n  $redexclaim Not saving changes";;
+         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim";;
+     esac
+    }
+
+cleanup() {
+  	rm -f /tmp/kali-speedtest.found /tmp/kali-speedtest /tmp/timetest.list /tmp/kali-latency /tmp/sources.list /tmp/final.list /tmp/kali-ping /tmp/mirrors_speedtest > /dev/null
+  	}
+
+# function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+#---- end pimpmykali-mirrors ----
 
 # ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
@@ -1116,36 +1228,40 @@ pimpmykali_menu () {
     # DATE=$(date +%x); TIME=$(date +%X)
     clear
     echo -e "$asciiart"
-    echo -e "\n     Select a option from menu:                           Rev:$revision"
-    echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
-    echo -e "\n  Menu Options:"                                                                    # function call list
-    echo -e "\n  1 - Fix Missing            (pip pip3 golang gedit nmapfix build-essential)"       # fix_missing
-    echo -e "  2 - Fix /etc/samba/smb.conf  (adds the 2 missing lines)"                            # fix_smbconf
-    echo -e "  3 - Fix Golang               (installs golang, adds GOPATH= to .zshrc and .bashrc)" # fix_golang
-    echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                # fix_grub
-    echo -e "  5 - Fix Impacket             (installs impacket)"                                   # fix_impacket
-    echo -e "  6 - Enable Root Login        (installs kali-root-login)"                            # make_rootgreatagain
-    echo -e "  7 - Install Atom             (installs atom)"                                       # install_atom
-    echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"             # fix_nmap
-    echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"              # only_upgrade
-    echo -e "                               (sources.list, linux-headers, vm-video)"               # -
-    echo -e "  0 - Fix ONLY 1 thru 8        (runs only 1 thru 8) \n"                               # fix_all
-    echo -e "  N - NEW VM SETUP - Run this option if this is the first time running pimpmykali\n"  # menu item only no function
-    echo -e "  Stand alone functions (only apply the single selection)"                            # optional line
-    echo -e "  M - Mayor MPP Course Setup   (adds requirments needed for Mayors MPP Course)"       # mayor_mpp
-    echo -e "  B - BlindPentesters          'The Essentials' tools & utilies collection"           # bpt
-    echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"       # disable_power_checkde # Thanks pswalia2u!!
-    echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"  # fix_broken_xfce
-    echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                      # fix_gowitness
-    echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"              # fix_root_connectionrefused
-    echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                          # check_chrome / fix_chrome
-    echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                       # install_vscode
-    echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                 # fix_spike
-    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"             # fix_sead_warning
-    echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
-    #echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback\n"       # fix_qterminal_history
-
-    read -n1 -p "  Enter 0 thru 9, N, B, F, G, C, V, S or ! press X to exit: " menuinput
+    echo -e "\n    Select an option from menu:                           Rev:$revision"
+#    echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
+#    echo -e "\n  Menu Options:"                                                                    # function call list
+    echo -e "\n Key  Menu Option:             Description:"
+    echo -e " ---  ------------             ------------"
+    echo -e "  1 - Fix Missing              (pip pip3 golang gedit nmapfix build-essential)"        # fix_missing
+    echo -e "  2 - Fix /etc/samba/smb.conf  (adds the 2 missing lines)"                             # fix_smbconf
+    echo -e "  3 - Fix Golang               (installs golang, adds GOPATH= to .zshrc and .bashrc)"  # fix_golang
+    echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                 # fix_grub
+    echo -e "  5 - Fix Impacket             (installs impacket)"                                    # fix_impacket
+    echo -e "  6 - Enable Root Login        (installs kali-root-login)"                             # make_rootgreatagain
+    echo -e "  7 - Install Atom             (installs atom)"                                        # install_atom
+    echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"              # fix_nmap
+    echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
+    echo -e "                               (sources.list, linux-headers, vm-video)"                # -
+    echo -e "  0 - Fix ONLY 1 thru 8        (runs only 1 thru 8) \n"                                # fix_all
+    echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"  # menu item only no function
+    echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. its the equals symbol = )\n" # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+    echo -e "  Stand alone functions (only apply the single selection)"                             # optional line
+    echo -e "  M - Mayor MPP Course Setup   (adds requirments needed for Mayors MPP Course)"        # mayor_mpp
+    echo -e "  B - BlindPentesters          (The Essentials tools & utilies collection)"            # bpt
+    echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
+    echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
+    echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"   # fix_broken_xfce
+    echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
+    echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"               # fix_root_connectionrefused
+    echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
+    echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
+    echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
+    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"              # fix_sead_warning
+    echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)\n"                          # downgrade_msf
+    #echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback"         # fix_qterminal_history
+    #echo -e "\n"
+    read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
         1) fix_missing;;
@@ -1170,8 +1286,10 @@ pimpmykali_menu () {
       b|B) bpt;;
       p|P) disable_power_checkde;;
       m|M) mayor_mpp;;
+      l|L) install_sublime;;
+      "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
       # h|H) fix_theharvester ;;
-      # q|Q) fix_qterminal_history;;
+      # q|Q) fix_qterminal_history;;  # cant change settings of qterminal while in qterminal... find a fix
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       *) pimpmykali_menu ;;
     esac
@@ -1209,9 +1327,10 @@ check_arg () {
       --nmap) fix_nmap                         ;;
        --bpt) bpt                              ;;
     --vscode) install_vscode                   ;;
-      --subl) install_sublime                  ;; # hidden switch
+      --subl) install_sublime                  ;;
       --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;
+   --mirrors) get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
 # --harvester) fix_theharvester                ;;
       *) pimpmykali_help ; exit 0              ;;
     esac

@@ -18,6 +18,10 @@
   - sudo ./pimpmykali.sh
   - For a new kali vm, run menu option N
 
+# Special Thanks!
+  - Crazy_Man - pimpmykali-mirrors testing
+  - Andro - pimpmykali-mirrors testing
+
 # Code Contributors
   - blindpentester https://github.com/blindpentester
   - pswalia2u https://github.com/pswalia2u
@@ -26,6 +30,26 @@
   - Aksheet https://github.com/Aksheet10
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
+
+# Revision 1.3.2 - Pimpmykali-Mirrors and additional updates
+  - menu option = Pimpmykali-Mirrors (Yes it is literally the = (equals character)
+    - obtain kali mirror list and process
+      - round-trip-time ping test to all mirrors, select top 10 with shortest rtt
+      - small download >1MB from the top 10 mirrors, select top 5 fastest transfers
+      - large download 10MB test the final 5 mirrors, select fastest transfer
+    - generate new /etc/apt/sources.list with the new selected mirror
+    - prompt Y or N to write new changes to /etc/apt/sources.list
+      - Y writes changes /etc/apt/sources.list
+        - create backup of original sources.list in /etc/apt/sources.list_date_time
+        - write new deb and deb-src lines with new mirror to /etc/apt/sources.list
+      - N exits and makes no change to /etc/apt/sources.list
+
+  - menu option 6 - enable root login
+     - password prompt now checks exit code if failure, restart password function
+     - copy of files from /home/kali/* to /root now uses the actual username not just 'kali'
+
+  - Initial Menu clean up, added bold color to "New VM Setup" Menu option N
+  - Minor code cleanup
 
 # Revision 1.3.1 - Minor quality of life improvements
   - Minor code cleanup
@@ -51,6 +75,18 @@
 - Menu option N  (New Users/New VM's Should start here!)
   - executes menu option 0 fix all ( menu options 1 thru 8 )
   - executes menu opiion 9 (pimpmyupgrade)
+
+- Menu option = Pimpmykali-Mirrors (rev 1.3.2)
+  - obtain kali mirror list and process
+    - round-trip-time ping test to all mirrors, select top 10 with shortest rtt
+    - small download >1MB from the top 10 mirrors, select top 5 fastest transfers
+    - large download 10MB test the final 5 mirrors, select fastest transfer
+    - generate new /etc/apt/sources.list with the new selected mirror
+    - prompt Y or N to write new changes to /etc/apt/sources.list
+      - Y writes changes /etc/apt/sources.list
+      - create backup of original sources.list in /etc/apt/sources.list_date_time
+      - write new deb and deb-src lines with new mirror to /etc/apt/sources.list
+      - N exits and makes no change to /etc/apt/sources.list
 
 - Menu Option 1 - Fix missing
   - fix_sources
