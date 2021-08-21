@@ -31,7 +31,7 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
-# Revision 1.3.2 - Pimpmykali-Mirrors and additional updates
+# Revision 1.3.2 - Pimpmykali-Mirrors and updates
   - menu option = Pimpmykali-Mirrors (Yes it is literally the = (equals character)
     - obtain kali mirror list and process
       - round-trip-time ping test to all mirrors, select top 10 with shortest rtt
