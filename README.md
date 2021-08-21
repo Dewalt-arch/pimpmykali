@@ -49,6 +49,8 @@
      - password prompt now checks exit code if failure, restart password function
      - copy of files from /home/kali/* to /root now uses the actual username not just 'kali'
 
+  - fix_sources function updated to use wildcards 
+
   - Initial Menu clean up, added bold color to "New VM Setup" Menu option N
   - Minor code cleanup
 
