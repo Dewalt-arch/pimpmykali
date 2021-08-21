@@ -49,12 +49,12 @@
      - password prompt now checks exit code if failure, restart password function
      - copy of files from /home/kali/* to /root now uses the actual username not just 'kali'
 
-  - fix_sources function updated to use wildcards 
+  - fix_sources function updated to use wildcards
 
   - Initial Menu clean up, added bold color to "New VM Setup" Menu option N
   - Minor code cleanup
 
-# Revision 1.3.1 - Minor quality of life improvements
+# Revision 1.3.1 - Minor code cleanup
   - Minor code cleanup
 
 # Revision 1.3.0 - TheMayor's Movement, Pivoting and Persistance course requirements for kali linux added
