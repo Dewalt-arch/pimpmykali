@@ -632,19 +632,20 @@ install_vscode () {
 # 04.06.2021 fix_sources rev 1.2.2
 fix_sources () {
     fix_bad_apt_hash
-    check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://http.kali.org/kali kali-rolling main contrib non-free")
-    check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://http.kali.org/kali kali-rolling main contrib non-free")
+    check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://.*/kali kali-rolling main contrib non-free")
+    check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://.*/kali kali-rolling main contrib non-free")
+    get_current_mirror=$(cat /etc/apt/sources.list | grep "deb-src http://.*/kali kali-rolling main contrib non-free" | cut -d "/" -f3)
     if [[ $check_space = 0 && $check_nospace = 0 ]]; then
     	echo -e "\n  $greenminus # deb-src or #deb-sec not found - skipping"
     elif [ $check_space = 1 ]; then
       echo -e "\n  $greenplus # deb-src with space found in sources.list uncommenting and enabling deb-src"
-      cat /etc/apt/sources.list | sed 's/\# deb-src http\:\/\/http\.kali\.org\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/http\.kali\.org\/kali kali-rolling main contrib non\-free''/' > /tmp/new-sources.list
+      cat /etc/apt/sources.list | sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' > /tmp/new-sources.list
       cat /tmp/new-sources.list > /etc/apt/sources.list
       rm  /tmp/new-sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     elif [ $check_nospace = 1 ]; then
       echo -e "\n  $greenplus #deb-src without space found in sources.list uncommenting and enabling deb-src"
-      cat /etc/apt/sources.list | sed 's/\#deb-src http\:\/\/http\.kali\.org\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/http\.kali\.org\/kali kali-rolling main contrib non\-free''/' > /tmp/new-sources.list
+      cat /etc/apt/sources.list | sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' > /tmp/new-sources.list
       cat /tmp/new-sources.list > /etc/apt/sources.list
       rm  /tmp/new-sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
@@ -727,7 +728,7 @@ ask_are_you_sure () {
      case $userinput in
        y|Y) perform_copy_to_root;;
        n|N) echo -e "\n\n  $redexclaim skipping copy fo /home/$finduser to /root - not copying ";;
-       *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
+         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
      esac
     }
 
