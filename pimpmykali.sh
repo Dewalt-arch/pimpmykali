@@ -604,8 +604,9 @@ install_atom () {
       echo -e "\n  $greenminus atom already installed - skipping"
     else
       apt_update  && apt_update_complete
-      echo -e "\n  $greenplus installing atom"
+      echo -e "\n  $greenplus downloading atom"
       eval wget https://atom.io/download/deb -O /tmp/atom.deb
+      echo -e "\n  $greenplus installing atom"
       eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
       eval rm -f /tmp/atom.deb
       eval apt -y --fix-broken install >/dev/null 2>&1
