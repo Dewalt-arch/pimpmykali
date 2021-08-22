@@ -1,6 +1,6 @@
 # pimpmykali.sh
 
-[![pmk132tk.png](https://i.postimg.cc/SsLVswxY/pmk132tk.png)](https://postimg.cc/xJCLppH9)
+[![pmk132tkab.png](https://i.postimg.cc/Qd9VCRrd/pmk132tkab.png)](https://postimg.cc/18SyY7tk)
 
 # Fixes for new imported Kali Linux virtual machines
   - Author assumes zero liability for any data loss or misuse of pimpmykali

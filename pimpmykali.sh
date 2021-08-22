@@ -1213,7 +1213,6 @@ gen_new_sources() {
        y|Y) echo -e "\n\n  $greenplus Saving changes to /etc/apt/sources.list"; cp $sourcefile ${sourcefile}_$(date +%F-%T); \
             sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list; \
             sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list;;
-             #add call to apt_update?
        n|N) echo -e "\n\n  $redexclaim Not saving changes";;
          *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim";;
      esac
