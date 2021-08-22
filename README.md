@@ -57,6 +57,9 @@
      - password prompt now checks exit code if failure, restart password function
      - copy of files from /home/kali/* to /root now uses the actual username not just 'kali'
 
+  - menu option 2 - fix smb.conf
+    - function updated to use sed -i instead of prior method      
+
   - fix_sources function updated to use wildcards
 
   - Menu clean up, added bold color to "New VM Setup" Menu option N

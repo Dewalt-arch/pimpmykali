@@ -558,9 +558,7 @@ fix_smbconf () {
       echo -e "\n  $green /etc/samba/smb.conf "
       echo -e "\n  $redminus client min protocol is already set not changing\n  $redminus client max protocol is already set not changing"
     else
-      cat /etc/samba/smb.conf | sed 's/\[global\]/\[global\]\n   client min protocol = CORE\n   client max protocol = SMB3\n''/' > /tmp/fix_smbconf.tmp
-      cat /tmp/fix_smbconf.tmp > /etc/samba/smb.conf
-      rm -f /tmp/fix_smbconf.tmp
+      sed 's/\[global\]/\[global\]\n   client min protocol = CORE\n   client max protocol = SMB3\n''/' -i /etc/samba/smb.conf
       echo -e "\n  $greenplus /etc/samba/smb.conf updated"
       echo -e "\n  $greenplus added : client min protocol = CORE\n  $greenplus added : client max protocol = SMB3"
     fi
