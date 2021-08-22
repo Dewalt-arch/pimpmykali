@@ -605,7 +605,7 @@ install_atom () {
     else
       apt_update  && apt_update_complete
       echo -e "\n  $greenplus installing atom"
-      eval wget https://atom.io/download/deb -O /tmp/atom.deb >/dev/null 2>&1
+      eval wget https://atom.io/download/deb -O /tmp/atom.deb
       eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
       eval rm -f /tmp/atom.deb
       eval apt -y --fix-broken install >/dev/null 2>&1
