@@ -47,10 +47,10 @@
         - N exits and makes no change to /etc/apt/sources.list
   - added --mirrors for command line use sudo./pimpmykali.sh --mirrors
 
-  - new menu option T - set timezone (new function)
+  - new menu option T - reconfigure timezone (new function)
     - calls sudo dpkg-reconfigure tzdata
 
-  - new menu option K - set keyboard, language, layout
+  - new menu option K - reconfigure keyboard, language, layout (new function)
     - calls sudo dpkg-reconfigure keyboard-configuration
 
   - menu option 6 - enable root login
