@@ -67,6 +67,9 @@
 
   - Added Sublime text editor installer - Menu Option L
 
+  - install_atom function
+    - removed quiet switch from the wget to avoid confusion 
+
   - Alphabetically sorted Main Menu - Stand Alone Functions
 
   - Revision History for 1.3.1 and 1.3.0 moved to changelog.txt
