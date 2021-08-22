@@ -47,13 +47,19 @@
         - N exits and makes no change to /etc/apt/sources.list
   - added --mirrors for command line use sudo./pimpmykali.sh --mirrors
 
+  - new menu option T - set timezone (new function)
+    - calls sudo dpkg-reconfigure tzdata
+
+  - new menu option K - set keyboard, language, layout
+    - calls sudo dpkg-reconfigure keyboard-configuration
+
   - menu option 6 - enable root login
      - password prompt now checks exit code if failure, restart password function
      - copy of files from /home/kali/* to /root now uses the actual username not just 'kali'
 
   - fix_sources function updated to use wildcards
 
-  - Initial Menu clean up, added bold color to "New VM Setup" Menu option N
+  - Menu clean up, added bold color to "New VM Setup" Menu option N
 
   - Added Sublime text editor installer - Menu Option L
 

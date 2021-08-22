@@ -1246,7 +1246,9 @@ pimpmykali_menu () {
     echo -e "                               (sources.list, linux-headers, vm-video)"                # -
     echo -e "  0 - Fix ONLY 1 thru 8        (runs only 1 thru 8) \n"                                # fix_all
     echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"  # menu item only no function
-    echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. its the equals symbol = )\n" # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+    echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. its the equals symbol = )" # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+    echo -e "  T - Reconfigure Timezone      current timezone  : $(cat /etc/timezone)" # reconfig_timekey
+    echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                             # optional line
     echo -e " ---  ----------------------   ------------"
     echo -e "  M - Mayor MPP Course Setup   (adds requirments needed for Mayors MPP Course)"        # mayor_mpp
@@ -1290,6 +1292,8 @@ pimpmykali_menu () {
       m|M) mayor_mpp;;
       l|L) install_sublime;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+      t|T) sudo dpkg-reconfigure tzdata; echo -e "\n  $greenplus Timezone now set to: $(cat /etc/timezone)";;
+      k|K) sudo dpkg-reconfigure keyboard-configuration; echo -e "\n  $greenplus Keyboard now set to: $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)";;
       # h|H) fix_theharvester ;;
       # q|Q) fix_qterminal_history;;  # cant change settings of qterminal while in qterminal... find a fix
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
