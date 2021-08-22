@@ -605,7 +605,7 @@ install_atom () {
     else
       apt_update  && apt_update_complete
       echo -e "\n  $greenplus installing atom"
-      eval wget -qO- https://atom.io/download/deb -O /tmp/atom.deb >/dev/null 2>&1
+      eval wget https://atom.io/download/deb -O /tmp/atom.deb >/dev/null 2>&1
       eval dpkg -i /tmp/atom.deb >/dev/null 2>&1
       eval rm -f /tmp/atom.deb
       eval apt -y --fix-broken install >/dev/null 2>&1
@@ -1198,7 +1198,7 @@ gen_new_sources() {
       i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
       #
      else
-      echo "unable to find deb-src in /etc/apt/sources.list"
+      echo -e "unable to find deb-src in /etc/apt/sources.list"
     fi
     echo -e "\n  $greenplus Based on tests the best selection is: $i "
     echo -e "\n  Preview of the new /etc/apt/sources.list:"
