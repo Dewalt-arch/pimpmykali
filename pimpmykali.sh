@@ -1247,11 +1247,11 @@ pimpmykali_menu () {
     echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. use the equals symbol = )" # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e "  T - Reconfigure Timezone      current timezone  : $(cat /etc/timezone)" # reconfig_timekey
-    echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
     echo -e " Key  Stand alone functions:   Description:"                             # optional line
     echo -e " ---  ----------------------   ------------"
     echo -e "  B - BlindPentesters          (The Essentials tools & utilies collection)"            # bpt
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
+    echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
     echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"   # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"               # fix_root_connectionrefused
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
