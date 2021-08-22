@@ -255,31 +255,31 @@ fix_hushlogin() {
     }
 
 # 08.18.2021 - fix_qterminal_history - set history for unlimited scrollback
-fix_qterminal_history() {
-    findrealuser=$(who | awk '{print $1}')
-    if [[ $findrealuser = "root" ]]
-     then
-      check_qterminal=$(sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | grep -c "HistoryLimited=true")
-      if [[ $check_qterminal = 1 ]]
-       then
-        echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
-        sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=false":g > /tmp/tmp_qterminal.ini
-        sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /root/.config/qterminal.org/qterminal.ini
-      else
-        echo -e "\n  $greenplus Qterminal $findrealuser already set for unlimited scrollback - skipping"
-      fi
-      else
-      check_qterminal=$(sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | grep -c "HistoryLimited=true")
-      if [[ $check_qterminal = 1 ]]
-       then
-        echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
-        sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=false":g > /tmp/tmp_qterminal.ini
-        sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /home/$findrealuser/.config/qterminal.org/qterminal.ini
-      else
-        echo -e "\n  $greenplus Qterminal for $findrealuser already set for unlimited scrollback - skipping"
-      fi
-     fi
-    }
+# fix_qterminal_history() {
+#    findrealuser=$(who | awk '{print $1}')
+#    if [[ $findrealuser = "root" ]]
+#     then
+#      check_qterminal=$(sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | grep -c "HistoryLimited=true")
+#      if [[ $check_qterminal = 1 ]]
+#       then
+#        echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
+#        sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=false":g > /tmp/tmp_qterminal.ini
+#        sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /root/.config/qterminal.org/qterminal.ini
+#      else
+#        echo -e "\n  $greenplus Qterminal $findrealuser already set for unlimited scrollback - skipping"
+#      fi
+#      else
+#      check_qterminal=$(sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | grep -c "HistoryLimited=true")
+#      if [[ $check_qterminal = 1 ]]
+#       then
+#        echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
+#        sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=false":g > /tmp/tmp_qterminal.ini
+#        sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /home/$findrealuser/.config/qterminal.org/qterminal.ini
+#      else
+#        echo -e "\n  $greenplus Qterminal for $findrealuser already set for unlimited scrollback - skipping"
+#      fi
+#     fi
+#    }
 
 # 06.18.2021 - disable_power_gnome rev 1.2.9
 disable_power_gnome() {
@@ -312,6 +312,7 @@ disable_power_gnome() {
 
 # 06.18.2021 - disable_power_xfce rev 1.2.9 replaces fix_xfce_power fix_xfce_user and fix_xfce_root functions
 disable_power_xfce() {
+    # change this to a sed, rather than be dependant on external file
     if [ $finduser = "root" ]
      then
       echo -e "\n  $greenplus XFCE Detected - disabling xfce power management \n"
@@ -570,9 +571,10 @@ fix_grub () {
      then
       echo -e "\n  $redexclaim Error: /etc/default/grub is not the default config - not changing"
     else
-      cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
-      cat /tmp/fix_grub.tmp > /etc/default/grub
-      rm -f /tmp/fix_grub.tmp
+      sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' -i /etc/default/grub
+      #cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
+      #cat /tmp/fix_grub.tmp > /etc/default/grub
+      #rm -f /tmp/fix_grub.tmp
       update-grub
       echo -e "\n  $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
       echo -e "\n  $redexclaim Reboot for changes to take effect \n"
@@ -637,15 +639,15 @@ fix_sources () {
     	echo -e "\n  $greenminus # deb-src or #deb-sec not found - skipping"
     elif [ $check_space = 1 ]; then
       echo -e "\n  $greenplus # deb-src with space found in sources.list uncommenting and enabling deb-src"
-      cat /etc/apt/sources.list | sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' > /tmp/new-sources.list
-      cat /tmp/new-sources.list > /etc/apt/sources.list
-      rm  /tmp/new-sources.list
+      sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
+      #cat /tmp/new-sources.list > /etc/apt/sources.list
+      #rm  /tmp/new-sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     elif [ $check_nospace = 1 ]; then
       echo -e "\n  $greenplus #deb-src without space found in sources.list uncommenting and enabling deb-src"
-      cat /etc/apt/sources.list | sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' > /tmp/new-sources.list
-      cat /tmp/new-sources.list > /etc/apt/sources.list
-      rm  /tmp/new-sources.list
+      sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
+      #cat /tmp/new-sources.list > /etc/apt/sources.list
+      #rm  /tmp/new-sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     fi
     }
@@ -1182,14 +1184,14 @@ gen_new_sources() {
   	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
   	if [[ $mod_deb = 1 ]]
   	 then
-   	  cat /etc/apt/sources.list | sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g > /tmp/sources.list
+   	  sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list
    	 else
       echo "unable to find deb http://*/kali in /etc/apt/sources.list"
     fi
     if [[ $mod_debsrc = 1 ]]
      then
       i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
-      cat /tmp/sources.list | sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g > /tmp/final.list
+      sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list
      else
       echo "unable to find deb-src in /etc/apt/sources.list"
     fi
@@ -1198,8 +1200,6 @@ gen_new_sources() {
     newdeb=$(cat /etc/apt/sources.list | grep "deb http://" | sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
     newdebsrc=$(cat /tmp/sources.list | grep "deb-src http://"| sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
     echo -e "\n  $newdeb\n  $newdebsrc"
-    #cat /tmp/final.list  #> /etc/apt/sources.list
-    # add code or function here to ask to apply the changes and backup existing /etc/apt/sources.list
     echo -e "\n\n   Save new changes to /etc/apt/sources.list ?"
     read -n1 -p "   Please type Y or N : " userinput
     sourcefile=/etc/apt/sources.list
