@@ -1130,6 +1130,22 @@ mayor_mpp() {
 get_mirrorlist() {
   	cleanup
     echo -e "\n  $greenplus Pimpmykali-Mirrors - kali repo mirror speedtest"
+    mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.*\/kali kali\-rolling main contrib no\n-free")
+  	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
+  	if [[ $mod_deb = 1 ]]
+  	 then
+       echo -e "\n  $greenplus deb http://*/kali found in /etc/apt/sources.list"
+     else
+      echo -e "\n  $redexclaim Unable to find deb http://*/kali in /etc/apt/sources.list"
+      exit_screen
+    fi
+    if [[ $mod_debsrc = 1 ]]
+     then
+      echo -e "\n  $greenplus deb-src http://*/kali found in /etc/apt/sources.list"
+    else
+      echo -e "\n  $redexclaim Unable to find deb-src in /etc/apt/sources.list"
+      exit_screen
+    fi
     curl -s http://http.kali.org/README.mirrorlist | grep -i "README" | cut -d ">" -f2 | cut -d "\"" -f2 | grep -i "http://" | \
     sed s:"http\:\/\/http.kali.org\/README.meta4":"":g | sed s:"http\:\/\/http.kali.org\/README.metalink":"":g | sort -u > /tmp/timetest.list
   	}
@@ -1185,21 +1201,23 @@ gen_new_sources() {
   	i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
   	mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.*\/kali kali\-rolling main contrib no\n-free")
   	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
-  	if [[ $mod_deb = 1 ]]
-  	 then
-       echo > /dev/null
+  #	if [[ $mod_deb = 1 ]]
+  #	 then
+  #     echo > /dev/null
      # moved to after Y statement in case $userinput
      #  sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list
-   	 else
-      echo -e "unable to find deb http://*/kali in /etc/apt/sources.list"
-    fi
-    if [[ $mod_debsrc = 1 ]]
-     then
-      i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
+  # 	 else
+  #    echo -e "\n  $redexclaim Unable to find deb http://*/kali in /etc/apt/sources.list"
+  #  fi
+  #  if [[ $mod_debsrc = 1 ]]
+  #   then
+  #    echo > /dev/null
+      # move to after Y statement in case $userinput
+      # i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
       #
-     else
-      echo -e "unable to find deb-src in /etc/apt/sources.list"
-    fi
+  #   else
+  #    echo -e "\n  $redexclaim Unable to find deb-src in /etc/apt/sources.list"
+  #  fi
     echo -e "\n  $greenplus Based on tests the best selection is: $i "
     echo -e "\n  Preview of the new /etc/apt/sources.list:"
     newdeb=$(cat /etc/apt/sources.list | grep "deb http://" | sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
