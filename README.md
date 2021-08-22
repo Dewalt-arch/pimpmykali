@@ -60,20 +60,15 @@
   - menu option L - Sublime text editor
     - installs sublime text editor
 
-  - menu option 2 fix_smbconf
+  - functions updated: fix_smbconf fix_grub and fix_sources
     - function updated to use sed -i instead of prior method  
-
-  - fix_grub function
-    - function updated to use sed -i instead of prior method
-
-  - fix_sources function updated to use wildcards
-    - function updated to use sed -i instead of prior method
 
   - Menu clean up, added bold color to "New VM Setup" Menu option N
 
   - Added Sublime text editor installer - Menu Option L
 
   - Revision History for 1.3.1 and 1.3.0 moved to changelog.txt
+  - Yes, this really was just 1 update to pimpmykali
   - Minor code cleanup
 
 # Menu Breakdown of Pimpmykali
