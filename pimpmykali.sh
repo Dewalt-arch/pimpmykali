@@ -64,6 +64,7 @@
     section=""
     type=""
     menu=""
+    pipnowarn="--no-python-version-warning"  # turn off all python2.7 deprecation warnings in pip
 
 
 # variables moved from local to global
@@ -390,7 +391,7 @@ python-pip-curl () {
       eval curl https://raw.githubusercontent.com/pypa/get-pip/3843bff3a0a61da5b63ea0b7d34794c5c51a2f11/2.7/get-pip.py -o /tmp/get-pip.py $silent
       eval python /tmp/get-pip.py $silent
       rm -f /tmp/get-pip.py
-      eval pip install setuptools
+      eval pip --no-python-version-warning install setuptools
       echo -e "\n  $greenplus python-pip installed"
     else
       echo -e "\n  $greenminus python-pip already installed"
@@ -1186,27 +1187,32 @@ gen_new_sources() {
   	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
   	if [[ $mod_deb = 1 ]]
   	 then
-   	  sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list
+       echo > /dev/null
+     # moved to after Y statement in case $userinput
+     #  sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list
    	 else
-      echo "unable to find deb http://*/kali in /etc/apt/sources.list"
+      echo -e "unable to find deb http://*/kali in /etc/apt/sources.list"
     fi
     if [[ $mod_debsrc = 1 ]]
      then
       i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
-      sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list
+      #
      else
       echo "unable to find deb-src in /etc/apt/sources.list"
     fi
     echo -e "\n  $greenplus Based on tests the best selection is: $i "
     echo -e "\n  Preview of the new /etc/apt/sources.list:"
     newdeb=$(cat /etc/apt/sources.list | grep "deb http://" | sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
-    newdebsrc=$(cat /tmp/sources.list | grep "deb-src http://"| sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
+    newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http://"| sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
     echo -e "\n  $newdeb\n  $newdebsrc"
     echo -e "\n\n   Save new changes to /etc/apt/sources.list ?"
     read -n1 -p "   Please type Y or N : " userinput
     sourcefile=/etc/apt/sources.list
      case $userinput in
-       y|Y) echo -e "\n\n  $greenplus Saving changes to /etc/apt/sources.list"; cp $sourcefile ${sourcefile}_$(date +%F-%T); cat /tmp/final.list > /etc/apt/sources.list;; #add call to apt_update?
+       y|Y) echo -e "\n\n  $greenplus Saving changes to /etc/apt/sources.list"; cp $sourcefile ${sourcefile}_$(date +%F-%T); \
+            sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list; \
+            sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list;;
+             #add call to apt_update?
        n|N) echo -e "\n\n  $redexclaim Not saving changes";;
          *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim";;
      esac
