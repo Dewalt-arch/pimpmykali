@@ -57,14 +57,11 @@
      - password prompt now checks exit code if failure, restart password function
      - copy of files from /home/kali/* to /root now uses the actual username not just 'kali'
 
-  - menu option 2 - fix smb.conf
-    - function updated to use sed -i instead of prior method  
-
   - menu option L - Sublime text editor
     - installs sublime text editor
 
-  - fix_smbconf function
-    - function udpated to use sed -i instead of prior method   
+  - menu option 2 fix_smbconf
+    - function updated to use sed -i instead of prior method  
 
   - fix_grub function
     - function updated to use sed -i instead of prior method
@@ -78,7 +75,7 @@
 
   - Revision History for 1.3.1 and 1.3.0 moved to changelog.txt
   - Minor code cleanup
-  
+
 # Menu Breakdown of Pimpmykali
 
 - Menu option N  (New Users/New VM's Should start here!)
