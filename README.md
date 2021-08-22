@@ -67,7 +67,10 @@
 
   - Added Sublime text editor installer - Menu Option L
 
+  - Alphabetically sorted Main Menu - Stand Alone Functions
+
   - Revision History for 1.3.1 and 1.3.0 moved to changelog.txt
+
   - Yes, this really was just 1 update to pimpmykali
   - Minor code cleanup
 
