@@ -65,6 +65,7 @@
     type=""
     menu=""
 
+
 # variables moved from local to global
     finduser=$(logname)
     detected_env=""
@@ -405,8 +406,9 @@ python-pip-curl () {
 # 01.26.2021 - rev 1.1.5 - Current version of spike throws undefined symbol error, revert to old version
 fix_spike () {
     echo -e "\n  $greenplus Fix SPIKE "
-    echo -e "\n  $greenplus removing SPIKE...\n"
+    echo -e "\n  $greenplus removing SPIKE..."
     eval apt -y --allow-change-held-packages remove spike
+    curl --progress-bar
     wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_amd64.deb -O /tmp/spike_2.9-1kali6_amd64.deb
     echo -e "\n  $greenplus installing spike 2.9... \n"
     eval dpkg -i /tmp/spike_2.9-1kali6_amd64.deb
@@ -1245,8 +1247,8 @@ pimpmykali_menu () {
     echo -e "  0 - Fix ONLY 1 thru 8        (runs only 1 thru 8) \n"                                # fix_all
     echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"  # menu item only no function
     echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. use the equals symbol = )" # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-    echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
-    echo -e "  T - Reconfigure Timezone      current timezone  : $(cat /etc/timezone)" # reconfig_timekey
+    echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)" # reconfig_keyboard
+    echo -e "  T - Reconfigure Timezone      current timezone  : $(cat /etc/timezone)\n" # reconfig_timekey
     echo -e " Key  Stand alone functions:   Description:"                             # optional line
     echo -e " ---  ----------------------   ------------"
     echo -e "  B - BlindPentesters          (The Essentials tools & utilies collection)"            # bpt
