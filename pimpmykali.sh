@@ -640,14 +640,10 @@ fix_sources () {
     elif [ $check_space = 1 ]; then
       echo -e "\n  $greenplus # deb-src with space found in sources.list uncommenting and enabling deb-src"
       sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
-      #cat /tmp/new-sources.list > /etc/apt/sources.list
-      #rm  /tmp/new-sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     elif [ $check_nospace = 1 ]; then
       echo -e "\n  $greenplus #deb-src without space found in sources.list uncommenting and enabling deb-src"
       sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
-      #cat /tmp/new-sources.list > /etc/apt/sources.list
-      #rm  /tmp/new-sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     fi
     }
@@ -694,8 +690,6 @@ enable_rootlogin () {
     else
       echo -e "\n  $greenplus - Password updated"
     fi
-
-    #add check for exit status if fails re-call this function
     echo -e "\n  $greenplus root login enabled \n"
     ask_homekali_to_root
     }
@@ -1248,12 +1242,12 @@ pimpmykali_menu () {
     echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
     echo -e "                               (sources.list, linux-headers, vm-video)"                # -
     echo -e "  0 - Fix ONLY 1 thru 8        (runs only 1 thru 8) \n"                                # fix_all
-    echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"  # menu item only no function
-    echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. use the equals symbol = )" # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-    echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)" # reconfig_keyboard
-    echo -e "  T - Reconfigure Timezone      current timezone  : $(cat /etc/timezone)\n" # reconfig_timekey
-    echo -e " Key  Stand alone functions:   Description:"                             # optional line
-    echo -e " ---  ----------------------   ------------"
+    echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"  
+    echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. use the equals symbol = )"   # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+    echo -e "  T - Reconfigure Timezone      current timezone  : $(cat /etc/timezone)"              # reconfig_timekey
+    echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
+    echo -e " Key  Stand alone functions:   Description:"                                           # optional line
+    echo -e " ---  ----------------------   ------------"                                           # optional line
     echo -e "  B - BlindPentesters          (The Essentials tools & utilies collection)"            # bpt
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
     echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
