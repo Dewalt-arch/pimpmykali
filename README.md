@@ -68,7 +68,7 @@
   - Added Sublime text editor installer - Menu Option L
 
   - install_atom function
-    - removed quiet switch from the wget to avoid confusion 
+    - removed quiet switches to avoid confusion 
 
   - Alphabetically sorted Main Menu - Stand Alone Functions
 

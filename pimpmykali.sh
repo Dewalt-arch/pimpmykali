@@ -314,7 +314,6 @@ disable_power_gnome() {
 
 # 06.18.2021 - disable_power_xfce rev 1.2.9 replaces fix_xfce_power fix_xfce_user and fix_xfce_root functions
 disable_power_xfce() {
-    # change this to a sed, rather than be dependant on external file
     if [ $finduser = "root" ]
      then
       echo -e "\n  $greenplus XFCE Detected - disabling xfce power management \n"
@@ -433,9 +432,9 @@ fix_gowitness () {
 
 fix_root_connectionrefused () {
     # fix root gedit connection refused
-    echo -e "\n  $greenplus Adding root to xhost : xhost +SI:localuser:root \n"
+    echo -e "\n  $greenplus Adding root to xhost for $finduser display: xhost +SI:localuser:root \n"
     # 07.02.21 - may need to consider using the sudo -i -u $finduser here
-    # eval sudo -i -u $finduser xhost +SI:localuser:root
+    eval sudo -i -u $finduser xhost +SI:localuser:root
     eval xhost +SI:localuser:root
     echo -e "\n  $greenplus root added to xhost"
     }
@@ -900,7 +899,7 @@ fix_impacket () {
     chown -R root:root impacket-0.9.19
     chmod -R 755 impacket-0.9.19
     cd /opt/impacket-0.9.19
-    eval pip3 install lsassy $silent
+    eval pip3 install lsassy $silent   # review this one...
     eval pip install flask $silent
     eval pip install pyasn1 $silent
     eval pip install pycryptodomex $silent
