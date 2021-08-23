@@ -196,7 +196,7 @@ fix_missing () {
     fix_set
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
-    fix_qterminal_history
+    # fix_qterminal_history
     }
 
 fix_all () {

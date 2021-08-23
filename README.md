@@ -68,7 +68,9 @@
   - Added Sublime text editor installer - Menu Option L
 
   - install_atom function
-    - removed quiet switches to avoid confusion 
+    - removed quiet switches to avoid confusion
+
+  - python2 deprecation warnings - disabled 
 
   - Alphabetically sorted Main Menu - Stand Alone Functions
 
