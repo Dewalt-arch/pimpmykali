@@ -575,9 +575,6 @@ fix_grub () {
       echo -e "\n  $redexclaim Error: /etc/default/grub is not the default config - not changing"
     else
       sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' -i /etc/default/grub
-      #cat /etc/default/grub | sed 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet mitigations=off"/' > /tmp/fix_grub.tmp
-      #cat /tmp/fix_grub.tmp > /etc/default/grub
-      #rm -f /tmp/fix_grub.tmp
       update-grub
       echo -e "\n  $greenplus Added mitigations=off to GRUB_CMDLINE_LINUX_DEFAULT"
       echo -e "\n  $redexclaim Reboot for changes to take effect \n"
@@ -605,11 +602,11 @@ install_atom () {
     else
       apt_update  && apt_update_complete
       echo -e "\n  $greenplus downloading atom"
-      eval wget https://atom.io/download/deb -O /tmp/atom.deb
+      eval wget https://atom.io/download/deb -O /tmp/atom.deb $silent
       echo -e "\n  $greenplus installing atom"
-      eval dpkg -i /tmp/atom.deb # >/dev/null 2>&1
-      eval rm -f /tmp/atom.deb
-      eval apt -y --fix-broken install # >/dev/null 2>&1
+      eval dpkg -i /tmp/atom.deb $silent
+      eval rm -f /tmp/atom.deb $silent
+      eval apt -y --fix-broken install $silent
     fi
     }
 
