@@ -514,9 +514,10 @@ fix_go_path() {
     if [ $findrealuser == "root" ]
      then
       check_root_zshrc=$(cat /root/.zshrc | grep -c GOPATH)
+      [ -d /$findrealuser/go ] && echo -e "\n  $greenminus go directories already exist in /$findrealuser" || echo -e "\n  $greenplus creating directories /$findrealuser/go /$findrealuser/go/bin /$findrealuser/go/src"; mkdir -p /$findrealuser/go/{bin,src}
        if [ $check_root_zshrc -ne 0 ]
          then
-          echo -e "\n  $redminus GOPATH Variables for $findrealuser already exist in /root/.zshrc - Not changing"
+          echo -e "\n  $redminus GOPATH Variables for $findrealuser already exist in /$findrealuser/.zshrc - Not changing"
          else
           echo -e "\n  $greenplus Adding GOPATH Variables to /root/.zshrc"
           eval echo -e 'export GOPATH=\$HOME/go' >> /root/.zshrc
@@ -525,7 +526,7 @@ fix_go_path() {
       check_root_bashrc=$(cat /root/.bashrc | grep -c GOPATH)
        if [ $check_root_bashrc -ne 0 ]
         then
-         echo -e "\n  $redminus GOPATH Variables for $findrealuser already exist in /root/.bashrc - Not changing"
+         echo -e "\n  $redminus GOPATH Variables for $findrealuser already exist in /$findrealuser/.bashrc - Not changing"
         else
          echo -e "\n  $greenplus Adding GOPATH Variables to /root/.bashrc"
          eval echo -e 'export GOPATH=\$HOME/go' >> /root/.bashrc
@@ -533,6 +534,7 @@ fix_go_path() {
        fi
      else
       check_user_zshrc=$(cat /home/$findrealuser/.zshrc | grep -c GOPATH)
+       [ -d /home/$findrealuser/go ] && echo -e "\n  $greenminus go directories already exist in /home/$finduser" || echo -e "\n  creating directories /home/$findrealuser/go /home/$findrealuser/go/bin /home/$findrealuser/go/src"; mkdir -p /home/$findrealuser/go/{bin,src}
        if [ $check_user_zshrc -ne 0 ]
         then
          echo -e "\n  $redminus GOPATH Variables for user $findrealuser already exist in /home/$findrealuser/.zshrc  - Not Changing"
@@ -1242,7 +1244,7 @@ pimpmykali_menu () {
     echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
     echo -e "                               (sources.list, linux-headers, vm-video)"                # -
     echo -e "  0 - Fix ONLY 1 thru 8        (runs only 1 thru 8) \n"                                # fix_all
-    echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"  
+    echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"
     echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. use the equals symbol = )"   # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
     echo -e "  T - Reconfigure Timezone      current timezone  : $(cat /etc/timezone)"              # reconfig_timekey
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
