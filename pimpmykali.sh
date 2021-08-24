@@ -534,7 +534,7 @@ fix_go_path() {
        fi
      else
       check_user_zshrc=$(cat /home/$findrealuser/.zshrc | grep -c GOPATH)
-       [ -d /home/$findrealuser/go ] && echo -e "\n  $greenminus go directories already exist in /home/$finduser" || echo -e "\n  $greenplus creating directories /home/$findrealuser/go /home/$findrealuser/go/bin /home/$findrealuser/go/src"; mkdir -p /home/$findrealuser/go/{bin,src}
+       [ -d /home/$findrealuser/go ] && echo -e "\n  $greenminus go directories already exist in /home/$finduser" || echo -e "\n  $greenplus creating directories /home/$findrealuser/go /home/$findrealuser/go/bin /home/$findrealuser/go/src"; mkdir -p /home/$findrealuser/go/{bin,src}; chown -R $findrealuser:$findrealuser /home/$findrealuser/go
        if [ $check_user_zshrc -ne 0 ]
         then
          echo -e "\n  $redminus GOPATH Variables for user $findrealuser already exist in /home/$findrealuser/.zshrc  - Not Changing"
