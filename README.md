@@ -71,8 +71,8 @@
     - removed quiet switches to avoid confusion
 
   - menu option 3 - fix_golang
-    - added if statement to check for go go/bin and go/src in homedir
-      if not found create them, if found skip
+    - added if statement to check for go go/bin and go/src in $HOME
+      if not found create them, if found skip directory creation 
 
   - python2 deprecation warnings - disabled
 
