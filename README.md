@@ -123,8 +123,9 @@
 
 - Menu Option 2 - Fix smb.conf
   - Fix /etc/samba/smb.conf
-    - adds client min protocol = CORE  below [global]
-    - adds client max protocol = SMB3  below [global]
+    - adds below [global] in smb.conf
+      - client min protocol = CORE  below [global]
+      - client max protocol = SMB3  below [global]
 
 - Menu Option 3 - Fix Golang
   - Installs golang
