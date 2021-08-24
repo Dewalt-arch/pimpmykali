@@ -70,7 +70,11 @@
   - install_atom function
     - removed quiet switches to avoid confusion
 
-  - python2 deprecation warnings - disabled 
+  - menu option 3 - fix_golang
+    - added if statement to check for go go/bin and go/src in homedir
+      if not found create them, if found skip
+
+  - python2 deprecation warnings - disabled
 
   - Alphabetically sorted Main Menu - Stand Alone Functions
 
