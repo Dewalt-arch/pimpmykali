@@ -97,6 +97,10 @@
       - write new deb and deb-src lines with new mirror to /etc/apt/sources.list
       - N exits and makes no change to /etc/apt/sources.list
 
+- Menu Option ! - Nuke Impacket (yes its literally the ! character)
+  - removes any prior installation of impacket (gracefully and forcefully)
+  - installs impacket-0.9.19
+
 - Menu Option 1 - Fix missing
   - fix_sources
     - uncomment #deb-src from /etc/apt/sources.list
@@ -157,54 +161,51 @@
 - Menu Option 0 - Fix all (1-8)
   - Executes ONLY Menu options 1 thru 8
 
+- Menu Option B    
+  - BlindPentesters The_Essentials tools and utilities collection
+  - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
+  - Click the link below for a full list of the_essentials.sh script and its inner workings
+  - https://github.com/blindpentester/the-essentials
+
+- Menu Option C
+  - Install Google-Chrome
+
+- Menu Option D - Downgrade metasploit-framework from 6 to 5
+  - downgrades metasploit-framework (msfconsole) from msf6 to msf5
+
+- Menu Option F
+  - Fixes XFCE Broken Icons "TerminalEmulator" Not Found
+  - Fixes XFCE Open Catfish instead of Thunar when double clicking Home or FileSystem Icon
+  - this fix is a temporary fix and will be removed once xfce has been corrected
+
+- Menu Option G
+  - Apply gedit unable to open display as root fix
+
+- Menu Option K
+  - Reconfigure Keyboard, Language and Layout + Variant
+
+- Menu Option M
+  - Kali linux setup for Mayors Movement Pivoting and Persistance Course
+    - installs covenant   
+
 - Menu Option P - Disable Power Management
   - Based upon detection disable power management for that environment
   - Detect desktop environment
     - XFCE
     - Gnome
 
-- Menu Option F
-  - Fixes XFCE Broken Icons "TerminalEmulator" Not Found
-  - Fixes XFCE Open Catfish instead of Thunar when double clicking Home or FileSystem Icon
-    - this fix is a temporary fix and will be removed once xfce has been corrected
+- Menu Option S - Fix Spike
+    - Fixes undefined symbol error thrown when using generic_send_tcp
+    - this fix is temporary and will be removed once a corrected version is available
 
-- Menu Option W
-  - Install GoWitness precompiled binary
-
-- Menu Option G
-  - Apply gedit unable to open display as root fix
-
-- Menu Option C
-  - Install Google-Chrome
+- Menu Option T
+  - Reconfigure Timezone
 
 - Menu Option V
   - Install MS VSCode
 
-- Menu Option S - Fix Spike
-  - Fixes undefined symbol error thrown when using generic_send_tcp
-    - this fix is temporary and will be removed once a corrected version is available
-
-- Menu Option D - Downgrade metasploit-framework from 6 to 5
-  - downgrades metasploit-framework (msfconsole) from msf6 to msf5
-  - this is a temporary solution and will eventually be removed once a corrected version is available
-
-- Menu Option ! - Nuke Impacket (yes its literally the ! character)
-  - removes any prior installation of impacket (gracefully and forcefully)
-    - installs impacket-0.9.19
-    - installs python-pip via curl
-    - installs python wheel
-
-- Menu Option B    
-  - BlindPentesters The_Essentials tools and utilities collection
-    - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
-    - Click the link below for a full list of the_essentials.sh script and its inner workings
-    - https://github.com/blindpentester/the-essentials
-
-- Menu Option Q
-  - Set Qterminal for unlimited scrollback
-     - check for HistoryLimited=True in ~/.config/qterminal.org/qterminal.ini
-       - if found set HistoryLimited=False (unlimited scrollback)
-       - if already set to False, exit function     
+- Menu Option W
+  - Install GoWitness precompiled binary
 
 # TODO   
   - clean up todo list :)
