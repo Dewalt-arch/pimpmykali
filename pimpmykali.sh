@@ -489,9 +489,10 @@ fix_htop () {
     }
 
 python3_pip () {
-    section="python3-pip"
-    check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
-    fix_section $section $check $force
+    #section="python3-pip"
+    #check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
+    #fix_section $section $check $force
+    eval apt -y reinstall python3-pip
     }
 
 seclists () {
