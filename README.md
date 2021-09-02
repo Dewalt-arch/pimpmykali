@@ -33,7 +33,7 @@
 
 # Revision 1.3.3 - pyftpdlib
   - pyftpdlib added for python
-    - Menu options N, 0 or 1 will install pyftpdlib 
+    - Menu options N, 0 or 1 will install pyftpdlib
 
 # Revision 1.3.2 - Pimpmykali-Mirrors and updates
   - Speedtest for kali linux repo mirrors (http only at this time)
@@ -86,7 +86,7 @@
 # Menu Breakdown of Pimpmykali
 
 - Menu option N  (New Users/New VM's Should start here!)
-  - executes menu option 0 fix all ( menu options 1 thru 8 )
+  - executes menu option 0 fix all ( options 1 thru 8 )
   - executes menu opiion 9 (pimpmyupgrade)
 
 
@@ -127,6 +127,7 @@
   - installs python xlrd==1.2.0
   - disables xfce power management
   - blacklists pcspkr kernel module /etc/modprobe.d/nobeep.conf
+  - intalls python pyftpdlib
 
 
 - Menu Option 2 - Fix smb.conf
