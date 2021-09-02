@@ -195,6 +195,7 @@ fix_missing () {
     fix_spike
     fix_set
     fix_pyftpdlib         # 09.01.21 - added pyftpdlib for python2
+    fix_amass             # 09.02.21 - added amass precompiled binary
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     # fix_qterminal_history
@@ -219,6 +220,16 @@ fix_all () {
 # cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Light/Kali-Dark''/'
 # cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Dark/Kali-Light''/'
 # add optional ugly-background fix?
+
+fix_amass() {
+    echo -e "\n  $greenplus installing amass"
+    wget https://github.com/OWASP/Amass/releases/download/v3.13.4/amass_linux_amd64.zip -O /tmp/amass_linux_amd64.zip
+    cd /tmp
+    unzip amass_linux_amd64.zip
+    cp /tmp/amass_linux_amd64/amass /usr/bin
+    rm -rf /tmp/amass*
+    echo -e "\n  $greenplus amass installed"
+    }
 
 fix_pyftpdlib() {
     echo -e "\n  $greenplus installing pyftpdlib"
