@@ -65,7 +65,7 @@
     type=""
     menu=""
     pipnowarn="--no-python-version-warning"  # turn off all python2.7 deprecation warnings in pip
-
+    export PYTHONWARNINGS="ignore"
 
 # variables moved from local to global
     finduser=$(logname)
