@@ -33,6 +33,7 @@
 
 # Revision 1.3.3 - pyftpdlib
   - pyftpdlib added for python
+    - Menu options N, 0 or 1 will install pyftpdlib 
 
 # Revision 1.3.2 - Pimpmykali-Mirrors and updates
   - Speedtest for kali linux repo mirrors (http only at this time)
