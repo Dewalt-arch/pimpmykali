@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.3.2"
+    revision="1.3.3"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -194,6 +194,7 @@ fix_missing () {
     fix_pipxlrd           # 12.29.2020 added xlrd==1.2.0 for windows-exploit-suggester.py requirement
     fix_spike
     fix_set
+    fix_pyftpdlib         # 09.01.21 - added pyftpdlib for python2
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     # fix_qterminal_history
@@ -218,6 +219,12 @@ fix_all () {
 # cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Light/Kali-Dark''/'
 # cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Dark/Kali-Light''/'
 # add optional ugly-background fix?
+
+fix_pyftpdlib() {
+    echo -e "\n  $greenplus installing pyftpdlib"
+    eval pip install pyftpdlib
+    echo -e "\n  $greenplus pyftpdlib installed"
+    }
 
 # 04.06.21 - rev 1.2.2 - add google-chrome due to gowitness dependancy
 check_chrome(){
@@ -360,8 +367,9 @@ fix_pipxlrd () {
 
 # Thinking about this before implementation
 # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
-# check_python() {
+# fix_python_version() {
 #    # check if python is python2
+#    # Meh.. rethink this...
 #    is_python2=$(ls -la /bin/python | grep -i -c "python2")
 #    # check if python is python3
 #    is_python3=$(ls -la /bin/python | grep -i -c "python3")
@@ -1213,7 +1221,7 @@ gen_new_sources() {
 
 cleanup() {
   	rm -f /tmp/kali-speedtest.found /tmp/kali-speedtest /tmp/timetest.list /tmp/kali-latency /tmp/sources.list /tmp/final.list /tmp/kali-ping /tmp/mirrors_speedtest > /dev/null
-  	}
+  }
 
 # function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
 #---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----

@@ -31,6 +31,9 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.3.3 - pyftpdlib
+  - pyftpdlib added for python
+
 # Revision 1.3.2 - Pimpmykali-Mirrors and updates
   - Speedtest for kali linux repo mirrors (http only at this time)
   - This function will only be executed via menu option =  
