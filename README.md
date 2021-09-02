@@ -31,12 +31,14 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.3.4 - amass
+  - amass added precompiled binary
+    - Menu options N, 0 or 1 will install amass
+
 # Revision 1.3.3 - pyftpdlib
   - pyftpdlib added for python
     - Menu options N, 0 or 1 will install pyftpdlib
-  - amass added precompiled binary
-    - Menu options N, 0 or 1 will install amass 
-
+  
 # Revision 1.3.2 - Pimpmykali-Mirrors and updates
   - Speedtest for kali linux repo mirrors (http only at this time)
   - This function will only be executed via menu option =  
