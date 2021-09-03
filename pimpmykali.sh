@@ -410,6 +410,8 @@ python-pip-curl () {
       eval python /tmp/get-pip.py $silent
       rm -f /tmp/get-pip.py
       eval pip --no-python-version-warning install setuptools
+      # python2-pip installer is now removing /usr/bin/pip3 - new "feature" I guess... 09.01.2021
+      [[ ! -f /usr/bin/pip3 ]] && echo -n "\n  $greenplus installing python3-pip"; apt -y reinstall python3-pip || echo -e "\n  $greenplus python3-pip exists in /usr/bin/pip3"
       echo -e "\n  $greenplus python-pip installed"
     else
       echo -e "\n  $greenminus python-pip already installed"
@@ -427,7 +429,7 @@ fix_spike () {
     echo -e "\n  $greenplus Fix SPIKE "
     echo -e "\n  $greenplus removing SPIKE..."
     eval apt -y --allow-change-held-packages remove spike
-    curl --progress-bar
+    # curl --progress-bar
     wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_amd64.deb -O /tmp/spike_2.9-1kali6_amd64.deb
     echo -e "\n  $greenplus installing spike 2.9... \n"
     eval dpkg -i /tmp/spike_2.9-1kali6_amd64.deb
@@ -489,9 +491,10 @@ fix_htop () {
     }
 
 python3_pip () {
-    #section="python3-pip"
-    #check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
-    #fix_section $section $check $force
+    # section="python3-pip"
+    # check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
+    # force=1
+    # fix_section $section $check $force
     eval apt -y reinstall python3-pip
     }
 
