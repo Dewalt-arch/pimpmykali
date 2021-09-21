@@ -1148,8 +1148,8 @@ mayor_mpp() {
 get_mirrorlist() {
   	cleanup
     echo -e "\n  $greenplus Pimpmykali-Mirrors - kali repo mirror speedtest"
-    mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.*\/kali kali\-rolling main contrib no\n-free")
-    mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
+    mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib no\n-free")
+    mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling main contrib non\-free")
   	if [[ $mod_deb = 1 ]]
   	 then
        echo -e "\n  $greenplus deb http://*/kali found in /etc/apt/sources.list"
@@ -1237,7 +1237,7 @@ gen_new_sources() {
        sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
        sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile;echo -e "\n  $greenplus Running apt update with mirror $final_mirror selected \n";  apt update;;
        n|N) echo -e "\n\n  $redexclaim Not saving changes";;
-         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim";;
+         *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; gen_new_sources;;
      esac
     }
 
