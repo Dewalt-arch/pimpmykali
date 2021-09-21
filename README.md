@@ -20,7 +20,7 @@
 
 # Special Thanks to Pimpmykali-Mirrors Testers!!
   - Crazy_Man - https://github.com/The-Crazy-Man
-  - Andro 
+  - Andro
 
 # Code Contributors
   - blindpentester https://github.com/blindpentester
@@ -32,7 +32,7 @@
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
 # Revision 1.3.5 - Pimpmykali-Mirrors Update
-  - grep and sed were to restrictive and has been updated
+  - grep and sed were too restrictive and have been updated
   - now fully dynamic and less restrictive with mirror paths
     - Thank you Alek for bringing this to my attention!
   - added apt update at the end of pimpmykali-mirrors to update with the new mirror
