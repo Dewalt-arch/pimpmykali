@@ -20,7 +20,7 @@
 
 # Special Thanks to Pimpmykali-Mirrors Testers!!
   - Crazy_Man - https://github.com/The-Crazy-Man
-  - Andro
+  - Andro 
 
 # Code Contributors
   - blindpentester https://github.com/blindpentester
