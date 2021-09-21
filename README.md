@@ -36,6 +36,7 @@
   - now fully dynamic and less restrictive with mirror paths
     - Thank you Alek for bringing this to my attention!
   - added apt update at the end of pimpmykali-mirrors to update with the new mirror
+  - added loop for any other key pressed other than Y or N
 
 # Revision 1.3.4 - amassf
   - amass added precompiled binary
