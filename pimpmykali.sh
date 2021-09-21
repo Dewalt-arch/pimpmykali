@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.3.4"
+    revision="1.3.5"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -217,9 +217,10 @@ fix_all () {
     }
 
 # lightdm theme change to light or dark mode
-# cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Light/Kali-Dark''/'
-# cat /etc/lightdm/lightdm-gtk-greeter.conf | sed 's/Kali-Dark/Kali-Light''/'
-# add optional ugly-background fix?
+# light to dark theme
+# sed s:"Kali-Light":"Kali-Dark":g -i /etc/lightdm/lightdm.conf
+# dark to light theme
+# sed s:"Kali-Dark":"Kali-Light":g -i /etc/lightdm/lightdm.conf
 
 fix_amass() {
     echo -e "\n  $greenplus installing amass"
@@ -274,6 +275,7 @@ fix_hushlogin() {
     fi
     }
 
+# Wont work if qterminal is the active terminal running pimpmykali - find another way
 # 08.18.2021 - fix_qterminal_history - set history for unlimited scrollback
 # fix_qterminal_history() {
 #    findrealuser=$(who | awk '{print $1}')
@@ -1147,7 +1149,7 @@ get_mirrorlist() {
   	cleanup
     echo -e "\n  $greenplus Pimpmykali-Mirrors - kali repo mirror speedtest"
     mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.*\/kali kali\-rolling main contrib no\n-free")
-  	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
+    mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
   	if [[ $mod_deb = 1 ]]
   	 then
        echo -e "\n  $greenplus deb http://*/kali found in /etc/apt/sources.list"
@@ -1162,6 +1164,8 @@ get_mirrorlist() {
       echo -e "\n  $redexclaim Unable to find deb-src in /etc/apt/sources.list"
       exit_screen
     fi
+    # specific mirror testing point, uncomment echo statement, comment-out curl statement
+    # echo "http://ftp2.nluug.nl/os/Linux/distr/kali/README" > /tmp/timetest.list
     curl -s http://http.kali.org/README.mirrorlist | grep -i "README" | cut -d ">" -f2 | cut -d "\"" -f2 | grep -i "http://" | \
     sed s:"http\:\/\/http.kali.org\/README.meta4":"":g | sed s:"http\:\/\/http.kali.org\/README.metalink":"":g | sort -u > /tmp/timetest.list
   	}
@@ -1202,7 +1206,7 @@ small_speedtest() {
 
 large_speedtest() {
   	echo > /tmp/mirrors_speedtest
-  	echo -e "\n  $greenplus Testing top 5 mirrors from small transfer - large tranfer (10MB)"
+  	echo -e "\n  $greenplus Testing top 5 mirrors from small transfer - large transfer (10MB)"
   	for i in $(cat /tmp/kali-ping | sed -r '/^\s*$/d' | sort -n | head -n5 | cut -d ":" -f2); do
   	  active_mirror=$(cat /tmp/timetest.list | grep "$i" | grep "README" | sed s:"README":"dists/kali-rolling/Contents-amd64.gz":g | sed -r '/^\s*$/d')
   	  active_mirror_display=$(cat /tmp/timetest.list | grep "$i" | grep "README" | cut -d "/" -f3| sed -r '/^\s*$/d')
@@ -1215,20 +1219,23 @@ large_speedtest() {
 
 gen_new_sources() {
   	i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
-  	mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.*\/kali kali\-rolling main contrib no\n-free")
-  	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free")
+  	mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib no\n-free")
+  	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling main contrib non\-free")
+  	final_mirror=$(cat /tmp/timetest.list | grep "$i" | sed s:"http\:\/\/":"":g | sed s:"/README":"":g )
+
     echo -e "\n  $greenplus Based on tests the best selection is: $i "
     echo -e "\n  Preview of the new /etc/apt/sources.list:"
-    newdeb=$(cat /etc/apt/sources.list | grep "deb http://" | sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
-    newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http://"| sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g)
+
+    newdeb=$(cat /etc/apt/sources.list | grep "deb http://" | sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g)
+    newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http://" | sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g )
     echo -e "\n  $newdeb\n  $newdebsrc"
     echo -e "\n\n   Save new changes to /etc/apt/sources.list ?"
     read -n1 -p "   Please type Y or N : " userinput
     sourcefile=/etc/apt/sources.list
      case $userinput in
        y|Y) echo -e "\n\n  $greenplus Saving changes to /etc/apt/sources.list"; cp $sourcefile ${sourcefile}_$(date +%F-%T); \
-            sed s:"deb-src http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb-src http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list; \
-            sed s:"deb http\:\/\/.*\/kali kali\-rolling main contrib non\-free":"deb http\:\/\/"$i"\/kali kali\-rolling main contrib non\-free":g -i /etc/apt/sources.list;;
+       sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
+       sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile;echo -e "\n  $greenplus Running apt update with mirror $final_mirror selected \n";  apt update;;
        n|N) echo -e "\n\n  $redexclaim Not saving changes";;
          *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim";;
      esac
@@ -1237,6 +1244,7 @@ gen_new_sources() {
 cleanup() {
   	rm -f /tmp/kali-speedtest.found /tmp/kali-speedtest /tmp/timetest.list /tmp/kali-latency /tmp/sources.list /tmp/final.list /tmp/kali-ping /tmp/mirrors_speedtest > /dev/null
   }
+
 
 # function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
 #---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----

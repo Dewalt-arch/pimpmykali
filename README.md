@@ -31,7 +31,13 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
-# Revision 1.3.4 - amass
+# Revision 1.3.5 - Pimpmykali-Mirrors Update
+  - grep and sed were to restrictive and has been updated
+  - now fully dynamic and less restrictive with mirror paths
+    - Thank you Alek for bringing this to my attention!
+  - added apt update at the end of pimpmykali-mirrors to update with the new mirror
+
+# Revision 1.3.4 - amassf
   - amass added precompiled binary
     - Menu options N, 0 or 1 will install amass
 
