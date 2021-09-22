@@ -1148,7 +1148,7 @@ mayor_mpp() {
 get_mirrorlist() {
   	cleanup
     echo -e "\n  $greenplus Pimpmykali-Mirrors - kali repo mirror speedtest"
-    mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib no\n-free")
+    mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib non\-free")
     mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling main contrib non\-free")
   	if [[ $mod_deb = 1 ]]
   	 then
@@ -1219,15 +1219,15 @@ large_speedtest() {
 
 gen_new_sources() {
   	i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
-  	mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib no\n-free")
-  	mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling main contrib non\-free")
+  	# mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib non\-free")
+  	# mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling main contrib non\-free")
   	final_mirror=$(cat /tmp/timetest.list | grep "$i" | sed s:"http\:\/\/":"":g | sed s:"/README":"":g )
 
     echo -e "\n  $greenplus Based on tests the best selection is: $i "
     echo -e "\n  Preview of the new /etc/apt/sources.list:"
 
-    newdeb=$(cat /etc/apt/sources.list | grep "deb http://" | sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g)
-    newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http://" | sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g )
+    newdeb=$(cat /etc/apt/sources.list | grep "deb http\:\/\/.* kali\-rolling main contrib non\-free" | sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g)
+    newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http\:\/\/.* kali\-rolling main contrib non\-free" | sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g )
     echo -e "\n  $newdeb\n  $newdebsrc"
     echo -e "\n\n   Save new changes to /etc/apt/sources.list ?"
     read -n1 -p "   Please type Y or N : " userinput
