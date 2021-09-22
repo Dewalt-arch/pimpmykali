@@ -1235,7 +1235,8 @@ gen_new_sources() {
      case $userinput in
        y|Y) echo -e "\n\n  $greenplus Saving changes to /etc/apt/sources.list"; cp $sourcefile ${sourcefile}_$(date +%F-%T); \
        sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
-       sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile;echo -e "\n  $greenplus Running apt update with mirror $final_mirror selected \n";  apt update;;
+       sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
+       echo -e "\n  $greenplus Running apt update with mirror $final_mirror selected \n";  apt update;;
        n|N) echo -e "\n\n  $redexclaim Not saving changes";;
          *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; gen_new_sources;;
      esac
