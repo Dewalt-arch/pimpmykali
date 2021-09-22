@@ -16,7 +16,7 @@
   - git clone https://github.com/Dewalt-arch/pimpmykali
   - cd pimpmykali
   - sudo ./pimpmykali.sh
-  - For a new kali vm, run menu option N
+  - For a new kali vm, run menu option N 
 
 # Special Thanks to Pimpmykali-Mirrors Testers!!
   - Crazy_Man - https://github.com/The-Crazy-Man
@@ -37,7 +37,7 @@
     - Thank you Alek for bringing this to my attention!
   - added apt update at the end of pimpmykali-mirrors to update with the new mirror
   - added loop for any other key pressed other than Y or N
-  - revision history for 1.3.2, 1.3.3 and 1.3.4 moved to changelog.txt 
+  - revision history for 1.3.2, 1.3.3 and 1.3.4 moved to changelog.txt
 
 # Menu Breakdown of Pimpmykali
 
