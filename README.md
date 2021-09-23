@@ -16,7 +16,7 @@
   - git clone https://github.com/Dewalt-arch/pimpmykali
   - cd pimpmykali
   - sudo ./pimpmykali.sh
-  - For a new kali vm, run menu option N 
+  - For a new kali vm, run menu option N
 
 # Special Thanks to Pimpmykali-Mirrors Testers!!
   - Crazy_Man - https://github.com/The-Crazy-Man
@@ -30,6 +30,10 @@
   - Aksheet https://github.com/Aksheet10
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
+
+# Revision 1.3.6 - HAPPY BIRTHDAY PIMPMYKALI!!!!
+  - One year ago today, Pimpmykali was published to Github!!!
+  - Birthday message added to menu 
 
 # Revision 1.3.5 - Pimpmykali-Mirrors Update
   - grep and sed were too restrictive and have been updated
