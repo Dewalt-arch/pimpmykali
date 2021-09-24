@@ -1256,7 +1256,6 @@ pimpmykali_menu () {
     # DATE=$(date +%x); TIME=$(date +%X)
     clear
     echo -e "$asciiart"
-    echo -e "\n         HAPPY BIRTHDAY PIMPMYKALI!! - SEP 23, 2020 - 1 Year old!!"
     echo -e "\n    Select an option from menu:                           Rev:$revision"
 #    echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
 #    echo -e "\n  Menu Options:"                                                                    # function call list

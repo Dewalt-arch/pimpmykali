@@ -31,9 +31,12 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.3.7 - Birthday Message Removed
+  - No code changes only birthday message was removed
+
 # Revision 1.3.6 - HAPPY BIRTHDAY PIMPMYKALI!!!!
   - One year ago today, Pimpmykali was published to Github!!!
-  - Birthday message added to menu 
+  - Birthday message added to menu
 
 # Revision 1.3.5 - Pimpmykali-Mirrors Update
   - grep and sed were too restrictive and have been updated
