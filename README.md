@@ -31,6 +31,10 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.3.8 - Added dbus-x11
+  - Common issue with gedit added dbus-x11
+  - Menu options N, 0 and 1 will install dbus-x11 
+
 # Revision 1.3.7 - Birthday Message Removed
   - No code changes only birthday message was removed
 

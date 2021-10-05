@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.3.6"
+    revision="1.3.8"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -177,7 +177,8 @@ fix_missing () {
     apt_autoremove && apt_autoremove_complete
     eval apt -y remove kali-undercover $silent
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
-    eval apt -y install dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils $silent
+    # 10.05.2021 - Added dbus-x11 as it has become a common problem for those wanting to use gedit
+    eval apt -y install dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils dbus-x11 $silent
     # check_python          # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
     python-pip-curl
     python3_pip $force
