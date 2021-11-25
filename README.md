@@ -25,7 +25,6 @@
 # Code Contributors
   - blindpentester https://github.com/blindpentester
   - pswalia2u https://github.com/pswalia2u
-  - Alek https://github.com/onomastus
   - Gr1mmie https://github.com/Gr1mmie
   - Aksheet https://github.com/Aksheet10
   - 0xC0FFEE Home Lab Build
