@@ -1,8 +1,27 @@
+# Revision 1.3.8 - Added dbus-x11
+  - Common issue with gedit added dbus-x11
+  - Menu options N, 0 and 1 will install dbus-x11
+
+# Revision 1.3.7 - Birthday Message Removed
+  - No code changes only birthday message was removed
+
+# Revision 1.3.6 - HAPPY BIRTHDAY PIMPMYKALI!!!!
+  - One year ago today, Pimpmykali was published to Github!!!
+  - Birthday message added to menu
+
+# Revision 1.3.5 - Pimpmykali-Mirrors Update
+  - grep and sed were too restrictive and have been updated
+  - now fully dynamic and less restrictive with mirror paths
+    - Thank you Alek for bringing this to my attention!
+  - added apt update at the end of pimpmykali-mirrors to update with the new mirror
+  - added loop for any other key pressed other than Y or N
+  - revision history for 1.3.2, 1.3.3 and 1.3.4 moved to changelog.txt
+
 # Revision 1.3.4 - amassf
   - amass added precompiled binary
     - Menu options N, 0 or 1 will install amass
 
-# Revision 1.3.3 - pyftpdlib 
+# Revision 1.3.3 - pyftpdlib
   - pyftpdlib added for python
     - Menu options N, 0 or 1 will install pyftpdlib
 
