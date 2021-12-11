@@ -25,29 +25,25 @@
 # Code Contributors
   - blindpentester https://github.com/blindpentester
   - pswalia2u https://github.com/pswalia2u
+  - Alek https://github.com/onomastus
   - Gr1mmie https://github.com/Gr1mmie
   - Aksheet https://github.com/Aksheet10
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
-# Revision 1.3.8 - Added dbus-x11
-  - Common issue with gedit added dbus-x11
-  - Menu options N, 0 and 1 will install dbus-x11 
-
-# Revision 1.3.7 - Birthday Message Removed
-  - No code changes only birthday message was removed
-
-# Revision 1.3.6 - HAPPY BIRTHDAY PIMPMYKALI!!!!
-  - One year ago today, Pimpmykali was published to Github!!!
-  - Birthday message added to menu
-
-# Revision 1.3.5 - Pimpmykali-Mirrors Update
-  - grep and sed were too restrictive and have been updated
-  - now fully dynamic and less restrictive with mirror paths
-    - Thank you Alek for bringing this to my attention!
-  - added apt update at the end of pimpmykali-mirrors to update with the new mirror
-  - added loop for any other key pressed other than Y or N
-  - revision history for 1.3.2, 1.3.3 and 1.3.4 moved to changelog.txt
+# Revision 1.3.9 - Kali 2021.4 Update: pip vs pip3 conflict resolved
+  - creates symlink linking /bin/python2.7 to /bin/python
+  - python is python2.7
+  - python3 is python3.x
+  - pip is for python2.7 , pip3 is for python3.x
+    - function will be applied via menu options :
+      - 1 fix-missing
+      - 0 fix all (runs only 1 thru 8)
+      - N New VM Setup
+      - ! Nuke Impacket  
+  - pimpmykali-mirrors function update
+    - relaxed grep and sed to be more inclusive
+  - revision history 1.3.5 - 1.3.8 moved to changelog.txt
 
 # Menu Breakdown of Pimpmykali
 

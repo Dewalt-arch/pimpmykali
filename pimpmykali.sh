@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.3.8"
+    revision="1.3.9"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -410,6 +410,10 @@ python-pip-curl () {
       echo -e "\n  $greenplus installing pip"
       # 01.26.2021 - get-pip.py throwing an error, commented out and pointed wget directly to the python2.7 get-pip.py
       eval curl https://raw.githubusercontent.com/pypa/get-pip/3843bff3a0a61da5b63ea0b7d34794c5c51a2f11/2.7/get-pip.py -o /tmp/get-pip.py $silent
+      # make a python-is-python2 function out of this...
+      echo -e "\n  $greenplus Symlinking /bin/python2.7 to /bin/python\n"
+      [[ -f /bin/python2.7 ]] && ln -sf /bin/python2.7 /bin/python
+      # ------- buildout this function at a later date
       eval python /tmp/get-pip.py $silent
       rm -f /tmp/get-pip.py
       eval pip --no-python-version-warning install setuptools
@@ -660,18 +664,29 @@ install_vscode () {
 # 04.06.2021 fix_sources rev 1.2.2 / rev 1.3.2 updated to add wildcards
 fix_sources () {
     fix_bad_apt_hash
-    check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://.*/kali kali-rolling main contrib non-free")
-    check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://.*/kali kali-rolling main contrib non-free")
-    get_current_mirror=$(cat /etc/apt/sources.list | grep "deb-src http://.*/kali kali-rolling main contrib non-free" | cut -d "/" -f3)
+    # relaxed grep
+    check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://.*/kali kali-rolling.*")
+    check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://.*/kali kali-rolling.*")
+    get_current_mirror=$(cat /etc/apt/sources.list | grep "deb-src http://.*/kali kali-rolling.*" | cut -d "/" -f3)
+    # original code - to be purged
+    #check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://.*/kali kali-rolling main contrib non-free")
+    #check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://.*/kali kali-rolling main contrib non-free")
+    #get_current_mirror=$(cat /etc/apt/sources.list | grep "deb-src http://.*/kali kali-rolling main contrib non-free" | cut -d "/" -f3)
     if [[ $check_space = 0 && $check_nospace = 0 ]]; then
     	echo -e "\n  $greenminus # deb-src or #deb-sec not found - skipping"
     elif [ $check_space = 1 ]; then
       echo -e "\n  $greenplus # deb-src with space found in sources.list uncommenting and enabling deb-src"
-      sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
+      # relaxed sed
+      sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling.*/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
+      # original code - to be purged
+      #sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     elif [ $check_nospace = 1 ]; then
       echo -e "\n  $greenplus #deb-src without space found in sources.list uncommenting and enabling deb-src"
-      sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
+      # relaxed sed
+      sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling.*/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
+      # original code - to be purged
+      #sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     fi
     }
@@ -1148,9 +1163,14 @@ mayor_mpp() {
 #---- begin pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 get_mirrorlist() {
   	cleanup
+    fix_sources
     echo -e "\n  $greenplus Pimpmykali-Mirrors - kali repo mirror speedtest"
-    mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib non\-free")
-    mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling main contrib non\-free")
+    # relaxed grep should now work with tracelabs osint vm - 12.11.2021
+    mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling.*")
+    mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling.*")
+    # original code - to be purged
+    #mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib non\-free")
+    #mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling main contrib non\-free")
   	if [[ $mod_deb = 1 ]]
   	 then
        echo -e "\n  $greenplus deb http://*/kali found in /etc/apt/sources.list"
@@ -1221,8 +1241,12 @@ large_speedtest() {
 gen_new_sources() {
   	i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
   	final_mirror=$(cat /tmp/timetest.list | grep "$i" | sed s:"http\:\/\/":"":g | sed s:"/README":"":g )
-    newdeb=$(cat /etc/apt/sources.list | grep "deb http\:\/\/.* kali\-rolling main contrib non\-free" | sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g)
-    newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http\:\/\/.* kali\-rolling main contrib non\-free" | sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g )
+    # original code - to be purged
+    # newdeb=$(cat /etc/apt/sources.list | grep "deb http\:\/\/.* kali\-rolling main contrib non\-free" | sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g)
+    # newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http\:\/\/.* kali\-rolling main contrib non\-free" | sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g )
+    # --- relaxed grep and sed, implement at later date 12.11.2021 - should now work with tracelabs osint vm
+    newdeb=$(cat /etc/apt/sources.list | grep "deb http\:\/\/.* kali\-rolling.*" | sed s:"deb http\:\/\/.* kali\-rolling.*":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g)
+    newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http\:\/\/.* kali\-rolling.*" | sed s:"deb-src http\:\/\/.* kali\-rolling.*":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g )
     sourcefile=/etc/apt/sources.list
     echo -e "\n  $greenplus Based on tests the best selection is: $i "
     echo -e "\n  Preview of the new /etc/apt/sources.list:"
@@ -1231,8 +1255,8 @@ gen_new_sources() {
     read -n1 -p "   Please type Y or N : " userinput
      case $userinput in
        y|Y) echo -e "\n\n  $greenplus Saving changes to /etc/apt/sources.list"; cp $sourcefile ${sourcefile}_$(date +%F-%T); \
-       sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
-       sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
+       sed s:"deb http\:\/\/.* kali\-rolling.*":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
+       sed s:"deb-src http\:\/\/.* kali\-rolling.*":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
        echo -e "\n  $greenplus Running apt update with mirror $final_mirror selected \n";  apt update;;
        n|N) echo -e "\n\n  $redexclaim Not saving changes";;
          *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; gen_new_sources;;
