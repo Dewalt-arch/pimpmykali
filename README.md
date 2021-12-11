@@ -37,7 +37,7 @@
   - python3 is python3.x
   - pip is for python2.7 , pip3 is for python3.x
     - function will be applied via menu options :
-      - 1 fix-missing
+      - 1 fix missing
       - 0 fix all (runs only 1 thru 8)
       - N New VM Setup
       - ! Nuke Impacket  
