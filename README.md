@@ -31,7 +31,7 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
-# Revision 1.3.9 - Kali 2021.4 Update: pip vs pip3 conflict resolved
+# Revision 1.3.9 - Kali 2021.4 Update
   - creates symlink linking /bin/python2.7 to /bin/python
   - python is python2.7
   - python3 is python3.x
