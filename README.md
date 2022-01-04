@@ -31,6 +31,16 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.4.0 - httprobe added
+  - added fix_httprobe to fix_missing function
+    - checks for /usr/bin/httprobe if not installed install it via kali repo
+  - function will be called via menu options
+    - 1 - fix missing
+    - 0 - fix all ( only runs 1 thru 8 )
+    - N - new vm setup
+    - H - standalone function
+  - added menu option H only this fix will be applied 
+
 # Revision 1.3.9 - Kali 2021.4 Update
   - creates symlink linking /bin/python2.7 to /bin/python
   - python is python2.7

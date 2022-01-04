@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.3.9"
+    revision="1.4.0"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -197,6 +197,7 @@ fix_missing () {
     fix_set
     fix_pyftpdlib         # 09.01.21 - added pyftpdlib for python2
     fix_amass             # 09.02.21 - added amass precompiled binary
+    fix_httprobe          # 01.04.22 - added httprobe precompiled binary
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     # fix_qterminal_history
@@ -222,6 +223,17 @@ fix_all () {
 # sed s:"Kali-Light":"Kali-Dark":g -i /etc/lightdm/lightdm.conf
 # dark to light theme
 # sed s:"Kali-Dark":"Kali-Light":g -i /etc/lightdm/lightdm.conf
+
+fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
+    if [ -f /usr/bin/httprobe ];
+      then
+        echo -e "\n  $greenminus skipping httprobe... already installed"
+      else
+        echo -e "\n  $greenplus installing httprobe"
+        eval apt -y install httprobe
+        echo -e "\n  $greenplus installled httprobe"
+    fi
+    }
 
 fix_amass() {
     echo -e "\n  $greenplus installing amass"
@@ -652,7 +664,7 @@ install_sublime () {
 
 # 06.01.21 - Function rewrite code-oss was added to Kali 2021.2 repo
 install_vscode () {
-    if [[  -f /usr/bin/code ]]; then
+    if [[ -f /usr/bin/code ]]; then
       echo -e "\n  $greenminus  vscode already installed - skipping"
     else
     	echo -e "\n  $greenplus installing vscode"
@@ -1308,6 +1320,7 @@ pimpmykali_menu () {
     echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
     echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"   # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"               # fix_root_connectionrefused
+    echo -e "  H - Fix httprobe missing     (fixes httprobe missing only)"                          # fix_httprobe
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
     echo -e "  M - Mayor MPP Course Setup   (adds requirments needed for Mayors MPP Course)"        # mayor_mpp
     echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
@@ -1334,6 +1347,7 @@ pimpmykali_menu () {
       f|F) fix_broken_xfce;;
       s|S) fix_spike;;
       g|G) fix_root_connectionrefused ;;
+      h|H) fix_httprobe;;
       c|C) check_chrome;;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
