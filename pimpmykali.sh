@@ -231,7 +231,7 @@ fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
       else
         echo -e "\n  $greenplus installing httprobe"
         eval apt -y install httprobe
-        echo -e "\n  $greenplus installled httprobe"
+        echo -e "\n  $greenplus installed httprobe"
     fi
     }
 
