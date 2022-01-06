@@ -181,11 +181,17 @@
     - installs covenant   
 
 
-- Menu Option P - Disable Power Management
-  - Based upon detection disable power management for that environment
-  - Detect desktop environment
-    - XFCE
-    - Gnome
+- Menu Option P  (was disable power management - updated 01.05.22)
+  - PPA Course Prerequisites installation
+    - installs whois and bind9-dnsutils
+    - git clone spoofpoint to /opt/spoofpoint
+    - creates symlink to spoofpoint in /usr/bin/spoofpoint
+
+  - Disable Power Management function moved to Menu options 0, N or 1
+    - Based upon detection disable power management for that environment
+      - Detect desktop environment
+        - XFCE
+        - Gnome
 
 
 - Menu Option S - Fix Spike
