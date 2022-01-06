@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.4.0"
+    revision="1.4.1"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1101,6 +1101,17 @@ check_vm() {
     fi
     }
 
+ppa_prereq() {
+    # PMK 1.4.1 - Practical Phising Assesment Course Prereq - 01.05.22
+    echo -e "\n  $greenplus Installing PPA Course Prerequisites... \n"
+    sudo apt -y install whois bind9-dnsutils
+    echo -e "\n  $greenplus Git Cloning Spoofpoint to /opt/spoofpoint \n"
+    [[ -d /opt/spoofpoint ]] && rm -rf /opt/spoofpoint
+    git clone https://github.com/grahamhelton/spoofpoint /opt/spoofpoint
+    echo -e "\n  $greenplus Creating Symlink /usr/bin/spoofpoint \n"
+    ln -sf /opt/spoofpoint/spoofpoint /usr/bin/spoofpoint
+    }
+
 mayor_mpp() {
     # additions to PMK 1.3.0 - Mayor MPP Course additions
     fix_sources
@@ -1322,8 +1333,9 @@ pimpmykali_menu () {
     echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"               # fix_root_connectionrefused
     echo -e "  H - Fix httprobe missing     (fixes httprobe missing only)"                          # fix_httprobe
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
-    echo -e "  M - Mayor MPP Course Setup   (adds requirments needed for Mayors MPP Course)"        # mayor_mpp
-    echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
+    echo -e "  M - Mayor MPP Course Setup   (adds requirments for Mayors MPP Course)"               # mayor_mpp
+    echo -e "  P - PPA Course Setup         (adds requirments for Graham Helton - PPA Course)"      # ppa_prereq
+    #echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
     echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
@@ -1354,7 +1366,9 @@ pimpmykali_menu () {
       n|N) fix_all; fix_upgrade;;
       d|D) downgrade_msf;;
       b|B) bpt;;
-      p|P) disable_power_checkde;;
+      p|P) ppa_prereq;;
+      # move this to another letter or omit completely as its called in fix_missing
+      # p|P) disable_power_checkde;;
       m|M) mayor_mpp;;
       l|L) install_sublime;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;

@@ -31,6 +31,16 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.4.1 - PPA Course Prerequisites
+  - Menu Option P has changed option now installs pre-req the PPA Course
+    - installs whois and bind9-dnsutils
+    - git clones spoofpoint to /opt/spoofpoint
+    - creates symlink for /opt/spoofpoint/spoofpoint in /usr/bin/spoofpoint
+      - spoofpoint now available globally via path
+  - Disable power management function moved to fix_missing function
+    - will be applied in options 0, 1 or N
+  - revision history 1.3.9 moved to changelog.txt
+
 # Revision 1.4.0 - httprobe added
   - added fix_httprobe to fix_missing function
     - checks for /usr/bin/httprobe if not installed install it via kali repo
@@ -39,21 +49,7 @@
     - 0 - fix all ( only runs 1 thru 8 )
     - N - new vm setup
     - H - standalone function
-  - added menu option H only this fix will be applied 
-
-# Revision 1.3.9 - Kali 2021.4 Update
-  - creates symlink linking /bin/python2.7 to /bin/python
-  - python is python2.7
-  - python3 is python3.x
-  - pip is for python2.7 , pip3 is for python3.x
-    - function will be applied via menu options :
-      - 1 fix missing
-      - 0 fix all (runs only 1 thru 8)
-      - N New VM Setup
-      - ! Nuke Impacket  
-  - pimpmykali-mirrors function update
-    - relaxed grep and sed to be more inclusive
-  - revision history 1.3.5 - 1.3.8 moved to changelog.txt
+  - added menu option H only this fix will be applied
 
 # Menu Breakdown of Pimpmykali
 
