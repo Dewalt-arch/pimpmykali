@@ -552,10 +552,19 @@ fix_golang () {
   }
 
 fix_go_path() {
-    findrealuser=$(who | grep "(\:0)" | awk '{print $1}')
-     # Gonski Fix comes up with 'kali kali' on original who | awk statement
-     # think about this, do a grep on tty0-9? or just grab (:0) for display 0... thinking the latter is the better idea
-     # rather than multiple possible tty's
+    # added gonski fix - 01.21.22 rev 1.4.2
+    check_for_displayzero=$(who | grep -c "(\:0)")
+    if [ $check_for_displayzero == 1 ]
+     then
+      findrealuser=$(who | grep "(\:0)" | awk '{print $1}')
+      echo -e "\n  $greenplus getting user from display 0 (:0) : $findrealuser"
+    else
+      findrealuser=$(who | grep "tty[0-9]" | sort -n | head -n1 | awk '{print $1}')
+      echo -e "\n  $greenplus display0 not found getting user from tty : $findrealuser"
+    fi
+     # above is the Gonski Fix, Gonski was getting 'kali kali' in $findrealuser the original "who | awk '{print $1}'" statement
+     # with a kali user on tty7 (:0) and then kali pts/1, as pimpmykali.sh is being run with sudo and was producing this fault
+     # this will resolve the issue either logged into x11 on display 0 or just in a terminal on a tty
     if [ $findrealuser == "root" ]
      then
       check_root_zshrc=$(cat /root/.zshrc | grep -c GOPATH)
