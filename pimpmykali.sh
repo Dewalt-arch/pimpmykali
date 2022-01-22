@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.4.1"
+    revision="1.4.2"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -552,7 +552,10 @@ fix_golang () {
   }
 
 fix_go_path() {
-    findrealuser=$(who | awk '{print $1}')
+    findrealuser=$(who | grep "(\:0)" | awk '{print $1}')
+     # Gonski Fix comes up with 'kali kali' on original who | awk statement
+     # think about this, do a grep on tty0-9? or just grab (:0) for display 0... thinking the latter is the better idea
+     # rather than multiple possible tty's
     if [ $findrealuser == "root" ]
      then
       check_root_zshrc=$(cat /root/.zshrc | grep -c GOPATH)
