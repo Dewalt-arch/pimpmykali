@@ -1154,17 +1154,17 @@ mapt_prereq() {
     cd /opt/Mobile-Security-Framework-MobSF/
     /opt/Mobile-Security-Framework-MobSF/setup.sh
     # --- ANDROID STUDIO ONLY ---
-    echo -e "\n  $greenplus Installing Android Studio requirements"
-    dpkg --add-architecture i386
-    apt_update 
-    apt -y install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
-    echo -e "\n  $greenplus Downloading Android Studio"
-    wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2020.3.1.26/android-studio-2020.3.1.26-linux.tar.gz -O /tmp/android-studio-2020.3.1.26-linux.tar.gz
-    echo -e "\n  $greenplus Extracting Android Studio to /opt/android-studio"
-    tar xvfz /tmp/android-studio-2020.3.1.26-linux.tar.gz -C /opt
-    echo -e "\n  $greenplus Making scripts executable in /opt/android-studio/bin"
-    chmod +x /opt/android-studio/bin/*.sh
-    rm -f /tmp/android-studio-2020.3.1.26-linux.tar.gz
+    # echo -e "\n  $greenplus Installing Android Studio requirements"
+    # dpkg --add-architecture i386
+    # apt_update
+    # apt -y install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+    # echo -e "\n  $greenplus Downloading Android Studio"
+    # wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2020.3.1.26/android-studio-2020.3.1.26-linux.tar.gz -O /tmp/android-studio-2020.3.1.26-linux.tar.gz
+    # echo -e "\n  $greenplus Extracting Android Studio to /opt/android-studio"
+    # tar xvfz /tmp/android-studio-2020.3.1.26-linux.tar.gz -C /opt
+    # echo -e "\n  $greenplus Making scripts executable in /opt/android-studio/bin"
+    # chmod +x /opt/android-studio/bin/*.sh
+    # rm -f /tmp/android-studio-2020.3.1.26-linux.tar.gz
     # --- ANDROID STUDIO ONLY ---
     }
 
