@@ -32,7 +32,7 @@
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
 # Revision 1.4.3 - MAPT Course pre-requirements + mobSF
-  - install all prequirements in kali for the MAPT Course
+  - install all pre-reqs in kali for the MAPT Course
   - git clone and install MobSF
 
 # Revision 1.4.2 - fix_go_path function update
