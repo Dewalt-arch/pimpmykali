@@ -1141,9 +1141,9 @@ mapt_prereq() {
     # would like to do a check here instead of just re-running python-pip-curl and python3_pip functions
     python-pip-curl
     python3_pip
+    apt_update
     echo -e "\n  $greenplus Installing tools for MAPT Course Requirements"
     echo -e "  $greenplus python3.9-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx"
-    apt_update
     apt -y install python3.9-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx
     echo -e "\n  $greenplus git cloning mobsf to /opt"
     git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF /opt/Mobile-Security-Framework-MobSF
