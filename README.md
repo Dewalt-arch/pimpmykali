@@ -31,11 +31,15 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.4.3 - MAPT Course pre-requirements + mobSF
+  - install all prequirements in kali for the MAPT Course
+  - git clone and install MobSF
+
 # Revision 1.4.2 - fix_go_path function update
   - update to findrealuser variable :
     - check for display 0 (:0) if found get user from display 0 tty login
     - if display 0 (:0) is not found, get user from tty login
-  - revision history 1.4.0 moved to changelog.txt 
+  - revision history 1.4.0 moved to changelog.txt
 
 # Revision 1.4.1 - PPA Course Prerequisites
   - Menu Option P has changed option now installs pre-req the PPA Course
