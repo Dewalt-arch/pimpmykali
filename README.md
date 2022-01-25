@@ -33,7 +33,7 @@
 
 # Revision 1.4.3 - MAPT Course pre-requirements + mobSF
   - install all pre-reqs in kali for the MAPT Course
-  - git clone and install MobSF
+  - git clone and install MobSF to /opt 
 
 # Revision 1.4.2 - fix_go_path function update
   - update to findrealuser variable :
