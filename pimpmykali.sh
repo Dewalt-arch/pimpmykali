@@ -237,6 +237,7 @@ fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
 
 fix_amass() {
     echo -e "\n  $greenplus installing amass"
+    # rewrite this for pull from Kali Repo using APT not wget from github
     wget https://github.com/OWASP/Amass/releases/download/v3.13.4/amass_linux_amd64.zip -O /tmp/amass_linux_amd64.zip
     cd /tmp
     unzip amass_linux_amd64.zip
@@ -416,6 +417,27 @@ fix_pipxlrd () {
 #    }
 
 python-pip-curl () {
+  # Adding in some checks
+  # python3_version="$(python3 --version 2>&1 | awk '{print $2}')"
+  # py3_major=$(echo "$python3_version" | cut -d'.' -f1)
+  # py3_minor=$(echo "$python3_version" | cut -d'.' -f2)
+  #
+  # python_version="$(python --version 2>&1 | awk '{print $2}')"
+  # py_major=$(echo "$python_version" | cut -d'.' -f1)
+  # py_minor=$(echo "$python_version" | cut -d'.' -f2)
+  #
+  # pip_is_for_python_version="$(pip --version 2>&1 | awk '{print $6}' | tr -d ")")" #needs to be modified
+  # pip_major=$(echo "$pip_is_for_python_version" | cut -d'.' -f1)
+  # pip_minor=$(echo "$pip_is_for_python_version" | cut -d'.' -f2)
+  #
+  # pip3_is_for_python_version="$(pip3 --version 2>&1 | awk '{print $6}' | tr -d ")" )"
+  # pip3_major=$(echo "$pip3_is_for_python_version" | cut -d'.' -f1)
+  # pip3_minor=$(echo "$pip3_is_for_python_version" | cut -d'.' -f2)
+  #
+  # echo " Python3 is : $python3_version $py3_major $py3_minor "
+  # echo " Python2 is : $python_version $py_major $py_minor "
+  # echo " Pip is for : $pip_is_for_python_version $pip_major $pip_minor"
+  # echo "Pip3 is for : $pip3_is_for_python_version $pip3_major $pip3_minor"
     check_pip=$(whereis pip | grep -i -c "/usr/local/bin/pip2.7")
     if [ $check_pip -ne 1 ]
      then
@@ -553,6 +575,7 @@ fix_golang () {
 
 fix_go_path() {
     # added gonski fix - 01.21.22 rev 1.4.2
+    # --- This needs to be moved to a Global from a local as it is reused at line 1165 ---
     check_for_displayzero=$(who | grep -c "(\:0)")
     if [ $check_for_displayzero == 1 ]
      then
@@ -565,6 +588,7 @@ fix_go_path() {
      # above is the Gonski Fix, Gonski was getting 'kali kali' in $findrealuser the original "who | awk '{print $1}'" statement
      # with a kali user on tty7 (:0) and then kali pts/1, as pimpmykali.sh is being run with sudo and was producing this fault
      # this will resolve the issue either logged into x11 on display 0 or just in a terminal on a tty
+     # --- Move the above to a global from a local as it is reused on line 1165 ----
     if [ $findrealuser == "root" ]
      then
       check_root_zshrc=$(cat /root/.zshrc | grep -c GOPATH)
@@ -640,9 +664,9 @@ fix_python_requests () {
     eval git clone https://github.com/psf/requests /opt/requests
     cd /opt/requests
     eval pip install colorama
+    echo -e "\n  $greenplus installed python2 module : colorama"
     eval pip install .
     echo -e "\n  $greenplus installed python2 module : requests"
-    echo -e "\n  $greenplus installed python2 module : colorama"
     }
 
 fix_bad_apt_hash () {
@@ -788,7 +812,7 @@ ask_are_you_sure () {
     read -n1 -p "   Please type Y or N : " userinput
      case $userinput in
        y|Y) perform_copy_to_root;;
-       n|N) echo -e "\n\n  $redexclaim skipping copy fo /home/$finduser to /root - not copying ";;
+       n|N) echo -e "\n\n  $redexclaim skipping copy of /home/$finduser to /root - not copying ";;
          *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_are_you_sure;;
      esac
     }
@@ -1113,6 +1137,34 @@ check_vm() {
     fi
     }
 
+mapt_prereq() {
+    # would like to do a check here instead of just re-running python-pip-curl and python3_pip functions
+    python-pip-curl
+    python3_pip
+    echo -e "\n  $greenplus Installing tools for MAPT Course Requirements"
+    echo -e "  $greenplus python3.9-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx"
+    apt_update
+    apt -y install python3.9-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx
+    echo -e "\n  $greenplus git cloning mobsf to /opt"
+    git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF /opt/Mobile-Security-Framework-MobSF
+    echo -e "\n  $greenplus Installing MobSF"
+    # scripts are not executable upon git clone of mobsf
+    sudo chmod +x /opt/Mobile-Security-Framework-MobSF/*.sh
+    cd /opt/Mobile-Security-Framework-MobSF/
+    /opt/Mobile-Security-Framework-MobSF/setup.sh
+    # --- ANDROID STUDIO ONLY ---
+    echo -e "\n  $greenplus Installing Android Studio requirements"
+    apt -y install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+    echo -e "\n  $greenplus Downloading Android Studio"
+    wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2020.3.1.26/android-studio-2020.3.1.26-linux.tar.gz -O /tmp/android-studio-2020.3.1.26-linux.tar.gz
+    echo -e "\n  $greenplus Extracting Android Studio to /opt/android-studio"
+    tar xvfz /tmp/android-studio-2020.3.1.26-linux.tar.gz -C /opt
+    echo -e "\n  $greenplus Making scripts executable in /opt/android-studio/bin"
+    chmod +x /opt/android-studio/bin/*.sh
+    rm -f /tmp/android-studio-2020.3.1.26-linux.tar.gz
+    # --- ANDROID STUDIO ONLY ---
+    }
+
 ppa_prereq() {
     # PMK 1.4.1 - Practical Phising Assesment Course Prereq - 01.05.22
     echo -e "\n  $greenplus Installing PPA Course Prerequisites... \n"
@@ -1302,7 +1354,6 @@ cleanup() {
   	rm -f /tmp/kali-speedtest.found /tmp/kali-speedtest /tmp/timetest.list /tmp/kali-latency /tmp/sources.list /tmp/final.list /tmp/kali-ping /tmp/mirrors_speedtest > /dev/null
   }
 
-
 # function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
 #---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 
@@ -1345,8 +1396,9 @@ pimpmykali_menu () {
     echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"               # fix_root_connectionrefused
     echo -e "  H - Fix httprobe missing     (fixes httprobe missing only)"                          # fix_httprobe
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
-    echo -e "  M - Mayor MPP Course Setup   (adds requirments for Mayors MPP Course)"               # mayor_mpp
+    echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
     echo -e "  P - PPA Course Setup         (adds requirments for Graham Helton - PPA Course)"      # ppa_prereq
+    #echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
     #echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
@@ -1368,6 +1420,7 @@ pimpmykali_menu () {
         9) only_upgrade;;
         0) fix_all; run_update; virt_what; check_vm;;
         !) forced=1; fix_sead_warning;;
+      a|A) mapt_prereq;;
       f|F) fix_broken_xfce;;
       s|S) fix_spike;;
       g|G) fix_root_connectionrefused ;;
