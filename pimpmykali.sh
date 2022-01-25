@@ -576,6 +576,7 @@ fix_golang () {
 fix_go_path() {
     # added gonski fix - 01.21.22 rev 1.4.2
     # --- This needs to be moved to a Global from a local as it is reused at line 1165 ---
+    # Why am I not using $finduser here?
     check_for_displayzero=$(who | grep -c "(\:0)")
     if [ $check_for_displayzero == 1 ]
      then
@@ -1401,7 +1402,7 @@ pimpmykali_menu () {
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
     echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
     echo -e "  P - PPA Course Setup         (adds requirments for Graham Helton - PPA Course)"      # ppa_prereq
-    #echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
+    echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
     #echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
