@@ -1138,7 +1138,8 @@ check_vm() {
     }
 
 mapt_prereq() {
-    # would like to do a check here instead of just re-running python-pip-curl and python3_pip functions
+    # would like to do a check of python2 pip python3 and pip3 instead of just re-running python-pip-curl and python3_pip functions
+    # modifiy the python-pip-curl function and the python3_pip functions instead
     python-pip-curl
     python3_pip
     apt_update
@@ -1154,6 +1155,8 @@ mapt_prereq() {
     /opt/Mobile-Security-Framework-MobSF/setup.sh
     # --- ANDROID STUDIO ONLY ---
     echo -e "\n  $greenplus Installing Android Studio requirements"
+    dpkg --add-architecture i386
+    apt_update 
     apt -y install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
     echo -e "\n  $greenplus Downloading Android Studio"
     wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2020.3.1.26/android-studio-2020.3.1.26-linux.tar.gz -O /tmp/android-studio-2020.3.1.26-linux.tar.gz
