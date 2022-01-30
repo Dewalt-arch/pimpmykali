@@ -664,7 +664,7 @@ fix_grub () {
 fix_python_requests () {
     eval git clone https://github.com/psf/requests /opt/requests
     cd /opt/requests
-    eval pip install colorama
+    eval pip install colorama service_identity
     echo -e "\n  $greenplus installed python2 module : colorama"
     eval pip install .
     echo -e "\n  $greenplus installed python2 module : requests"
