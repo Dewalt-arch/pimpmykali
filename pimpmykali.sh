@@ -988,7 +988,7 @@ fix_impacket () {
     eval pip uninstall impacket -y $silent
     eval pip3 uninstall impacket -y $silent
     fix_impacket_array
-    eval wget https://github.com/SecureAuthCorp/impacket/releases/tag/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz $silent
+    eval wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz $silent
     eval tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt $silent
     cd /opt
     chown -R root:root impacket-0.9.19
