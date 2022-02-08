@@ -31,9 +31,13 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.4.4 - Impacket 0.9.19 url updated
+  - URL Updated for changes on the SecureAuth github location for Impacket 0.9.19
+    (Thank you !Sora)
+
 # Revision 1.4.3 - MAPT Course pre-requirements + mobSF
   - install all pre-reqs in kali for the MAPT Course
-  - git clone and install MobSF to /opt 
+  - git clone and install MobSF to /opt
 
 # Revision 1.4.2 - fix_go_path function update
   - update to findrealuser variable :
