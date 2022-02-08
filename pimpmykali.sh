@@ -481,6 +481,15 @@ fix_spike () {
     echo -e "\n  $greenplus apt hold placed on spike package"
     }
 
+fix_mitm6() {
+    [[ -d /opt/mitm6 ]] && rm -rf /opt/mitm6 || git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
+    git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
+    cd /opt/mitm6
+    pip install -r requirements.txt
+    python setup.py install
+    echo -e "\n  $greenplus MITM6 installed.. "
+    }
+
 fix_gowitness () {
     echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
     rm -f /tmp/releases.gowitness > /dev/null
@@ -979,7 +988,7 @@ fix_impacket () {
     eval pip uninstall impacket -y $silent
     eval pip3 uninstall impacket -y $silent
     fix_impacket_array
-    eval wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz $silent
+    eval wget https://github.com/SecureAuthCorp/impacket/releases/tag/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz $silent
     eval tar xfz /tmp/impacket-0.9.19.tar.gz -C /opt $silent
     cd /opt
     chown -R root:root impacket-0.9.19
