@@ -218,11 +218,20 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
-# lightdm theme change to light or dark mode
-# light to dark theme
-# sed s:"Kali-Light":"Kali-Dark":g -i /etc/lightdm/lightdm.conf
-# dark to light theme
-# sed s:"Kali-Dark":"Kali-Light":g -i /etc/lightdm/lightdm.conf
+#fix_kali_lightdm_theme_and_background()
+#    {
+      # lightdm theme change to light or dark mode
+
+      # set kali lightdm login theme from Kali-Light to Kali-Dark
+      # sed s:"Kali-Light":"Kali-Dark":g -i /etc/lightdm/lightdm.conf
+      # dark to light theme
+
+      # set kali login-theme to Kali-Light from Dark theme
+      # sed s:"Kali-Dark":"Kali-Light":g -i /etc/lightdm/lightdm.conf
+
+      # set kali background to solid black color
+      # sed s:"background = /usr/share/desktop-base/kali-theme/login/background":"background = #000000":g
+#    }
 
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
     if [ -f /usr/bin/httprobe ];
