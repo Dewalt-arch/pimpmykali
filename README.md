@@ -31,6 +31,11 @@
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
 
+# Revision 1.4.5 - libwacom-common breaks apt
+  - Kali 2022.1 libwacom9 requires libwacom-common
+    - added to fix missing so it will be automatically installed
+    - menu options 0, 1 or N will apply this fix 
+
 # Revision 1.4.4 - Impacket 0.9.19 url updated
   - URL Updated for changes on the SecureAuth github location for Impacket 0.9.19
     (Thank you !Sora)

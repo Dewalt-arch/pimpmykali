@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.4.4"
+    revision="1.4.5"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -174,6 +174,7 @@ fix_missing () {
     fix_sources
     fix_hushlogin         # 06.18.2021 - added fix for .hushlogin file
     apt_update && apt_update_complete
+    fix_libwacom
     apt_autoremove && apt_autoremove_complete
     eval apt -y remove kali-undercover $silent
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
@@ -232,6 +233,11 @@ fix_all () {
       # set kali background to solid black color
       # sed s:"background = /usr/share/desktop-base/kali-theme/login/background":"background = #000000":g
 #    }
+
+fix_libwacom {
+    eval apt -y install libwacom-common
+    #fix added for Kali 2022.1 apt broken after apt update && apt upgrade
+    }
 
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
     if [ -f /usr/bin/httprobe ];
