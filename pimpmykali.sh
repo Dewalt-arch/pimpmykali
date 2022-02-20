@@ -234,9 +234,9 @@ fix_all () {
       # sed s:"background = /usr/share/desktop-base/kali-theme/login/background":"background = #000000":g
 #    }
 
-fix_libwacom {
+fix_libwacom() {
     eval apt -y install libwacom-common
-    #fix added for Kali 2022.1 apt broken after apt update && apt upgrade
+    # fix for missing libwacom9 requires libwacom-common 
     }
 
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
