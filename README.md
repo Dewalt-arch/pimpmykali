@@ -34,7 +34,8 @@
 # Revision 1.4.5 - libwacom-common breaks apt
   - Kali 2022.1 libwacom9 requires libwacom-common
     - added to fix missing so it will be automatically installed
-    - menu options 0, 1 or N will apply this fix 
+    - menu options 0, 1 or N will apply this fix
+    - Credit: TheMadHuman  for bringing it to my attention 
 
 # Revision 1.4.4 - Impacket 0.9.19 url updated
   - URL Updated for changes on the SecureAuth github location for Impacket 0.9.19
