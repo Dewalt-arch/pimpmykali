@@ -30,7 +30,8 @@
   - Aksheet https://github.com/Aksheet10
   - 0xC0FFEE Home Lab Build
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
-
+  - TheMadHuman https://github.com/TMH-Sec
+  
 # Revision 1.4.5 - libwacom-common breaks apt
   - Kali 2022.1 libwacom9 requires libwacom-common
     - added to fix_missing function so it will be automatically installed
