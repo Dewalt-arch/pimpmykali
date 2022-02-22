@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.4.5"
+    revision="1.4.6"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -236,7 +236,7 @@ fix_all () {
 
 fix_libwacom() {
     eval apt -y install libwacom-common
-    # fix for missing libwacom9 requires libwacom-common 
+    # fix for missing libwacom9 requires libwacom-common
     }
 
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
@@ -479,6 +479,25 @@ python-pip-curl () {
  # type= set in fix_section based on eval of $check and $force
  # force= to override force / set force var
  # fix_section $section $check $force
+
+fix_bloodhound () {
+    # Kali 2022.1 - bloodhound 4.1.0 incompatable collectors fix: downgrade to bloodhound 4.0.3
+    echo -e "\n  $greenplus Downgrading Bloodhound from current to 4.0.3"
+    echo -e "\n  $greenplus Removing Bloodhound"
+    eval apt -y remove bloodhound
+    echo -e "\n  $greenplus Purging Bloodhound"
+    eval apt -y purge bloodhound
+    echo -e "\n  $greenplus Downloading Bloodhound 4.0.3"
+    wget http://old.kali.org/kali/pool/main/b/bloodhound/bloodhound_4.0.3-0kali1_amd64.deb -O /tmp/bloodhound403.deb
+    echo -e "\n  $greenplus Installing Bloodhound 4.0.3"
+    echo -e "\n  $greenplus Note: This process may take several minutes to complete..."
+    eval dpkg -i /tmp/bloodhound403.deb
+    echo -e "\n  $greenplus Bloodhound package marked with hold to prevent upgrading"
+    eval apt-mark hold bloodhound
+    echo -e "\n  $greenplus Cleaning up"
+    eval rm -f /tmp/bloodhound403.deb
+    echo -e "\n  $greenplus Complete - Bloodhound Downgraded to v4.0.3"
+}
 
 # 01.26.2021 - rev 1.1.5 - Current version of spike throws undefined symbol error, revert to old version
 fix_spike () {
@@ -1417,9 +1436,10 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  B - BlindPentesters          (The Essentials tools & utilies collection)"            # bpt
-    echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
+    echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
     echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
+    echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
+    echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
     echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"   # fix_broken_xfce
     echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"               # fix_root_connectionrefused
     echo -e "  H - Fix httprobe missing     (fixes httprobe missing only)"                          # fix_httprobe
@@ -1428,7 +1448,6 @@ pimpmykali_menu () {
     echo -e "  P - PPA Course Setup         (adds requirments for Graham Helton - PPA Course)"      # ppa_prereq
     echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
     #echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
-    echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
     echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
     echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"              # fix_sead_warning
@@ -1458,7 +1477,7 @@ pimpmykali_menu () {
       w|W) fix_gowitness;;
       n|N) fix_all; fix_upgrade;;
       d|D) downgrade_msf;;
-      b|B) bpt;;
+      b|B) fix_bloodhound;; # was bpt;;
       p|P) ppa_prereq;;
       # move this to another letter or omit completely as its called in fix_missing
       # p|P) disable_power_checkde;;
