@@ -142,7 +142,7 @@
   - Executes ONLY Menu options 1 thru 8
 
 
-- Menu Option B  (Changed 02.21.2022)  
+- Menu Option B  ( Changed 02.21.2022 )  
   New Function:
   - Downgrade Bloodhound from v4.1.0 (current) to v4.0.3
 

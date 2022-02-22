@@ -411,7 +411,7 @@ fix_pipxlrd () {
 # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
 # fix_python_version() {
 #    # check if python is python2
-#    # Meh.. rethink this....
+#    # Meh.. rethink this...
 #    is_python2=$(ls -la /bin/python | grep -i -c "python2")
 #    # check if python is python3
 #    is_python3=$(ls -la /bin/python | grep -i -c "python3")
