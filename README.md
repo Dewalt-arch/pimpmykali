@@ -38,36 +38,13 @@
     - removes bloodhound, purges bloodhound
     - downloads and installs bloodhound 4.0.3
     - marks bloodhound package to prevent future upgrading
-        
+  - revision history for 1.4.1 -> 1.4.4 moved to changelog.txt
+
 # Revision 1.4.5 - libwacom-common breaks apt
   - Kali 2022.1 libwacom9 requires libwacom-common
     - added to fix_missing function so it will be automatically installed
     - menu options 0, 1 or N will apply this fix
     - Credit: TheMadHuman  for bringing it to my attention
-
-# Revision 1.4.4 - Impacket 0.9.19 url updated
-  - URL Updated for changes on the SecureAuth github location for Impacket 0.9.19
-    (Thank you !Sora)
-
-# Revision 1.4.3 - MAPT Course pre-requirements + mobSF
-  - install all pre-reqs in kali for the MAPT Course
-  - git clone and install MobSF to /opt
-
-# Revision 1.4.2 - fix_go_path function update
-  - update to findrealuser variable :
-    - check for display 0 (:0) if found get user from display 0 tty login
-    - if display 0 (:0) is not found, get user from tty login
-  - revision history 1.4.0 moved to changelog.txt
-
-# Revision 1.4.1 - PPA Course Prerequisites
-  - Menu Option P has changed option now installs pre-req the PPA Course
-    - installs whois and bind9-dnsutils
-    - git clones spoofpoint to /opt/spoofpoint
-    - creates symlink for /opt/spoofpoint/spoofpoint in /usr/bin/spoofpoint
-      - spoofpoint now available globally via path
-  - Disable power management function moved to fix_missing function
-    - will be applied in options 0, 1 or N
-  - revision history 1.3.9 moved to changelog.txt
 
 # Menu Breakdown of Pimpmykali
 
@@ -165,7 +142,11 @@
   - Executes ONLY Menu options 1 thru 8
 
 
-- Menu Option B    
+- Menu Option B  (Changed 02.21.2022)  
+  New Function:
+  - Downgrade Bloodhound from v4.1.0 (current) to v4.0.3
+
+  Previous Function: (will be moved elsewhere in Pimpmykali)
   - BlindPentesters The_Essentials tools and utilities collection
   - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
   - Click the link below for a full list of the_essentials.sh script and its inner workings
