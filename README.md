@@ -32,6 +32,9 @@
     https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
   - TheMadHuman https://github.com/TMH-Sec
 
+# Writeups / Honorable Mentions 
+  - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
+
 # Revision 1.4.6 - Bloodhound v4.1.0 incompatible collectors
   - Menu Option B - Downgrade Bloodhound from 4.1.0 to 4.0.3
     - is only called from Menu option B
