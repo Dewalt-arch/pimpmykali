@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.4.6"
+    revision="1.4.7"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -514,6 +514,22 @@ fix_spike () {
     eval apt-mark hold spike
     echo -e "\n  $greenplus apt hold placed on spike package"
     }
+
+# 03.08.2022 - rev 1.4.7 - Replace current version of responder with older version
+fix_responder () {
+    echo -e "\n  $greenplus Fix Responder: Downloading Responder 3.0.6.0"
+    wget http://old.kali.org/kali/pool/main/r/responder/responder_3.0.6.0-0kali2_all.deb -O /tmp/responder3060.deb
+    echo -e "\n  $greenplus Fix Responder: Uninstalling current Responder"
+    eval apt update
+    eval apt -y remove responder
+    echo -e "\n  $greenplus Fix Responder: Package hold Responder"
+    eval apt-mark hold responder
+    echo -e "\n  $greenplus Fix Responder: Installing Responder 3.0.6.0"
+    sudo dpkg -i /tmp/responder3060.deb
+    rm -f /tmp/responder3060.deb
+    echo -e "\n  $greenplus Fix Responder - Complete"
+    }
+
 
 fix_mitm6() {
     [[ -d /opt/mitm6 ]] && rm -rf /opt/mitm6 || git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
@@ -1436,6 +1452,7 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
+    echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0)"                      # fix_responder
     echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
     echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
@@ -1479,6 +1496,7 @@ pimpmykali_menu () {
       d|D) downgrade_msf;;
       b|B) fix_bloodhound;; # was bpt;;
       p|P) ppa_prereq;;
+      r|R) fix_responder;;
       # move this to another letter or omit completely as its called in fix_missing
       # p|P) disable_power_checkde;;
       m|M) mayor_mpp;;
