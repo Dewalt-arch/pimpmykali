@@ -39,6 +39,7 @@
   - Menu option R - Downgrades responder to v3.0.6.0
     - is only called from menu option r or R
     - uninstalls current responder, downloads and installs v3.0.6.0
+  - PPA Course requirements removed
 
 # Revision 1.4.6 - Bloodhound v4.1.0 incompatible collectors
   - Menu Option B - Downgrade Bloodhound from 4.1.0 to 4.0.3

@@ -1228,16 +1228,16 @@ mapt_prereq() {
     # --- ANDROID STUDIO ONLY ---
     }
 
-ppa_prereq() {
-    # PMK 1.4.1 - Practical Phising Assesment Course Prereq - 01.05.22
-    echo -e "\n  $greenplus Installing PPA Course Prerequisites... \n"
-    sudo apt -y install whois bind9-dnsutils
-    echo -e "\n  $greenplus Git Cloning Spoofpoint to /opt/spoofpoint \n"
-    [[ -d /opt/spoofpoint ]] && rm -rf /opt/spoofpoint
-    git clone https://github.com/grahamhelton/spoofpoint /opt/spoofpoint
-    echo -e "\n  $greenplus Creating Symlink /usr/bin/spoofpoint \n"
-    ln -sf /opt/spoofpoint/spoofpoint /usr/bin/spoofpoint
-    }
+# ppa_prereq() {
+#    # PMK 1.4.1 - Practical Phising Assesment Course Prereq - 01.05.22
+#    echo -e "\n  $greenplus Installing PPA Course Prerequisites... \n"
+#    sudo apt -y install whois bind9-dnsutils
+#    echo -e "\n  $greenplus Git Cloning Spoofpoint to /opt/spoofpoint \n"
+#    [[ -d /opt/spoofpoint ]] && rm -rf /opt/spoofpoint
+#    git clone https://github.com/grahamhelton/spoofpoint /opt/spoofpoint
+#    echo -e "\n  $greenplus Creating Symlink /usr/bin/spoofpoint \n"
+#    ln -sf /opt/spoofpoint/spoofpoint /usr/bin/spoofpoint
+#    }
 
 mayor_mpp() {
     # additions to PMK 1.3.0 - Mayor MPP Course additions
@@ -1462,7 +1462,6 @@ pimpmykali_menu () {
     echo -e "  H - Fix httprobe missing     (fixes httprobe missing only)"                          # fix_httprobe
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
     echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
-    echo -e "  P - PPA Course Setup         (adds requirments for Graham Helton - PPA Course)"      # ppa_prereq
     echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
     #echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
@@ -1495,7 +1494,6 @@ pimpmykali_menu () {
       n|N) fix_all; fix_upgrade;;
       d|D) downgrade_msf;;
       b|B) fix_bloodhound;; # was bpt;;
-      p|P) ppa_prereq;;
       r|R) fix_responder;;
       # move this to another letter or omit completely as its called in fix_missing
       # p|P) disable_power_checkde;;
