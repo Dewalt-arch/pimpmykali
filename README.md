@@ -28,8 +28,8 @@
   - Alek https://github.com/onomastus
   - Gr1mmie https://github.com/Gr1mmie
   - Aksheet https://github.com/Aksheet10
-  - 0xC0FFEE Home Lab Build
-    https://docs.google.com/document/d/1DH-epmXJMvQtOnDQYa3zUXvq9497Mm3276K8frNz2UM
+  - 0xC0FFEE VirtualBox Home Lab Build
+    https://benheater.com/building-a-security-lab-in-virtualbox/
   - TheMadHuman https://github.com/TMH-Sec
 
 # Writeups / Honorable Mentions
