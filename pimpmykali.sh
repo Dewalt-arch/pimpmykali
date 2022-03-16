@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.4.7"
+    revision="1.4.8"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1480,7 +1480,7 @@ pimpmykali_menu () {
         6) make_rootgreatagain;;
         7) install_atom;;
         8) fix_nmap ;;
-        9) only_upgrade;;
+        9) apt_update; fix_libwacom; only_upgrade;;
         0) fix_all; run_update; virt_what; check_vm;;
         !) forced=1; fix_sead_warning;;
       a|A) mapt_prereq;;
