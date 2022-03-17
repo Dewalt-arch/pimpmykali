@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.4.9"
+    revision="1.4.8"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -244,7 +244,7 @@ fix_assetfinder () {
     echo -e "\n  $greenplus Installing Assetfinder precompiled binary ... "
     [[ -f /usr/bin/assetfinder ]] && rm -f /usr/bin/assetfinder || echo > /dev/null
     wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder.tgz
-    tar xvfz /tmp/assetfinder.tgz -C /usr/bin/
+     tar xvfz /tmp/assetfinder.tgz -C /usr/bin/
     }
 
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
