@@ -35,11 +35,16 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
-# Revision 1.4.9 - added assetfinder
+# Revision 1.4.9 - added assetfinder, added neo4j
   - added assetfinder precompiled binary to the following
     - Menu option 0
     - Menu Option 1
-    - Menu Option N 
+    - Menu Option N
+  - neo4j added in functions
+    - Menu Option B - Downgrade Bloodhound
+    - Menu Option 1 - Fix Missing
+    - Menu Option 0 - Fix All (runs 1-8)
+    - Menu Option N - New VM Setup (runs 1-9 + a few other functions)
 
 # Revision 1.4.8 - minor change to Menu option 9
   - added fix_libwacom function to be called before fix_upgrade
