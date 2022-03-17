@@ -495,6 +495,8 @@ python-pip-curl () {
 
 fix_bloodhound () {
     # Kali 2022.1 - bloodhound 4.1.0 incompatable collectors fix: downgrade to bloodhound 4.0.3
+    apt_update
+    eval apt -y install neo4j 
     echo -e "\n  $greenplus Downgrading Bloodhound from current to 4.0.3"
     echo -e "\n  $greenplus Removing Bloodhound"
     eval apt -y remove bloodhound
