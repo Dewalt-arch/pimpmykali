@@ -179,7 +179,7 @@ fix_missing () {
     eval apt -y remove kali-undercover $silent
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
     # 10.05.2021 - Added dbus-x11 as it has become a common problem for those wanting to use gedit
-    eval apt -y install dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils dbus-x11 $silent
+    eval apt -y install neo4j dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils dbus-x11 $silent
     # check_python          # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
     python-pip-curl
     python3_pip $force
