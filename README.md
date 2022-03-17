@@ -35,8 +35,14 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.4.9 - added assetfinder
+  - added assetfinder precompiled binary to the following
+    - Menu option 0
+    - Menu Option 1
+    - Menu Option N 
+
 # Revision 1.4.8 - minor change to Menu option 9
-  - added fix_libwacom function to be called before fix_upgrade 
+  - added fix_libwacom function to be called before fix_upgrade
 
 # Revision 1.4.7 - Downgrade Responder to 3.0.6.0
   - Menu option R - Downgrades responder to v3.0.6.0

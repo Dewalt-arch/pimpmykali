@@ -199,6 +199,7 @@ fix_missing () {
     fix_pyftpdlib         # 09.01.21 - added pyftpdlib for python2
     fix_amass             # 09.02.21 - added amass precompiled binary
     fix_httprobe          # 01.04.22 - added httprobe precompiled binary
+    fix_assetfinder       # 03.17.22 - added assetfinder precompiled binary
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     # fix_qterminal_history
@@ -239,6 +240,13 @@ fix_libwacom() {
     # fix for missing libwacom9 requires libwacom-common
     }
 
+fix_assetfinder () {
+    echo -e "\n  $greenplus Installing Assetfinder precompiled binary ... "
+    [[ -f /usr/bin/assetfinder ]] && rm -f /usr/bin/assetfinder || echo > /dev/null
+    wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder.tgz
+    tar xvfz /tmp/assetfinder.tgz -C /usr/bin/
+    }
+
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
     if [ -f /usr/bin/httprobe ];
       then
@@ -261,6 +269,11 @@ fix_amass() {
     echo -e "\n  $greenplus amass installed"
     }
 
+
+fix_assetfinder () {
+   wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder
+   tar xvfz /tmp/assetfinder.tga -
+}
 fix_pyftpdlib() {
     echo -e "\n  $greenplus installing pyftpdlib"
     eval pip install pyftpdlib
