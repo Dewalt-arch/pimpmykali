@@ -272,7 +272,7 @@ fix_amass() {
 
 fix_assetfinder () {
    wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder
-   tar xvfz /tmp/assetfinder.tga -
+   tar xvfz /tmp/assetfinder.tgz -C /usr/bin
 }
 fix_pyftpdlib() {
     echo -e "\n  $greenplus installing pyftpdlib"
