@@ -35,6 +35,10 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.0 - fix_bloodhound function update
+  - removed hold on bloodhound at the start of the function to remove
+    an additional complication that was being created   
+
 # Revision 1.4.9 - added assetfinder, added neo4j
   - added assetfinder precompiled binary to the following
     - Menu option 0
