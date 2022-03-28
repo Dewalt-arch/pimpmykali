@@ -38,9 +38,9 @@
 # Revision 1.5.1 - Downgrade Metasploit - Disabled
   - ruby has been upgraded to a default of 3.0
    - msf5 requires ruby 2.8 or lower
-   - Downgrade msf5 function has been disabled
-    - Menu option D - Downgrade to msf5 Disabled
-    - Menu option M - MPP Course, removed downgrade to msf5 function  
+  - Downgrade msf5 function has been disabled 
+   - Menu option D - Downgrade to msf5 Disabled
+   - Menu option M - MPP Course, removed downgrade to msf5 function  
 
 # Revision 1.5.0 - fix_bloodhound function update
   - removed hold on bloodhound at the start of the function to remove
