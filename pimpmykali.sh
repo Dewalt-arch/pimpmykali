@@ -1262,7 +1262,7 @@ mayor_mpp() {
     # check_msfversion=$(apt list --installed | grep -i metasploit | cut -d " " -f2 | cut -d "." -f1)
     # add check for msf version? if not 5 then place hold before upgrade and then downgrade
     apt_upgrade && apt_upgrade_complete
-    downgrade_msf
+    # downgrade_msf
     echo -e "\n  $greenplus installing apt-transport-https dnsutils dotnet-sdk-3.1"
     apt -y install apt-transport-https dnsutils dotnet-sdk-3.1
     # download directly to /tmp and install
