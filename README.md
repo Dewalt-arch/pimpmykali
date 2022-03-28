@@ -38,7 +38,7 @@
 # Revision 1.5.1 - Downgrade Metasploit - Disabled
   - ruby has been upgraded to a default of 3.0
    - msf5 requires ruby 2.8 or lower
-  - Downgrade msf5 function has been disabled 
+  - Downgrade msf5 function has been disabled
    - Menu option D - Downgrade to msf5 Disabled
    - Menu option M - MPP Course, removed downgrade to msf5 function  
 
@@ -46,39 +46,6 @@
   - removed hold on bloodhound at the start of the function to remove
     an additional complication that was being created   
 
-# Revision 1.4.9 - added assetfinder, added neo4j
-  - added assetfinder precompiled binary to the following
-    - Menu option 0
-    - Menu Option 1
-    - Menu Option N
-  - neo4j added in functions
-    - Menu Option B - Downgrade Bloodhound
-    - Menu Option 1 - Fix Missing
-    - Menu Option 0 - Fix All (runs 1-8)
-    - Menu Option N - New VM Setup (runs 1-9 + a few other functions)
-
-# Revision 1.4.8 - minor change to Menu option 9
-  - added fix_libwacom function to be called before fix_upgrade
-
-# Revision 1.4.7 - Downgrade Responder to 3.0.6.0
-  - Menu option R - Downgrades responder to v3.0.6.0
-    - is only called from menu option r or R
-    - uninstalls current responder, downloads and installs v3.0.6.0
-  - PPA Course requirements removed
-
-# Revision 1.4.6 - Bloodhound v4.1.0 incompatible collectors
-  - Menu Option B - Downgrade Bloodhound from 4.1.0 to 4.0.3
-    - is only called from Menu option B
-    - removes bloodhound, purges bloodhound
-    - downloads and installs bloodhound 4.0.3
-    - marks bloodhound package to prevent future upgrading
-  - revision history for 1.4.1 -> 1.4.4 moved to changelog.txt
-
-# Revision 1.4.5 - libwacom-common breaks apt
-  - Kali 2022.1 libwacom9 requires libwacom-common
-    - added to fix_missing function so it will be automatically installed
-    - menu options 0, 1 or N will apply this fix
-    - Credit: TheMadHuman  for bringing it to my attention
 
 # Menu Breakdown of Pimpmykali
 
