@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.0"
+    revision="1.5.1"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1470,7 +1470,7 @@ pimpmykali_menu () {
     echo -e " ---  ----------------------   ------------"                                           # optional line
     echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0)"                      # fix_responder
     echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
-    echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
+    #echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
     echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"   # fix_broken_xfce
@@ -1508,7 +1508,7 @@ pimpmykali_menu () {
       v|V) install_vscode;;
       w|W) fix_gowitness;;
       n|N) fix_all; fix_upgrade;;
-      d|D) downgrade_msf;;
+    #  d|D) downgrade_msf;;
       b|B) fix_bloodhound;; # was bpt;;
       r|R) fix_responder;;
       # move this to another letter or omit completely as its called in fix_missing
