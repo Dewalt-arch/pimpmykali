@@ -1109,18 +1109,18 @@ bpt () {
     exit_screen
     }
 
-downgrade_msf () {
-    echo -e "\n  $greenplus Downgrading Metasploit from v6.x to 5.1.101 \n"
-    eval apt -y remove metasploit-framework
-    wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
-    eval dpkg -i /tmp/metasploit-framework_5.deb
-    eval gem cleanup reline
-    eval msfdb init
-    rm -f /tmp/metasploit-framework_5.deb
-    apt-mark hold metasploit-framework
-    echo -e "\n  $greenplus metasploit downgraded \n"
-    echo -e "\n  $greenplus hold placed on metasploit-framework \n"
-    }
+#downgrade_msf () {
+#    echo -e "\n  $greenplus Downgrading Metasploit from v6.x to 5.1.101 \n"
+#    eval apt -y remove metasploit-framework
+#    wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
+#    eval dpkg -i /tmp/metasploit-framework_5.deb
+#    eval gem cleanup reline
+#    eval msfdb init
+#    rm -f /tmp/metasploit-framework_5.deb
+#    apt-mark hold metasploit-framework
+#    echo -e "\n  $greenplus metasploit downgraded \n"
+#    echo -e "\n  $greenplus hold placed on metasploit-framework \n"
+#    }
 
 # Upgraded virt-what function - 04.07.2021 rev 1.2.2
 virt_what() {
@@ -1254,7 +1254,7 @@ mapt_prereq() {
 #    echo -e "\n  $greenplus Creating Symlink /usr/bin/spoofpoint \n"
 #    ln -sf /opt/spoofpoint/spoofpoint /usr/bin/spoofpoint
 #    }
- 
+
 mayor_mpp() {
     # additions to PMK 1.3.0 - Mayor MPP Course additions
     fix_sources
