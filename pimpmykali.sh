@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.1"
+    revision="1.5.2"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -737,11 +737,11 @@ fix_grub () {
     }
 
 fix_python_requests () {
-    eval git clone https://github.com/psf/requests /opt/requests
-    cd /opt/requests
-    eval pip install colorama termcolor service_identity
+    #eval git clone https://github.com/psf/requests /opt/requests
+    #cd /opt/requests
+    eval pip install colorama termcolor service_identity requests==2.2.1
     echo -e "\n  $greenplus installed python2 module : colorama"
-    eval pip install .
+    #eval pip install .
     echo -e "\n  $greenplus installed python2 module : requests"
     }
 

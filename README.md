@@ -35,6 +35,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.2 - Python Requests
+  - specified specific version of requests to use 2.2.1
+  
 # Revision 1.5.1 - Downgrade Metasploit - Disabled
   - ruby has been upgraded to a default of 3.0
     - msf5 requires ruby 2.8 or lower
