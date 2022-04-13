@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.2b"
+    revision="1.5.2c"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1195,6 +1195,7 @@ check_vm() {
         then
           echo -e "\n  $greenplus *** VMWARE DETECTED *** \n"
           echo -e "\n  $greenplus installing open-vm-tools-desktop fuse"
+          eval apt -y remove fuse
           eval apt -y reinstall open-vm-tools-desktop fuse3 $silent
           echo -e "\n  $greenplus restarting vmware tools"
           eval restart-vm-tools
