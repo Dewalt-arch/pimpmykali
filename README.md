@@ -31,13 +31,18 @@
   - 0xC0FFEE VirtualBox Home Lab Build (updated link!)
     https://benheater.com/building-a-security-lab-in-virtualbox/
   - TheMadHuman https://github.com/TMH-Sec
+  - Aashiksamuel https://github.com/aashiksamuel  (sublime install fix)
 
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.3 - Sublime Installation updated
+  - fix provided by aashiksamuel, thank you!
+  - function sublime_install lines 768->780 updated   
+
 # Revision 1.5.2 - Python Requests
   - specified specific version of requests to use 2.2.1
-  
+
 # Revision 1.5.1 - Downgrade Metasploit - Disabled
   - ruby has been upgraded to a default of 3.0
     - msf5 requires ruby 2.8 or lower

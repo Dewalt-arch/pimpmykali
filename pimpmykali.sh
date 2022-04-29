@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.2c"
+    revision="1.5.3"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -767,9 +767,14 @@ install_atom () {
 
 install_sublime () {
     echo -e "\n  $greenplus installing sublime text editor"
-    eval wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+    # code fix provided by aashiksamuel
+    eval wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --no-default-keyring --keyring ./temp-keyring.gpg --import
+    eval gpg --no-default-keyring --keyring ./temp-keyring.gpg --export --output sublime-text.gpg
+    eval rm temp-keyring.gpg temp-keyring.gpg~
+    eval mkdir -p /usr/local/share/keyrings
+    eval mv ./sublime-text.gpg /usr/local/share/keyrings
     eval apt-get install apt-transport-https
-    eval echo "deb https://download.sublimetext.com/ apt/stable/" > /etc/apt/sources.list.d/sublime-text.list
+    eval echo "deb [signed-by=/usr/local/share/keyrings/sublime-text.gpg] https://download.sublimetext.com/ apt/stable/" > /etc/apt/sources.list.d/sublime-text.list
     apt_update && apt_update_complete
     eval apt -y install sublime-text
     }
