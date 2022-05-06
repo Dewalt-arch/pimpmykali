@@ -244,7 +244,7 @@ fix_all () {
     fix_smbconf
     fix_impacket
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
-    # python-pip-curl python3_pip34 fix_golang fix_nmap
+    # python-pip-curl python3_pip fix_golang fix_nmap
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
     }
