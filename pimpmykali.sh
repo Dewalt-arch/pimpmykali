@@ -205,6 +205,35 @@ fix_missing () {
     # fix_qterminal_history
     }
 
+
+fix_missing_test () {
+    fix_sources
+    fix_hushlogin         # 06.18.2021 - added fix for .hushlogin file
+    apt_update && apt_update_complete
+    apt_autoremove && apt_autoremove_complete
+    eval apt -y remove kali-undercover $silent
+    # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
+    # 10.05.2021 - Added dbus-x11 as it has become a common problem for those wanting to use gedit
+    eval apt -y install neo4j dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils libguestfs-tools cifs-utils dbus-x11 $silent
+    # check_python          # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
+    python-pip-curl
+    python3_pip $force
+    fix_gedit   $force    # restored to its former glory
+    fix_root_connectionrefused
+    fix_htop    $force
+    fix_nmap
+    fix_rockyou
+    silence_pcbeep        # 02.02.2021 - turn off terminal pc beep
+    disable_power_checkde # 06.18.2021 - disable gnome or xfce power management based on desktop environment detection
+    fix_python_requests
+    fix_set
+    fix_pyftpdlib         # 09.01.21 - added pyftpdlib for python2
+    fix_httprobe          # 01.04.22 - added httprobe precompiled binary
+    # fix_qterminal_history
+    }
+
+
+
 fix_all () {
     fix_missing   $force
     make_rootgreatagain $force
@@ -215,10 +244,21 @@ fix_all () {
     fix_smbconf
     fix_impacket
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
-    # python-pip-curl python3_pip fix_golang fix_nmap
+    # python-pip-curl python3_pip34 fix_golang fix_nmap
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
     }
+
+
+test_new_setup () {
+    fix_missing_test   $force
+    seclists      $force
+    install_vscode $force
+    fix_grub
+    fix_smbconf
+    }
+
+
 
 #fix_kali_lightdm_theme_and_background()
 #    {
@@ -739,7 +779,7 @@ fix_grub () {
 fix_python_requests () {
     #eval git clone https://github.com/psf/requests /opt/requests
     #cd /opt/requests
-    eval pip install colorama termcolor service_identity requests==2.2.1
+    eval pip install colorama termcolor service_identity requests
     echo -e "\n  $greenplus installed python2 module : colorama"
     #eval pip install .
     echo -e "\n  $greenplus installed python2 module : requests"
@@ -1566,6 +1606,7 @@ check_arg () {
       --subl) install_sublime                  ;;
       --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;
+      --test) test_new_setup                   ;;
    --mirrors) get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
 # --harvester) fix_theharvester                ;;
       *) pimpmykali_help ; exit 0              ;;
