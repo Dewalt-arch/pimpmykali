@@ -32,6 +32,7 @@
     https://benheater.com/building-a-security-lab-in-virtualbox/
   - TheMadHuman https://github.com/TMH-Sec
   - Aashiksamuel https://github.com/aashiksamuel  (sublime install fix)
+  - m4ul3r
 
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
@@ -39,7 +40,8 @@
 # Revision 1.5.4 - Qemu update
   - removed xserver-xorg-video-qxl is no longer in the kali repo
   - updated function to install qemu-guest-agent
-  - revision history 1.5.0 -> 1.5.3 moved to changelog.txt 
+  - revision history 1.5.0 -> 1.5.3 moved to changelog.txt
+   - thank you m4ul3r!
 
 # Menu Breakdown of Pimpmykali
 

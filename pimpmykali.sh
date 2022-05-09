@@ -6,7 +6,7 @@
 # command line arguments are valid, only catching 1 arguement
 #
 # Full Revision history can be found in changelog.txt
-# Standard Disclaimer: Author assumes no liability for any damage
+# Standard Disclaimer: Author assumes no liability for any damage 
 
 # revision var
     revision="1.5.4"
