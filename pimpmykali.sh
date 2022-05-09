@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.4a"
+    revision="1.5.4b"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1475,7 +1475,7 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0)"                      # fix_responder
+    #echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0) - DISABLED"                      # fix_responder
     echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
     #echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
@@ -1517,7 +1517,7 @@ pimpmykali_menu () {
       n|N) fix_all; fix_upgrade;;
     #  d|D) downgrade_msf;;
       b|B) fix_bloodhound;; # was bpt;;
-      r|R) fix_responder;;
+    #  r|R) fix_responder;;
       # move this to another letter or omit completely as its called in fix_missing
       # p|P) disable_power_checkde;;
       m|M) mayor_mpp;;

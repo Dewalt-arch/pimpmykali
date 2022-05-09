@@ -37,6 +37,10 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.4b - Fix Responder Disabled
+  - Downgrade Responder has been Disabled
+  - additional qemu update to handle qemu or kvm detection 
+
 # Revision 1.5.4 - Qemu update
   - removed xserver-xorg-video-qxl is no longer in the kali repo
   - updated function to install qemu-guest-agent
