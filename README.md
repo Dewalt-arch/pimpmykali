@@ -36,24 +36,10 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
-# Revision 1.5.3 - Sublime Installation updated
-  - fix provided by aashiksamuel, thank you!
-  - function sublime_install lines 768->780 updated   
-
-# Revision 1.5.2 - Python Requests
-  - specified specific version of requests to use 2.2.1
-
-# Revision 1.5.1 - Downgrade Metasploit - Disabled
-  - ruby has been upgraded to a default of 3.0
-    - msf5 requires ruby 2.8 or lower
-  - Downgrade msf5 function has been disabled
-    - Menu option D - Downgrade to msf5 Disabled
-    - Menu option M - MPP Course, removed downgrade to msf5 function  
-
-# Revision 1.5.0 - fix_bloodhound function update
-  - removed hold on bloodhound at the start of the function to remove
-    an additional complication that was being created   
-
+# Revision 1.5.4 - Qemu update
+  - removed xserver-xorg-video-qxl is no longer in the kali repo
+  - updated function to install qemu-guest-agent
+  - revision history 1.5.0 -> 1.5.3 moved to changelog.txt 
 
 # Menu Breakdown of Pimpmykali
 

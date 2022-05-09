@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.3"
+    revision="1.5.4"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1212,7 +1212,8 @@ check_vm() {
        elif  [ $qemu_check = 1 ]
          then
           echo -e "\n  $greenplus *** QEMU/LIBVIRT DETECTED *** \n"
-          eval apt -y reinstall xserver-xorg-video-qxl spice-vdagent
+          eval apt -y reinstall spice-vdagent qemu-guest-agent
+          # xserver-xorg-video-qxl - rev 1.5.4 no longer in the kali repo
           echo -e "\n  $greenplus installing xserver-xorg-video-qxl spice-vdagent"
       else
         echo -e "\n $redstar Hypervisor not detected, Possible bare-metal installation not updating"
