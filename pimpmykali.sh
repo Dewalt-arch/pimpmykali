@@ -6,7 +6,7 @@
 # command line arguments are valid, only catching 1 arguement
 #
 # Full Revision history can be found in changelog.txt
-# Standard Disclaimer: Author assumes no liability for any damage 
+# Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
     revision="1.5.4"
@@ -1184,7 +1184,7 @@ check_vm() {
     echo -e "\n  $greenplus detecting hypervisor type \n"
     vbox_check=$(virt-what | grep -i -c "virtualbox")    # virtualbox check
     vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check - vmware check works on Mac VMWare Fusion
-    qemu_check=$(virt-what | grep -i -c "kvm")           # m4ul3r Qemu/libvirt check
+    qemu_check=$(virt-what | grep -i -c "qemu")           # m4ul3r Qemu/libvirt check
     if [ $vbox_check = 1 ]
       then
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
