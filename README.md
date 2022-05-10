@@ -32,7 +32,7 @@
     https://benheater.com/building-a-security-lab-in-virtualbox/
   - TheMadHuman https://github.com/TMH-Sec
   - Aashiksamuel https://github.com/aashiksamuel  (sublime install fix)
-  - m4ul3r
+  - m4ul3r 
 
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/

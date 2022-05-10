@@ -1541,7 +1541,7 @@ pimpmykali_menu () {
         8) fix_nmap ;;
         9) apt_update; fix_libwacom; only_upgrade;;
         0) fix_all; run_update; virt_what; check_vm;;
-        !) forced=1; fix_sead_warning;;
+        !) forced=1; fix_sead_warning;; 
       a|A) mapt_prereq;;
       f|F) fix_broken_xfce;;
       s|S) fix_spike;;
