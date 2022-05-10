@@ -37,12 +37,22 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.5 - Fix Responder Re-Enabled
+  - Downgrade Responder (R) Function updated
+    - prompt added before proceeding
+    - Installs python3.9-full and python3.9-dbg
+    - resymlinks /bin/python3.9 to /bin/python3
+
+  - New Menu item P - Fix Python3.9 (no prompt) 
+    - will install python3.9-full and python3.9-dbg
+    - no prompt will be asked in this function
+
 # Revision 1.5.4b - Fix Responder Disabled
   - Downgrade Responder has been Disabled
    - complications with python3.10
    - work-around is being developed and will be added
      once this function is re-enabled
-  - additional qemu update to handle qemu or kvm detection 
+  - additional qemu update to handle qemu or kvm detection
 
 # Revision 1.5.4 - Qemu update
   - removed xserver-xorg-video-qxl is no longer in the kali repo

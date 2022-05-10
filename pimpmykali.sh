@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.4b"
+    revision="1.5.5"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -82,6 +82,7 @@
     silent=''                  # uncomment to see all output
     # silent='>/dev/null 2>&1' # uncomment to hide all output10
     export DEBIAN_FRONTEND=noninteractive
+    export PYTHONWARNINGS=ignore
 
 # 02.02.21 - rev 1.1.8 - fix_xfce_root fix_xfce_user fix_xfcepower external configuration file
     raw_xfce="https://raw.githubusercontent.com/Dewalt-arch/pimpmyi3-config/main/xfce4/xfce4-power-manager.xml"
@@ -513,7 +514,7 @@ fix_bloodhound () {
     echo -e "\n  $greenplus Cleaning up"
     eval rm -f /tmp/bloodhound403.deb
     echo -e "\n  $greenplus Complete - Bloodhound Downgraded to v4.0.3"
-}
+    }
 
 # 01.26.2021 - rev 1.1.5 - Current version of spike throws undefined symbol error, revert to old version
 fix_spike () {
@@ -531,8 +532,43 @@ fix_spike () {
     echo -e "\n  $greenplus apt hold placed on spike package"
     }
 
-# 03.08.2022 - rev 1.4.7 - Replace current version of responder with older version
+ # 05.09.2022 - rev 1.5.5 - Ask before installing python3.9 for fix_responder  fix_python39 is not going to ask about it
+ask_python39 () {
+  echo -e "\n   Do you wish to continue?"
+  read -n1 -p "   Please enter Y or N : " userinput
+   case $userinput in
+     y|Y) fix_python39;;
+     n|N) echo -e "\n\n  $redexclaim User selected No - Exiting"; exit;;
+       *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_python39;;
+  esac
+  }
+
+ # 05.09.2022 - rev 1.5.5 - Install python3.9-full and python3.9-dbg and resymlink /bin/python3.9 to /bin/python3
+fix_python39 () {
+    #
+    check_python_version=$(/usr/bin/python3 --version  | grep -i -c "3.10")
+    if [[ $check_python_version == 1 ]];
+     then
+      echo -e "\n  $greenplus Python 3.9 fix: Installing Python3.9"
+      eval apt -y install python3.9-full python3.9-dev
+      echo -e "\n  $greenplus Re-Symlinking /bin/python3.9 to /bin/python3"
+      ln -sf /bin/python3.9 /bin/python3
+      echo -e "\n  It is highly advised to add the following to your .bashrc or .zshrc"
+      echo -e "  export PYTHONWARNINGS=\"ignore\" "
+    else
+      echo -e "\n  $greenminus Python 3.10 not detected"
+    fi
+    }
+
+  # 05.09.2022 - rev 1.5.5 - updated function with python3.9 fix and warning + prompt
 fix_responder () {
+    echo -e "\n\n   This is a 2 part fix for Responder and Python3.9\n"
+    echo -e "   Python3.9 will be installed and /bin/python3.9 will be symlinked to /bin/python3"
+    echo -e "   then Responder 3.0.6.0 will be installed, this also fixes issues with Responder 3.1.1.0"
+    echo -e "   and Python3.10"
+    ask_python39
+    PYTHONWARNINGS="ignore"
+    export PYTHONWARNINGS="ignore"
     echo -e "\n  $greenplus Fix Responder: Downloading Responder 3.0.6.0"
     wget http://old.kali.org/kali/pool/main/r/responder/responder_3.0.6.0-0kali2_all.deb -O /tmp/responder3060.deb
     echo -e "\n  $greenplus Fix Responder: Uninstalling current Responder"
@@ -541,11 +577,10 @@ fix_responder () {
     echo -e "\n  $greenplus Fix Responder: Package hold Responder"
     eval apt-mark hold responder
     echo -e "\n  $greenplus Fix Responder: Installing Responder 3.0.6.0"
-    sudo dpkg -i /tmp/responder3060.deb
+    sudo dpkg -i /tmp/responder3060.deb >/dev/null 2>&1
     rm -f /tmp/responder3060.deb
     echo -e "\n  $greenplus Fix Responder - Complete"
     }
-
 
 fix_mitm6() {
     [[ -d /opt/mitm6 ]] && rm -rf /opt/mitm6 || git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
@@ -1475,9 +1510,10 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    #echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0) - DISABLED"                      # fix_responder
+    echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0) + Python3.9 fix"      # fix_responder
+    echo -e "  P - Downgrade to Python3.9   (Only install python3.9 and resymlink /bin/python3)"    # fix_python39
     echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
-    #echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                          # downgrade_msf
+    #echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
     echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"   # fix_broken_xfce
@@ -1517,9 +1553,8 @@ pimpmykali_menu () {
       n|N) fix_all; fix_upgrade;;
     #  d|D) downgrade_msf;;
       b|B) fix_bloodhound;; # was bpt;;
-    #  r|R) fix_responder;;
-      # move this to another letter or omit completely as its called in fix_missing
-      # p|P) disable_power_checkde;;
+      r|R) fix_responder;;
+      p|P) fix_python39;;  # revision 1.5.5
       m|M) mayor_mpp;;
       l|L) install_sublime;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
