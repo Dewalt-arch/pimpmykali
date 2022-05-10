@@ -1548,14 +1548,14 @@ pimpmykali_menu () {
       s|S) fix_spike;;
       g|G) fix_root_connectionrefused ;;
       h|H) fix_httprobe;;
-      i|I) fix_mitm6;; 
+      i|I) fix_mitm6;;
       c|C) check_chrome;;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
       n|N) fix_all; fix_upgrade;;
     #  d|D) downgrade_msf;;
       b|B) fix_bloodhound;; # was bpt;;
-      r|R) fix_responder;;
+      r|R) fix_responder;; # revision 1.5.5
       p|P) fix_python39;;  # revision 1.5.5
       m|M) mayor_mpp;;
       l|L) install_sublime;;
