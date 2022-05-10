@@ -40,10 +40,11 @@
 # Revision 1.5.5 - Fix Responder Re-Enabled
   - Downgrade Responder (R) Function updated
     - ask_python39 function added: prompt before proceeding
-    - if python3.10 is found :
+    - fix_python39 function
+      - if python3.10 is found :
       - installs python3.9-full and python3.9-dbg
       - resymlinks /bin/python3.9 to /bin/python3
-    - if python3.10 not found proceeds with responder downgrade
+      - if python3.10 not found proceeds with responder downgrade
 
   - New Menu item P - Fix Python3.9 (no prompt)
     - will install python3.9-full and python3.9-dbg
