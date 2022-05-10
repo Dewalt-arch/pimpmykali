@@ -564,7 +564,7 @@ fix_python39 () {
 fix_responder () {
     echo -e "\n\n   This is a 2 part fix for Responder and Python3.9\n"
     echo -e "   Python3.9 will be installed and /bin/python3.9 will be symlinked to /bin/python3"
-    echo -e "   then Responder 3.0.6.0 will be installed, this also fixes issues with Responder 3.1.1.0"
+    echo -e "   then Responder 3.0.6.0 will be installed"
     echo -e "   and Python3.10"
     ask_python39
     PYTHONWARNINGS="ignore"
