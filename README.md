@@ -39,11 +39,11 @@
 
 # Revision 1.5.5 - Fix Responder Re-Enabled
   - Downgrade Responder (R) Function updated
-    - prompt added before proceeding
-    - Installs python3.9-full and python3.9-dbg
+    - ask_python39 function added: prompt before proceeding
+    - installs python3.9-full and python3.9-dbg
     - resymlinks /bin/python3.9 to /bin/python3
 
-  - New Menu item P - Fix Python3.9 (no prompt) 
+  - New Menu item P - Fix Python3.9 (no prompt)
     - will install python3.9-full and python3.9-dbg
     - no prompt will be asked in this function
 
