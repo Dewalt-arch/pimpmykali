@@ -39,6 +39,9 @@
 
 # Revision 1.5.4b - Fix Responder Disabled
   - Downgrade Responder has been Disabled
+   - complications with python3.10
+   - work-around is being developed and will be added
+     once this function is re-enabled
   - additional qemu update to handle qemu or kvm detection 
 
 # Revision 1.5.4 - Qemu update
