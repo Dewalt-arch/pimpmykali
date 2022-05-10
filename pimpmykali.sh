@@ -562,7 +562,7 @@ fix_python39 () {
 
   # 05.09.2022 - rev 1.5.5 - updated function with python3.9 fix and warning + prompt
 fix_responder () {
-    echo -e "\n\n $redexclaim This is a 2 part fix for Responder and Python3.9 $redexclaim"
+    echo -e "\n\n      $redexclaim This is a 2 part fix for Responder and Python3.9 $redexclaim"
     echo -e "\n   Python3.9 will be installed and /bin/python3.9 will be symlinked to /bin/python3"
     echo -e "   then Responder 3.0.6.0 will be installed"
     ask_python39
