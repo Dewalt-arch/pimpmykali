@@ -203,6 +203,7 @@ fix_missing () {
     fix_assetfinder       # 03.17.22 - added assetfinder precompiled binary
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
+    fix_mitm6             # 05.09.2022 - added mitm6 to fix missing
     # fix_qterminal_history
     }
 
@@ -561,7 +562,7 @@ fix_python39 () {
     }
 
   # 05.09.2022 - rev 1.5.5 - updated function with python3.9 fix and warning + prompt
-fix_responder () { 
+fix_responder () {
     echo -e "\n\n   $redexclaim This is a 2 part fix for Responder and Python3.9 $redexclaim"
     echo -e "\n   Python3.9 will be installed and /bin/python3.9 will be symlinked to /bin/python3"
     echo -e "   then Responder 3.0.6.0 will be installed"
@@ -1513,6 +1514,7 @@ pimpmykali_menu () {
     echo -e "  P - Downgrade to Python3.9   (Only install python3.9 and resymlink /bin/python3)"    # fix_python39
     echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
     #echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
+    echo -e "  I - Install MITM6            (install mitm6 from github)"                            # fix_mitm6
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
     echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"   # fix_broken_xfce
@@ -1546,6 +1548,7 @@ pimpmykali_menu () {
       s|S) fix_spike;;
       g|G) fix_root_connectionrefused ;;
       h|H) fix_httprobe;;
+      i|I) fix_mitm6;; 
       c|C) check_chrome;;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
