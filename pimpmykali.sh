@@ -554,7 +554,7 @@ fix_python39 () {
       echo -e "\n  $greenplus Re-Symlinking /bin/python3.9 to /bin/python3"
       ln -sf /bin/python3.9 /bin/python3
       echo -e "\n  It is highly advised to add the following to your .bashrc or .zshrc"
-      echo -e "  export PYTHONWARNINGS=\"ignore\" "
+      echo -e "  export PYTHONWARNINGS=ignore"
     else
       echo -e "\n  $greenminus Python 3.10 not detected"
     fi
@@ -1541,7 +1541,7 @@ pimpmykali_menu () {
         8) fix_nmap ;;
         9) apt_update; fix_libwacom; only_upgrade;;
         0) fix_all; run_update; virt_what; check_vm;;
-        !) forced=1; fix_sead_warning;; 
+        !) forced=1; fix_sead_warning;;
       a|A) mapt_prereq;;
       f|F) fix_broken_xfce;;
       s|S) fix_spike;;
