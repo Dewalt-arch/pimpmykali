@@ -32,7 +32,7 @@
     https://benheater.com/building-a-security-lab-in-virtualbox/
   - TheMadHuman https://github.com/TMH-Sec
   - Aashiksamuel https://github.com/aashiksamuel  (sublime install fix)
-  - m4ul3r 
+  - m4ul3r
 
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
@@ -40,8 +40,10 @@
 # Revision 1.5.5 - Fix Responder Re-Enabled
   - Downgrade Responder (R) Function updated
     - ask_python39 function added: prompt before proceeding
-    - installs python3.9-full and python3.9-dbg
-    - resymlinks /bin/python3.9 to /bin/python3
+    - if python3.10 is found :
+      - installs python3.9-full and python3.9-dbg
+      - resymlinks /bin/python3.9 to /bin/python3
+    - if python3.10 not found proceeds with responder downgrade
 
   - New Menu item P - Fix Python3.9 (no prompt)
     - will install python3.9-full and python3.9-dbg
