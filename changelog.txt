@@ -1,9 +1,9 @@
 # Revision 1.5.3 - Sublime Installation updated
   - fix provided by aashiksamuel, thank you!
-  - function sublime_install lines 768->780 updated
+  - function sublime_install lines 768->780 updated 
 
 # Revision 1.5.2 - Python Requests
-  - specified specific version of requests to use 2.2.1 
+  - specified specific version of requests to use 2.2.1
 
 # Revision 1.5.1 - Downgrade Metasploit - Disabled
   - ruby has been upgraded to a default of 3.0

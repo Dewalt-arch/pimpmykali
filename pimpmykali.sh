@@ -418,9 +418,10 @@ silence_pcbeep () {
 
 fix_pipxlrd () {
     eval pip install xlrd==1.2.0 --upgrade
+    eval pip3 install scapy==2.4.4 --upgrade
     # eval pip3 install xlrd --upgrade
     echo -e "\n  $greenplus python module : xlrd installed \n"
-    }
+    } 
 
 # Thinking about this before implementation
 # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
@@ -681,7 +682,7 @@ fix_golang () {
     check=$(whereis go  | grep -i -c "/usr/bin/go")
     fix_section $section $check $force
     fix_go_path
-  }
+    }
 
 fix_go_path() {
     # added gonski fix - 01.21.22 rev 1.4.2
