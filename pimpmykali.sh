@@ -245,7 +245,7 @@ fix_libwacom() {
 fix_assetfinder () {
     echo -e "\n  $greenplus Installing Assetfinder precompiled binary ... "
     [[ -f /usr/bin/assetfinder ]] && rm -f /usr/bin/assetfinder || echo > /dev/null
-    wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder.tgz
+    wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O "/tmp/assetfinder.tgz"
      tar xvfz /tmp/assetfinder.tgz -C /usr/bin/
     }
 
