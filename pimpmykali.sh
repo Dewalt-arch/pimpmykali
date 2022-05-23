@@ -245,8 +245,8 @@ fix_libwacom() {
 fix_assetfinder () {
     echo -e "\n  $greenplus Installing Assetfinder precompiled binary ... "
     [[ -f /usr/bin/assetfinder ]] && rm -f /usr/bin/assetfinder || echo > /dev/null
-    wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O "/tmp/assetfinder.tgz"
-     tar xvfz /tmp/assetfinder.tgz -C /usr/bin/
+    eval wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder.tgz
+    tar xvfz /tmp/assetfinder.tgz -C /usr/bin/
     }
 
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
@@ -263,7 +263,7 @@ fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
 fix_amass() {
     echo -e "\n  $greenplus installing amass"
     # rewrite this for pull from Kali Repo using APT not wget from github
-    wget https://github.com/OWASP/Amass/releases/download/v3.13.4/amass_linux_amd64.zip -O /tmp/amass_linux_amd64.zip
+    eval wget https://github.com/OWASP/Amass/releases/download/v3.13.4/amass_linux_amd64.zip -O /tmp/amass_linux_amd64.zip
     cd /tmp
     unzip amass_linux_amd64.zip
     cp /tmp/amass_linux_amd64/amass /usr/bin
@@ -273,9 +273,10 @@ fix_amass() {
 
 
 fix_assetfinder () {
-   wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder
-   tar xvfz /tmp/assetfinder.tgz -C /usr/bin
-}
+    eval wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder
+    tar xvfz /tmp/assetfinder.tgz -C /usr/bin
+    }
+
 fix_pyftpdlib() {
     echo -e "\n  $greenplus installing pyftpdlib"
     eval pip install pyftpdlib
@@ -421,7 +422,7 @@ fix_pipxlrd () {
     eval pip3 install scapy==2.4.4 --upgrade
     # eval pip3 install xlrd --upgrade
     echo -e "\n  $greenplus python module : xlrd installed \n"
-    } 
+    }
 
 # Thinking about this before implementation
 # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
@@ -507,7 +508,7 @@ fix_bloodhound () {
     echo -e "\n  $greenplus Purging Bloodhound"
     eval apt -y purge bloodhound
     echo -e "\n  $greenplus Downloading Bloodhound 4.0.3"
-    wget http://old.kali.org/kali/pool/main/b/bloodhound/bloodhound_4.0.3-0kali1_amd64.deb -O /tmp/bloodhound403.deb
+    eval wget http://old.kali.org/kali/pool/main/b/bloodhound/bloodhound_4.0.3-0kali1_amd64.deb -O /tmp/bloodhound403.deb
     echo -e "\n  $greenplus Installing Bloodhound 4.0.3"
     echo -e "\n  $greenplus Note: This process may take several minutes to complete..."
     eval dpkg -i /tmp/bloodhound403.deb
@@ -524,7 +525,7 @@ fix_spike () {
     echo -e "\n  $greenplus removing SPIKE..."
     eval apt -y --allow-change-held-packages remove spike
     # curl --progress-bar
-    wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_amd64.deb -O /tmp/spike_2.9-1kali6_amd64.deb
+    eval wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_amd64.deb -O /tmp/spike_2.9-1kali6_amd64.deb
     echo -e "\n  $greenplus installing spike 2.9... \n"
     eval dpkg -i /tmp/spike_2.9-1kali6_amd64.deb
     echo -e "\n  $greenplus spike 2.9 installed \n"
@@ -571,7 +572,7 @@ fix_responder () {
     PYTHONWARNINGS="ignore"
     export PYTHONWARNINGS="ignore"
     echo -e "\n  $greenplus Fix Responder: Downloading Responder 3.0.6.0"
-    wget http://old.kali.org/kali/pool/main/r/responder/responder_3.0.6.0-0kali2_all.deb -O /tmp/responder3060.deb
+    eval wget http://old.kali.org/kali/pool/main/r/responder/responder_3.0.6.0-0kali2_all.deb -O /tmp/responder3060.deb
     echo -e "\n  $greenplus Fix Responder: Uninstalling current Responder"
     eval apt update
     eval apt -y remove responder
@@ -596,9 +597,9 @@ fix_gowitness () {
     echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
     rm -f /tmp/releases.gowitness > /dev/null
     check_chrome
-    wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
+    eval wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
     current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
-    wget https://github.com$current_build -O /usr/bin/gowitness
+    eval wget https://github.com$current_build -O /usr/bin/gowitness
     chmod +x /usr/bin/gowitness
     rm -f /tmp/releases.gowitness > /dev/null
     }
@@ -1200,10 +1201,10 @@ fix_virtualbox() {
     # Side Step the Kali Repo as it is the wrong version not current
     # This will always pull the latest version from download.virtualbox.org/virtualbox/LATEST
      # check version
-     wget http://download.virtualbox.org/virtualbox/LATEST.TXT -O /tmp/vbox-latest
+     eval wget http://download.virtualbox.org/virtualbox/LATEST.TXT -O /tmp/vbox-latest
      vboxver=$(cat /tmp/vbox-latest)
      # get new iso and place over old one in /usr/share/virtualbox
-     wget http://download.virtualbox.org/virtualbox/$vboxver/VBoxGuestAdditions_$vboxver.iso -O /usr/share/virtualbox/VBoxGuestAdditions.iso
+     eval wget http://download.virtualbox.org/virtualbox/$vboxver/VBoxGuestAdditions_$vboxver.iso -O /usr/share/virtualbox/VBoxGuestAdditions.iso
      # end of sidestep
     eval mount /usr/share/virtualbox/VBoxGuestAdditions.iso /tmp/vboxtmp
     eval cp -f /tmp/vboxtmp/VBoxLinuxAdditions.run /tmp/VBoxLinuxAdditions.run
@@ -1310,7 +1311,7 @@ mayor_mpp() {
     apt -y install apt-transport-https dnsutils dotnet-sdk-3.1
     # download directly to /tmp and install
     echo -e "\n  $greenplus installing packages-microsoft-prod.deb"
-    wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+    eval wget https://packages.microsoft.com/config/ubuntu/21.04/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
     dpkg -i /tmp/packages-microsoft-prod.deb
     rm -f /tmp/packages-microsoft-prod.deb
     # git clone Covenant to /opt
