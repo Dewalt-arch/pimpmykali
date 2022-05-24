@@ -37,10 +37,14 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.6b - restart-vm-tools
+  - restart-vm-tools removed from check_vm function
+
 # Revision 1.5.6a - fix_assetfinder function
   - Thank you m4ul3r for finding this!
   - Not all wget statements were being eval'd
     - all wgets are now eval'd
+
 
 # Revision 1.5.5 - Fix Responder Re-Enabled
   - Downgrade Responder (R) Function updated
