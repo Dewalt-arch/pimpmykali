@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.6b"
+    revision="1.5.6c"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -75,8 +75,8 @@
     findgroup=$(groups $finduser | grep -i -c "vboxsf")
 
 #    Logging
-#    LOG_FILE=/tmp/pimpmykali.log
-#    exec > >(tee ${LOG_FILE}) 2>&1
+    LOG_FILE=pimpmykali.log
+    exec > >(tee ${LOG_FILE}) 2>&1
 
 # silent mode
     silent=''                  # uncomment to see all output
