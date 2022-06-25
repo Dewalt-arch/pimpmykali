@@ -92,7 +92,7 @@ check_distro() {
     if [ $distro -ne 1 ]
      then echo -e "\n $blinkexclaim Kali Linux Not Detected - WSL/WSL2/Anything else is unsupported $blinkexclaim \n"; exit
     fi
-    }
+  }
 
 # May change check_distro
 #    check_distro() {
@@ -1201,10 +1201,10 @@ fix_virtualbox() {
     # Side Step the Kali Repo as it is the wrong version not current
     # This will always pull the latest version from download.virtualbox.org/virtualbox/LATEST
      # check version
-     eval wget http://download.virtualbox.org/virtualbox/LATEST.TXT -O /tmp/vbox-latest
+     eval wget https://download.virtualbox.org/virtualbox/LATEST.TXT -O /tmp/vbox-latest
      vboxver=$(cat /tmp/vbox-latest)
      # get new iso and place over old one in /usr/share/virtualbox
-     eval wget http://download.virtualbox.org/virtualbox/$vboxver/VBoxGuestAdditions_$vboxver.iso -O /usr/share/virtualbox/VBoxGuestAdditions.iso
+     eval wget https://download.virtualbox.org/virtualbox/$vboxver/VBoxGuestAdditions_$vboxver.iso -O /usr/share/virtualbox/VBoxGuestAdditions.iso
      # end of sidestep
     eval mount /usr/share/virtualbox/VBoxGuestAdditions.iso /tmp/vboxtmp
     eval cp -f /tmp/vboxtmp/VBoxLinuxAdditions.run /tmp/VBoxLinuxAdditions.run
