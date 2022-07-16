@@ -484,7 +484,7 @@ python-pip-curl () {
       rm -f /tmp/get-pip.py
       eval pip --no-python-version-warning install setuptools
       # python2-pip installer is now removing /usr/bin/pip3 - new "feature" I guess... 09.01.2021
-      [[ ! -f /usr/bin/pip3 ]] && echo -n "\n  $greenplus installing python3-pip"; apt -y reinstall python3-pip || echo -e "\n  $greenplus python3-pip exists in /usr/bin/pip3"
+      [[ ! -f /usr/bin/pip3 ]] && echo -e "\n  $greenplus installing python3-pip"; apt -y reinstall python3-pip || echo -e "\n  $greenplus python3-pip exists in /usr/bin/pip3"
       echo -e "\n  $greenplus python-pip installed"
     else
       echo -e "\n  $greenminus python-pip already installed"
