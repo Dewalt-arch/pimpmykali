@@ -1534,7 +1534,7 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  O - Fix SSH                   (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
+    echo -e "  O - Fix SSH                  (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
     echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0) + Python3.9 fix"      # fix_responder
     echo -e "  P - Downgrade to Python3.9   (Only install python3.9 and resymlink /bin/python3)"    # fix_python39
     echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
