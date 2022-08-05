@@ -37,6 +37,12 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.7 - Fix SSH Function 
+  - Menu option letter O Only (is not included in N, 0 or 1 at this time)
+  - added function to set ssh to wide compatibility mode
+  - file created : /etc/ssh/ssh_config.d/kali-wide-compat.conf
+  - resolves issues with ssh -i id_rsa and various other legacy ciphers
+
 # Revision 1.5.6b - restart-vm-tools
   - restart-vm-tools removed from check_vm function
 

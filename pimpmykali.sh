@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.6c"
+    revision="1.5.7"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1480,6 +1480,28 @@ cleanup() {
 # function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
 #---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 
+fix_ssh() { 
+  echo -e "\n  $greenplus Fix SSH set ssh to wide compatibility"
+  outputfile="/etc/ssh/ssh_config.d/kali-wide-compat.conf"
+  if [[ -f $outputfile ]]
+  then 
+    echo -e "\n  $redexclaim File already exists, not updating..."
+  else  
+    echo -e "Host *" > $outputfile
+    echo -e "  Ciphers +3des-cbc,aes128-cbc,aes192-cbc,aes256-cbc" >> $outputfile
+    echo -e "  KexAlgorithms +diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1,diffie-hellman-group14-sha1" >> $outputfile
+    echo -e "  HostKeyAlgorithms +ssh-rsa,ssh-rsa-cert-v01@openssh.com,ssh-dss,ssh-dss-cert-v01@openssh.com" >> $outputfile
+    echo -e "  PubkeyAcceptedAlgorithms +ssh-rsa,ssh-rsa-cert-v01@openssh.com,ssh-dss,ssh-dss-cert-v01@openssh.com" >> $outputfile
+    echo -e "  LocalCommand /bin/echo \"Warning: SSH client configured for wide compatibility by kali-tweaks.\"" >> $outputfile
+    echo -e "  PermitLocalCommand yes" >> $outputfile
+    echo -e "\n  $greenplus File : /etc/ssh/ssh_config.d/kali-wide-compat.conf - created" 
+    echo -e "\n  $greenplus Restarting SSH Service..."
+    systemctl restart ssh 
+    echo -e "\n  $greenplus Fix SSH - Complete"
+  fi 
+  }
+
+
 # ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
 CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
@@ -1546,28 +1568,26 @@ pimpmykali_menu () {
         0) fix_all; run_update; virt_what; check_vm;;
         !) forced=1; fix_sead_warning;;
       a|A) mapt_prereq;;
+      b|B) fix_bloodhound;; # was bpt;;
+      c|C) check_chrome;;
       f|F) fix_broken_xfce;;
-      s|S) fix_spike;;
       g|G) fix_root_connectionrefused ;;
       h|H) fix_httprobe;;
       i|I) fix_mitm6;;
-      c|C) check_chrome;;
+      k|K) sudo dpkg-reconfigure keyboard-configuration; echo -e "\n  $greenplus Keyboard now set to: $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)";;
+      l|L) install_sublime;;
+      m|M) mayor_mpp;;
+      n|N) fix_all; fix_upgrade;;
+      o|O) fix_ssh;;
+      p|P) fix_python39;;  # revision 1.5.5
+      r|R) fix_responder;; # revision 1.5.5 
+      s|S) fix_spike;;
+      t|T) sudo dpkg-reconfigure tzdata; echo -e "\n  $greenplus Timezone now set to: $(cat /etc/timezone)";;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
-      n|N) fix_all; fix_upgrade;;
-    #  d|D) downgrade_msf;;
-      b|B) fix_bloodhound;; # was bpt;;
-      r|R) fix_responder;; # revision 1.5.5
-      p|P) fix_python39;;  # revision 1.5.5
-      m|M) mayor_mpp;;
-      l|L) install_sublime;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-      t|T) sudo dpkg-reconfigure tzdata; echo -e "\n  $greenplus Timezone now set to: $(cat /etc/timezone)";;
-      k|K) sudo dpkg-reconfigure keyboard-configuration; echo -e "\n  $greenplus Keyboard now set to: $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)";;
-      # h|H) fix_theharvester ;;
-      # q|Q) fix_qterminal_history;;  # cant change settings of qterminal while in qterminal... find a fix
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
-      *) pimpmykali_menu ;;
+        *) pimpmykali_menu ;;
     esac
     }
 
