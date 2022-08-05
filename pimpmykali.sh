@@ -1534,6 +1534,7 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
+    echo -e "  O - Fix SSH                   (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
     echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0) + Python3.9 fix"      # fix_responder
     echo -e "  P - Downgrade to Python3.9   (Only install python3.9 and resymlink /bin/python3)"    # fix_python39
     echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
@@ -1549,9 +1550,9 @@ pimpmykali_menu () {
     echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
     #echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
-    echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
-    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"              # fix_sead_warning
-    #echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback"         # fix_qterminal_history
+    echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                           # install_vscode
+    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"             # fix_sead_warning
+    #echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback"        # fix_qterminal_history
     #echo -e "\n"
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
