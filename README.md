@@ -42,34 +42,7 @@
   - added function to set ssh to wide compatibility mode
   - file created : /etc/ssh/ssh_config.d/kali-wide-compat.conf
   - resolves issues with ssh -i id_rsa and various other legacy ciphers
-
-# Revision 1.5.6b - restart-vm-tools
-  - restart-vm-tools removed from check_vm function
-
-# Revision 1.5.6a - fix_assetfinder function
-  - Thank you m4ul3r for finding this!
-  - Not all wget statements were being eval'd
-    - all wgets are now eval'd
-
-
-# Revision 1.5.5 - Fix Responder Re-Enabled
-  - Downgrade Responder (R) Function updated
-    - ask_python39 function added: prompt before proceeding
-    - fix_python39 function
-      - if python3.10 is found :
-      - installs python3.9-full and python3.9-dbg
-      - resymlinks /bin/python3.9 to /bin/python3
-      - if python3.10 not found proceeds with responder downgrade
-
-  - New Menu item P - Fix Python3.9 (no prompt)
-    - will install python3.9-full and python3.9-dbg
-    - no prompt will be asked in this function
-
-# Revision 1.5.4 - Qemu update
-  - removed xserver-xorg-video-qxl is no longer in the kali repo
-  - updated function to install qemu-guest-agent
-  - revision history 1.5.0 -> 1.5.3 moved to changelog.txt
-   - thank you m4ul3r!
+  - older revision history moved to changelog.txt 
 
 # Menu Breakdown of Pimpmykali
 

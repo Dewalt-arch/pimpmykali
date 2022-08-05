@@ -1,3 +1,30 @@
+# Revision 1.5.6b - restart-vm-tools
+  - restart-vm-tools removed from check_vm function
+
+# Revision 1.5.6a - fix_assetfinder function
+  - Thank you m4ul3r for finding this!
+  - Not all wget statements were being eval'd
+    - all wgets are now eval'd
+
+# Revision 1.5.5 - Fix Responder Re-Enabled
+  - Downgrade Responder (R) Function updated
+    - ask_python39 function added: prompt before proceeding
+    - fix_python39 function
+      - if python3.10 is found :
+      - installs python3.9-full and python3.9-dbg
+      - resymlinks /bin/python3.9 to /bin/python3
+      - if python3.10 not found proceeds with responder downgrade
+
+  - New Menu item P - Fix Python3.9 (no prompt)
+    - will install python3.9-full and python3.9-dbg
+    - no prompt will be asked in this function
+
+# Revision 1.5.4 - Qemu update
+  - removed xserver-xorg-video-qxl is no longer in the kali repo
+  - updated function to install qemu-guest-agent
+  - revision history 1.5.0 -> 1.5.3 moved to changelog.txt
+   - thank you m4ul3r!
+
 # Revision 1.5.3 - Sublime Installation updated
   - fix provided by aashiksamuel, thank you!
   - function sublime_install lines 768->780 updated 

@@ -1480,6 +1480,7 @@ cleanup() {
 # function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
 #---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 
+# fix_ssh function - set ssh client to wide compatibility mode legacy ciphers - 08.04.2022 rev 1.5.7
 fix_ssh() { 
   echo -e "\n  $greenplus Fix SSH set ssh to wide compatibility"
   outputfile="/etc/ssh/ssh_config.d/kali-wide-compat.conf"
@@ -1500,7 +1501,6 @@ fix_ssh() {
     echo -e "\n  $greenplus Fix SSH - Complete"
   fi 
   }
-
 
 # ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
