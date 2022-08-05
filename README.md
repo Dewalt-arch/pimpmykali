@@ -175,8 +175,14 @@
 
 - Menu Option M
   - Kali linux setup for Mayors Movement Pivoting and Persistance Course
-    - installs covenant   
+    - installs covenant  
 
+- Menu Option O 
+  - Fix SSH Function
+    - checks for /etc/ssh/ssh_config.d/kali-wide-compat.conf
+    - if file exists, no changes are made and exists 
+    - if file does not exist, it is created and legacy ciphers added
+    - restarts ssh service
 
 - Menu Option P  (was disable power management - updated 01.05.22)
   - PPA Course Prerequisites installation
