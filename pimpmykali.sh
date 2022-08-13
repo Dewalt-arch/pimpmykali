@@ -1481,13 +1481,13 @@ cleanup() {
 #---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 
 # fix_ssh function - set ssh client to wide compatibility mode legacy ciphers - 08.04.2022 rev 1.5.7
-fix_ssh() { 
+fix_ssh() {
   echo -e "\n  $greenplus Fix SSH set ssh to wide compatibility"
   outputfile="/etc/ssh/ssh_config.d/kali-wide-compat.conf"
   if [[ -f $outputfile ]]
-  then 
+  then
     echo -e "\n  $redexclaim File already exists, not updating..."
-  else  
+  else
     echo -e "Host *" > $outputfile
     echo -e "  Ciphers +3des-cbc,aes128-cbc,aes192-cbc,aes256-cbc" >> $outputfile
     echo -e "  KexAlgorithms +diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1,diffie-hellman-group14-sha1" >> $outputfile
@@ -1495,11 +1495,11 @@ fix_ssh() {
     echo -e "  PubkeyAcceptedAlgorithms +ssh-rsa,ssh-rsa-cert-v01@openssh.com,ssh-dss,ssh-dss-cert-v01@openssh.com" >> $outputfile
     echo -e "  LocalCommand /bin/echo \"Warning: SSH client configured for wide compatibility by kali-tweaks.\"" >> $outputfile
     echo -e "  PermitLocalCommand yes" >> $outputfile
-    echo -e "\n  $greenplus File : /etc/ssh/ssh_config.d/kali-wide-compat.conf - created" 
+    echo -e "\n  $greenplus File : /etc/ssh/ssh_config.d/kali-wide-compat.conf - created"
     echo -e "\n  $greenplus Restarting SSH Service..."
-    systemctl restart ssh 
+    systemctl restart ssh
     echo -e "\n  $greenplus Fix SSH - Complete"
-  fi 
+  fi
   }
 
 # ascii art - DONT move
@@ -1534,11 +1534,11 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  O - Fix SSH                  (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
+    # echo -e "  O - Fix SSH                  (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
     echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0) + Python3.9 fix"      # fix_responder
-    echo -e "  P - Downgrade to Python3.9   (Only install python3.9 and resymlink /bin/python3)"    # fix_python39
+    # echo -e "  P - Downgrade to Python3.9   (Only install python3.9 and resymlink /bin/python3)"    # fix_python39
     echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
-    #echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
+    # echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
     echo -e "  I - Install MITM6            (install mitm6 from github)"                            # fix_mitm6
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
@@ -1581,7 +1581,7 @@ pimpmykali_menu () {
       n|N) fix_all; fix_upgrade;;
       o|O) fix_ssh;;
       p|P) fix_python39;;  # revision 1.5.5
-      r|R) fix_responder;; # revision 1.5.5 
+      r|R) fix_responder;; # revision 1.5.5
       s|S) fix_spike;;
       t|T) sudo dpkg-reconfigure tzdata; echo -e "\n  $greenplus Timezone now set to: $(cat /etc/timezone)";;
       v|V) install_vscode;;
