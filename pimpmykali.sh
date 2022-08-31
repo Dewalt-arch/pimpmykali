@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.7"
+    revision="1.5.8"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -661,7 +661,7 @@ fix_nmap () {
     rm -f /usr/share/nmap/scripts/clamav-exec.nse
     echo -e "\n  $redminus /usr/share/nmap/scripts/clamav-exec.nse removed "
     eval wget https://raw.githubusercontent.com/nmap/nmap/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
-    eval wget https://raw.githubusercontent.com/onomastus/pentest-tools/master/fixed-http-shellshock.nse -O /usr/share/nmap/scripts/http-shellshock.nse $silent
+    eval wget https://raw.githubusercontent.com/Dewalt-arch/pimpmykali/master/fixed-http-shellshock.nse -O /usr/share/nmap/scripts/http-shellshock.nse $silent
     echo -e "\n  $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version "
     }
 

@@ -37,6 +37,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.8 - fixed-http-shellshock.nse 
+  - updated script to obtain file from pimpmykali github
+
 # Revision 1.5.7 - Fix SSH Function 
   - Menu option letter O Only (is not included in N, 0 or 1 at this time)
   - added function to set ssh to wide compatibility mode
