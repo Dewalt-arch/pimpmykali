@@ -597,11 +597,12 @@ fix_gowitness () {
     echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
     rm -f /tmp/releases.gowitness > /dev/null
     check_chrome
+    rm -f /usr/bin/gowitness
     #eval wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
     #current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
     #eval wget https://github.com$current_build -O /usr/bin/gowitness
     # Updated code to only pull 2.4.1 of GoWitness as there is a no new line error with 2.4.2 
-    wget https://github.com/sensepost/gowitness/releases/download/2.4.1/gowitness-2.4.1-linux-amd64 -O /usr/bin/gowitness
+    eval wget https://github.com/sensepost/gowitness/releases/download/2.4.1/gowitness-2.4.1-linux-amd64 -O /usr/bin/gowitness
     chmod +x /usr/bin/gowitness
     rm -f /tmp/releases.gowitness > /dev/null
     }
