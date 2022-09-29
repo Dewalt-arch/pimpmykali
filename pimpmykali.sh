@@ -597,7 +597,7 @@ fix_gowitness () {
     echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
     rm -f /tmp/releases.gowitness > /dev/null
     check_chrome
-    rm -f /usr/bin/gowitness
+    rm -f /usr/bin/gowitness > /dev/null 
     #eval wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
     #current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
     #eval wget https://github.com$current_build -O /usr/bin/gowitness
