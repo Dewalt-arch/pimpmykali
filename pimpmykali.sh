@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.8"
+    revision="1.5.9"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -597,9 +597,11 @@ fix_gowitness () {
     echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
     rm -f /tmp/releases.gowitness > /dev/null
     check_chrome
-    eval wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
-    current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
-    eval wget https://github.com$current_build -O /usr/bin/gowitness
+    #eval wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
+    #current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
+    #eval wget https://github.com$current_build -O /usr/bin/gowitness
+    # Updated code to only pull 2.4.1 of GoWitness as there is a no new line error with 2.4.2 
+    wget https://github.com/sensepost/gowitness/releases/download/2.4.1/gowitness-2.4.1-linux-amd64 -O /usr/bin/gowitness
     chmod +x /usr/bin/gowitness
     rm -f /tmp/releases.gowitness > /dev/null
     }
@@ -1580,8 +1582,8 @@ pimpmykali_menu () {
       m|M) mayor_mpp;;
       n|N) fix_all; fix_upgrade;;
       o|O) fix_ssh;;
-      p|P) fix_python39;;  # revision 1.5.5
-      r|R) fix_responder;; # revision 1.5.5
+      # p|P) fix_python39;;  # revision 1.5.5
+      # r|R) fix_responder;; # revision 1.5.5
       s|S) fix_spike;;
       t|T) sudo dpkg-reconfigure tzdata; echo -e "\n  $greenplus Timezone now set to: $(cat /etc/timezone)";;
       v|V) install_vscode;;

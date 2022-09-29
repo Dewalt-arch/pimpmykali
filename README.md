@@ -37,6 +37,10 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.5.9 - gowitness update 
+  - due to a new line error, pimpmykali is now hardcoded to pull gowitness 2.4.1
+    until the new line error in gowitness 2.4.2 is resolved. 
+
 # Revision 1.5.8 - fixed-http-shellshock.nse 
   - updated script to obtain file from pimpmykali github
 
