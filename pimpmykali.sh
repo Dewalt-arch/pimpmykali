@@ -1234,13 +1234,12 @@ xfce_auto_res() {
       #      up using 50% of CPU (in the VM)
       res_script="#!/bin/bash
 monitor_count=$(xrandr --listactivemonitors | grep -c "Virtual")
-monitor=1
 while true; do
+  monitor=1
   while [ \$monitor -le \$monitor_count ]; do
       xrandr --output Virtual-\$monitor --auto
       let monitor++
   done
-  monitor=1
   sleep 1
 done"
 
