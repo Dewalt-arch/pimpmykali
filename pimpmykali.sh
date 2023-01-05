@@ -1218,7 +1218,69 @@ fix_virtualbox() {
     eval rm -f /tmp/VBoxLinuxAdditions.run
     eval /sbin/rcvboxadd quicksetup all
     echo -e "\n  $redstar A reboot of your system is required"
-    }
+}
+  
+xfce_auto_res() {
+
+  if [[ "$(ls /usr/bin/*-session)" = *"xfce"* && "$(virt-what | grep -i -c "qemu\|kvm")" = "1" ]] # Make sure that XFCE is installed
+    then
+
+      # Real user, and real home directory
+      realuser=$(who | awk 'NR==1{print $1}')
+      realhome=$(getent passwd "$realuser" | cut -d: -f6)
+
+      # The script that adjusts the resolution every other second
+      # I used a while loop, because using a for loop ignored the sleep and ended
+      #      up using 50% of CPU (in the VM)
+      res_script="#!/bin/bash
+monitor_count=$(xrandr --listactivemonitors | grep -c "Virtual")
+monitor=1
+while true; do
+  while [ \$monitor -le \$monitor_count ]; do
+      xrandr --output Virtual-\$monitor --auto
+      let monitor++
+  done
+  monitor=1
+  sleep 1
+done"
+
+      # The desktop entry is to enable autostart at login
+      desktop_entry="[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Auto Resize Screen
+Exec=$realhome/.config/autostart/auto_resize.sh
+OnlyShowIn=XFCE;
+StartupNotify=false
+Terminal=false
+Hidden=false"
+
+      echo -e "\n  $greenplus *** XFCE IS INSTALLED WITH QEMU/LIBVIRT *** \n"
+      echo -e "Would you like to set a script to enable Auto Resulotion Change on window resize\n(For LIBVIRT/QEMU VMs)?"
+      read -n1 -p "   Please type Y or N : " userinput
+      
+      # I couldn't think of any other place of placing the auto_resize.sh script
+
+      case $userinput in
+        y|Y) [[ ! -d "$realhome/.config/autostart" ]] && mkdir "$realhome/.config/autostart"; \
+        echo "$res_script" > "$realhome/.config/autostart/auto_resize.sh"; \
+        echo "$desktop_entry" > "$realhome/.config/autostart/auto_resize.desktop"; \
+        chmod u+x "$realhome/.config/autostart/auto_resize.sh";\
+        echo -e "\n\n  $greenplus Script applied! \n"; \
+        [[ ! "$(ps -e | grep -i "xfce")" = "" ]] && "$realhome/.config/autostart/auto_resize.sh"&;;
+        n|N) echo -e "\n\n  $redexclaim Will not set the script";;
+          *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim";;
+      esac
+  elif [[ "$(ls /usr/bin/*-session)" != *"xfce"* ]]
+    then
+      echo -e "\n\n  $redexclaim XFCE is NOT installed! $redexclaim";
+  elif [[ "$(virt-what | grep -i -c "qemu\|kvm")" = "1" ]]
+    then
+      echo -e "\n\n  $redexclaim This VM is NOT run by QEMU/LIBVIRT! $redexclaim";
+  else
+    echo -e "\n\n  $redexclaim XFCE is NOT installed, and this is NOT a QEMU/LIBVIRT VM! $redexclaim"
+  fi
+}
 
 check_vm() {
     echo -e "\n  $greenplus detecting hypervisor type \n"
@@ -1255,6 +1317,8 @@ check_vm() {
           eval apt -y reinstall spice-vdagent qemu-guest-agent
           # xserver-xorg-video-qxl - rev 1.5.4 no longer in the kali repo
           echo -e "\n  $greenplus installing xserver-xorg-video-qxl spice-vdagent"
+          # Make the screen auto resize with window resize
+          xfce_auto_res
       else
         echo -e "\n $redstar Hypervisor not detected, Possible bare-metal installation not updating"
     fi
@@ -1339,7 +1403,7 @@ mayor_mpp() {
     echo -e "\n  $greenplus symlinking /usr/local/bin/startcovenant.sh to /usr/local/bin/covenant"
     ln -sf /usr/local/bin/startcovenant.sh /usr/local/bin/covenant
 
-    #make desktop icon
+    # make desktop icon
     findrealuser=$(who | awk '{print $1}')
     if [ $findrealuser == "root" ]
       then
@@ -1554,7 +1618,8 @@ pimpmykali_menu () {
     #echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
     echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                           # install_vscode
-    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"             # fix_sead_warning
+    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"             # fix_sead_warning
+    echo -e "  Q - Set Auto Screen resize   (Enable QEMU/KVM VMs to auto resize screen with window)\n"
     #echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback"        # fix_qterminal_history
     #echo -e "\n"
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
@@ -1590,6 +1655,7 @@ pimpmykali_menu () {
       v|V) install_vscode;;
       w|W) fix_gowitness;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+      q|Q) virt_what; xfce_auto_res;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
         *) pimpmykali_menu ;;
     esac
