@@ -1236,7 +1236,7 @@ xfce_auto_res() {
 monitor_count=$(xrandr --listactivemonitors | grep -c "Virtual")
 while true; do
   monitor=1
-  while [ \$monitor -le \$monitor_count ]; do
+  while [ \"\$monitor\" -le \"\$monitor_count\" ]; do
       xrandr --output Virtual-\$monitor --auto
       let monitor++
   done
