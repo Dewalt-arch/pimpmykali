@@ -797,7 +797,7 @@ install_atom () {
     else
       apt_update  && apt_update_complete
       echo -e "\n  $greenplus downloading atom"
-      eval wget https://atom.io/download/deb -O /tmp/atom.deb $silent
+      eval wget https://github.com/atom/atom/releases/latest/download/atom-amd64.deb -O /tmp/atom.deb $silent
       echo -e "\n  $greenplus installing atom"
       eval dpkg -i /tmp/atom.deb $silent
       eval rm -f /tmp/atom.deb $silent
