@@ -66,21 +66,8 @@
     - moved virt-what to be installed much earlier in the script 
     - general code cleanup
 
-  - Menu option B restored to BlindPenTesters - TheEssentials 
-
-# Revision 1.5.9 - gowitness update 
-  - due to a new line error, pimpmykali is now hardcoded to pull gowitness 2.4.1
-    until the new line error in gowitness 2.4.2 is resolved. 
-
-# Revision 1.5.8 - fixed-http-shellshock.nse 
-  - updated script to obtain file from pimpmykali github
-
-# Revision 1.5.7 - Fix SSH Function 
-  - Menu option letter O Only (is not included in N, 0 or 1 at this time)
-  - added function to set ssh to wide compatibility mode
-  - file created : /etc/ssh/ssh_config.d/kali-wide-compat.conf
-  - resolves issues with ssh -i id_rsa and various other legacy ciphers
-  - older revision history moved to changelog.txt 
+  - Menu option B restored to BlindPenTesters - TheEssentials
+  - older revision history moved to changelog.txt  
 
 # Menu Breakdown of Pimpmykali
 
