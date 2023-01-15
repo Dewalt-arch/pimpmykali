@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.6.1 - $pyver variable
+  - removed single quotes
+
 # Revision 1.6.0 - Atom removed + misc fixes/updates
   - Corrected the non-interactive shell being opened for:
     - Menu option K - Reconfigure Keyboard 

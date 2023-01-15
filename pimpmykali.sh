@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.6.0"
+    revision="1.6.1"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -185,7 +185,7 @@ fix_missing () {
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
     # 10.05.2021 - Added dbus-x11 as it has become a common problem for those wanting to use gedit
     # 01.15.2023 - Added libu2f-udev and moved virt-what to an earlier section of the script
-    eval apt -o Dpkg::Progress-Fancy="1" -y install libu2f-udev virt-what neo4j dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python'$pyver'-dev libguestfs-tools cifs-utils dbus-x11 $silent
+    eval apt -o Dpkg::Progress-Fancy="1" -y install libu2f-udev virt-what neo4j dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python$pyver-dev libguestfs-tools cifs-utils dbus-x11 $silent
     # check_python          # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
     python-pip-curl
     python3_pip $force
@@ -1165,8 +1165,8 @@ mapt_prereq() {
     python3_pip
     apt_update
     echo -e "\n  $greenplus Installing tools for MAPT Course Requirements"
-    echo -e "  $greenplus python'$pyver'-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx"
-    apt -y install python'$pyver'-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx
+    echo -e "  $greenplus python$pyver-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx"
+    apt -y install python$pyver-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx
     echo -e "\n  $greenplus git cloning mobsf to /opt"
     git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF /opt/Mobile-Security-Framework-MobSF
     echo -e "\n  $greenplus Installing MobSF"
