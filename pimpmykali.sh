@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.5.9"
+    revision="1.6.0"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -70,11 +70,24 @@
 # variables moved from local to global
     finduser=$(logname)
     detected_env=""
+   
+    pyver=$(python3 --version | awk '{print$2}' | cut -d "." -f1-2)
+   
+    archtype=$(uname -m)
+    if [[ "$archtype" == "aarch64" ]]; 
+      then 
+        arch="arm64"
+    fi
+
+    if [[ "$archtype" == "x86_64" ]]; 
+      then
+        arch="amd64"
+    fi
 
 # for vbox_fix_shared_folder_permission_denied
     findgroup=$(groups $finduser | grep -i -c "vboxsf")
 
-#    Logging
+# Logging
     LOG_FILE=pimpmykali.log
     exec > >(tee ${LOG_FILE}) 2>&1
 
@@ -94,24 +107,6 @@ check_distro() {
     fi
   }
 
-# May change check_distro
-#    check_distro() {
-#        # distro=$(uname -a | grep -i -c "kali") # distro check
-#        # may change the distro check
-#
-#        if [ -f /etc/os-release ]
-#        then
-#         distro=$(cat /etc/os-release | grep -c "kali")
-#         if [ $distro = 0 ]
-#           then echo -e "\n $blinkexclaim Kali Linux Not Detected - WSL/WSL2/Anything else is unsupported $blinkexclaim \n"; exit
-#         else
-#           echo "System is Kali Linux - Proceeding..."
-#         fi
-#        else
-#         echo "Unable to determine distro - /etc/os-release does not exist"
-#       fi
-
-
 check_for_root () {
     if [ "$EUID" -ne 0 ]
       then echo -e "\n\n Script must be run with sudo ./pimpmykali.sh or as root \n"
@@ -128,12 +123,12 @@ fix_section () {
      then
       # sanity check : force=0 check=0 or force=1 check=0
       echo -e "\n  $greenplus install : $section"
-      eval apt -y install $section $silent
+      eval apt -o Dpkg::Progress-Fancy="1" -y install $section $silent
      elif [ $force = 1 ]
       then
        # sanity check : force=1 check=1
        echo -e "\n  $redstar reinstall : $section"
-       eval apt -y reinstall $section $silent
+       eval apt -o Dpkg::Progress-Fancy="1" -y reinstall $section $silent
      else
        # sanity check : force=0  check=1
        echo -e "\n  $greenminus $section already installed"
@@ -146,17 +141,17 @@ fix_section () {
 
 apt_update() {
     echo -e "\n  $greenplus running: apt update \n"
-    eval apt -y update
+    eval apt -y update -o Dpkg::Progress-Fancy="1"
     }
 
 apt_upgrade() {
     echo -e "\n  $greenplus running: apt upgrade \n"
-    eval apt -y upgrade
+    eval apt -y upgrade -o Dpkg::Progress-Fancy="1"
     }
 
 apt_autoremove() {
     echo -e "\n  $greenplus running: apt autoremove \n"
-    eval apt -y autoremove
+    eval apt -y autoremove -o Dpkg::Progress-Fancy="1"
     }
 
 apt_update_complete() {
@@ -171,7 +166,16 @@ apt_autoremove_complete() {
     echo -e "\n  $greenplus apt autoremove - complete"
     }
 
+apt_fixbroken() {
+    apt -y --fix-broken install 
+}    
+
+apt_fixbroken_complete() {
+    echo -e "\n  $greenplus apt -y --fix-broken install  - complete"
+}
+
 fix_missing () {
+    fix_kali_lightdm_theme_and_background
     fix_sources
     fix_hushlogin         # 06.18.2021 - added fix for .hushlogin file
     apt_update && apt_update_complete
@@ -180,7 +184,8 @@ fix_missing () {
     eval apt -y remove kali-undercover $silent
     # 02.01.2020 - Added cifs-utils and libguestfs-tools as they are require for priv escalation
     # 10.05.2021 - Added dbus-x11 as it has become a common problem for those wanting to use gedit
-    eval apt -y install neo4j dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python3.9-dev libguestfs-tools cifs-utils dbus-x11 $silent
+    # 01.15.2023 - Added libu2f-udev and moved virt-what to an earlier section of the script
+    eval apt -o Dpkg::Progress-Fancy="1" -y install libu2f-udev virt-what neo4j dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python'$pyver'-dev libguestfs-tools cifs-utils dbus-x11 $silent
     # check_python          # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
     python-pip-curl
     python3_pip $force
@@ -204,14 +209,14 @@ fix_missing () {
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     fix_mitm6             # 05.09.2022 - added mitm6 to fix missing
-    # fix_qterminal_history
     }
 
 fix_all () {
     fix_missing   $force
+    apt_autoremove && apt_autoremove_complete 
+    apt_fixbroken && apt_fixbroken_complete 
     make_rootgreatagain $force
-    seclists      $force
-    install_atom
+    seclists
     fix_flameshot $force
     fix_grub
     fix_smbconf
@@ -222,20 +227,17 @@ fix_all () {
     # called as sub-function call of fix_all or fix_upgrade itself
     }
 
-#fix_kali_lightdm_theme_and_background()
-#    {
-      # lightdm theme change to light or dark mode
+fix_kali_lightdm_theme_and_background () {
+    # set kali lightdm login theme from Kali-Light to Kali-Dark
+    sed s:"Kali-Light":"Kali-Dark":g -i /etc/lightdm/lightdm-gtk-greeter.conf
+    # dark to light theme
 
-      # set kali lightdm login theme from Kali-Light to Kali-Dark
-      # sed s:"Kali-Light":"Kali-Dark":g -i /etc/lightdm/lightdm.conf
-      # dark to light theme
+    # set kali login-theme to Kali-Light from Dark theme
+    # sed s:"Kali-Dark":"Kali-Light":g -i /etc/lightdm/lightdm.conf
 
-      # set kali login-theme to Kali-Light from Dark theme
-      # sed s:"Kali-Dark":"Kali-Light":g -i /etc/lightdm/lightdm.conf
-
-      # set kali background to solid black color
-      # sed s:"background = /usr/share/desktop-base/kali-theme/login/background":"background = #000000":g
-#    }
+    # set kali background to solid black color
+    # sed s:"background = /usr/share/desktop-base/kali-theme/login/background":"background = #000000":g
+    }
 
 fix_libwacom() {
     eval apt -y install libwacom-common
@@ -243,10 +245,9 @@ fix_libwacom() {
     }
 
 fix_assetfinder () {
-    echo -e "\n  $greenplus Installing Assetfinder precompiled binary ... "
+    echo -e "\n  $greenplus Installing Assetfinder precompiled binary for $arch ... "
     [[ -f /usr/bin/assetfinder ]] && rm -f /usr/bin/assetfinder || echo > /dev/null
-    eval wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder.tgz
-    tar xvfz /tmp/assetfinder.tgz -C /usr/bin/
+    eval apt -y install assetfinder
     }
 
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
@@ -261,20 +262,10 @@ fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
     }
 
 fix_amass() {
-    echo -e "\n  $greenplus installing amass"
-    # rewrite this for pull from Kali Repo using APT not wget from github
-    eval wget https://github.com/OWASP/Amass/releases/download/v3.13.4/amass_linux_amd64.zip -O /tmp/amass_linux_amd64.zip
-    cd /tmp
-    unzip amass_linux_amd64.zip
-    cp /tmp/amass_linux_amd64/amass /usr/bin
-    rm -rf /tmp/amass*
+    echo -e "\n  $greenplus installing amass for $arch "
+    # 01.15.2023 rev 1.6.0 - Function updated for $arch detection amd64 or arm64 
+    echo apt -y install amass 
     echo -e "\n  $greenplus amass installed"
-    }
-
-
-fix_assetfinder () {
-    eval wget https://github.com/tomnomnom/assetfinder/releases/download/v0.1.1/assetfinder-linux-amd64-0.1.1.tgz -O /tmp/assetfinder
-    tar xvfz /tmp/assetfinder.tgz -C /usr/bin
     }
 
 fix_pyftpdlib() {
@@ -290,11 +281,19 @@ check_chrome(){
 
 # 04.06.21 - rev 1.2.2 - add google-chrome due to gowitness dependancy
 fix_chrome() {
-    echo -e "\n  $greenplus Gowitness dependancy fix: Downloading - google-chrome \n"
-    eval wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
-    echo -e "\n  $greenplus Gowitness dependancy fix: Installing - google-chrome \n"
-    eval dpkg -i /tmp/google-chrome-stable_current_amd64.deb
-    rm -f /tmp/google-chrome-stable_current_amd64.deb
+    if [[ "$arch" == "arm64" ]];
+     then 
+      echo -e "\n $redexclaim Google-Chrome is not available for this platform $arch -- skipping"
+    elif [[ "$arch" == "amd64" ]];
+     then 
+      # need if statement here if arm64 , chrome does not exist in kali linux on arm64 as of yet
+      echo -e "\n  $greenplus Gowitness dependancy fix: Downloading - google-chrome for $arch \n"
+      eval wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
+      #eval wget https://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_109.0.5414.74-1_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
+      echo -e "\n  $greenplus Gowitness dependancy fix: Installing - google-chrome for $arch \n"
+      eval dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+      rm -f /tmp/google-chrome-stable_current_amd64.deb
+    fi 
     }
 
 # 06.18.2021 - fix_hushlogin rev 1.2.9
@@ -319,34 +318,6 @@ fix_hushlogin() {
       fi
     fi
     }
-
-# Wont work if qterminal is the active terminal running pimpmykali - find another way
-# 08.18.2021 - fix_qterminal_history - set history for unlimited scrollback
-# fix_qterminal_history() {
-#    findrealuser=$(who | awk '{print $1}')
-#    if [[ $findrealuser = "root" ]]
-#     then
-#      check_qterminal=$(sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | grep -c "HistoryLimited=true")
-#      if [[ $check_qterminal = 1 ]]
-#       then
-#        echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
-#        sudo -i -u $findrealuser cat /root/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=false":g > /tmp/tmp_qterminal.ini
-#        sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /root/.config/qterminal.org/qterminal.ini
-#      else
-#        echo -e "\n  $greenplus Qterminal $findrealuser already set for unlimited scrollback - skipping"
-#      fi
-#      else
-#      check_qterminal=$(sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | grep -c "HistoryLimited=true")
-#      if [[ $check_qterminal = 1 ]]
-#       then
-#        echo -e "\n  $greenplus Qterminal for $findrealuser not set for unlimited scrollback - fixing"
-#        sudo -i -u $findrealuser cat /home/$findrealuser/.config/qterminal.org/qterminal.ini | sed s:"HistoryLimited=true":"HistoryLimited=false":g > /tmp/tmp_qterminal.ini
-#        sudo -i -u $findrealuser cp -f /tmp/tmp_qterminal.ini /home/$findrealuser/.config/qterminal.org/qterminal.ini
-#      else
-#        echo -e "\n  $greenplus Qterminal for $findrealuser already set for unlimited scrollback - skipping"
-#      fi
-#     fi
-#    }
 
 # 06.18.2021 - disable_power_gnome rev 1.2.9
 disable_power_gnome() {
@@ -497,97 +468,28 @@ python-pip-curl () {
  # force= to override force / set force var
  # fix_section $section $check $force
 
-fix_bloodhound () {
-    # Kali 2022.1 - bloodhound 4.1.0 incompatable collectors fix: downgrade to bloodhound 4.0.3
-    apt_update
-    eval apt-mark unhold bloodhound  # added - revision 1.5.0
-    eval apt -y install neo4j
-    echo -e "\n  $greenplus Downgrading Bloodhound from current to 4.0.3"
-    echo -e "\n  $greenplus Removing Bloodhound"
-    eval apt -y remove bloodhound
-    echo -e "\n  $greenplus Purging Bloodhound"
-    eval apt -y purge bloodhound
-    echo -e "\n  $greenplus Downloading Bloodhound 4.0.3"
-    eval wget http://old.kali.org/kali/pool/main/b/bloodhound/bloodhound_4.0.3-0kali1_amd64.deb -O /tmp/bloodhound403.deb
-    echo -e "\n  $greenplus Installing Bloodhound 4.0.3"
-    echo -e "\n  $greenplus Note: This process may take several minutes to complete..."
-    eval dpkg -i /tmp/bloodhound403.deb
-    echo -e "\n  $greenplus Bloodhound package marked with hold to prevent upgrading"
-    eval apt-mark hold bloodhound
-    echo -e "\n  $greenplus Cleaning up"
-    eval rm -f /tmp/bloodhound403.deb
-    echo -e "\n  $greenplus Complete - Bloodhound Downgraded to v4.0.3"
-    }
-
 # 01.26.2021 - rev 1.1.5 - Current version of spike throws undefined symbol error, revert to old version
+# 01.15.2023 - rev 1.6.0 - Updated to use $arch variable for amd64 or arm64
 fix_spike () {
     echo -e "\n  $greenplus Fix SPIKE "
     echo -e "\n  $greenplus removing SPIKE..."
     eval apt -y --allow-change-held-packages remove spike
     # curl --progress-bar
-    eval wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_amd64.deb -O /tmp/spike_2.9-1kali6_amd64.deb
-    echo -e "\n  $greenplus installing spike 2.9... \n"
-    eval dpkg -i /tmp/spike_2.9-1kali6_amd64.deb
+    eval wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_$arch.deb -O /tmp/spike_2.9-1kali6_$arch.deb
+    echo -e "\n  $greenplus installing spike 2.9 for $arch ... \n"
+    eval dpkg -i /tmp/spike_2.9-1kali6_$arch.deb
     echo -e "\n  $greenplus spike 2.9 installed \n"
-    rm -f /tmp/spike_2.9-1kali6_amd64.deb
+    rm -f /tmp/spike_2.9-1kali6_$arch.deb 
     echo -e "\n  $greenplus setting apt hold on spike package"
     eval apt-mark hold spike
     echo -e "\n  $greenplus apt hold placed on spike package"
-    }
-
- # 05.09.2022 - rev 1.5.5 - Ask before installing python3.9 for fix_responder  fix_python39 is not going to ask about it
-ask_python39 () {
-  echo -e "\n   Do you wish to continue?"
-  read -n1 -p "   Please enter Y or N : " userinput
-   case $userinput in
-     y|Y) fix_python39;;
-     n|N) echo -e "\n\n  $redexclaim User selected No - Exiting"; exit;;
-       *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; ask_python39;;
-  esac
-  }
-
- # 05.09.2022 - rev 1.5.5 - Install python3.9-full and python3.9-dbg and resymlink /bin/python3.9 to /bin/python3
-fix_python39 () {
-    #
-    check_python_version=$(/usr/bin/python3 --version  | grep -i -c "3.10")
-    if [[ $check_python_version == 1 ]];
-     then
-      echo -e "\n  $greenplus Python 3.9 fix: Installing Python3.9"
-      eval apt -y install python3.9-full python3.9-dev
-      echo -e "\n  $greenplus Re-Symlinking /bin/python3.9 to /bin/python3"
-      ln -sf /bin/python3.9 /bin/python3
-      echo -e "\n  It is highly advised to add the following to your .bashrc or .zshrc"
-      echo -e "  export PYTHONWARNINGS=ignore"
-    else
-      echo -e "\n  $greenminus Python 3.10 not detected"
-    fi
-    }
-
-  # 05.09.2022 - rev 1.5.5 - updated function with python3.9 fix and warning + prompt
-fix_responder () {
-    echo -e "\n\n   $redexclaim This is a 2 part fix for Responder and Python3.9 $redexclaim"
-    echo -e "\n   Python3.9 will be installed and /bin/python3.9 will be symlinked to /bin/python3"
-    echo -e "   then Responder 3.0.6.0 will be installed"
-    ask_python39
-    PYTHONWARNINGS="ignore"
-    export PYTHONWARNINGS="ignore"
-    echo -e "\n  $greenplus Fix Responder: Downloading Responder 3.0.6.0"
-    eval wget http://old.kali.org/kali/pool/main/r/responder/responder_3.0.6.0-0kali2_all.deb -O /tmp/responder3060.deb
-    echo -e "\n  $greenplus Fix Responder: Uninstalling current Responder"
-    eval apt update
-    eval apt -y remove responder
-    echo -e "\n  $greenplus Fix Responder: Package hold Responder"
-    eval apt-mark hold responder
-    echo -e "\n  $greenplus Fix Responder: Installing Responder 3.0.6.0"
-    sudo dpkg -i /tmp/responder3060.deb >/dev/null 2>&1
-    rm -f /tmp/responder3060.deb
-    echo -e "\n  $greenplus Fix Responder - Complete"
     }
 
 fix_mitm6() {
     [[ -d /opt/mitm6 ]] && rm -rf /opt/mitm6 || git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
     git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
     cd /opt/mitm6
+    pip install typing twisted
     pip install -r requirements.txt
     python setup.py install
     echo -e "\n  $greenplus MITM6 installed.. "
@@ -598,11 +500,8 @@ fix_gowitness () {
     rm -f /tmp/releases.gowitness > /dev/null
     check_chrome
     rm -f /usr/bin/gowitness > /dev/null 
-    #eval wget https://github.com/sensepost/gowitness/releases -O /tmp/releases.gowitness
-    #current_build=$(cat /tmp/releases.gowitness | grep -i "<a href=\"/sensepost/gowitness/releases/download/"  | grep -i -m1 linux | cut -d "\"" -f2)
-    #eval wget https://github.com$current_build -O /usr/bin/gowitness
-    # Updated code to only pull 2.4.1 of GoWitness as there is a no new line error with 2.4.2 
-    eval wget https://github.com/sensepost/gowitness/releases/download/2.4.1/gowitness-2.4.1-linux-amd64 -O /usr/bin/gowitness
+    # 01.15.2023 rev 1.6.0 updated with $arch variable for amd64 or arm64 detected by pimpmykali  
+    eval wget https://github.com/sensepost/gowitness/releases/download/2.4.1/gowitness-2.4.1-linux-$arch -O /usr/bin/gowitness
     chmod +x /usr/bin/gowitness
     rm -f /tmp/releases.gowitness > /dev/null
     }
@@ -630,7 +529,7 @@ fix_set() {
 
 fix_rockyou () {
     cd /usr/share/wordlists
-    gzip -dq /usr/share/wordlists/rockyou.txt.gz
+    gzip -dqf /usr/share/wordlists/rockyou.txt.gz
     echo -e "\n  $greenplus gunzip /usr/share/wordlists/rockyou.txt.gz\n"
     }
 
@@ -655,9 +554,19 @@ python3_pip () {
     }
 
 seclists () {
-    section="seclists"
-    check=$(whereis seclists | grep -i -c "seclists: /usr/bin/seclists /usr/share/seclists")
-    fix_section $section $check $force
+    #section="seclists"
+    # Function changed 01.15.2023 rev 1.6.0 many users were thinking the script was "stuck" with no info being displayed
+    if [[ -d /usr/share/seclists ]];
+     then
+      echo -e "\n $greenplus /usr/share/seclists  already exists -- skipping"
+     else
+      echo -e "\n $greenplus Download Seclists to /tmp/SecLists.zip"
+      eval wget https://github.com/danielmiessler/SecLists/archive/master.zip -O /tmp/SecList.zip
+      echo -e "\n $greenplus Extracing /tmp/Seclists.zip to /usr/share/seclists"
+      unzip -o /tmp/SecList.zip -d /usr/share/seclists
+      rm -f /tmp/SecList.zip
+      echo -e "\n $greenplus Seclists complete" 
+    fi
     }
 
 fix_nmap () {
@@ -790,20 +699,21 @@ fix_bad_apt_hash () {
     echo "all" > /etc/gcrypt/hwf.deny
     }
 
-install_atom () {
-    if [ -f /usr/bin/atom ]
-     then
-      echo -e "\n  $greenminus atom already installed - skipping"
-    else
-      apt_update  && apt_update_complete
-      echo -e "\n  $greenplus downloading atom"
-      eval wget https://atom.io/download/deb -O /tmp/atom.deb $silent
-      echo -e "\n  $greenplus installing atom"
-      eval dpkg -i /tmp/atom.deb $silent
-      eval rm -f /tmp/atom.deb $silent
-      eval apt -y --fix-broken install $silent
-    fi
-    }
+# Update this function with the new fork as atom was deprecated
+# install_atom () {
+#    if [ -f /usr/bin/atom ]
+#     then
+#      echo -e "\n  $greenminus atom already installed - skipping"
+#    else
+#      apt_update  && apt_update_complete
+#      echo -e "\n  $greenplus downloading atom"
+#      eval wget https://atom.io/download/deb -O /tmp/atom.deb $silent
+#      echo -e "\n  $greenplus installing atom"
+#      eval dpkg -i /tmp/atom.deb $silent
+#      eval rm -f /tmp/atom.deb $silent
+#      eval apt -y --fix-broken install $silent
+#    fi
+#    }
 
 install_sublime () {
     echo -e "\n  $greenplus installing sublime text editor"
@@ -1154,20 +1064,8 @@ bpt () {
     exit_screen
     }
 
-#downgrade_msf () {
-#    echo -e "\n  $greenplus Downgrading Metasploit from v6.x to 5.1.101 \n"
-#    eval apt -y remove metasploit-framework
-#    wget https://archive.kali.org/kali/pool/main/m/metasploit-framework/metasploit-framework_5.0.101-0kali1%2Bb1_amd64.deb -O /tmp/metasploit-framework_5.deb
-#    eval dpkg -i /tmp/metasploit-framework_5.deb
-#    eval gem cleanup reline
-#    eval msfdb init
-#    rm -f /tmp/metasploit-framework_5.deb
-#    apt-mark hold metasploit-framework
-#    echo -e "\n  $greenplus metasploit downgraded \n"
-#    echo -e "\n  $greenplus hold placed on metasploit-framework \n"
-#    }
-
 # Upgraded virt-what function - 04.07.2021 rev 1.2.2
+# 01.15.2023 - Virt-What installed much earlier in the script, function is now redundant
 virt_what() {
     [ -f "/usr/sbin/virt-what" ] && virtwhat=1 || virtwhat=0
 
@@ -1224,7 +1122,7 @@ check_vm() {
     echo -e "\n  $greenplus detecting hypervisor type \n"
     vbox_check=$(virt-what | grep -i -c "virtualbox")    # virtualbox check
     vmware_check=$(virt-what | grep -i -c "vmware")      # vmware check - vmware check works on Mac VMWare Fusion
-    qemu_check=$(virt-what | grep -i -c "qemu\|kvm")           # m4ul3r Qemu/libvirt check
+    qemu_check=$(virt-what | grep -i -c "qemu\|kvm")     # m4ul3r Qemu/libvirt check
     if [ $vbox_check = 1 ]
       then
         echo -e "\n  $greenplus *** VIRTUALBOX DETECTED *** \n"
@@ -1267,8 +1165,8 @@ mapt_prereq() {
     python3_pip
     apt_update
     echo -e "\n  $greenplus Installing tools for MAPT Course Requirements"
-    echo -e "  $greenplus python3.9-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx"
-    apt -y install python3.9-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx
+    echo -e "  $greenplus python'$pyver'-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx"
+    apt -y install python'$pyver'-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx
     echo -e "\n  $greenplus git cloning mobsf to /opt"
     git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF /opt/Mobile-Security-Framework-MobSF
     echo -e "\n  $greenplus Installing MobSF"
@@ -1306,10 +1204,8 @@ mayor_mpp() {
     # additions to PMK 1.3.0 - Mayor MPP Course additions
     fix_sources
     apt_update  && apt_update_complete
-    # check_msfversion=$(apt list --installed | grep -i metasploit | cut -d " " -f2 | cut -d "." -f1)
-    # add check for msf version? if not 5 then place hold before upgrade and then downgrade
     apt_upgrade && apt_upgrade_complete
-    # downgrade_msf
+    apt_autoremove && apt_autoremove_complete
     echo -e "\n  $greenplus installing apt-transport-https dnsutils dotnet-sdk-3.1"
     apt -y install apt-transport-https dnsutils dotnet-sdk-3.1
     # download directly to /tmp and install
@@ -1341,7 +1237,7 @@ mayor_mpp() {
 
     #make desktop icon
     findrealuser=$(who | awk '{print $1}')
-    if [ $findrealuser == "root" ]
+    if [[ $findrealuser == "root" ]];
       then
         echo -e "\n  $greenplus creating desktop icon /root/Desktop/Start Covenent"
         echo '[Desktop Entry]' > /root/Desktop/"Start Covenant.desktop"
@@ -1381,9 +1277,7 @@ get_mirrorlist() {
     # relaxed grep should now work with tracelabs osint vm - 12.11.2021
     mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling.*")
     mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling.*")
-    # original code - to be purged
-    #mod_deb=$(cat /etc/apt/sources.list | grep -c "deb http\:\/\/.* kali\-rolling main contrib non\-free")
-    #mod_debsrc=$(cat /etc/apt/sources.list | grep -c "deb-src http\:\/\/.* kali\-rolling main contrib non\-free")
+    
   	if [[ $mod_deb = 1 ]]
   	 then
        echo -e "\n  $greenplus deb http://*/kali found in /etc/apt/sources.list"
@@ -1398,8 +1292,7 @@ get_mirrorlist() {
       echo -e "\n  $redexclaim Unable to find deb-src in /etc/apt/sources.list"
       exit_screen
     fi
-    # specific mirror testing point, uncomment echo statement, comment-out curl statement
-    # echo "http://ftp2.nluug.nl/os/Linux/distr/kali/README" > /tmp/timetest.list
+    
     curl -s http://http.kali.org/README.mirrorlist | grep -i "README" | cut -d ">" -f2 | cut -d "\"" -f2 | grep -i "http://" | \
     sed s:"http\:\/\/http.kali.org\/README.meta4":"":g | sed s:"http\:\/\/http.kali.org\/README.metalink":"":g | sort -u > /tmp/timetest.list
   	}
@@ -1454,9 +1347,6 @@ large_speedtest() {
 gen_new_sources() {
   	i=$(cat /tmp/mirrors_speedtest | sort -n | tail -n1 | cut -d "/" -f3)
   	final_mirror=$(cat /tmp/timetest.list | grep "$i" | sed s:"http\:\/\/":"":g | sed s:"/README":"":g )
-    # original code - to be purged
-    # newdeb=$(cat /etc/apt/sources.list | grep "deb http\:\/\/.* kali\-rolling main contrib non\-free" | sed s:"deb http\:\/\/.* kali\-rolling main contrib non\-free":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g)
-    # newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http\:\/\/.* kali\-rolling main contrib non\-free" | sed s:"deb-src http\:\/\/.* kali\-rolling main contrib non\-free":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g )
     # --- relaxed grep and sed, implement at later date 12.11.2021 - should now work with tracelabs osint vm
     newdeb=$(cat /etc/apt/sources.list | grep "deb http\:\/\/.* kali\-rolling.*" | sed s:"deb http\:\/\/.* kali\-rolling.*":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g)
     newdebsrc=$(cat /etc/apt/sources.list | grep "deb-src http\:\/\/.* kali\-rolling.*" | sed s:"deb-src http\:\/\/.* kali\-rolling.*":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g )
@@ -1505,6 +1395,17 @@ fix_ssh() {
   fi
   }
 
+
+fix_keyboard() {
+  sudo /bin/bash --rcfile /home/$finduser/.bashrc -ic 'dpkg-reconfigure keyboard-configuration'
+  }
+  
+fix_timezone() {
+  sudo /bin/bash --rcfile /home/$finduser/.bashrc -ic 'dpkg-reconfigure tzdata' 2>/dev/null
+  echo -e "\n  $greenplus Timezone now set to: $(cat /etc/timezone)"
+  }
+
+
 # ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
 CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
@@ -1515,7 +1416,7 @@ pimpmykali_menu () {
     # DATE=$(date +%x); TIME=$(date +%X)
     clear
     echo -e "$asciiart"
-    echo -e "\n    Select an option from menu:                           Rev:$revision"
+    echo -e "\n    Select an option from menu:             Rev: $revision Arch: $arch"
 #    echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
 #    echo -e "\n  Menu Options:"                                                                    # function call list
     echo -e "\n Key  Menu Option:             Description:"
@@ -1524,9 +1425,9 @@ pimpmykali_menu () {
     echo -e "  2 - Fix /etc/samba/smb.conf  (adds the 2 missing lines)"                             # fix_smbconf
     echo -e "  3 - Fix Golang               (installs golang, adds GOPATH= to .zshrc and .bashrc)"  # fix_golang
     echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                 # fix_grub
-    echo -e "  5 - Fix Impacket             (installs impacket)"                                    # fix_impacket
-    echo -e "  6 - Enable Root Login        (installs kali-root-login)"                             # make_rootgreatagain
-    echo -e "  7 - Install Atom             (installs atom)"                                        # install_atom
+    echo -e "  5 - Fix Impacket             (installs impacket)"                                      # fix_impacket
+    echo -e "  6 - Enable Root Login        (installs kali-root-login)"                              # make_rootgreatagain
+    #echo -e "  7 - Install Atom             (installs atom - disabled)"                               # install_atom
     echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"              # fix_nmap
     echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
     echo -e "                               (sources.list, linux-headers, vm-video)"                # -
@@ -1538,10 +1439,7 @@ pimpmykali_menu () {
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
     echo -e "  O - Fix SSH                  (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
-    # echo -e "  R - Fix Responder            (Downgrade Responder to v3.0.6.0) + Python3.9 fix"      # fix_responder
-    # echo -e "  P - Downgrade to Python3.9   (Only install python3.9 and resymlink /bin/python3)"    # fix_python39
-    echo -e "  B - Fix Bloodhound           (Downgrade Bloodhound to v4.0.3)"                       # sorry blind, need the letter B... was bpt function
-    # echo -e "  D - Downgrade Metasploit     (Downgrade from MSF6 to MSF5)"                         # downgrade_msf
+    echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)" # bpt function
     echo -e "  I - Install MITM6            (install mitm6 from github)"                            # fix_mitm6
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
@@ -1551,12 +1449,9 @@ pimpmykali_menu () {
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
     echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
     echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
-    #echo -e "  P - Disable PowerManagement  (Gnome/XFCE Detection Disable Power Management)"        # disable_power_checkde # Thanks pswalia2u!!
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
     echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                           # install_vscode
     echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"             # fix_sead_warning
-    #echo -e "  Q - Fix Qterminal Scrollback set qterminal history to unlimited scrollback"        # fix_qterminal_history
-    #echo -e "\n"
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
@@ -1566,27 +1461,25 @@ pimpmykali_menu () {
         4) fix_grub;;
         5) fix_impacket;;
         6) make_rootgreatagain;;
-        7) install_atom;;
+        7) pimpmykali_menu;;
         8) fix_nmap ;;
         9) apt_update; fix_libwacom; only_upgrade;;
         0) fix_all; run_update; virt_what; check_vm;;
         !) forced=1; fix_sead_warning;;
       a|A) mapt_prereq;;
-      b|B) fix_bloodhound;; # was bpt;;
+      b|B) bpt;;
       c|C) check_chrome;;
       f|F) fix_broken_xfce;;
       g|G) fix_root_connectionrefused ;;
       h|H) fix_httprobe;;
       i|I) fix_mitm6;;
-      k|K) sudo dpkg-reconfigure keyboard-configuration; echo -e "\n  $greenplus Keyboard now set to: $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)";;
+      k|K) fix_keyboard; echo -e "\n  $greenplus Keyboard is currently set to: $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)";;
       l|L) install_sublime;;
       m|M) mayor_mpp;;
       n|N) fix_all; fix_upgrade;;
       o|O) fix_ssh;;
-      # p|P) fix_python39;;  # revision 1.5.5
-      # r|R) fix_responder;; # revision 1.5.5
       s|S) fix_spike;;
-      t|T) sudo dpkg-reconfigure tzdata; echo -e "\n  $greenplus Timezone now set to: $(cat /etc/timezone)";;
+      t|T) fix_timezone;;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
@@ -1628,7 +1521,7 @@ check_arg () {
        --bpt) bpt                              ;;
     --vscode) install_vscode                   ;;
       --subl) install_sublime                  ;;
-      --atom) install_atom                     ;;
+#      --atom) install_atom                     ;;
    --upgrade) only_upgrade                     ;;
    --mirrors) get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
 # --harvester) fix_theharvester                ;;

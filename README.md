@@ -37,6 +37,37 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.6.0 - Atom removed + misc fixes/updates
+  - Corrected the non-interactive shell being opened for:
+    - Menu option K - Reconfigure Keyboard 
+    - Menu option T - Reconfigure Timezone
+    - shell is now interactive and functions properly
+
+  - Added $archtype variable for potential upcoming arm64 specific support ( Mac m1, rasberry pi, etc )
+  - Added $pyver variable for detection of version of python3
+    - corrects error with installing python'$pyver'-venv and other various python required installations
+
+  - Atom 
+    - has been deprecated/sunset and the installation of atom has been removed
+    - menu option 7 - Install atom removed 
+
+  - Seclists
+    - changed seclists to be pulled from github, to be more verbose about what is taking place on screen
+
+  - gowitness function updated to detect amd64 or arm64 installations, still installs from github
+
+  - httprobe, assetfinder, amass are now installed from the kali repo instead of github
+
+  - Misc Fixes 
+    - corrected if statement on line 1240 MPP Course Setup
+    - added function for apt_fixbroken and apt_fixbroken_complete
+    - removed functions: fix_bloodhound, ask_python39, fix_python39, fix_resopnder 
+    - addded -o Dpkg::Progress-Fancy="1" to all apt operations for fancy progress bars
+    - moved virt-what to be installed much earlier in the script 
+    - general code cleanup
+
+  - Menu option B restored to BlindPenTesters - TheEssentials 
+
 # Revision 1.5.9 - gowitness update 
   - due to a new line error, pimpmykali is now hardcoded to pull gowitness 2.4.1
     until the new line error in gowitness 2.4.2 is resolved. 
