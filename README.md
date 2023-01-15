@@ -23,6 +23,8 @@
   - Andro
 
 # Code Contributors
+  - Yaseen 
+  - Crazy_Man - https://github.com/The-Crazy-Man
   - blindpentester https://github.com/blindpentester
   - pswalia2u https://github.com/pswalia2u
   - Alek https://github.com/onomastus
