@@ -145,7 +145,7 @@
 
 
 - Menu Option 7
-  - installs Atom text editor
+  - removed from the menu 
 
 
 - Menu Option 8 - Fix Nmap
@@ -165,10 +165,7 @@
   - Executes ONLY Menu options 1 thru 8
 
 
-- Menu Option B  ( Changed 02.21.2022 )  
-  New Function:
-  - Downgrade Bloodhound from v4.1.0 (current) to v4.0.3
-
+- Menu Option B  ( Changed 01.15.2023 )  
   Previous Function: (will be moved elsewhere in Pimpmykali)
   - BlindPentesters The_Essentials tools and utilities collection
   - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
@@ -178,10 +175,6 @@
 
 - Menu Option C
   - Install Google-Chrome
-
-
-- Menu Option D - Downgrade metasploit-framework from 6 to 5
-  - downgrades metasploit-framework (msfconsole) from msf6 to msf5
 
 
 - Menu Option F
@@ -202,6 +195,7 @@
   - Kali linux setup for Mayors Movement Pivoting and Persistance Course
     - installs covenant  
 
+
 - Menu Option O 
   - Fix SSH Function
     - checks for /etc/ssh/ssh_config.d/kali-wide-compat.conf
@@ -209,11 +203,6 @@
     - if file does not exist, it is created and legacy ciphers added
     - restarts ssh service
 
-- Menu Option P  (was disable power management - updated 01.05.22)
-  - PPA Course Prerequisites installation
-    - installs whois and bind9-dnsutils
-    - git clone spoofpoint to /opt/spoofpoint
-    - creates symlink to spoofpoint in /usr/bin/spoofpoint
 
   - Disable Power Management function moved to Menu options 0, N or 1
     - Based upon detection disable power management for that environment
