@@ -475,7 +475,7 @@ fix_spike () {
     echo -e "\n  $greenplus removing SPIKE..."
     eval apt -y --allow-change-held-packages remove spike
     # curl --progress-bar
-    eval wget http://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_$arch.deb -O /tmp/spike_2.9-1kali6_$arch.deb
+    eval wget https://old.kali.org/kali/pool/main/s/spike/spike_2.9-1kali6_$arch.deb -O /tmp/spike_2.9-1kali6_$arch.deb
     echo -e "\n  $greenplus installing spike 2.9 for $arch ... \n"
     eval dpkg -i /tmp/spike_2.9-1kali6_$arch.deb
     echo -e "\n  $greenplus spike 2.9 installed \n"
