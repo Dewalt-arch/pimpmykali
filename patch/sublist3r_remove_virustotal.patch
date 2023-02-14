@@ -1,5 +1,5 @@
---- Sublist3r/sublist3r.py	2023-02-14 06:40:49.062595544 -0500
-+++ Sublist3r-fixed/sublist3r.py	2023-02-14 06:30:54.705545453 -0500
+--- sublist3r.py	2023-02-14 06:40:49.062595544 -0500
++++ sublist3r.py	2023-02-14 06:30:54.705545453 -0500
 @@ -685,7 +685,7 @@
          # Virustotal requires specific headers to bypass the bot detection:
          self.headers["X-Tool"] = "vt-ui-main"
