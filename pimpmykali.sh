@@ -485,6 +485,28 @@ fix_spike () {
     echo -e "\n  $greenplus apt hold placed on spike package"
     }
 
+fix_liblibc() {
+    # amd64 / x86_64
+    if [[ "$arch" == "amd64" ]] 
+     then 
+      if [[ ! -f /usr/lib/x86_64-linux-gnu/liblibc.a ]]
+       then
+        ln -sf /usr/lib/x86_64-linux-gnu/libc.a /usr/lib/x86_64-linux-gnu/liblibc.a 
+        echo -e "\n  $greenplus Fixing $arch liblibc.a symlink /usr/lib/x86_64-linux-gnu/liblibc.a "
+       fi 
+    fi
+
+    # arm64 
+    if [[ "$arch" == "arm64" ]]
+     then 
+      if [[ ! -f /usr/lib/aarch64-linux-gnu/liblibc.a ]]
+       then 
+        ln -sf /usr/lib/aarch64-linux-gnu/libc.a /usr/lib/aarch64-linux-gnu/liblibc.a 
+        echo -e "\n  $greenplus Fixing $arch liblibc.a symlink.."
+      fi
+    fi 
+}
+
 fix_mitm6() {
     [[ -d /opt/mitm6 ]] && rm -rf /opt/mitm6 || git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
     git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
@@ -492,6 +514,7 @@ fix_mitm6() {
     pip install typing twisted
     pip install -r requirements.txt
     python setup.py install
+    echo -e "\n  $greenplus Fixing liblibc.a symlink.."
     echo -e "\n  $greenplus MITM6 installed.. "
     }
 
@@ -1026,6 +1049,7 @@ fix_impacket () {
     eval pip install .  $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     eval apt -y reinstall python3-impacket impacket-scripts $silent
+    sudo -i -u $finduser python3 -m pip install impacket --user --upgrade 
     echo -e "\n  $greenplus installed: impacket-0.9.19 python-pip wheel impacket flask pyasn1"
     echo -e "\n  $greenplus installed: lsassy pycryptodomes pyOpenSSL ldap3 ldapdomaindump"
     echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
@@ -1484,6 +1508,7 @@ pimpmykali_menu () {
       w|W) fix_gowitness;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
+        @) fix_liblibc;;
         *) pimpmykali_menu ;;
     esac
     }

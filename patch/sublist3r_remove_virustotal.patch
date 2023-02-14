@@ -1,0 +1,29 @@
+--- Sublist3r/sublist3r.py	2023-02-14 06:40:49.062595544 -0500
++++ Sublist3r-fixed/sublist3r.py	2023-02-14 06:30:54.705545453 -0500
+@@ -685,7 +685,7 @@
+         # Virustotal requires specific headers to bypass the bot detection:
+         self.headers["X-Tool"] = "vt-ui-main"
+         self.headers["X-VT-Anti-Abuse-Header"] = "hm"  # as of 1/20/2022, the content of this header doesn't matter, just its presence
+-        self.headers["Accept-Ianguage"] = self.headers["Accept-Language"]  # this header being present is required to prevent a captcha
++        self.headers["Accept-Language"] = self.headers["Accept-Language"]  # this header being present is required to prevent a captcha
+ 
+         return
+ 
+@@ -925,7 +925,7 @@
+                          'ask': AskEnum,
+                          'netcraft': NetcraftEnum,
+                          'dnsdumpster': DNSdumpster,
+-                         'virustotal': Virustotal,
++#                         'virustotal': Virustotal,
+                          'threatcrowd': ThreatCrowd,
+                          'ssl': CrtSearch,
+                          'passivedns': PassiveDNS
+@@ -936,7 +936,7 @@
+     if engines is None:
+         chosenEnums = [
+             BaiduEnum, YahooEnum, GoogleEnum, BingEnum, AskEnum,
+-            NetcraftEnum, DNSdumpster, Virustotal, ThreatCrowd,
++            NetcraftEnum, DNSdumpster, ThreatCrowd,
+             CrtSearch, PassiveDNS
+         ]
+     else:
