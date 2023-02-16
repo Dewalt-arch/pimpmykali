@@ -1501,7 +1501,7 @@ pimpmykali_menu () {
       l|L) install_sublime;;
       m|M) mayor_mpp;;
       n|N) fix_all; fix_upgrade;;
-      o|O) fix_ssh;;
+   #   o|O) fix_ssh;;
       s|S) fix_spike;;
       t|T) fix_timezone;;
       v|V) install_vscode;;

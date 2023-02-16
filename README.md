@@ -130,7 +130,7 @@
     - client max protocol = SMB3  below [global]
 
 
-- Menu Option 3 - Fix Golang
+- Menu Option 3 - Fix Golang 
   - Installs golang
     - checks for GOPATH in .bashrc and .zshrc
     - if GOPATH is found, adds nothing
