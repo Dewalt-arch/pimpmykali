@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.6.1"
+    revision="1.6.2"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1398,26 +1398,26 @@ cleanup() {
 #---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 
 # fix_ssh function - set ssh client to wide compatibility mode legacy ciphers - 08.04.2022 rev 1.5.7
-fix_ssh() {
-  echo -e "\n  $greenplus Fix SSH set ssh to wide compatibility"
-  outputfile="/etc/ssh/ssh_config.d/kali-wide-compat.conf"
-  if [[ -f $outputfile ]]
-  then
-    echo -e "\n  $redexclaim File already exists, not updating..."
-  else
-    echo -e "Host *" > $outputfile
-    echo -e "  Ciphers +3des-cbc,aes128-cbc,aes192-cbc,aes256-cbc" >> $outputfile
-    echo -e "  KexAlgorithms +diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1,diffie-hellman-group14-sha1" >> $outputfile
-    echo -e "  HostKeyAlgorithms +ssh-rsa,ssh-rsa-cert-v01@openssh.com,ssh-dss,ssh-dss-cert-v01@openssh.com" >> $outputfile
-    echo -e "  PubkeyAcceptedAlgorithms +ssh-rsa,ssh-rsa-cert-v01@openssh.com,ssh-dss,ssh-dss-cert-v01@openssh.com" >> $outputfile
-    echo -e "  LocalCommand /bin/echo \"Warning: SSH client configured for wide compatibility by kali-tweaks.\"" >> $outputfile
-    echo -e "  PermitLocalCommand yes" >> $outputfile
-    echo -e "\n  $greenplus File : /etc/ssh/ssh_config.d/kali-wide-compat.conf - created"
-    echo -e "\n  $greenplus Restarting SSH Service..."
-    systemctl restart ssh
-    echo -e "\n  $greenplus Fix SSH - Complete"
-  fi
-  }
+#fix_ssh() {
+#  echo -e "\n  $greenplus Fix SSH set ssh to wide compatibility"
+#  outputfile="/etc/ssh/ssh_config.d/kali-wide-compat.conf"
+#  if [[ -f $outputfile ]]
+#  then
+#    echo -e "\n  $redexclaim File already exists, not updating..."
+#  else
+#    echo -e "Host *" > $outputfile
+#    echo -e "  Ciphers +3des-cbc,aes128-cbc,aes192-cbc,aes256-cbc" >> $outputfile
+#    echo -e "  KexAlgorithms +diffie-hellman-group-exchange-sha1,diffie-hellman-group1-sha1,diffie-hellman-group14-sha1" >> $outputfile
+#    echo -e "  HostKeyAlgorithms +ssh-rsa,ssh-rsa-cert-v01@openssh.com,ssh-dss,ssh-dss-cert-v01@openssh.com" >> $outputfile
+#    echo -e "  PubkeyAcceptedAlgorithms +ssh-rsa,ssh-rsa-cert-v01@openssh.com,ssh-dss,ssh-dss-cert-v01@openssh.com" >> $outputfile
+#    echo -e "  LocalCommand /bin/echo \"Warning: SSH client configured for wide compatibility by kali-tweaks.\"" >> $outputfile
+#    echo -e "  PermitLocalCommand yes" >> $outputfile
+#    echo -e "\n  $greenplus File : /etc/ssh/ssh_config.d/kali-wide-compat.conf - created"
+#    echo -e "\n  $greenplus Restarting SSH Service..."
+#    systemctl restart ssh
+#    echo -e "\n  $greenplus Fix SSH - Complete"
+#  fi
+#  }
 
 
 fix_keyboard() {
@@ -1462,7 +1462,7 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  O - Fix SSH                  (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
+    # echo -e "  O - Fix SSH                  (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
     echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)" # bpt function
     echo -e "  I - Install MITM6            (install mitm6 from github)"                            # fix_mitm6
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
