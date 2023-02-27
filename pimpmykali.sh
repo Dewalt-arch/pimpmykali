@@ -1038,7 +1038,7 @@ fix_impacket () {
     chown -R root:root impacket-0.9.19
     chmod -R 755 impacket-0.9.19
     cd /opt/impacket-0.9.19
-    eval pip3 install lsassy $silent   # review this one...
+    eval pip3 install lsassy --break-system-packages $silent   # review this one...
     eval pip install flask $silent
     eval pip install pyasn1 $silent
     eval pip install pycryptodomex $silent
