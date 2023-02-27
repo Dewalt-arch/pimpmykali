@@ -1046,7 +1046,7 @@ fix_impacket () {
     eval pip install ldap3 $silent
     eval pip install ldapdomaindump $silent
     eval pip install wheel $silent
-    eval pip install .  $silent
+    eval pip install . --break-system-packages $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     eval apt -y reinstall python3-impacket impacket-scripts $silent
     sudo -i -u $finduser python3 -m pip install impacket --user --upgrade --break-system-packages
