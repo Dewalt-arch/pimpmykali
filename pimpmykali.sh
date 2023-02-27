@@ -1049,7 +1049,7 @@ fix_impacket () {
     eval pip install .  $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     eval apt -y reinstall python3-impacket impacket-scripts $silent
-    sudo -i -u $finduser python3 -m pip install impacket --user --upgrade 
+    sudo -i -u $finduser python3 -m pip install impacket --user --upgrade --break-system-packages
     echo -e "\n  $greenplus installed: impacket-0.9.19 python-pip wheel impacket flask pyasn1"
     echo -e "\n  $greenplus installed: lsassy pycryptodomes pyOpenSSL ldap3 ldapdomaindump"
     echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
