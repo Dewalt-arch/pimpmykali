@@ -974,7 +974,7 @@ fix_sead_run () {
     apt_update && apt_update_complete
     python-pip-curl
     python3_pip
-    eval pip  uninstall impacket -y --break-system-packages $silent
+    eval pip  uninstall impacket -y $silent
     eval pip3 uninstall impacket -y --break-system-packages $silent 
     SEAD=$(find /opt /usr/bin /usr/local/lib /usr/lib /home/$finduser/.local/bin /home/$finduser/.local/lib ~/.local/lib ~/.local/bin -name impacket* 2> /dev/null)
     # Last Chance Launch Sequence ** WARNING SCREEN ** and 10 second time out
@@ -1029,7 +1029,7 @@ fix_impacket_array () {
 fix_impacket () {
     python-pip-curl
     python3_pip
-    eval pip uninstall impacket --break-system-packages -y $silent
+    eval pip uninstall impacket -y $silent
     eval pip3 uninstall impacket --break-system-packages -y $silent
     fix_impacket_array
     eval wget https://github.com/SecureAuthCorp/impacket/releases/download/impacket_0_9_19/impacket-0.9.19.tar.gz -O /tmp/impacket-0.9.19.tar.gz $silent
@@ -1046,7 +1046,7 @@ fix_impacket () {
     eval pip install ldap3 $silent
     eval pip install ldapdomaindump $silent
     eval pip install wheel $silent
-    eval pip install . --break-system-packages $silent
+    eval pip install . $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     eval apt -y reinstall python3-impacket impacket-scripts $silent
     sudo -i -u $finduser python3 -m pip install impacket --user --upgrade --break-system-packages
