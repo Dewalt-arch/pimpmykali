@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.6.2"
+    revision="1.6.3"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -492,7 +492,7 @@ fix_liblibc() {
       if [[ ! -f /usr/lib/x86_64-linux-gnu/liblibc.a ]]
        then
         ln -sf /usr/lib/x86_64-linux-gnu/libc.a /usr/lib/x86_64-linux-gnu/liblibc.a 
-        echo -e "\n  $greenplus Fixing $arch liblibc.a symlink /usr/lib/x86_64-linux-gnu/liblibc.a "
+        echo -e "\n  $greenplus Fixing $arch liblibc.a symlink /usr/lib/x86_64-linux-gnu/liblibc.a"
        fi 
     fi
 
@@ -511,10 +511,10 @@ fix_mitm6() {
     [[ -d /opt/mitm6 ]] && rm -rf /opt/mitm6 || git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
     git clone https://github.com/dirkjanm/mitm6 /opt/mitm6
     cd /opt/mitm6
-    pip install typing twisted
-    pip install -r requirements.txt
-    python setup.py install
-    echo -e "\n  $greenplus Fixing liblibc.a symlink.."
+    pip3 install typing twisted --break-system-packages
+    pip3 install -r requirements.txt --break-system-packages
+    python3 setup.py install 
+    fix_liblibc
     echo -e "\n  $greenplus MITM6 installed.. "
     }
 

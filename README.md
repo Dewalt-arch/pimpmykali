@@ -39,6 +39,11 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.6.3 - mitm6 installation
+  - mitm6 moved from a python2 to python3 installation
+  - added --breaks-system-packages to get around pip related issues 
+  - liblibc symlink correction added at the end of this function
+  
 # Revision 1.6.2 - FixSSH Removed
   - use kali-tweaks 2023.1.3 to resolve the issue with ssh -i and hydra out of memory
 
