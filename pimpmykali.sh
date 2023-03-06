@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.6.3"
+    revision="1.6.4"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1429,6 +1429,10 @@ fix_timezone() {
   echo -e "\n  $greenplus Timezone now set to: $(cat /etc/timezone)"
   }
 
+install_everything() {
+  echo -e "\n  $greenplus Installing Everything! \n"
+  eval sudo apt -y install kali-linux-everything
+  }
 
 # ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
@@ -1508,7 +1512,7 @@ pimpmykali_menu () {
       w|W) fix_gowitness;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
-        @) fix_liblibc;;
+        ^) install_everything;;
         *) pimpmykali_menu ;;
     esac
     }
