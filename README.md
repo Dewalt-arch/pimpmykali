@@ -39,6 +39,11 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.6.5
+  - added --user to impacket 0.9.19 install
+
+# Revision 1.6.4 - minor code cleanup 
+
 # Revision 1.6.3 - mitm6 installation
   - mitm6 moved from a python2 to python3 installation
   - added --breaks-system-packages to get around pip related issues 
