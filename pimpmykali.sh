@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # pimpmykali.sh  Author: Dewalt
-# git clone https://github.com/Dewalt-arch/pimpmykali
+# git clone https://github.com/Dewalt-arch/pimpmykali 
 # Usage: sudo ./pimpmykali.sh  ( defaults to the menu system )
 # command line arguments are valid, only catching 1 arguement
 #
