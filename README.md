@@ -219,13 +219,17 @@
     - installs covenant  
 
 
-- Menu Option O 
-  - Fix SSH Function
-    - checks for /etc/ssh/ssh_config.d/kali-wide-compat.conf
-    - if file exists, no changes are made and exists 
-    - if file does not exist, it is created and legacy ciphers added
-    - restarts ssh service
-
+- Menu Option O - Practical API Hacking Course
+  - Practical API Hacking course setup 
+  - amd64 and arm64 aware
+  - root user and normal user aware
+  - installs docker.io docker-compose
+   - docker service is enabled 
+  - installs postman to /opt/Postman/Postman 
+   - symlink is created for /opt/Postman/Postman at /usr/bin/postman
+  - cleanup.sh script created 
+  - installs crAPI to $HOME/labs
+  
 
   - Disable Power Management function moved to Menu options 0, N or 1
     - Based upon detection disable power management for that environment
