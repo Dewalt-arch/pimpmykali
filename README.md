@@ -231,11 +231,11 @@
   - installs crAPI to $HOME/labs
   
 
-  - Disable Power Management function moved to Menu options 0, N or 1
-    - Based upon detection disable power management for that environment
-      - Detect desktop environment
-        - XFCE
-        - Gnome
+- Disable Power Management function moved to Menu options 0, N or 1
+  - Based upon detection disable power management for that environment
+    - Detect desktop environment
+      - XFCE
+      - Gnome
 
 
 - Menu Option S - Fix Spike
