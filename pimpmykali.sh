@@ -1235,7 +1235,6 @@ hacking_api_prereq() {
 
       cd /$finduser/labs/crAPI/deploy/docker
      else 
-      echo -e "\n  $greenplus Creating labs directory /home/$finduser/labs"
       if [ ! -d /home/$finduser/labs ]
        then 
        echo -e "\n  $greenplus Creating labs directory /home/$finduser/labs"
