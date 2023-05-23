@@ -39,6 +39,11 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.6.6 
+  - added Practical API Hacking Course setup (amd64 and arm64), menu option O
+    https://academy.tcm-sec.com/p/hacking-apis
+  - menu options rearranged in stand alone functions
+
 # Revision 1.6.5
   - added --user to impacket 0.9.19 install
 

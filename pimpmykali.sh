@@ -74,12 +74,12 @@
     pyver=$(python3 --version | awk '{print$2}' | cut -d "." -f1-2)
    
     archtype=$(uname -m)
-    if [[ "$archtype" == "aarch64" ]]; 
+    if [ "$archtype" == "aarch64" ]; 
       then 
         arch="arm64"
     fi
 
-    if [[ "$archtype" == "x86_64" ]]; 
+    if [ "$archtype" == "x86_64" ]; 
       then
         arch="amd64"
     fi
@@ -1182,6 +1182,87 @@ check_vm() {
     fi
     }
 
+hacking_api_prereq() {
+    # common setup
+    echo -e "\n  $greenplus Running apt update" 
+    eval apt update $silent
+    echo -e "\n  $greenplus Installing docker.io docker-compose"
+    eval apt -y install docker.io docker-compose $silent 
+    echo -e "\n  $greenplus Enabling docker services (systemctl enable docker)"
+    systemctl enable docker 
+
+    # determine archtype and download the correct version for that arch
+    # echo -e "\n\n  archtype is $arch \n\n"
+    if [ $arch == "amd64" ]
+     then 
+      echo -e "\n  $greenplus Downloading Postman for $arch"
+      wget https://dl.pstmn.io/download/latest/linux_64 -O /opt/postman.tar.gz
+    elif [ $arch == "arm64" ]
+     then
+      wget https://dl.pstmn.io/download/latest/linux_arm64 -O /opt/postman.tar.gz
+    elif [ $arch == "" ]
+     then
+      echo -e "\n  $redexclaim Unable to determine arch type, exiting..." 
+      exit 
+    fi 
+
+    echo -e "\n  $greenplus Installing Postman"
+    cd /opt 
+    tar xvfz postman.tar.gz $silent 
+    ln -sf /opt/Postman/Postman /usr/bin/postman
+    rm /opt/postman.tar.gz
+
+    # user specific setup 
+    if [ $finduser == "root" ]
+     then 
+      if [ ! -d /home/$finduser/labs ]
+       then 
+        echo -e "\n  $greenplus Creating labs directory /$finduser/labs"
+        mkdir /$finduser/labs
+      fi 
+      cd /$finduser/labs
+      echo -e "\n  $greenplus Installing crAPI to /$finduser/labs/crAPI"
+      git clone https://github.com/OWASP/crAPI $silent 
+      
+      echo -e "\n  $greenplus Creating cleanup.sh" 
+      echo -e "#!/bin/bash" > cleanup.sh
+      echo -e "sudo docker stop \$(sudo docker ps -aq)" >> cleanup.sh
+      echo -e "sudo docker rm \$(sudo docker ps -aq)" >> cleanup.sh 
+      echo -e "sudo docker rm \$(sudo docker images -q)" >> cleanup.sh 
+      echo -e "sudo docker volume rm \$(sudo docker volume ls -q)" >> cleanup.sh 
+      echo -e "sudo docker network rm \$(sudo docker network ls -q)" >> cleanup.sh
+      chmod +x cleanup.sh
+
+      cd /$finduser/labs/crAPI/deploy/docker
+     else 
+      echo -e "\n  $greenplus Creating labs directory /home/$finduser/labs"
+      if [ ! -d /home/$finduser/labs ]
+       then 
+       echo -e "\n  $greenplus Creating labs directory /home/$finduser/labs"
+       mkdir /home/$finduser/labs
+      fi 
+      cd /home/$finduser/labs
+      echo -e "\n  $greenplus Installing crAPI to /home/$finduser/labs/crAPI"
+      git clone https://github.com/OWASP/crAPI $silent 
+      
+      # create cleanup.sh in the crAPI directory
+      echo -e "\n  $greenplus Creating cleanup.sh" 
+      echo -e "#!/bin/bash" > cleanup.sh
+      echo -e "sudo docker stop \$(sudo docker ps -aq)" >> cleanup.sh
+      echo -e "sudo docker rm \$(sudo docker ps -aq)" >> cleanup.sh 
+      echo -e "sudo docker rm \$(sudo docker images -q)" >> cleanup.sh 
+      echo -e "sudo docker volume rm \$(sudo docker volume ls -q)" >> cleanup.sh 
+      echo -e "sudo docker network rm \$(sudo docker network ls -q)" >> cleanup.sh
+      chmod +x cleanup.sh
+
+      chown -R $finduser:$finduser /home/$finduser/labs
+      cd /home/$finduser/labs/crAPI/deploy/docker
+    fi
+    echo -e "\n  $greenplus Please cd $PWD"
+    echo -e "\n  $greenplus and run the following command : sudo docker-compose up "
+    }  
+
+
 mapt_prereq() {
     # would like to do a check of python2 pip python3 and pip3 instead of just re-running python-pip-curl and python3_pip functions
     # modifiy the python-pip-curl function and the python3_pip functions instead
@@ -1466,8 +1547,10 @@ pimpmykali_menu () {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    # echo -e "  O - Fix SSH                  (Enable SSH wide compatibility + legacy ciphers)"      # fix_ssh
-    echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)" # bpt function
+    echo -e "  O - Hacking API Course Setup (add requirements for Hacking API Course)"               # hacking_api_prereq was fix_ssh
+    echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
+    echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
+    echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"     # bpt function
     echo -e "  I - Install MITM6            (install mitm6 from github)"                            # fix_mitm6
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
@@ -1475,11 +1558,9 @@ pimpmykali_menu () {
     echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"               # fix_root_connectionrefused
     echo -e "  H - Fix httprobe missing     (fixes httprobe missing only)"                          # fix_httprobe
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
-    echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
-    echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
-    echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                           # install_vscode
-    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"             # fix_sead_warning
+    echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
+    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"            # fix_sead_warning
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
@@ -1505,7 +1586,7 @@ pimpmykali_menu () {
       l|L) install_sublime;;
       m|M) mayor_mpp;;
       n|N) fix_all; fix_upgrade;;
-   #   o|O) fix_ssh;;
+      o|O) hacking_api_prereq;; # was fix_ssh
       s|S) fix_spike;;
       t|T) fix_timezone;;
       v|V) install_vscode;;
