@@ -41,7 +41,7 @@
 
 # Revision 1.6.6 
   - added Practical API Hacking Course setup (amd64 and arm64), menu option O
-  - Intructor Alex Olsen https://academy.tcm-sec.com/p/hacking-apis
+  - Instructor Alex Olsen https://academy.tcm-sec.com/p/hacking-apis
   - menu options rearranged in stand alone functions
 
 # Revision 1.6.5
