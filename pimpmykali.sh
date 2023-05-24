@@ -1191,11 +1191,11 @@ create_cleanupsh () {
     echo -e "#!/bin/bash" > $cleanup_script
     echo -e "\n" >> $cleanup_script
     echo "cleanup_docker () {" >> $cleanup_script
-    echo -e "    sudo docker stop \$(sudo docker ps -aq)" >> cleanup.sh
-    echo -e "    sudo docker rm \$(sudo docker ps -aq)" >> cleanup.sh 
-    echo -e "    sudo docker rm \$(sudo docker images -q)" >> cleanup.sh 
-    echo -e "    sudo docker volume rm \$(sudo docker volume ls -q)" >> cleanup.sh 
-    echo -e "    sudo docker network rm \$(sudo docker network ls -q)" >> cleanup.sh
+    echo -e "    sudo docker stop \$(sudo docker ps -aq)" >> $cleanup_script
+    echo -e "    sudo docker rm \$(sudo docker ps -aq)" >> $cleanup_script
+    echo -e "    sudo docker rm \$(sudo docker images -q)" >> $cleanup_script 
+    echo -e "    sudo docker volume rm \$(sudo docker volume ls -q)" >> $cleanup_script 
+    echo -e "    sudo docker network rm \$(sudo docker network ls -q)" >> $cleanup_script
     echo "    exit" >> $cleanup_script
     echo "    }" >> $cleanup_script
     echo -e "\n" >> $cleanup_script
