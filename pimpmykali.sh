@@ -1184,9 +1184,7 @@ check_vm() {
 
 create_cleanupsh () { 
     cleanup_script="cleanup.sh"
-
     echo -e "\n  $greenplus Creating cleanup.sh" 
-
     # create cleanup.sh - prompts user for a Y or y prompt and provides warning before executing commands
     echo -e "#!/bin/bash" > $cleanup_script
     echo -e "\n" >> $cleanup_script
@@ -1206,7 +1204,22 @@ create_cleanupsh () {
     echo "          *) exit ;;" >> $cleanup_script
     echo "    esac" >> $cleanup_script
     chmod +x cleanup.sh
-}    
+    }    
+
+# code commented out for now, debtaing the idea of a postman desktop icon 
+# would require it to be placed in either /$finduser/Desktop (root)  or  /home/$finduser/Desktop (normal user)
+# create_postman_desktopicon() {
+#    echo "[Desktop Entry]" > Postman.desktop
+#    echo "Version=1.0" >> Postman.desktop
+#    echo "Type=Application" >> Postman.desktop
+#    echo "Name=Postman" >> Postman.desktop
+#    echo "Comment=Postman" >> Postman.desktop
+#    echo "Exec=/usr/bin/postman" >> Postman.desktop
+#    echo "Icon=postman" >> Postman.desktop
+#    echo "Path=" >> Postman.desktop
+#    echo "Terminal=false" >> Postman.desktop
+#    echo "StartupNotify=false" >> Postman.desktop
+#    }
 
 hacking_api_prereq() {
     # common setup
@@ -1217,8 +1230,7 @@ hacking_api_prereq() {
     echo -e "\n  $greenplus Enabling docker services (systemctl enable docker)"
     systemctl enable docker 
 
-    # determine archtype and download the correct version for that arch
-    # echo -e "\n\n  archtype is $arch \n\n"
+    # determine arch type and download the respective postman for that arch
     if [ $arch == "amd64" ]
      then 
       echo -e "\n  $greenplus Downloading Postman for $arch"
@@ -1232,6 +1244,7 @@ hacking_api_prereq() {
       exit 
     fi 
 
+    #install postman and symlink to /usr/bin/postman to be in $PATH
     echo -e "\n  $greenplus Installing Postman"
     cd /opt 
     tar xvfz postman.tar.gz $silent 
