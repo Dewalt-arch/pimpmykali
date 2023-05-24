@@ -1182,7 +1182,7 @@ check_vm() {
     fi
     }
 
-create_cleanupsh () { 
+hacking_api_create_cleanupsh () { 
     cleanup_script="cleanup.sh"
     echo -e "\n  $greenplus Creating cleanup.sh" 
     # create cleanup.sh - prompts user for a Y or y prompt and provides warning before executing commands
@@ -1264,7 +1264,7 @@ hacking_api_prereq() {
       git clone https://github.com/OWASP/crAPI $silent 
       
       # create cleanup.sh in the crAPI directory
-      create_cleanupsh 
+      hacking_api_create_cleanupsh
       chmod +x cleanup.sh 
       
       cd /$finduser/labs/crAPI/deploy/docker
@@ -1279,7 +1279,7 @@ hacking_api_prereq() {
       git clone https://github.com/OWASP/crAPI $silent 
       
       # create cleanup.sh in the crAPI directory
-      create_cleanupsh 
+      hacking_api_create_cleanupsh 
       chmod +x cleanup.sh
 
       chown -R $finduser:$finduser /home/$finduser/labs
