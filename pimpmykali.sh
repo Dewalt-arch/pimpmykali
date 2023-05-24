@@ -1215,7 +1215,7 @@ hacking_api_prereq() {
     # user specific setup 
     if [ $finduser == "root" ]
      then 
-      if [ ! -d /home/$finduser/labs ]
+      if [ ! -d /$finduser/labs ]
        then 
         echo -e "\n  $greenplus Creating labs directory /$finduser/labs"
         mkdir /$finduser/labs
