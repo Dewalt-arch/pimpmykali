@@ -1182,6 +1182,32 @@ check_vm() {
     fi
     }
 
+create_cleanupsh () { 
+    cleanup_script="cleanup.sh"
+
+    echo -e "\n  $greenplus Creating cleanup.sh" 
+
+    # create cleanup.sh - prompts user for a Y or y prompt and provides warning before executing commands
+    echo -e "#!/bin/bash" > $cleanup_script
+    echo -e "\n" >> $cleanup_script
+    echo "cleanup_docker () {" >> $cleanup_script
+    echo -e "    sudo docker stop \$(sudo docker ps -aq)" >> cleanup.sh
+    echo -e "    sudo docker rm \$(sudo docker ps -aq)" >> cleanup.sh 
+    echo -e "    sudo docker rm \$(sudo docker images -q)" >> cleanup.sh 
+    echo -e "    sudo docker volume rm \$(sudo docker volume ls -q)" >> cleanup.sh 
+    echo -e "    sudo docker network rm \$(sudo docker network ls -q)" >> cleanup.sh
+    echo "    exit" >> $cleanup_script
+    echo "    }" >> $cleanup_script
+    echo -e "\n" >> $cleanup_script
+    echo "    echo -e \"\n  Warning! This script is about to remove all docker containers and networks!\" " >> $cleanup_script
+    echo "    read -n3 -p \"  Press Y or y to proceed any other key to exit : \" userinput " >> $cleanup_script
+    echo "    case \$userinput in" >> $cleanup_script
+    echo "        y|Y) cleanup_docker ;;" >> $cleanup_script
+    echo "          *) exit ;;" >> $cleanup_script
+    echo "    esac" >> $cleanup_script
+    chmod +x cleanup.sh
+}    
+
 hacking_api_prereq() {
     # common setup
     echo -e "\n  $greenplus Running apt update" 
@@ -1224,15 +1250,10 @@ hacking_api_prereq() {
       echo -e "\n  $greenplus Installing crAPI to /$finduser/labs/crAPI"
       git clone https://github.com/OWASP/crAPI $silent 
       
-      echo -e "\n  $greenplus Creating cleanup.sh" 
-      echo -e "#!/bin/bash" > cleanup.sh
-      echo -e "sudo docker stop \$(sudo docker ps -aq)" >> cleanup.sh
-      echo -e "sudo docker rm \$(sudo docker ps -aq)" >> cleanup.sh 
-      echo -e "sudo docker rm \$(sudo docker images -q)" >> cleanup.sh 
-      echo -e "sudo docker volume rm \$(sudo docker volume ls -q)" >> cleanup.sh 
-      echo -e "sudo docker network rm \$(sudo docker network ls -q)" >> cleanup.sh
-      chmod +x cleanup.sh
-
+      # create cleanup.sh in the crAPI directory
+      create_cleanupsh 
+      chmod +x cleanup.sh 
+      
       cd /$finduser/labs/crAPI/deploy/docker
      else 
       if [ ! -d /home/$finduser/labs ]
@@ -1245,20 +1266,14 @@ hacking_api_prereq() {
       git clone https://github.com/OWASP/crAPI $silent 
       
       # create cleanup.sh in the crAPI directory
-      echo -e "\n  $greenplus Creating cleanup.sh" 
-      echo -e "#!/bin/bash" > cleanup.sh
-      echo -e "sudo docker stop \$(sudo docker ps -aq)" >> cleanup.sh
-      echo -e "sudo docker rm \$(sudo docker ps -aq)" >> cleanup.sh 
-      echo -e "sudo docker rm \$(sudo docker images -q)" >> cleanup.sh 
-      echo -e "sudo docker volume rm \$(sudo docker volume ls -q)" >> cleanup.sh 
-      echo -e "sudo docker network rm \$(sudo docker network ls -q)" >> cleanup.sh
+      create_cleanupsh 
       chmod +x cleanup.sh
 
       chown -R $finduser:$finduser /home/$finduser/labs
       cd /home/$finduser/labs/crAPI/deploy/docker
     fi
     echo -e "\n  $greenplus Please cd $PWD"
-    echo -e "\n  $greenplus and run the following command : sudo docker-compose up "
+    echo -e "       and run the following command : sudo docker-compose up "
     }  
 
 
