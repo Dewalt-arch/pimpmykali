@@ -111,7 +111,7 @@ check_distro() {
     fi
   }
 
-check_for_root () {
+check_for_root() {
     if [ "$EUID" -ne 0 ]
       then echo -e "\n\n Script must be run with sudo ./pimpmykali.sh or as root \n"
       exit
@@ -122,7 +122,7 @@ check_for_root () {
     fi
     }
 
-fix_section () {
+fix_section() {
     if [ $check -ne 1 ]
      then
       # sanity check : force=0 check=0 or force=1 check=0
@@ -178,7 +178,7 @@ apt_fixbroken_complete() {
     echo -e "\n  $greenplus apt -y --fix-broken install  - complete"
 }
 
-fix_missing () {
+fix_missing() {
     fix_kali_lightdm_theme_and_background
     fix_sources
     fix_hushlogin         # 06.18.2021 - added fix for .hushlogin file
@@ -215,7 +215,7 @@ fix_missing () {
     fix_mitm6             # 05.09.2022 - added mitm6 to fix missing
     }
 
-fix_all () {
+fix_all() {
     fix_missing   $force
     apt_autoremove && apt_autoremove_complete 
     apt_fixbroken && apt_fixbroken_complete 
@@ -248,7 +248,7 @@ fix_libwacom() {
     # fix for missing libwacom9 requires libwacom-common
     }
 
-fix_assetfinder () {
+fix_assetfinder() {
     echo -e "\n  $greenplus Installing Assetfinder precompiled binary for $arch ... "
     [[ -f /usr/bin/assetfinder ]] && rm -f /usr/bin/assetfinder || echo > /dev/null
     eval apt -y install assetfinder
@@ -387,12 +387,12 @@ disable_power_checkde() {
     }
 
 # 02.02.21 - rev 1.1.8 - Turn off / Silence PCSPKR beep
-silence_pcbeep () {
+silence_pcbeep() {
     echo -e "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
     echo -e "\n  $greenplus Terminal Beep Silenced! /etc/modprobe.d/nobeep.conf \n"
     }
 
-fix_pipxlrd () {
+fix_pipxlrd() {
     eval pip install xlrd==1.2.0 --upgrade
     eval pip3 install scapy==2.4.4 --upgrade
     # eval pip3 install xlrd --upgrade
@@ -423,7 +423,7 @@ fix_pipxlrd () {
 #    fi
 #    }
 
-python-pip-curl () {
+python-pip-curl() {
   # Adding in some checks
   # python3_version="$(python3 --version 2>&1 | awk '{print $2}')"
   # py3_major=$(echo "$python3_version" | cut -d'.' -f1)
@@ -474,7 +474,7 @@ python-pip-curl () {
 
 # 01.26.2021 - rev 1.1.5 - Current version of spike throws undefined symbol error, revert to old version
 # 01.15.2023 - rev 1.6.0 - Updated to use $arch variable for amd64 or arm64
-fix_spike () {
+fix_spike() {
     echo -e "\n  $greenplus Fix SPIKE "
     echo -e "\n  $greenplus removing SPIKE..."
     eval apt -y --allow-change-held-packages remove spike
@@ -522,7 +522,7 @@ fix_mitm6() {
     echo -e "\n  $greenplus MITM6 installed.. "
     }
 
-fix_gowitness () {
+fix_gowitness() {
     echo -e "\n  $greenplus Installing gowitness prebuilt binary...\n"
     rm -f /tmp/releases.gowitness > /dev/null
     check_chrome
@@ -533,7 +533,7 @@ fix_gowitness () {
     rm -f /tmp/releases.gowitness > /dev/null
     }
 
-fix_root_connectionrefused () {
+fix_root_connectionrefused() {
     # fix root gedit connection refused
     echo -e "\n  $greenplus Adding root to xhost for $finduser display: xhost +SI:localuser:root \n"
     # 07.02.21 - may need to consider using the sudo -i -u $finduser here
@@ -542,7 +542,7 @@ fix_root_connectionrefused () {
     echo -e "\n  $greenplus root added to xhost"
     }
 
-fix_gedit () {
+fix_gedit() {
     section="gedit"
     check=$(whereis gedit | grep -i -c "gedit: /usr/bin/gedit")
     fix_section $section $check $force
@@ -554,25 +554,25 @@ fix_set() {
     eval apt -y install libssl-dev set gcc-mingw-w64-x86-64-win32
     }
 
-fix_rockyou () {
+fix_rockyou() {
     cd /usr/share/wordlists
     gzip -dqf /usr/share/wordlists/rockyou.txt.gz
     echo -e "\n  $greenplus gunzip /usr/share/wordlists/rockyou.txt.gz\n"
     }
 
-locate () {
+locate() {
     section="locate"
     check=$(whereis locate | grep -i -c "locate: /usr/bin/locate")
     fix_section $section $check $force
     }
 
-fix_htop () {
+fix_htop() {
     section="htop"
     check=$(whereis htop | grep -i -c "htop: /usr/bin/htop")
     fix_section $section $check $force
     }
 
-python3_pip () {
+python3_pip() {
     # section="python3-pip"
     # check=$(python3 -m pip --version | grep -i -c "/usr/lib/python3/dist-packages/pip")
     # force=1
@@ -580,7 +580,7 @@ python3_pip () {
     eval apt -y reinstall python3-pip
     }
 
-seclists () {
+seclists() {
     #section="seclists"
     # Function changed 01.15.2023 rev 1.6.0 many users were thinking the script was "stuck" with no info being displayed
     if [[ -d /usr/share/seclists ]];
@@ -596,7 +596,7 @@ seclists () {
     fi
     }
 
-fix_nmap () {
+fix_nmap() {
     rm -f /usr/share/nmap/scripts/clamav-exec.nse
     echo -e "\n  $redminus /usr/share/nmap/scripts/clamav-exec.nse removed "
     eval wget https://raw.githubusercontent.com/nmap/nmap/master/scripts/clamav-exec.nse -O /usr/share/nmap/scripts/clamav-exec.nse $silent
@@ -604,20 +604,20 @@ fix_nmap () {
     echo -e "\n  $greenplus /usr/share/nmap/scripts/clamav-exec.nse replaced with working version "
     }
 
-fix_flameshot () {
+fix_flameshot() {
     section="flameshot"
     check=$(whereis flameshot | grep -i -c "/usr/bin/flameshot")
     fix_section $section $check $force
     }
 
 # 02.02.21 - rev 1.1.8 - install theharvester
-fix_theharvester () {
+fix_theharvester() {
     section="theharvester"
     check=$(whereis theharvester | grep -i -c "/usr/bin/theharvester")
     fix_section $section $check $force
     }
 
-fix_golang () {
+fix_golang() {
     section="golang"  #check this golang or golang-go?
     check=$(whereis go  | grep -i -c "/usr/bin/go")
     fix_section $section $check $force
@@ -685,7 +685,7 @@ fix_go_path() {
     fi
     }
 
-fix_smbconf () {
+fix_smbconf() {
     check_min=$(cat /etc/samba/smb.conf | grep -c -i "client min protocol")
     check_max=$(cat /etc/samba/smb.conf | grep -c -i "client max protocol")
     if [ $check_min -ne 0 ] || [ $check_max -ne 0 ]
@@ -699,7 +699,7 @@ fix_smbconf () {
     fi
     }
 
-fix_grub () {
+fix_grub() {
     check_grub=$(cat /etc/default/grub | grep -i -c "GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"" )
     if [ $check_grub -ne 1 ]
      then
@@ -712,7 +712,7 @@ fix_grub () {
     fi
     }
 
-fix_python_requests () {
+fix_python_requests() {
     #eval git clone https://github.com/psf/requests /opt/requests
     #cd /opt/requests
     eval pip install colorama termcolor service_identity requests==2.2.1
@@ -721,7 +721,7 @@ fix_python_requests () {
     echo -e "\n  $greenplus installed python2 module : requests"
     }
 
-fix_bad_apt_hash () {
+fix_bad_apt_hash() {
     mkdir -p /etc/gcrypt
     echo "all" > /etc/gcrypt/hwf.deny
     }
@@ -742,7 +742,7 @@ fix_bad_apt_hash () {
 #    fi
 #    }
 
-install_sublime () {
+install_sublime() {
     echo -e "\n  $greenplus installing sublime text editor"
     # code fix provided by aashiksamuel
     eval wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --no-default-keyring --keyring ./temp-keyring.gpg --import
@@ -757,7 +757,7 @@ install_sublime () {
     }
 
 # 06.01.21 - Function rewrite code-oss was added to Kali 2021.2 repo
-install_vscode () {
+install_vscode() {
     if [[ -f /usr/bin/code ]]; then
       echo -e "\n  $greenminus  vscode already installed - skipping"
     else
@@ -768,7 +768,7 @@ install_vscode () {
     }
 
 # 04.06.2021 fix_sources rev 1.2.2 / rev 1.3.2 updated to add wildcards
-fix_sources () {
+fix_sources() {
     fix_bad_apt_hash
     # relaxed grep
     check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://.*/kali kali-rolling.*")
@@ -797,7 +797,7 @@ fix_sources () {
     fi
     }
 
-run_update () {
+run_update() {
     fix_sources
     echo -e "\n  $greenplus starting: pimpmyupgrade   \n"
     apt_update && apt_update_complete
@@ -806,7 +806,7 @@ run_update () {
     eval apt -y install dkms build-essential linux-headers-amd64 $silent
     }
 
-make_rootgreatagain () {
+make_rootgreatagain() {
     echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 1   "$red"*** READ CAREFULLY! ***"$white" \n"
     echo -e "   On Kali 2019.x and prior the default user was root"
     echo -e "   On Kali 2020.1 and newer this was changed, the default user was changed to be "
@@ -826,7 +826,7 @@ make_rootgreatagain () {
     esac
     }
 
-enable_rootlogin () {
+enable_rootlogin() {
     section="kali-root-login"
     check=$(whereis kali-root-login | grep -i -c "kali-root-login: /usr/share/kali-root-login")
     fix_section $section $check $force
@@ -844,7 +844,7 @@ enable_rootlogin () {
     }
 
 # 01.02.2021 - rev 1.1.2 begin - new screens for copying from /home/kali to /root, no detection, all based on used input
-ask_homekali_to_root () {
+ask_homekali_to_root() {
     echo -e "\n\n KALI-ROOT-LOGIN INSTALLATION: - PAGE 2   "$red"*** READ CAREFULLY! ***"$white" \n"
     echo -e "   This section of the script is only executed if Yes was selected at the enable root login prompt\n"
     echo -e "   If you are planning on operating your kali install as root instead of the user kali, "
@@ -865,7 +865,7 @@ ask_homekali_to_root () {
     }
 
 # 01.03.2021 - rev 1.1.3 begin - added are you sure prompt
-ask_are_you_sure () {
+ask_are_you_sure() {
     echo -e "\n\n   Are you sure you want to copy all of /home/$finduser to /root ?"
     read -n1 -p "   Please type Y or N : " userinput
      case $userinput in
@@ -876,7 +876,7 @@ ask_are_you_sure () {
     }
 
 # 01.02.2021 - rev 1.1.2 - copy to /root warning screens and function
-perform_copy_to_root () {
+perform_copy_to_root() {
     echo -e "\n\n  $greenplus Copying everything from /home/$finduser to /root... Please wait..."
     # add call to check_helpers here before doing the copy from /home/kali to /root
      if [[ $finduser = "root" ]]
@@ -929,7 +929,7 @@ perform_copy_to_root () {
 #   }
 
 
-fix_sead_warning () {
+fix_sead_warning() {
     clear
  # fugly - really need to clean this up, it works but its just a nightmare to look at
  echo -e "
@@ -974,7 +974,7 @@ fix_sead_warning () {
     esac
     }
 
-fix_sead_run () {
+fix_sead_run() {
     apt_update && apt_update_complete
     python-pip-curl
     python3_pip
@@ -1011,7 +1011,7 @@ fix_sead_run () {
     exit_screen
     }
 
-fix_impacket_array () {
+fix_impacket_array() {
     arr=('addcomputer.py' 'atexec.py' 'dcomexec.py' 'dpapi.py' 'esentutl.py' 'findDelegation.py' 'GetADUsers.py' 'getArch.py' 'GetNPUsers.py'
          'getPac.py' 'getST.py' 'getTGT.py' 'GetUserSPNs.py' 'goldenPac.py' 'karmaSMB.py' 'kintercept.py' 'lookupsid.py' 'mimikatz.py'
          'mqtt_check.py' 'mssqlclient.py' 'mssqlinstance.py' 'netview.py' 'nmapAnswerMachine.py' 'ntfs-read.py' 'ntlmrelayx.py' 'ping6.py'
@@ -1030,7 +1030,7 @@ fix_impacket_array () {
      done
     }
 
-fix_impacket () {
+fix_impacket() {
     python-pip-curl
     python3_pip
     eval pip uninstall impacket -y $silent
@@ -1066,7 +1066,7 @@ fix_broken_xfce() {
     fix_xfcepower
     }
 
-only_upgrade () {
+only_upgrade() {
     fix_sources
     echo -e "\n  $greenplus starting pimpmyupgrade   \n"
     apt_update && apt_update_complete && apt_upgrade && apt_upgrade_complete
@@ -1075,7 +1075,7 @@ only_upgrade () {
     check_vm
     }
 
-fix_upgrade () {
+fix_upgrade() {
     fix_sources
     apt_update && apt_update_complete
     run_update
@@ -1084,7 +1084,7 @@ fix_upgrade () {
     check_vm
     }
 
-bpt () {
+bpt() {
     rm -rf /opt/the-essentials
     git clone https://github.com/blindpentester/the-essentials /opt/the-essentials
     cd /opt/the-essentials
@@ -1106,7 +1106,7 @@ virt_what() {
     fi
     }
 
-vbox_fix_shared_folder_permission_denied () {
+vbox_fix_shared_folder_permission_denied() {
     if [ $findgroup = 1 ]
      then
       echo -e "\n  $greenminus : user is already a member of vboxsf group\n"
@@ -1186,7 +1186,7 @@ check_vm() {
     fi
     }
 
-hacking_api_create_cleanupsh () { 
+hacking_api_create_cleanupsh() { 
     cleanup_script="cleanup.sh"
     echo -e "\n  $greenplus Creating cleanup.sh" 
     # create cleanup.sh - prompts user for a Y or y prompt and provides warning before executing commands
@@ -1641,7 +1641,7 @@ CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
 p1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o
 7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA="  | gunzip )
 
-pimpmykali_menu () {
+pimpmykali_menu() {
     # DATE=$(date +%x); TIME=$(date +%X)
     clear
     echo -e "$asciiart"
@@ -1720,7 +1720,7 @@ pimpmykali_menu () {
     esac
     }
 
-pimpmykali_help () {
+pimpmykali_help() {
     # do not edit this echo statement, spacing has been fixed and is correct for display in the terminal
     echo -e "\n valid command line arguements are : \n \n --all        run all operations \n"\
             "--smb        only run smb.conf fix \n --go         only fix/install golang"\
@@ -1732,7 +1732,7 @@ pimpmykali_help () {
     exit
     }
 
-check_arg () {
+check_arg() {
     if [ "$1" == "" ]
       then pimpmykali_menu
      else
@@ -1762,7 +1762,7 @@ check_arg () {
     fi
     }
 
-exit_screen () {
+exit_screen() {
     eval apt -y --fix-broken install >/dev/null 2>&1
     echo -e "$asciiart"
     echo -e "\n\n    All Done! Happy Hacking! \n"
