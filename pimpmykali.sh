@@ -774,25 +774,17 @@ fix_sources() {
     check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://.*/kali kali-rolling.*")
     check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://.*/kali kali-rolling.*")
     get_current_mirror=$(cat /etc/apt/sources.list | grep "deb-src http://.*/kali kali-rolling.*" | cut -d "/" -f3)
-    # original code - to be purged
-    #check_space=$(cat /etc/apt/sources.list | grep -c "# deb-src http://.*/kali kali-rolling main contrib non-free")
-    #check_nospace=$(cat /etc/apt/sources.list | grep -c "#deb-src http://.*/kali kali-rolling main contrib non-free")
-    #get_current_mirror=$(cat /etc/apt/sources.list | grep "deb-src http://.*/kali kali-rolling main contrib non-free" | cut -d "/" -f3)
     if [[ $check_space = 0 && $check_nospace = 0 ]]; then
     	echo -e "\n  $greenminus # deb-src or #deb-sec not found - skipping"
     elif [ $check_space = 1 ]; then
       echo -e "\n  $greenplus # deb-src with space found in sources.list uncommenting and enabling deb-src"
       # relaxed sed
       sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling.*/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
-      # original code - to be purged
-      #sed 's/\# deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     elif [ $check_nospace = 1 ]; then
       echo -e "\n  $greenplus #deb-src without space found in sources.list uncommenting and enabling deb-src"
       # relaxed sed
       sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling.*/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
-      # original code - to be purged
-      #sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling main contrib non\-free/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     fi
     }
