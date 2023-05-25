@@ -66,6 +66,10 @@
     menu=""
     pipnowarn="--no-python-version-warning"  # turn off all python2.7 deprecation warnings in pip
     export PYTHONWARNINGS="ignore"
+    # look at a method to find the current version of nessus should the version number change
+    nessus_amd64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.5.2-debian10_amd64.deb"
+    nessus_arm64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.5.2-ubuntu1804_aarch64.deb"
+    nessusd_service_active=0
 
 # variables moved from local to global
     finduser=$(logname)
@@ -1205,7 +1209,7 @@ hacking_api_create_cleanupsh () {
     echo "    esac" >> $cleanup_script
     chmod +x cleanup.sh
     }    
-
+    
 # code commented out for now, debtaing the idea of a postman desktop icon 
 # would require it to be placed in either /$finduser/Desktop (root)  or  /home/$finduser/Desktop (normal user)
 # create_postman_desktopicon() {
@@ -1289,6 +1293,96 @@ hacking_api_prereq() {
     echo -e "       and run the following command : sudo docker-compose up "
     }  
 
+check_nessusd_active() {
+    check_nessusd_service=$(sudo systemctl status nessusd | grep -i -c  "active (running)")
+    if [[ $check_nessusd_service -ge 1 ]]
+     then
+      nessusd_service_active=1
+      echo -e "\n  $greenplus nessusd service is active"
+     else
+      nessusd_service_active=0
+      echo -e "\n  $redexclaim nessusd service is not active"
+    fi
+    }
+
+check_nessus_installed_opt_nessus() {
+    if [[ -d /opt/nessus ]]
+    then 
+     echo -e "\n  $greenplus Detected nessus installation at /opt/nessus"
+     echo -e "\n  $greenplus Removing all files from /opt/nessus"
+     rm -rf /opt/nessus
+    else
+     echo -e "\n  $greenplus Nessus not detected at /opt/nessus"
+    fi 
+    }
+
+check_nessus_installed_dpkg() (
+    dpkg_nessus=$(dpkg -l | grep -i -c nessus)
+    if [ $dpkg_nessus -ge 1 ]
+     then 
+      echo -e "\n  $greenplus Detected nessus installed via dpkg -l" 
+      echo -e "\n  $greenplus Removing Nessus via dpkg -r"
+      dpkg -r Nessus
+     else 
+      echo -e "\n  $greenplus No detectinon of nessus installed via dpkg"
+    fi
+    )
+
+nuke_nessus() {
+    check_nessusd_active
+    if [ $nessusd_service_active -ge 1 ]
+     then 
+      echo -e "\n  $greenplus Stopping nessusd service"
+      systemctl stop --now nessusd
+      check_nessus_installed_dpkg
+      check_nessus_installed_opt_nessus
+    fi
+
+    echo -e "\n  $greenplus Nessus has been removed"
+    }
+
+remove_nessus() {
+    check_nessusd_active
+    if [[ $nessusd_service_active -ge 1 ]]
+     then
+      echo -e "\n  Warning! You are about to uninstall and remove Nessus"
+      read -n1 -p "  Press Y or y to continue, any other key to exit: " nessus_removeinput
+      case $nessus_removeinput in
+        y|Y) nuke_nessus;;
+          *) echo -e "\n  $greenplus Aborting uninstallation of nessus"; exit;;
+      esac
+     else
+      echo -e "\n  $redexclaim nessusd service is not running"
+    fi
+    }
+
+install_nessus() {
+    # code to check if nessus is already installed and build out a remove function
+    if [ $arch == "amd64" ]
+     then
+      echo -e "\n  $greenplus Downloading Nessus for $arch"
+      wget -q $nessus_amd64 -O /tmp/nessus_amd64.deb
+      echo -e "\n  $greenplus Installing Nessus for $arch"
+      dpkg -i /tmp/nessus_amd64.deb
+      rm -f /tmp/nessus_amd64.deb
+      echo -e "\n  $greenplus Enabling nessusd service"
+      systemctl enable --now nessusd
+      check_nessusd_active
+    elif [ $arch == "arm64" ]
+     then
+      echo -e "\n  $greenplus Downloading Nessus for $arch"
+      wget $nessus_arm -O /tmp/nessus_arm64.deb
+      echo -e "\n  $greenplus Installing Nessus for $arch"
+      dpkg -i /tmp/nessus_arm64.deb
+      rm -f /tmp/nessus_arm64.deb
+      echo -e "\n  $greenplus Enabling nessusd service" 
+      check_nessusd_active
+    elif [ $arch == "" ]
+     then
+      echo -e "\n  $redexclaim Unable to determine arch type, exiting..." 
+      exit
+    fi
+    }
 
 mapt_prereq() {
     # would like to do a check of python2 pip python3 and pip3 instead of just re-running python-pip-curl and python3_pip functions
@@ -1621,6 +1715,8 @@ pimpmykali_menu () {
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
         ^) install_everything;;
+        @) install_nessus;;
+        $) remove_nessus;;
         *) pimpmykali_menu ;;
     esac
     }
@@ -1678,3 +1774,4 @@ check_for_root
 check_distro
 check_arg "$1"
 exit_screen
+
