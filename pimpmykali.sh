@@ -1594,10 +1594,9 @@ gen_new_sources() {
 
 cleanup() {
   	rm -f /tmp/kali-speedtest.found /tmp/kali-speedtest /tmp/timetest.list /tmp/kali-latency /tmp/sources.list /tmp/final.list /tmp/kali-ping /tmp/mirrors_speedtest > /dev/null
-  }
-
-# function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-#---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
+    }
+    # function call list : get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+    #---- end pimpmykali-mirrors rev 1.3.2 08.20.2021 ----
 
 # fix_ssh function - set ssh client to wide compatibility mode legacy ciphers - 08.04.2022 rev 1.5.7
 #fix_ssh() {
