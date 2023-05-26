@@ -39,6 +39,10 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.6.6 - Added installer and Uninstaller for Nessus
+  - menu option @ to install nessus
+  - menu option $ to nuke nessus 
+
 # Revision 1.6.6 - Hacking API Course setup 
   - added Practical API Hacking Course setup (amd64 and arm64), menu option O
   - Instructor Alex Olsen https://academy.tcm-sec.com/p/hacking-apis
