@@ -1363,7 +1363,7 @@ install_nessus() {
     elif [ $arch == "arm64" ]
      then
       echo -e "\n  $greenplus Downloading Nessus for $arch"
-      wget $nessus_arm -O /tmp/nessus_arm64.deb
+      wget $nessus_arm64 -O /tmp/nessus_arm64.deb
       echo -e "\n  $greenplus Installing Nessus for $arch"
       dpkg -i /tmp/nessus_arm64.deb
       rm -f /tmp/nessus_arm64.deb
