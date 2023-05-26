@@ -1218,6 +1218,7 @@ hacking_api_create_cleanupsh() {
 #    }
 
 hacking_api_prereq() {
+    # additions to PMK 1.6.6 - Practical API Hacking course setup 
     # common setup
     echo -e "\n  $greenplus Running apt update" 
     eval apt update $silent
