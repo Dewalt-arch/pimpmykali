@@ -1225,7 +1225,6 @@ hacking_api_prereq() {
     eval apt -y install docker.io docker-compose $silent 
     echo -e "\n  $greenplus Enabling docker services (systemctl enable docker)"
     systemctl enable docker 
-
     # determine arch type and download the respective postman for that arch
     if [ $arch == "amd64" ]
      then 
@@ -1239,14 +1238,12 @@ hacking_api_prereq() {
       echo -e "\n  $redexclaim Unable to determine arch type, exiting..." 
       exit 
     fi 
-
     #install postman and symlink to /usr/bin/postman to be in $PATH
     echo -e "\n  $greenplus Installing Postman"
     cd /opt 
     tar xvfz postman.tar.gz $silent 
     ln -sf /opt/Postman/Postman /usr/bin/postman
     rm /opt/postman.tar.gz
-
     # user specific setup 
     if [ $finduser == "root" ]
      then 
@@ -1258,11 +1255,9 @@ hacking_api_prereq() {
       cd /$finduser/labs
       echo -e "\n  $greenplus Installing crAPI to /$finduser/labs/crAPI"
       git clone https://github.com/OWASP/crAPI $silent 
-      
       # create cleanup.sh in the crAPI directory
       hacking_api_create_cleanupsh
       chmod +x cleanup.sh 
-      
       cd /$finduser/labs/crAPI/deploy/docker
      else 
       if [ ! -d /home/$finduser/labs ]
@@ -1273,11 +1268,9 @@ hacking_api_prereq() {
       cd /home/$finduser/labs
       echo -e "\n  $greenplus Installing crAPI to /home/$finduser/labs/crAPI"
       git clone https://github.com/OWASP/crAPI $silent 
-      
       # create cleanup.sh in the crAPI directory
       hacking_api_create_cleanupsh 
       chmod +x cleanup.sh
-
       chown -R $finduser:$finduser /home/$finduser/labs
       cd /home/$finduser/labs/crAPI/deploy/docker
     fi
