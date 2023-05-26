@@ -1321,9 +1321,8 @@ nuke_nessus() {
       systemctl stop --now nessusd
       check_nessus_installed_dpkg
       check_nessus_installed_opt_nessus
-    fi
-
-    echo -e "\n  $greenplus Nessus has been removed"
+      echo -e "\n  $greenplus Nessus has been removed"
+    fi    
     }
 
 remove_nessus() {
