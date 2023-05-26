@@ -1368,6 +1368,7 @@ install_nessus() {
       dpkg -i /tmp/nessus_arm64.deb
       rm -f /tmp/nessus_arm64.deb
       echo -e "\n  $greenplus Enabling nessusd service" 
+      systemctl enable --now nessusd
       check_nessusd_active
     elif [ $arch == "" ]
      then
