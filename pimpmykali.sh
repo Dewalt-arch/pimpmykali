@@ -1667,6 +1667,8 @@ pimpmykali_menu() {
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
     echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
     echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"            # fix_sead_warning
+    echo -e "  @ - Install Nessus           (Type the @ character for this menu item)\n"            # install_nessus
+    echo -e "  $ - Nuke Nessus              (Type the $ character for this menu item)\n"            # remove_nessus
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
