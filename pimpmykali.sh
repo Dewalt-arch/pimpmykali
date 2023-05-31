@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.6.7" 
+    revision="1.6.8" 
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -224,7 +224,7 @@ fix_all() {
     fix_flameshot $force
     fix_grub
     fix_smbconf
-    fix_impacket
+    # fix_impacket - commenting out as of rev 1.6.8 
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
     # python-pip-curl python3_pip fix_golang fix_nmap
     # fix_upgrade is not a part of fix_missing and only
@@ -1640,7 +1640,7 @@ pimpmykali_menu() {
     echo -e "  2 - Fix /etc/samba/smb.conf  (adds the 2 missing lines)"                             # fix_smbconf
     echo -e "  3 - Fix Golang               (installs golang, adds GOPATH= to .zshrc and .bashrc)"  # fix_golang
     echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                 # fix_grub
-    echo -e "  5 - Fix Impacket             (installs impacket)"                                      # fix_impacket
+    # echo -e "  5 - Fix Impacket             (installs impacket)"                                      # fix_impacket
     echo -e "  6 - Enable Root Login        (installs kali-root-login)"                              # make_rootgreatagain
     #echo -e "  7 - Install Atom             (installs atom - disabled)"                               # install_atom
     echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"              # fix_nmap
@@ -1676,7 +1676,7 @@ pimpmykali_menu() {
         2) fix_smbconf;;
         3) fix_golang;;
         4) fix_grub;;
-        5) fix_impacket;;
+       # 5) fix_impacket;;
         6) make_rootgreatagain;;
         7) pimpmykali_menu;;
         8) fix_nmap ;;
@@ -1729,7 +1729,7 @@ check_arg() {
        --all) fix_all                          ;;
        --smb) fix_smbconf                      ;;
         --go) fix_golang                       ;;
-  --impacket) fix_impacket                     ;;
+  #--impacket) fix_impacket                     ;;
       --grub) fix_grub                         ;;
       --root) make_rootgreatagain              ;;
    --missing) fix_missing                      ;;

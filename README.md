@@ -39,7 +39,11 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
-# Revision 1.6.6 - Added installer and Uninstaller for Nessus
+# Revision 1.6.8 - fix_impacket function temporarily commented out
+  - affecting menu options N, 0 and 1 
+  - issues with kali2023.2 
+
+# Revision 1.6.7 - Added installer and Uninstaller for Nessus
   - menu option @ to install nessus
   - menu option $ to nuke nessus 
 
