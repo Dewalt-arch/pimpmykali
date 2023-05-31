@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.6.9 - fix_impacket restored
+  - menu options N, 0 and 1 are fully operational   
+
 # Revision 1.6.8 - fix_impacket function temporarily commented out
   - affecting menu options N, 0 and 1 
   - issues with kali2023.2 

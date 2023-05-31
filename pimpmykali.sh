@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.6.8"  
+    revision="1.6.9"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -224,7 +224,7 @@ fix_all() {
     fix_flameshot $force
     fix_grub
     fix_smbconf
-    # fix_impacket - commenting out as of rev 1.6.8 
+    fix_impacket # - restored after changes made in 1.6.9
     # ID10T REMINDER: DONT CALL THESE HERE THEY ARE IN FIX_MISSING!
     # python-pip-curl python3_pip fix_golang fix_nmap
     # fix_upgrade is not a part of fix_missing and only
@@ -1034,18 +1034,21 @@ fix_impacket() {
     chown -R root:root impacket-0.9.19
     chmod -R 755 impacket-0.9.19
     cd /opt/impacket-0.9.19
-    eval pip3 install lsassy --break-system-packages $silent   # review this one...
-    eval pip install flask $silent
-    eval pip install pyasn1 $silent
-    eval pip install pycryptodomex $silent
-    eval pip install pyOpenSSL $silent
-    eval pip install ldap3 $silent
-    eval pip install ldapdomaindump $silent
-    eval pip install wheel $silent
-    eval pip install . --user $silent
+    #eval pip3 install lsassy --break-system-packages $silent   # review this one...
+    #eval pip install flask $silent
+    #eval pip install pyasn1 $silent
+    #eval pip install pycryptodomex $silent
+    #eval pip install pyOpenSSL $silent
+    #eval pip install ldap3 $silent
+    #eval pip install ldapdomaindump $silent
+    #eval pip install wheel $silent
+    eval pip install -r requirements.txt
+    eval /bin/python2.7 ./setup.py install 
+    sudo -i -u $findrealuser pip install ldap3==2.5.1
+    #eval pip install . --user $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     eval apt -y reinstall python3-impacket impacket-scripts $silent
-    sudo -i -u $finduser python3 -m pip install impacket --user --upgrade --break-system-packages
+    #sudo -i -u $finduser python3 -m pip install impacket --user --upgrade --break-system-packages
     echo -e "\n  $greenplus installed: impacket-0.9.19 python-pip wheel impacket flask pyasn1"
     echo -e "\n  $greenplus installed: lsassy pycryptodomes pyOpenSSL ldap3 ldapdomaindump"
     echo -e "\n  $greenplus installed: python3-pip python3-impacket impacket-scripts"
@@ -1640,9 +1643,9 @@ pimpmykali_menu() {
     echo -e "  2 - Fix /etc/samba/smb.conf  (adds the 2 missing lines)"                             # fix_smbconf
     echo -e "  3 - Fix Golang               (installs golang, adds GOPATH= to .zshrc and .bashrc)"  # fix_golang
     echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                 # fix_grub
-    # echo -e "  5 - Fix Impacket             (installs impacket)"                                      # fix_impacket
-    echo -e "  6 - Enable Root Login        (installs kali-root-login)"                              # make_rootgreatagain
-    #echo -e "  7 - Install Atom             (installs atom - disabled)"                               # install_atom
+    echo -e "  5 - Fix Impacket             (installs impacket 0.9.19)"                             # fix_impacket
+    echo -e "  6 - Enable Root Login        (installs kali-root-login)"                             # make_rootgreatagain
+    #echo -e "  7 - Install Atom             (installs atom - disabled)"                            # install_atom
     echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"              # fix_nmap
     echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
     echo -e "                               (sources.list, linux-headers, vm-video)"                # -
@@ -1653,7 +1656,7 @@ pimpmykali_menu() {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  O - Hacking API Course Setup (add requirements for Hacking API Course)"               # hacking_api_prereq was fix_ssh
+    echo -e "  O - Hacking API Course Setup (add requirements for Hacking API Course)"              # hacking_api_prereq was fix_ssh
     echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
     echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
     echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"     # bpt function
@@ -1676,7 +1679,7 @@ pimpmykali_menu() {
         2) fix_smbconf;;
         3) fix_golang;;
         4) fix_grub;;
-       # 5) fix_impacket;;
+        5) fix_impacket;;
         6) make_rootgreatagain;;
         7) pimpmykali_menu;;
         8) fix_nmap ;;
