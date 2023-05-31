@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.6.9a - changed google-chrome installation source
+  - is now installed from the kali repo google-chrome-stable 
+
 # Revision 1.6.9 - fix_impacket restored
   - menu options N, 0 and 1 are fully operational   
 
