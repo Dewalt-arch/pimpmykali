@@ -1047,6 +1047,7 @@ fix_impacket() {
     eval pip install -r requirements.txt
     eval /bin/python2.7 ./setup.py install 
     sudo -i -u $findrealuser pip install ldap3==2.5.1
+    pip install ldap3==2.5.1
     #eval pip install . --user $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     eval apt -y reinstall python3-impacket impacket-scripts $silent
