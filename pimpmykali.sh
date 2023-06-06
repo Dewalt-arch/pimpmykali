@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.6.9a"  
+    revision="1.6.9b"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1624,7 +1624,8 @@ fix_timezone() {
 
 install_everything() {
   echo -e "\n  $greenplus Installing Everything! \n"
-  eval sudo apt -y install kali-linux-everything
+  #eval sudo apt -y install kali-linux-everything
+  sudo /bin/bash -m --rcfile /home/$finduser/.bashrc -ic 'apt -y install kali-linux-everything' 2> /dev/null
   }
 
 # ascii art - DONT move
