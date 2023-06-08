@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.6.9b"  
+    revision="1.7.0"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -213,6 +213,7 @@ fix_missing() {
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     fix_mitm6             # 05.09.2022 - added mitm6 to fix missing
+    fix_waybackurls
     }
 
 fix_all() {
@@ -247,6 +248,60 @@ fix_libwacom() {
     eval apt -y install libwacom-common
     # fix for missing libwacom9 requires libwacom-common
     }
+
+install_rustup() {
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
+    sudo -i -u $finduser curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
+    
+    }
+
+install_cargo() {
+    sudo apt -y install cargo libssl-dev
+    }
+
+fix_waybackurls() {
+    echo -e "\n  $greenplus Installing WaybackUrls \n"
+    [ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
+    whichrust=$(which rustc)
+    whichcargo=$(which cargo)
+    echo -e "\n  $greenplus Checking for rustc and cargo"
+    if [ "$whichrust" == "$HOME/.cargo/bin/rustc" ]
+     then
+      echo > /dev/null 
+     else
+      echo -e "\n  $redexclaim cannot find rustc, installing rustup"
+      export RUSTUP_INIT_SKIP_PATH_CHECK=yes
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
+      source $HOME/.cargo/env
+      echo "its in $HOME/.cargo/env"
+      fix_waybackurls
+    fi
+    
+    [ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
+    if [ "$whichcargo" == "$HOME/.cargo/bin/cargo" ]
+     then
+      rm -rf /opt/WaybackRust
+      git clone https://github.com/Neolex-Security/WaybackRust /opt/WaybackRust
+      cd /opt/WaybackRust
+      [ -f $HOME/.cargo/env ] && source $HOME/.cargo/env; cargo build --release
+    else 
+      echo -e "\n  $redexclaim cannot find cargo... installing cargo"
+      sudo apt -y install cargo libssl-dev
+      echo -e "\n  $greenplus restarting fix_waybackurls function"
+      exit 0
+      fix_waybackurls
+    fi
+
+    if [[ -f /opt/WaybackRust/target/release/waybackrust ]]
+     then
+      echo -e "\n  $greenplus symlinking waybackrust to /usr/bin/waybackurls"
+      ln -sf /opt/WaybackRust/target/release/waybackrust /usr/bin/waybackurls
+      echo -e "\n  $greenplus Installation complete"
+    else
+      echo -e "\n  $redexclaim cant find waybackrust"
+    fi
+    }
+
 
 fix_assetfinder() {
     echo -e "\n  $greenplus Installing Assetfinder precompiled binary for $arch ... "
@@ -1036,19 +1091,10 @@ fix_impacket() {
     chown -R root:root impacket-0.9.19
     chmod -R 755 impacket-0.9.19
     cd /opt/impacket-0.9.19
-    #eval pip3 install lsassy --break-system-packages $silent   # review this one...
-    #eval pip install flask $silent
-    #eval pip install pyasn1 $silent
-    #eval pip install pycryptodomex $silent
-    #eval pip install pyOpenSSL $silent
-    #eval pip install ldap3 $silent
-    #eval pip install ldapdomaindump $silent
-    #eval pip install wheel $silent
     eval pip install -r requirements.txt
     eval /bin/python2.7 ./setup.py install 
     sudo -i -u $findrealuser pip install ldap3==2.5.1
     pip install ldap3==2.5.1
-    #eval pip install . --user $silent
     rm -f /tmp/impacket-0.9.19.tar.gz
     eval apt -y reinstall python3-impacket impacket-scripts $silent
     #sudo -i -u $finduser python3 -m pip install impacket --user --upgrade --break-system-packages
@@ -1386,12 +1432,18 @@ mapt_prereq() {
     echo -e "  $greenplus python$pyver-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx"
     apt -y install python$pyver-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx
     echo -e "\n  $greenplus git cloning mobsf to /opt"
-    git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF /opt/Mobile-Security-Framework-MobSF
-    echo -e "\n  $greenplus Installing MobSF"
-    # scripts are not executable upon git clone of mobsf
-    sudo chmod +x /opt/Mobile-Security-Framework-MobSF/*.sh
-    cd /opt/Mobile-Security-Framework-MobSF/
-    /opt/Mobile-Security-Framework-MobSF/setup.sh
+    eval apt -y install docker.io docker-compose
+    eval systemctl enable docker
+    eval docker pull opensecurity/mobile-security-framework-mobsf:latest
+    echo "sudo docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest" > /usr/bin/mobsf-docker
+    chmod +x /usr/bin/mobsf-docker 
+      # git clone https://github.com/MobSF/Mobile-Security-Framework-MobSF /opt/Mobile-Security-Framework-MobSF
+    echo -e "\n  $greenplus Installing MobSF startup script to /usr/bin/mobsf-docker"
+      # scripts are not executable upon git clone of mobsf
+      # sudo chmod +x /opt/Mobile-Security-Framework-MobSF/*.sh
+      # cd /opt/Mobile-Security-Framework-MobSF/
+      # /opt/Mobile-Security-Framework-MobSF/setup.sh
+
     # --- ANDROID STUDIO ONLY ---
     # echo -e "\n  $greenplus Installing Android Studio requirements"
     # dpkg --add-architecture i386
@@ -1649,7 +1701,7 @@ pimpmykali_menu() {
     echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                 # fix_grub
     echo -e "  5 - Fix Impacket             (installs impacket 0.9.19)"                             # fix_impacket
     echo -e "  6 - Enable Root Login        (installs kali-root-login)"                             # make_rootgreatagain
-    #echo -e "  7 - Install Atom             (installs atom - disabled)"                            # install_atom
+    echo -e "  7 - Install Waybackrust      (waybackrust installed, symlinked to waybackurls)"      # fix_waybackurls
     echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"              # fix_nmap
     echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
     echo -e "                               (sources.list, linux-headers, vm-video)"                # -
@@ -1673,8 +1725,8 @@ pimpmykali_menu() {
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
     echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
-    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)\n"            # fix_sead_warning
-    echo -e "  @ - Install Nessus           (Type the @ character for this menu item)\n"            # install_nessus
+    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"            # fix_sead_warning
+    echo -e "  @ - Install Nessus           (Type the @ character for this menu item)"            # install_nessus
     echo -e "  $ - Nuke Nessus              (Type the $ character for this menu item)\n"            # remove_nessus
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
@@ -1685,7 +1737,7 @@ pimpmykali_menu() {
         4) fix_grub;;
         5) fix_impacket;;
         6) make_rootgreatagain;;
-        7) pimpmykali_menu;;
+        7) fix_waybackurls;;
         8) fix_nmap ;;
         9) apt_update; fix_libwacom; only_upgrade;;
         0) fix_all; run_update; virt_what; check_vm;;
@@ -1711,6 +1763,7 @@ pimpmykali_menu() {
         ^) install_everything;;
         @) install_nessus;;
         $) remove_nessus;;
+        %) fix_waybackurls;;
         *) pimpmykali_menu ;;
     esac
     }
