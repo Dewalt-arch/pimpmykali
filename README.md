@@ -39,7 +39,7 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
-# Revision 1.7.0 - MobSF, waybackrust (waybackurls)
+# Revision 1.7.0 - MobSF
   - MAPT Course setup, Menu option A 
    - mobsf installation has been changed to a docker installation
    - /usr/bin/mobsf-docker script created and made executable 
