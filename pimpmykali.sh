@@ -213,7 +213,7 @@ fix_missing() {
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     fix_mitm6             # 05.09.2022 - added mitm6 to fix missing
-    fix_waybackurls
+    #fix_waybackurls
     }
 
 fix_all() {
@@ -1701,7 +1701,7 @@ pimpmykali_menu() {
     echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                 # fix_grub
     echo -e "  5 - Fix Impacket             (installs impacket 0.9.19)"                             # fix_impacket
     echo -e "  6 - Enable Root Login        (installs kali-root-login)"                             # make_rootgreatagain
-    echo -e "  7 - Install Waybackrust      (waybackrust installed, symlinked to waybackurls)"      # fix_waybackurls
+    #echo -e "  7 - Install Waybackrust      (waybackrust installed, symlinked to waybackurls)"      # fix_waybackurls
     echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"              # fix_nmap
     echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
     echo -e "                               (sources.list, linux-headers, vm-video)"                # -
@@ -1737,7 +1737,7 @@ pimpmykali_menu() {
         4) fix_grub;;
         5) fix_impacket;;
         6) make_rootgreatagain;;
-        7) fix_waybackurls;;
+       # 7) fix_waybackurls;;
         8) fix_nmap ;;
         9) apt_update; fix_libwacom; only_upgrade;;
         0) fix_all; run_update; virt_what; check_vm;;

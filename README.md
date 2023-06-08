@@ -43,8 +43,6 @@
   - MAPT Course setup, Menu option A 
    - mobsf installation has been changed to a docker installation
    - /usr/bin/mobsf-docker script created and made executable 
-  - added waybackrust installation to menu options 0, N and 1 
-   - waybackrust is symlinked to /usr/bin/waybackurls
   
 # Revision 1.6.9a - changed google-chrome installation source
   - is now installed from the kali repo google-chrome-stable 
