@@ -27,7 +27,7 @@
   - Crazy_Man - https://github.com/The-Crazy-Man
   - blindpentester https://github.com/blindpentester
   - pswalia2u https://github.com/pswalia2u
-  - Alek https://github.com/onomastus
+  - Alek https://github.com/wodensec
   - Gr1mmie https://github.com/Gr1mmie
   - Aksheet https://github.com/Aksheet10
   - 0xC0FFEE VirtualBox Home Lab Build (updated link!)
