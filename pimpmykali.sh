@@ -322,6 +322,7 @@ fix_linwinpeas() {
     # winpeas to /opt/winpeas
 	  echo -e "\n $greenplus Downloading all the winpeas"
     [ ! -d $dest_winpeas ] && mkdir $dest_winpeas || echo > /dev/null 
+    
     winpeas_arr=('winPEAS.bat' 'winPEASany.exe' 'winPEASany_ofs.exe' 'winPEASx64_ofs.exe' 'winPEASx86.exe' 'winPEASx86_ofs.exe')
      for winpeas_file in ${winpeas_arr[@]}; do
        echo -e "  $greenplus Downloading $winpeas_file to $dest_winpeas/$winpeas_file"
