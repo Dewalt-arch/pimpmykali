@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.1"  
+    revision="1.7.1a"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -375,14 +375,16 @@ fix_chrome() {
     elif [[ "$arch" == "amd64" ]];
      then 
       # need if statement here if arm64 , chrome does not exist in kali linux on arm64 as of yet
-      # echo -e "\n  $greenplus Gowitness dependancy fix: Downloading - google-chrome for $arch \n"
-      # eval wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
-      # echo -e "\n  $greenplus Gowitness dependancy fix: Installing - google-chrome for $arch \n"
-      # eval dpkg -i /tmp/google-chrome-stable_current_amd64.deb
-      # rm -f /tmp/google-chrome-stable_current_amd64.deb
+      echo -e "\n  $greenplus Gowitness dependancy fix: Downloading - google-chrome for $arch \n"
+      eval wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O /tmp/google-chrome-stable_current_amd64.deb
+      echo -e "\n  $greenplus Gowitness dependancy fix: Installing - google-chrome for $arch \n"
+      eval apt -y install libu2f-udev
+      eval dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+      rm -f /tmp/google-chrome-stable_current_amd64.deb
       # --- old code to be removed --- 
       # --- added as of revision 1.6.9a - changed installation source to kali repo 
-      eval apt -y install google-chrome-stable
+      # --- disabled as a 1.7.1 google-chrome-stable no longer in the repo!! 
+      # eval apt -y install google-chrome-stable
     fi 
     }
 
