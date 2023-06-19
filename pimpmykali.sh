@@ -315,7 +315,6 @@ fix_linwinpeas() {
     linpeas_arr=('linpeas.sh' 'linpeas_darwin_amd64' 'linpeas_darwin_arm64' 'linpeas_fat.sh' 'linpeas_linux_386' 'linpeas_linux_amd64' 'linpeas_linux_arm')
      for linpeas_file in ${linpeas_arr[@]}; do
        echo -e "   Downloading $linpeas_file to $dest_linpeas/$linpeas_file"
-       chmod +x $dest_linpeas/$linpeas_file 
        wget -q $releases_url/$linpeas_file -O $dest_linpeas/$linpeas_file
        chmod +x $dest_linpeas/$linpeas_file 
      done
