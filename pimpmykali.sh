@@ -214,6 +214,8 @@ fix_missing() {
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     fix_mitm6             # 05.09.2022 - added mitm6 to fix missing
     fix_linwinpeas
+    fix_neo4j
+    fix_bloodhound
     #fix_waybackurls
     }
 
@@ -302,6 +304,16 @@ fix_waybackurls() {
       echo -e "\n  $redexclaim cant find waybackrust"
     fi
     }
+
+fix_neo4j() {
+    echo -e "\n  $greenplus Installing Neo4j"
+    eval apt -y install neo4j
+    }
+
+fix_bloodhound() {
+    echo -e "\n  $greenplus Installing Bloodhound"
+    eval apt -y install bloodhound
+    }    
 
 fix_linwinpeas() {
     releases_url="https://github.com/carlospolop/PEASS-ng/releases/download/20230618-1fa055b6"

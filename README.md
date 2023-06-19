@@ -39,6 +39,11 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.1a - updates
+  - google-chrome-stable changed to pull .deb from google
+  - added installation for Neo4j
+  - added installation for Bloodhound  
+
 # Revision 1.7.1 - added download function for all the peas
   - current linpeas release downloaded to /opt/linpeas
   - current winpeas release downloaded to /opt/winpeas
