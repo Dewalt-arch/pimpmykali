@@ -1781,7 +1781,7 @@ pimpmykali_menu() {
       m|M) mayor_mpp;;
       n|N) fix_all; fix_upgrade;;
       o|O) hacking_api_prereq;; # was fix_ssh
-      p|P) fix_linwinpeas;;
+      p|P) fix_linwinpeas;; 
       s|S) fix_spike;;
       t|T) fix_timezone;;
       v|V) install_vscode;;
