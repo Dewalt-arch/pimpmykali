@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.0"  
+    revision="1.7.1"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -213,6 +213,7 @@ fix_missing() {
     check_chrome
     fix_gowitness         # 01.27.2021 added due to 404 errors with go get -u github.com/sensepost/gowitness
     fix_mitm6             # 05.09.2022 - added mitm6 to fix missing
+    fix_linwinpeas
     #fix_waybackurls
     }
 
@@ -300,6 +301,31 @@ fix_waybackurls() {
     else
       echo -e "\n  $redexclaim cant find waybackrust"
     fi
+    }
+
+fix_linwinpeas() {
+    releases_url="https://github.com/carlospolop/PEASS-ng/releases/download/20230618-1fa055b6"
+	  dest_linpeas="/opt/linpeas"
+	  dest_winpeas="/opt/winpeas"
+    
+    # linpeas to /opt/linpeas
+	  echo -e "\n $greenplus Downloading all the linpeas"
+    [ ! -d $dest_linpeas ] && mkdir $dest_linpeas || echo > /dev/null 
+    
+    linpeas_arr=('linpeas.sh' 'linpeas_darwin_amd64' 'linpeas_darwin_arm64' 'linpeas_fat.sh' 'linpeas_linux_386' 'linpeas_linux_amd64' 'linpeas_linux_arm')
+     for linpeas_file in ${linpeas_arr[@]}; do
+       echo -e "   Downloading $linpeas_file to $dest_linpeas/$linpeas_file"
+       wget -q $releases_url/$linpeas_file -O $dest_linpeas/$linpeas_file
+     done
+
+    # winpeas to /opt/winpeas
+	  echo -e "\n [++] Downloading all the winpeas"
+    [ ! -d $dest_winpeas ] && mkdir $dest_winpeas || echo > /dev/null 
+    winpeas_arr=('winPEAS.bat' 'winPEASany.exe' 'winPEASany_ofs.exe' 'winPEASx64_ofs.exe' 'winPEASx86.exe' 'winPEASx86_ofs.exe')
+     for winpeas_file in ${winpeas_arr[@]}; do
+       echo -e "  [++] Downloading $winpeas_file to $dest_winpeas/$winpeas_file"
+       wget -q $releases_url/$winpeas_file -O $dest_winpeas/$winpeas_file
+     done
     }
 
 
@@ -1715,6 +1741,7 @@ pimpmykali_menu() {
     echo -e "  O - Hacking API Course Setup (add requirements for Hacking API Course)"              # hacking_api_prereq was fix_ssh
     echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
     echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
+    echo -e "  P - Download Lin/WinPeas     (adds linpeas to /opt/linpeas and winpeas to /opt/winpeas)" # fix_linwinpeas
     echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"     # bpt function
     echo -e "  I - Install MITM6            (install mitm6 from github)"                            # fix_mitm6
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
@@ -1754,6 +1781,7 @@ pimpmykali_menu() {
       m|M) mayor_mpp;;
       n|N) fix_all; fix_upgrade;;
       o|O) hacking_api_prereq;; # was fix_ssh
+      p|P) fix_linwinpeas
       s|S) fix_spike;;
       t|T) fix_timezone;;
       v|V) install_vscode;;

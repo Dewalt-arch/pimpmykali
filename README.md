@@ -39,6 +39,12 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.1 - added download function for all the peas
+  - current linpeas release downloaded to /opt/linpeas
+  - current winpeas release downloaded to /opt/winpeas
+  - standalone menu function P or p 
+  - included in menu functions N, 0 and 1 
+
 # Revision 1.7.0 - MobSF
   - MAPT Course setup, Menu option A 
    - mobsf installation has been changed to a docker installation
