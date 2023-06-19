@@ -314,7 +314,7 @@ fix_linwinpeas() {
     
     linpeas_arr=('linpeas.sh' 'linpeas_darwin_amd64' 'linpeas_darwin_arm64' 'linpeas_fat.sh' 'linpeas_linux_386' 'linpeas_linux_amd64' 'linpeas_linux_arm')
      for linpeas_file in ${linpeas_arr[@]}; do
-       echo -e "   Downloading $linpeas_file to $dest_linpeas/$linpeas_file"
+       echo -e "  $greenplus Downloading $linpeas_file to $dest_linpeas/$linpeas_file"
        wget -q $releases_url/$linpeas_file -O $dest_linpeas/$linpeas_file
        chmod +x $dest_linpeas/$linpeas_file 
      done
@@ -324,7 +324,7 @@ fix_linwinpeas() {
     [ ! -d $dest_winpeas ] && mkdir $dest_winpeas || echo > /dev/null 
     winpeas_arr=('winPEAS.bat' 'winPEASany.exe' 'winPEASany_ofs.exe' 'winPEASx64_ofs.exe' 'winPEASx86.exe' 'winPEASx86_ofs.exe')
      for winpeas_file in ${winpeas_arr[@]}; do
-       echo -e "  [++] Downloading $winpeas_file to $dest_winpeas/$winpeas_file"
+       echo -e "  $greenplus Downloading $winpeas_file to $dest_winpeas/$winpeas_file"
        wget -q $releases_url/$winpeas_file -O $dest_winpeas/$winpeas_file
        chmod +x $dest_winpeas/$winpeas_file 
      done
