@@ -39,6 +39,10 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.1b - updated lin/winpeas function 
+  - releases are now being dynamically checked for most current
+  - url in script should now never need updating 
+
 # Revision 1.7.1a - updates
   - google-chrome-stable changed to pull .deb from google
   - added installation for Neo4j

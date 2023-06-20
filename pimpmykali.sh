@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.1a"  
+    revision="1.7.1b"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -316,12 +316,14 @@ fix_bloodhound() {
     }    
 
 fix_linwinpeas() {
-    releases_url="https://github.com/carlospolop/PEASS-ng/releases/download/20230618-1fa055b6"
+    # get all the peas!!!
+    current_build=$(curl -s https://github.com/carlospolop/PEASS-ng/releases | grep -i "refs/heads/master" -m 1 | awk '{ print $5 }' | cut -d "<" -f1)
+    releases_url="https://github.com/carlospolop/PEASS-ng/releases/download/$current_build"
 	  dest_linpeas="/opt/linpeas"
 	  dest_winpeas="/opt/winpeas"
     
     # linpeas to /opt/linpeas
-	  echo -e "\n $greenplus Downloading all the linpeas"
+	  echo -e "\n $greenplus Downloading all the linpeas from build $current_build"
     [ ! -d $dest_linpeas ] && mkdir $dest_linpeas || echo > /dev/null 
     
     linpeas_arr=('linpeas.sh' 'linpeas_darwin_amd64' 'linpeas_darwin_arm64' 'linpeas_fat.sh' 'linpeas_linux_386' 'linpeas_linux_amd64' 'linpeas_linux_arm')
@@ -332,7 +334,7 @@ fix_linwinpeas() {
      done
 
     # winpeas to /opt/winpeas
-	  echo -e "\n $greenplus Downloading all the winpeas"
+	  echo -e "\n $greenplus Downloading all the winpeas from build $current_build"
     [ ! -d $dest_winpeas ] && mkdir $dest_winpeas || echo > /dev/null 
     
     winpeas_arr=('winPEAS.bat' 'winPEASany.exe' 'winPEASany_ofs.exe' 'winPEASx64_ofs.exe' 'winPEASx86.exe' 'winPEASx86_ofs.exe')
