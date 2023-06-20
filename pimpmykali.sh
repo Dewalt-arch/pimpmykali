@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.1b"  
+    revision="1.7.1c"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -216,6 +216,8 @@ fix_missing() {
     fix_linwinpeas
     fix_neo4j
     fix_bloodhound
+    fix_proxychains
+    fix_sshuttle
     #fix_waybackurls
     }
 
@@ -313,6 +315,14 @@ fix_neo4j() {
 fix_bloodhound() {
     echo -e "\n  $greenplus Installing Bloodhound"
     eval apt -y install bloodhound
+    }
+
+fix_proxychains() {
+    eval apt -y install proxychains
+    }        
+
+fix_sshuttle() {
+    eval apt -y install sshuttle
     }    
 
 fix_linwinpeas() {

@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.1c - added proxychains and sshuttle
+  - proxychains and sshuttle will be installed via menu options 0, N, or 1   
+
 # Revision 1.7.1b - updated lin/winpeas function 
   - releases are now being dynamically checked for most current
   - url in script should now never need updating 
