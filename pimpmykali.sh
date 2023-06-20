@@ -318,10 +318,12 @@ fix_bloodhound() {
     }
 
 fix_proxychains() {
+    echo -e "\n  $greenplus Installing proxychains"
     eval apt -y install proxychains
     }        
 
 fix_sshuttle() {
+    echo -e "\n  $greenplus Installing sshuttle"
     eval apt -y install sshuttle
     }    
 
