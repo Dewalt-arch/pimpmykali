@@ -117,8 +117,6 @@ check_distro() {
      then 
       echo -e "\n  $redexclaim Tracelabs Osint VM Detected, exiting"
       exit
-     else 
-      echo > /dev/null 
     fi 
     }
 
