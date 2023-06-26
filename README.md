@@ -39,6 +39,11 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.1d - Tracelabs Osint VM
+  - added detection of the tracelabs osint vm and prevent the script from 
+    running if specific conditions are met, this is due to python incompatibility
+    with some tooling in the tracelabs osint vm.   
+
 # Revision 1.7.1c - added proxychains and sshuttle
   - proxychains and sshuttle will be installed via menu options 0, N, or 1   
 

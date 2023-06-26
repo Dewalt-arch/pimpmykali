@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.1c"  
+    revision="1.7.1d"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -110,9 +110,9 @@ check_distro() {
      then echo -e "\n $blinkexclaim Kali Linux Not Detected - WSL/WSL2/Anything else is unsupported $blinkexclaim \n"; exit
     fi
 
+    # check for tracelabs osint vm, if found exit
     findhostname=$(hostname)
     findrelease=$(cat /etc/os-release | grep -i -c -m1 "2022.1")
-    # check for tracelabs osint vm, if found exit
     if [[ "$finduser" == "osint" ]] && [[ "$findhostname" == "osint" ]] && [[ $findrelease -ge 1 ]]
      then 
       echo -e "\n  $redexclaim Tracelabs Osint VM Detected, exiting"
