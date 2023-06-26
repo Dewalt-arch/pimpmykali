@@ -111,8 +111,9 @@ check_distro() {
     fi
 
     findhostname=$(hostname)
+    findrelease=$(cat /etc/os-release | grep -i -c -m1 "2022.1")
     # check for tracelabs osint vm, if found exit
-    if [[ "$finduser" == "osint" ]] && [[ "$findhostname" == "osint" ]] && [[ -f /var/share/icons/hicolor/scaleable/categories/tracelabs.svg ]]
+    if [[ "$finduser" == "osint" ]] && [[ "$findhostname" == "osint" ]] && [[ $findrelease -ge 1 ]]
      then 
       echo -e "\n  $redexclaim Tracelabs Osint VM Detected, exiting"
       exit
