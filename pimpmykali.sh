@@ -109,7 +109,17 @@ check_distro() {
     if [ $distro -ne 1 ]
      then echo -e "\n $blinkexclaim Kali Linux Not Detected - WSL/WSL2/Anything else is unsupported $blinkexclaim \n"; exit
     fi
-  }
+
+    findhostname=$(hostname)
+    # check for tracelabs osint vm, if found exit
+    if [[ "$finduser" == "osint" ]] && [[ "$findhostname" == "osint" ]] && [[ -f /var/share/icons/hicolor/scaleable/categories/tracelabs.svg ]]
+     then 
+      echo -e "\n  $redexclaim Tracelabs Osint VM Detected, exiting"
+      exit
+     else 
+      echo > /dev/null 
+    fi 
+    }
 
 check_for_root() {
     if [ "$EUID" -ne 0 ]
