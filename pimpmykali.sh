@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.1d"  
+    revision="1.7.2"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1318,6 +1318,15 @@ hacking_api_create_cleanupsh() {
     echo "          *) exit ;;" >> $cleanup_script
     echo "    esac" >> $cleanup_script
     chmod +x cleanup.sh
+
+    startup_script="start-api-hacking.sh"
+    echo -e "\n  $greenplus Creating start-api-hacking.sh"
+    echo -e "#!/bin/bash" > $startup_script
+    echo -e "\n" >> $startup_script
+    echo -e "cd ~/labs/crAPI/deploy/docker" >> $startup_script 
+    echo -e "sudo VERSION=develop docker-compose -f docker-compose.yml pull" >> $startup_script
+    echo -e "sudo VERSION=develop docker-compose -f docker-compose.yml --compatibility up -d" >> $startup_script
+    chmod +x start-api-hacking.sh
     }    
     
 # code commented out for now, debtaing the idea of a postman desktop icon 
@@ -1376,8 +1385,7 @@ hacking_api_prereq() {
       git clone https://github.com/OWASP/crAPI $silent 
       # create cleanup.sh in the crAPI directory
       hacking_api_create_cleanupsh
-      chmod +x cleanup.sh 
-      cd /$finduser/labs/crAPI/deploy/docker
+       cd /$finduser/labs/crAPI/deploy/docker
      else 
       if [ ! -d /home/$finduser/labs ]
        then 
