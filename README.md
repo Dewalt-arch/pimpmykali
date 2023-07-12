@@ -39,6 +39,14 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.3 - PEH Web Lab update 
+  - Major Milestone! 2000+ Lines of code! 
+  - added installation for Practical Ethical Hacker WebApp Labs
+  - menu option E 
+  - added ~/peh/labs/start-peh-labs.sh startup script 
+  - added ~/peh/labs/cleanup-peh-labs.sh cleanup script 
+  - all revision 1.6.x announcements moved to changelog.txt 
+
 # Revision 1.7.2 - Hacking API Lab update 
   - added creation of start-api-hacking.sh 
   - this is to help mitigate issues with unhealthy containers
@@ -71,74 +79,7 @@
    - mobsf installation has been changed to a docker installation
    - /usr/bin/mobsf-docker script created and made executable 
   
-# Revision 1.6.9a - changed google-chrome installation source
-  - is now installed from the kali repo google-chrome-stable 
-
-# Revision 1.6.9 - fix_impacket restored
-  - menu options N, 0 and 1 are fully operational   
-
-# Revision 1.6.8 - fix_impacket function temporarily commented out
-  - affecting menu options N, 0 and 1 
-  - issues with kali2023.2 
-
-# Revision 1.6.7 - Added installer and Uninstaller for Nessus
-  - menu option @ to install nessus
-  - menu option $ to nuke nessus 
-
-# Revision 1.6.6 - Hacking API Course setup 
-  - added Practical API Hacking Course setup (amd64 and arm64), menu option O
-  - Instructor Alex Olsen https://academy.tcm-sec.com/p/hacking-apis
-  - menu options rearranged in stand alone functions
-
-# Revision 1.6.5 - impacket
-  - added --user to impacket 0.9.19 install
-
-# Revision 1.6.4 - minor code cleanup 
-
-# Revision 1.6.3 - mitm6 installation
-  - mitm6 moved from a python2 to python3 installation
-  - added --breaks-system-packages to get around pip related issues 
-  - liblibc symlink correction added at the end of this function
-  
-# Revision 1.6.2 - FixSSH Removed
-  - use kali-tweaks 2023.1.3 to resolve the issue with ssh -i and hydra out of memory
-
-# Revision 1.6.1 - $pyver variable
-  - removed single quotes
-
-# Revision 1.6.0 - Atom removed + misc fixes/updates
-  - Corrected the non-interactive shell being opened for:
-    - Menu option K - Reconfigure Keyboard 
-    - Menu option T - Reconfigure Timezone
-    - shell is now interactive and functions properly
-
-  - Added $archtype variable for potential upcoming arm64 specific support ( Mac m1, rasberry pi, etc )
-  - Added $pyver variable for detection of version of python3
-    - corrects error with installing python'$pyver'-venv and other various python required installations
-
-  - Atom 
-    - has been deprecated/sunset and the installation of atom has been removed
-    - menu option 7 - Install atom removed 
-
-  - Seclists
-    - changed seclists to be pulled from github, to be more verbose about what is taking place on screen
-
-  - gowitness function updated to detect amd64 or arm64 installations, still installs from github
-
-  - httprobe, assetfinder, amass are now installed from the kali repo instead of github
-
-  - Misc Fixes 
-    - corrected if statement on line 1240 MPP Course Setup
-    - added function for apt_fixbroken and apt_fixbroken_complete
-    - removed functions: fix_bloodhound, ask_python39, fix_python39, fix_resopnder 
-    - addded -o Dpkg::Progress-Fancy="1" to all apt operations for fancy progress bars
-    - moved virt-what to be installed much earlier in the script 
-    - general code cleanup
-
-  - Menu option B restored to BlindPenTesters - TheEssentials
-  - older revision history moved to changelog.txt  
-
-# Menu Breakdown of Pimpmykali
+# Menu Breakdown of Pimpmykali 
 
 - Menu option N  (New Users/New VM's Should start here!)
   - executes menu option 0 fix all ( options 1 thru 8 )
@@ -245,6 +186,8 @@
 - Menu Option C
   - Install Google-Chrome
 
+- Menu Option E 
+  - Install TCM PEH Course WebApp Labs, docker
 
 - Menu Option F
   - Fixes XFCE Broken Icons "TerminalEmulator" Not Found

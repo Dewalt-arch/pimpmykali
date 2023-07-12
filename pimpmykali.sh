@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.2"  
+    revision="1.7.3"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1544,6 +1544,129 @@ mapt_prereq() {
 #    ln -sf /opt/spoofpoint/spoofpoint /usr/bin/spoofpoint
 #    }
 
+hacking_peh_create_cleanupsh() { 
+    cleanup_script="cleanup_peh_labs.sh"
+    echo -e "\n  $greenplus Creating cleanup_peh_labs.sh" 
+    # create cleanup.sh - prompts user for a Y or y prompt and provides warning before executing commands
+    echo -e "#!/bin/bash" > $cleanup_script
+    echo -e "\n" >> $cleanup_script
+    echo "cleanup_docker () {" >> $cleanup_script
+    echo -e "    sudo docker stop \$(sudo docker ps -aq)" >> $cleanup_script
+    echo -e "    sudo docker rm \$(sudo docker ps -aq)" >> $cleanup_script
+    echo -e "    sudo docker rm \$(sudo docker images -q)" >> $cleanup_script 
+    echo -e "    sudo docker volume rm \$(sudo docker volume ls -q)" >> $cleanup_script 
+    echo -e "    sudo docker network rm \$(sudo docker network ls -q)" >> $cleanup_script
+    echo "    exit" >> $cleanup_script
+    echo "    }" >> $cleanup_script
+    echo -e "\n" >> $cleanup_script
+    echo "    echo -e \"\n  Warning! This script is about to remove all docker containers and networks!\" " >> $cleanup_script
+    echo "    read -n3 -p \"  Press Y or y to proceed any other key to exit : \" userinput " >> $cleanup_script
+    echo "    case \$userinput in" >> $cleanup_script
+    echo "        y|Y) cleanup_docker ;;" >> $cleanup_script
+    echo "          *) exit ;;" >> $cleanup_script
+    echo "    esac" >> $cleanup_script
+    chmod +x cleanup_peh_labs.sh
+
+    # create startu-peh-labs.sh
+    startup_script="start-peh-labs.sh"
+    echo -e "\n  $greenplus Creating start-peh-hacking.sh"
+    echo -e "#!/bin/bash" > $startup_script
+    echo -e "\n" >> $startup_script
+    echo -e "cd ~/peh/labs/" >> $startup_script 
+    echo -e "sudo systemctl stop mysqld" >> $startup_script 
+    echo -e "sudo docker-compose up" >> $startup_script
+    chmod +x start-peh-labs.sh
+    }    
+
+peh_weblab_setup() {
+        
+    echo -e "\n  $greenplus Installing docker.io and docker-compose"
+    eval apt -y install docker.io docker-compose
+    
+    echo -e "\n  $greenplus Starting docker service and enabling " 
+    eval systemctl enable docker --now
+    
+    echo -e "\n  $greenplus Downloading peh-web-labs.tar.gz " 
+    wget https://cdn.fs.teachablecdn.com/NgPnyKOwSfWYuwnX3Lzb -O /tmp/peh-web-labs.tar.gz
+    
+    if [[ $finduser == "root" ]]
+     then 
+      #lab setup for root
+      echo -e "\n  $greenplus Making peh directory for labs /$finduser/peh"
+      mkdir /$finduser/peh
+      
+      echo -e "\n  $greenplus Extracting labs to /$finduser/peh" 
+      tar xvfz /tmp/peh-web-labs.tar.gz -C /$finduser/peh
+     
+      echo -e "\n  $greenplus Setting permissions for /$finduser/peh/labs/labs/uploads"
+      chmod 777 /$finduser/peh/labs/labs/uploads
+
+      echo -e "\n  $greenplus Setting permissions for /$finduser/peh/labs/capstone/assets"
+      chmod 777 /$finduser/capstone/assets
+
+      echo -e "\n  $greenplus Starting labs docker in daemon mode" 
+      cd /$finduser/peh/labs 
+      hacking_peh_create_cleanupsh
+
+      if [[ ! -f docker-compose.yml ]]
+       then 
+        echo -e "\n  $redexclaim docker-compose.yml not found in current directory, aborting "
+        exit_screen
+       else 
+        echo -e "\n  $greenplus docker-compose.yml found, starting labs in daemon mode -d" 
+        eval docker-compose up -d 
+        exit_screen 
+      fi 
+
+     else 
+      # lab setup for regular user 
+      echo -e "\n  $greenplus Making peh directory for labs /home/$finduser/peh"
+      mkdir /home/$finduser/peh 
+      
+      echo -e "\n  $greenplus Extracting labs to /home/$finduser/peh" 
+      tar xvfz /tmp/peh-web-labs.tar.gz -C /home/$finduser/peh 
+     
+      # check for /home/$finduser/peh/labs/labs/uploads
+      if [[ -d /home/$finduser/peh/labs/labs/uploads ]]
+       then 
+        echo -e "\n  $greenplus Setting permissions for /home/$finduser/peh/labs/labs/uploads"
+        chmod 777 /home/$finduser/peh/labs/labs/uploads
+        echo -e "\n  $greenplus Setting ownership to $finduser:$finduser for /home/$finduser/peh"
+        chown -R $finduser:$finduser /home/$finduser/peh 
+       else 
+        echo -e "\n  $redexclaim Unable to find /home/$finduser/peh/labs/labs/uploads"
+      fi 
+
+      # check for /home/$finduser/peh/labs/capstones/assets
+      if [[ -d /home/$finduser/peh/labs/capstone/assets ]] 
+       then 
+        echo -e "\n  $greenplus Setting permissions for /home/$finduser/peh/labs/capstone/assets"
+        chmod 777 /home/$finduser/peh/labs/capstone/assets
+       else
+        echo -e "\n  $redexclaim Unable to locate /home/$finduser/peh/labs/capstone/assets"
+        exit_screen
+      fi 
+
+      echo -e "\n  $greenplus Creating cleanup-peh-labs.sh and start-peh-labs.sh in /home/$finduser/peh/labs" 
+      cd /home/$finduser/peh/labs 
+      hacking_peh_create_cleanupsh
+
+      echo -e "\n  $greenplus Cleaning up temporary files..." 
+      rm /tmp/peh-web-labs.tar.gz 
+
+      echo -e "\n  $greenplus Starting labs docker in daemon mode" 
+      
+      if [[ ! -f docker-compose.yml ]]
+       then 
+        echo -e "\n  $redexclaim docker-compose.yml not found in current directory, aborting "
+        exit_screen
+       else 
+        echo -e "\n  $greenplus docker-compose.yml found, starting labs in daemon mode " 
+        eval docker-compose up -d 
+      fi 
+    fi 
+    }
+
 mayor_mpp() {
     # additions to PMK 1.3.0 - Mayor MPP Course additions
     fix_sources
@@ -1820,6 +1943,7 @@ pimpmykali_menu() {
       a|A) mapt_prereq;;
       b|B) bpt;;
       c|C) check_chrome;;
+      e|E) apt_update; fix_libwacom; only_upgrade; peh_weblab_setup;;
       f|F) fix_broken_xfce;;
       g|G) fix_root_connectionrefused ;;
       h|H) fix_httprobe;;
