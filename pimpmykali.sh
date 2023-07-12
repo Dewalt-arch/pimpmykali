@@ -1575,6 +1575,7 @@ hacking_peh_create_cleanupsh() {
     echo -e "cd ~/peh/labs/" >> $startup_script 
     echo -e "sudo systemctl stop mysqld" >> $startup_script 
     echo -e "sudo docker-compose up" >> $startup_script
+    # echo -e "curl http://localhost/init.php" $startup_script 
     chmod +x start-peh-labs.sh
     }    
 
