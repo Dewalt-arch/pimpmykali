@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.3a - update to start-peh-labs.sh
+  - included function in script to reset databases on startup
+
 # Revision 1.7.3 - PEH Web Lab update 
   - Major Milestone! 2000+ Lines of code! 
   - added installation for Practical Ethical Hacker WebApp Labs
