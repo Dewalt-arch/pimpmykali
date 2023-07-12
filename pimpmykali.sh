@@ -1602,7 +1602,7 @@ peh_weblab_setup() {
       chmod 777 /$finduser/peh/labs/labs/uploads
 
       echo -e "\n  $greenplus Setting permissions for /$finduser/peh/labs/capstone/assets"
-      chmod 777 /$finduser/capstone/assets
+      chmod 777 /$finduser/peh/labs/capstone/assets
 
       echo -e "\n  $greenplus Starting labs docker in daemon mode" 
       cd /$finduser/peh/labs 
