@@ -1944,7 +1944,7 @@ pimpmykali_menu() {
       a|A) mapt_prereq;;
       b|B) bpt;;
       c|C) check_chrome;;
-      e|E) apt_update; fix_libwacom; only_upgrade; peh_weblab_setup;;
+      e|E) apt_update; fix_libwacom; peh_weblab_setup;; # only_upgrade;
       f|F) fix_broken_xfce;;
       g|G) fix_root_connectionrefused ;;
       h|H) fix_httprobe;;
