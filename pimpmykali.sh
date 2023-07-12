@@ -1572,10 +1572,29 @@ hacking_peh_create_cleanupsh() {
     echo -e "\n  $greenplus Creating start-peh-hacking.sh"
     echo -e "#!/bin/bash" > $startup_script
     echo -e "\n" >> $startup_script
-    echo -e "cd ~/peh/labs/" >> $startup_script 
+    echo -e "cd ~/peh/labs/" >> $startup_script
+    echo -e "sudo docker-compose down"  >> $startup_script 
     echo -e "sudo systemctl stop mysqld" >> $startup_script 
-    echo -e "sudo docker-compose up" >> $startup_script
-    # echo -e "curl http://localhost/init.php" $startup_script 
+    echo -e "sudo docker-compose up -d" >> $startup_script
+    echo -e "get_lab_status=\$(curl --silent http://localhost/init.php | grep -i \"connection refused\" -c)" >> $startup_script
+    echo -e "while [ \$get_lab_status -ge 1 ]" >> $startup_script
+    echo -e "do" >> $startup_script
+    echo -e "if [[ \$get_lab_status -ge 1 ]]" >> $startup_script
+    echo -e " then" >> $startup_script
+    echo -e "  sleep 1" >> $startup_script
+    echo -e "checkagain=\$(curl --silent http://localhost/init.php | grep -i \"connection refused\" -c)" >> $startup_script
+    echo -e "if [[ \$checkagain == 0 ]]" >> $startup_script
+    echo -e " then" >> $startup_script
+    echo -e "  curl --silent http://localhost/init.php > /dev/null" >> $startup_script
+    echo -e " echo \"Databases reset\" ">> $startup_script
+    echo -e "     exit" >> $startup_script
+    echo -e "    else" >> $startup_script
+    echo -e "      echo > /dev/null" >> $startup_script
+    echo -e "    fi" >> $startup_script
+    echo -e " else" >> $startup_script
+    echo -e "  exit" >> $startup_script
+    echo -e " fi" >> $startup_script
+    echo -e " done" >> $startup_script
     chmod +x start-peh-labs.sh
     }    
 
