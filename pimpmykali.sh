@@ -1909,7 +1909,7 @@ pimpmykali_menu() {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  E - PEH Course WebApp Labs   (add requirements for PEH WebApp Labs and installs)     # apt_update fix_libwacom only_upgrade peh_weblab_setup
+    echo -e "  E - PEH Course WebApp Labs   (add requirements for PEH WebApp Labs and installs) "    # apt_update fix_libwacom only_upgrade peh_weblab_setup
     echo -e "  O - Hacking API Course Setup (add requirements for Hacking API Course)"              # hacking_api_prereq was fix_ssh
     echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
     echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
