@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.3a"  
+    revision="1.7.4"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -361,7 +361,11 @@ fix_linwinpeas() {
     winpeas_arr=('winPEAS.bat' 'winPEASany.exe' 'winPEASany_ofs.exe' 'winPEASx64_ofs.exe' 'winPEASx86.exe' 'winPEASx86_ofs.exe')
      for winpeas_file in ${winpeas_arr[@]}; do
        echo -e "  $greenplus Downloading $winpeas_file to $dest_winpeas/$winpeas_file"
-       wget -q $releases_url/$winpeas_file -O $dest_winpeas/$winpeas_file
+       # revision 1.7.4 static wget of the April 2023 release of Winpeas
+       # due to github issue https://github.com/carlospolop/PEASS-ng/issues/359 
+       wget -q https://github.com/carlospolop/PEASS-ng/releases/tag/20230419-b6aac9cb/$winpeas_file -O $dest_winpeas/$winpeas_file 
+       # original code to be re-enabled once the winpeas group releases a fixed self-contained version
+       # wget -q $releases_url/$winpeas_file -O $dest_winpeas/$winpeas_file
        chmod +x $dest_winpeas/$winpeas_file 
      done
     }

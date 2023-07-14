@@ -42,6 +42,10 @@
 # Revision 1.7.3a - update to start-peh-labs.sh
   - included function in script to reset databases on startup
 
+# Revision 1.7.4 - Winpeas update
+  - script will now pull winpeas from the 20230419-b6aac9cb release, April 2023
+  - workaround for current issue of winpeas not being self contained
+
 # Revision 1.7.3 - PEH Web Lab update 
   - Major Milestone! 2000+ Lines of code! 
   - added installation for Practical Ethical Hacker WebApp Labs
