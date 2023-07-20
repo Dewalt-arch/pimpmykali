@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.4"  
+    revision="1.7.4a"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -227,6 +227,7 @@ fix_missing() {
     fix_bloodhound
     fix_proxychains
     fix_sshuttle
+    fix_chisel 
     #fix_waybackurls
     }
 
@@ -335,6 +336,11 @@ fix_sshuttle() {
     echo -e "\n  $greenplus Installing sshuttle"
     eval apt -y install sshuttle
     }    
+
+fix_chisel() {
+    echo -e "\n  $greenplus Installing chisel" 
+    eval apt -y install chisel 
+    }
 
 fix_linwinpeas() {
     # get all the peas!!!
