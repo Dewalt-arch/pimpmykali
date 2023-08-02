@@ -342,6 +342,27 @@ fix_chisel() {
     eval apt -y install chisel 
     }
 
+fix_cme() {
+    checkforcme=$(apt list crackmapexec | grep -i -c "installed")
+    if [[ $checkforcme -ge 1 ]]; 
+     then 
+      apt -y remove crackmapexec
+     fi 
+
+    pyversion=$(python3 --version | cut -d " " -f2 | cut -d "." -f1-2)
+    
+    # download to /tmp
+    wget https://github.com/mpgn/CrackMapExec/releases/download/v6.0.0/cme-ubuntu-latest-$pyversion.zip -O /tmp/cme-ubuntu-latest-$pyversion.zip
+    wget https://github.com/mpgn/CrackMapExec/releases/download/v6.0.0/cmedb-ubuntu-latest-$pyversion.zip -O /tmp/cmedb-ubuntu-latest-$pyversion.zip
+
+    # unarchive and chmod +x 
+    unzip -o /tmp/cme-ubuntu-latest-$pyversion.zip -d /usr/bin && chmod +x /usr/bin/cme 
+    unzip -o /tmp/cmedb-ubuntu-latest-$pyversion.zip -d /usr/bin && chmod +x /usr/bin/cmedb
+
+    #cleanup 
+    rm /tmp/cmedb-ubuntu-latest-$pyversion.zip /tmp/cme-ubuntu-latest-$pyversion.zip 
+    }    
+
 fix_linwinpeas() {
     # get all the peas!!!
     current_build=$(curl -s https://github.com/carlospolop/PEASS-ng/releases | grep -i "refs/heads/master" -m 1 | awk '{ print $5 }' | cut -d "<" -f1)
@@ -1609,7 +1630,6 @@ hacking_peh_create_cleanupsh() {
     }    
 
 peh_weblab_setup() {
-        
     echo -e "\n  $greenplus Installing docker.io and docker-compose"
     eval apt -y install docker.io docker-compose
     
