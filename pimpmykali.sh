@@ -67,8 +67,8 @@
     pipnowarn="--no-python-version-warning"  # turn off all python2.7 deprecation warnings in pip
     export PYTHONWARNINGS="ignore"
     # look at a method to find the current version of nessus should the version number change
-    nessus_amd64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.5.3-debian10_amd64.deb"
-    nessus_arm64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.5.3-ubuntu1804_aarch64.deb"
+    nessus_amd64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.5.4-debian10_amd64.deb"
+    nessus_arm64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.5.4-ubuntu1804_aarch64.deb"
     nessusd_service_active=0
 
 # variables moved from local to global
