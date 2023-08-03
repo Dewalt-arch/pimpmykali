@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.4a"  
+    revision="1.7.4b"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -67,8 +67,6 @@
     pipnowarn="--no-python-version-warning"  # turn off all python2.7 deprecation warnings in pip
     export PYTHONWARNINGS="ignore"
     # look at a method to find the current version of nessus should the version number change
-    nessus_amd64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.5.4-debian10_amd64.deb"
-    nessus_arm64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/Nessus-10.5.4-ubuntu1804_aarch64.deb"
     nessusd_service_active=0
 
 # variables moved from local to global
@@ -1501,7 +1499,10 @@ remove_nessus() {
 install_nessus() {
     # code to check if nessus is already installed and build out a remove function
     if [ $arch == "amd64" ]
-     then
+      then
+      nessus_amd64_file=$(curl https://www.tenable.com/downloads/nessus\?loginAttempted\=true | grep -o -m1 -E "Nessus-[0-9]{1,2}.[0-9]{1}.[0-9]{1}-debian10_amd64.deb" | grep -m1 -i ".deb")
+      nessus_amd64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/$nessus_amd64_file"
+     
       echo -e "\n  $greenplus Downloading Nessus for $arch"
       wget -q $nessus_amd64 -O /tmp/nessus_amd64.deb
       echo -e "\n  $greenplus Installing Nessus for $arch"
@@ -1512,6 +1513,9 @@ install_nessus() {
       check_nessusd_active
     elif [ $arch == "arm64" ]
      then
+      nessus_arm64_file=$(curl https://www.tenable.com/downloads/nessus\?loginAttempted\=true | grep -o -m1 -E "Nessus-[0-9]{1,2}.[0-9]{1}.[0-9]{1}-ubuntu[0-9]{1,4}_aarch64.deb" | grep -m1 -i ".deb")
+      nessus_arm64="https://www.tenable.com/downloads/api/v2/pages/nessus/files/$nessus_arm64_file"
+      
       echo -e "\n  $greenplus Downloading Nessus for $arch"
       wget $nessus_arm64 -O /tmp/nessus_arm64.deb
       echo -e "\n  $greenplus Installing Nessus for $arch"

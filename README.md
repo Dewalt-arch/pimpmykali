@@ -39,6 +39,10 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.4b - updated nessus download function
+  - function should now automatically grep the version number of Nessus and download
+  - moved amd64 and arm64 variables into their respective functions
+
 # Revision 1.7.4a - added chisel 
   - chisel added to menu options 0, N or 1 
 
@@ -113,6 +117,13 @@
   - removes any prior installation of impacket (gracefully and forcefully)
   - installs impacket-0.9.19
 
+- Menu Option @ - Install Nessus (amd64 or arm64)
+  - downloads and installs the current version of Nessus 
+  - starts nessusd service 
+
+- Menu Option $ - Uninstall Nessus (amd64 or arm64) 
+  - stops all nessusd service
+  - uninstalls nessus 
 
 - Menu Option 1 - Fix missing
   - fix_sources
