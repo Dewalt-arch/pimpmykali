@@ -348,17 +348,22 @@ fix_cme() {
      fi 
 
     pyversion=$(python3 --version | cut -d " " -f2 | cut -d "." -f1-2)
-    
+        
+    python3 -m pip install pipx --user
+    git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
+    cd /opt/CrackMapExec
+    pipx install .
+
     # download to /tmp
-    wget https://github.com/mpgn/CrackMapExec/releases/download/v6.0.0/cme-ubuntu-latest-$pyversion.zip -O /tmp/cme-ubuntu-latest-$pyversion.zip
-    wget https://github.com/mpgn/CrackMapExec/releases/download/v6.0.0/cmedb-ubuntu-latest-$pyversion.zip -O /tmp/cmedb-ubuntu-latest-$pyversion.zip
+    # wget https://github.com/mpgn/CrackMapExec/releases/download/v6.0.0/cme-ubuntu-latest-$pyversion.zip -O /tmp/cme-ubuntu-latest-$pyversion.zip
+    # wget https://github.com/mpgn/CrackMapExec/releases/download/v6.0.0/cmedb-ubuntu-latest-$pyversion.zip -O /tmp/cmedb-ubuntu-latest-$pyversion.zip
 
     # unarchive and chmod +x 
-    unzip -o /tmp/cme-ubuntu-latest-$pyversion.zip -d /usr/bin && chmod +x /usr/bin/cme 
-    unzip -o /tmp/cmedb-ubuntu-latest-$pyversion.zip -d /usr/bin && chmod +x /usr/bin/cmedb
+    # unzip -o /tmp/cme-ubuntu-latest-$pyversion.zip -d /usr/bin && chmod +x /usr/bin/cme 
+    # unzip -o /tmp/cmedb-ubuntu-latest-$pyversion.zip -d /usr/bin && chmod +x /usr/bin/cmedb
 
     #cleanup 
-    rm /tmp/cmedb-ubuntu-latest-$pyversion.zip /tmp/cme-ubuntu-latest-$pyversion.zip 
+    # rm /tmp/cmedb-ubuntu-latest-$pyversion.zip /tmp/cme-ubuntu-latest-$pyversion.zip 
     }    
 
 fix_linwinpeas() {
