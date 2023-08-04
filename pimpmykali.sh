@@ -1465,7 +1465,7 @@ hacking_api_prereq() {
       chown -R $finduser:$finduser /home/$finduser/labs
       cd /home/$finduser/labs/crAPI/deploy/docker
     fi
-    chmod -R 777 $HOME/peh/labs $HOMD/peh/labs/* 
+    chmod -R 777 $HOME/peh/labs $HOME/peh/labs/* 
     echo -e "\n  $greenplus Please cd $PWD"
     echo -e "       and run the following command : sudo docker-compose up "
     }  
