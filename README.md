@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.4d - updated PEH Course WebApp Labs
+  - added fix for permission denied issues in the lab
+
 # Revision 1.7.4c - added cme and cmedb for crackmapexec 6.x installation
   - downloads and installs cme and cmedb using pipx
   - installations for both user and root 
