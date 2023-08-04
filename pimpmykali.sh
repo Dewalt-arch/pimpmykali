@@ -1382,7 +1382,7 @@ hacking_api_create_cleanupsh() {
     echo "          *) exit ;;" >> $cleanup_script
     echo "    esac" >> $cleanup_script
     chmod +x cleanup.sh
-
+    
     startup_script="start-api-hacking.sh"
     echo -e "\n  $greenplus Creating start-api-hacking.sh"
     echo -e "#!/bin/bash" > $startup_script
@@ -1465,6 +1465,7 @@ hacking_api_prereq() {
       chown -R $finduser:$finduser /home/$finduser/labs
       cd /home/$finduser/labs/crAPI/deploy/docker
     fi
+    chmod -R 777 $HOME/peh/labs $HOMD/peh/labs/* 
     echo -e "\n  $greenplus Please cd $PWD"
     echo -e "       and run the following command : sudo docker-compose up "
     }  
