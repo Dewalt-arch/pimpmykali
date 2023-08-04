@@ -197,7 +197,7 @@ fix_missing() {
     # 10.05.2021 - Added dbus-x11 as it has become a common problem for those wanting to use gedit
     # 01.15.2023 - Added libu2f-udev and moved virt-what to an earlier section of the script
     eval apt -o Dpkg::Progress-Fancy="1" -y install libu2f-udev virt-what neo4j dkms build-essential autogen automake python-setuptools python3-setuptools python3-distutils python$pyver-dev libguestfs-tools cifs-utils dbus-x11 $silent
-    # check_python          # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
+    # check_python         # 07.02.21 - check_python check if python is symlinked to python2 if not, make it point to python2
     python-pip-curl
     python3_pip $force
     fix_gedit   $force    # restored to its former glory
@@ -225,8 +225,9 @@ fix_missing() {
     fix_bloodhound
     fix_proxychains
     fix_sshuttle
-    fix_chisel 
-    #fix_waybackurls
+    fix_chisel
+    fix_cme               # 08.03.2023 - added new CME6.x 
+    #fix_waybackurls      # has issues not implemented yet 
     }
 
 fix_all() {
@@ -341,30 +342,59 @@ fix_chisel() {
     }
 
 fix_cme() {
+    findrealuser=$(logname) 
+    echo -e "\n  $greenplus Installing cme (crackmapexec)" 
+    echo -e "\n  $greenplus Checking for existing crackmapexec installation..."  
+    
     checkforcme=$(apt list crackmapexec | grep -i -c "installed")
+    
     if [[ $checkforcme -ge 1 ]]; 
-     then 
-      apt -y remove crackmapexec
-     fi 
+     then
+      echo -e "\n  $greenplus Existing installation found! - Removing"
+      sudo apt -y remove crackmapexec
+    fi 
 
-    pyversion=$(python3 --version | cut -d " " -f2 | cut -d "." -f1-2)
-        
-    python3 -m pip install pipx --user
-    git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
-    cd /opt/CrackMapExec
-    pipx install .
+    if [[ $findrealuser == "root" ]];
+     then
+       echo -e "\n  Starting $findrealuser user installation"
+       # pipx installer
+       python3 -m pip install pipx --user
+       git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
+       cd /opt/CrackMapExec
+       pipx install . --force
 
-    # download to /tmp
-    # wget https://github.com/mpgn/CrackMapExec/releases/download/v6.0.0/cme-ubuntu-latest-$pyversion.zip -O /tmp/cme-ubuntu-latest-$pyversion.zip
-    # wget https://github.com/mpgn/CrackMapExec/releases/download/v6.0.0/cmedb-ubuntu-latest-$pyversion.zip -O /tmp/cmedb-ubuntu-latest-$pyversion.zip
+       getshell=$(echo $SHELL | cut -d "/" -f4)
+       check_for_local_bin_path=$(cat "$HOME/.$getshell"rc | grep -i "PATH=" | grep -i "\$HOME\/\.$getshell"rc)
 
-    # unarchive and chmod +x 
-    # unzip -o /tmp/cme-ubuntu-latest-$pyversion.zip -d /usr/bin && chmod +x /usr/bin/cme 
-    # unzip -o /tmp/cmedb-ubuntu-latest-$pyversion.zip -d /usr/bin && chmod +x /usr/bin/cmedb
+       if [[ $check_for_local_bin_path == 0 ]];
+        then
+         echo "export PATH=$PATH:$HOME/.local/bin" >> $HOME/.$getshell"rc"
+        else 
+         echo "Path is already set in $HOME/.$getshell"rc
+       fi
+      fi
 
-    #cleanup 
-    # rm /tmp/cmedb-ubuntu-latest-$pyversion.zip /tmp/cme-ubuntu-latest-$pyversion.zip 
-    }    
+     if [[ $findrealuser != "root" ]];
+      then
+        echo -e "\n  Starting $findrealuser user installation\n"
+        # pipx installer
+        sudo -i -u $findrealuser sh -c 'python3 -m pip install pipx --user'
+     
+        [ -d /opt/CrackMapExec ] && rm -rf /opt/CrackMapExec
+        git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
+        sudo -i -u $findrealuser sh -c 'cd /opt/CrackMapExec; pipx install . --force'
+     
+        getshell=$(echo $SHELL | cut -d "/" -f4)
+        subshell=$(runuser $findrealuser $getshell -c 'echo $SHELL | cut -d "/" -f4')
+        checkforlocalbinpath=$(runuser $findrealuser $getshell -c 'cat $HOME/.$subshell"rc" | grep -i "PATH=" | grep -i "\$PATH:\$HOME\/\.local\/bin" -c')
+     
+        if [[ $checkforlocalbinpath -eq 0 ]]
+        then
+         runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); echo "export PATH=\$PATH:\$HOME/.local/bin" >> $HOME/.$subshell"rc"'
+         runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); source $HOME/.$subshell"rc"' 
+        fi
+      fi    
+     }    
 
 fix_linwinpeas() {
     # get all the peas!!!
@@ -1983,9 +2013,10 @@ pimpmykali_menu() {
     echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
     echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
     echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
-    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"            # fix_sead_warning
-    echo -e "  @ - Install Nessus           (Type the @ character for this menu item)"            # install_nessus
-    echo -e "  $ - Nuke Nessus              (Type the $ character for this menu item)\n"            # remove_nessus
+    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"              # fix_sead_warning
+    echo -e "  @ - Install Nessus           (Type the @ character for this menu item)"              # install_nessus
+    echo -e "  $ - Nuke Nessus              (Type the $ character for this menu item)"              # remove_nessus
+    echo -e "  % - CrackMapExec 6.x.x pipx  (Type the % character for this menu item)\n"            #fix_cme
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
@@ -2023,7 +2054,7 @@ pimpmykali_menu() {
         ^) install_everything;;
         @) install_nessus;;
         $) remove_nessus;;
-        %) fix_waybackurls;;
+        %) fix_cme;;
         *) pimpmykali_menu ;;
     esac
     }

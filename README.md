@@ -39,6 +39,10 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.4c - added cme and cmedb for crackmapexec 6.x installation
+  - downloads and installs cme and cmedb using pipx
+  - installations for both user and root 
+
 # Revision 1.7.4b - updated nessus download function
   - function should now automatically grep the version number of Nessus and download
   - moved amd64 and arm64 variables into their respective functions
