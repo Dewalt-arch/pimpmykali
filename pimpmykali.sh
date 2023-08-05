@@ -396,7 +396,7 @@ fix_cme() {
        pipx install . --force
 
        getshell=$(echo $SHELL | cut -d "/" -f4)
-       check_for_local_bin_path=$(cat "$HOME/.$getshell"rc | grep -i "PATH=" | grep -i "\$HOME\/\.$getshell"rc)
+       check_for_local_bin_path=$(cat "$HOME/.$getshell"rc | grep -i "PATH=" | grep -i "\$HOME\/\.local\/bin" -c)
 
        if [[ $check_for_local_bin_path == 0 ]];
         then
