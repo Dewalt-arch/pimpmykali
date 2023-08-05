@@ -398,11 +398,11 @@ fix_cme() {
        getshell=$(echo $SHELL | cut -d "/" -f4)
        check_for_local_bin_path=$(cat "$HOME/.$getshell"rc | grep -i "PATH=" | grep -i "\$HOME\/\.local\/bin" -c)
 
-       if [[ $check_for_local_bin_path == 0 ]];
+       if [[ $check_for_local_bin_path -eq 0 ]];
         then
          echo "export PATH=$PATH:$HOME/.local/bin" >> $HOME/.$getshell"rc"
         else 
-         echo "Path is already set in $HOME/.$getshell"rc
+         echo "\n $redexclaim Path is already exists for user $findrealuser "
        fi
        fix_cme_symlinks 
       fi
@@ -425,6 +425,8 @@ fix_cme() {
         then
          runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); echo "export PATH=\$PATH:\$HOME/.local/bin" >> $HOME/.$subshell"rc"'
          runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); source $HOME/.$subshell"rc"' 
+        else 
+         echo -e "\n $redexclaim Path already exists "
         fi
         fix_cme_symlinks 
       fi    
