@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.4e - updated fix_cme function with fix_cme_symlinks
+  - added additional function to create symlinks in ~/.local/bin for cme 6.x.x
+
 # Revision 1.7.4d - updated PEH Course WebApp Labs
   - added fix for permission denied issues in the lab
 

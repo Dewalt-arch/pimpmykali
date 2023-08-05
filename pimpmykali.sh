@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.4d"  
+    revision="1.7.4e"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -341,6 +341,38 @@ fix_chisel() {
     eval apt -y install chisel 
     }
 
+fix_cme_symlinks() { 
+    # needs to be a better way than doing this manually for each one
+    # create a few symlinks to make life easier 
+
+    findrealuser=$(logname) 
+    getshell=$(echo $SHELL | cut -d "/" -f4)
+
+    cmebin_path="$HOME/.local/pipx/venvs/crackmapexec/bin/"
+    localbin_path="$HOME/.local/bin/"
+
+    cme_symlink_array=( 'addcomputer.py' 'antdsparse' 'apython' 'ardpscan' 'asmbcertreq' 'asmbclient' 'asmbgetfile' 'asmbscanner' 'asmbshareenum'
+    'asn1tools' 'asysocksbrute' 'asysocksportscan' 'asysocksproxy' 'asysockssec' 'asysockstunnel' 'atexec.py' 'awinreg' 'bloodhound-python' 'dcomexec.py'
+    'dpapi.py' 'dploot' 'esentutl.py' 'exchanger.py' 'findDelegation.py' 'GetADUsers.py' 'getArch.py' 'Get-GPPPassword.py' 'getLAPSv2Password.py' 
+    'GetNPUsers.py' 'getPac.py' 'getST.py' 'getTGT.py' 'GetUserSPNs.py' 'goldenPac.py' 'karmaSMB.py' 'keylistattack.py' 'kintercept.py' 'ldapdomaindump' 
+    'ldd2bloodhound' 'ldd2pretty' 'lookupsid.py' 'lsassy' 'machine_role.py' 'masky' 'mimikatz.py' 'minidump' 'minikerberos-ccache2kirbi' 'minikerberos-ccacheedit'
+    'minikerberos-ccacheroast' 'minikerberos-cve202233647' 'minikerberos-cve202233679' 'minikerberos-getNTPKInit' 'minikerberos-getS4U2proxy'
+    'minikerberos-getS4U2self' 'minikerberos-getTGS' 'minikerberos-getTGT' 'minikerberos-kerb23hashdecrypt' 'minikerberos-kerberoast' 'minikerberos-kirbi2ccache'
+    'mqtt_check.py' 'msldap' 'mssqlclient.py' 'mssqlinstance.py' 'netaddr' 'netview.py' 'nmapAnswerMachine.py' 'normalizer' 'ntfs-read.py'
+    'ntlmrelayx.py' 'ping6.py' 'ping.py' 'psexec.py' 'pypykatz' 'pywerview' 'raiseChild.py' 'rbcd.py' 'rdp_check.py' 'registry-read.py' 'reg.py'
+    'rpcdump.py' 'rpcmap.py' 'sambaPipe.py' 'samrdump.py' 'secretsdump.py' 'services.py' 'smbclient.py' 'smbexec.py' 'smbpasswd.py' 'smbrelayx.py'
+    'smbserver.py' 'sniffer.py' 'sniff.py' 'split.py' 'ticketConverter.py' 'ticketer.py' 'tstool.py' 'wmiexec.py' 'wmipersist.py' 'wmiquery.py')
+     for cme_symlink_array_file in ${cme_symlink_array[@]}; do
+     echo $cme_symlink_array_file > /tmp/cmesymlink.tmp
+     # sanity check 
+     # runuser $findrealuser $getshell -c 'echo -e "\n $HOME/.local/pipx/venvs/crackmapexec/bin/$(cat /tmp/cmesymlink.tmp) $HOME/.local/bin/$(cat /tmp/cmesymlink.tmp)"'
+     echo -e "\n  $greenplus Creating symlink for user $findrealuser to ~/.local/bin/$cme_symlink_array_file  " 
+     runuser $findrealuser $getshell -c 'symlink_file=$(cat /tmp/cmesymlink.tmp); ln -sf $HOME/.local/pipx/venvs/crackmapexec/bin/$symlink_file $HOME/.local/bin/$symlink_file'
+     done
+     # cleanup 
+     rm -f /tmp/cmesymlink.tmp
+    }
+
 fix_cme() {
     findrealuser=$(logname) 
     echo -e "\n  $greenplus Installing cme (crackmapexec)" 
@@ -372,6 +404,7 @@ fix_cme() {
         else 
          echo "Path is already set in $HOME/.$getshell"rc
        fi
+       fix_cme_symlinks 
       fi
 
      if [[ $findrealuser != "root" ]];
@@ -393,6 +426,7 @@ fix_cme() {
          runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); echo "export PATH=\$PATH:\$HOME/.local/bin" >> $HOME/.$subshell"rc"'
          runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); source $HOME/.$subshell"rc"' 
         fi
+        fix_cme_symlinks 
       fi    
      }    
 
