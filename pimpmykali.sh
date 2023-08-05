@@ -386,6 +386,7 @@ fix_cme() {
       sudo apt -y remove crackmapexec
     fi 
 
+    # root installation 
     if [[ $findrealuser == "root" ]];
      then
        echo -e "\n  Starting $findrealuser user installation"
@@ -402,11 +403,12 @@ fix_cme() {
         then
          echo "export PATH=$PATH:$HOME/.local/bin" >> $HOME/.$getshell"rc"
         else 
-         echo "\n $redexclaim Path is already exists for user $findrealuser "
+         echo "\n  $redexclaim Path already exists for user $findrealuser "
        fi
        fix_cme_symlinks 
       fi
 
+     # user installation 
      if [[ $findrealuser != "root" ]];
       then
         echo -e "\n  Starting $findrealuser user installation\n"
