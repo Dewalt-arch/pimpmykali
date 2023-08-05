@@ -419,7 +419,7 @@ fix_cme() {
      
         getshell=$(echo $SHELL | cut -d "/" -f4)
         subshell=$(runuser $findrealuser $getshell -c 'echo $SHELL | cut -d "/" -f4')
-        checkforlocalbinpath=$(runuser $findrealuser $getshell -c 'cat $HOME/.$subshell"rc" | grep -i "PATH=" | grep -i "\$PATH:\$HOME\/\.local\/bin" -c')
+        checkforlocalbinpath=$(cat /home/$findrealuser/.$subshell"rc" | grep -i PATH= | grep -i "\$PATH:\$HOME\/\.local\/bin" -c)
      
         if [[ $checkforlocalbinpath -eq 0 ]]
         then
