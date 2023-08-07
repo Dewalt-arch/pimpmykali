@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.4e"  
+    revision="1.7.4f"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -227,6 +227,7 @@ fix_missing() {
     fix_sshuttle
     fix_chisel
     fix_cme               # 08.03.2023 - added new CME6.x 
+    fix_ssh_widecompat
     #fix_waybackurls      # has issues not implemented yet 
     }
 
@@ -340,6 +341,13 @@ fix_chisel() {
     echo -e "\n  $greenplus Installing chisel" 
     eval apt -y install chisel 
     }
+
+fix_ssh_widecompat() { 
+    echo -e "\n  $greenplus Setting SSH for wide compatibility"
+    eval cp -f /usr/share/kali-defaults/etc/ssh/ssh_config.d/kali-wide-compat.conf /etc/ssh/ssh_config.d/kali-wide-compat.conf
+    echo -e "\n  $greenplus Restarting SSH service for wide compatibility"
+    eval systemctl restart ssh
+    }        
 
 fix_cme_symlinks() { 
     # needs to be a better way than doing this manually for each one
