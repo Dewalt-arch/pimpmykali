@@ -367,7 +367,7 @@ fix_cme_symlinks() {
     'minikerberos-ccacheroast' 'minikerberos-cve202233647' 'minikerberos-cve202233679' 'minikerberos-getNTPKInit' 'minikerberos-getS4U2proxy'
     'minikerberos-getS4U2self' 'minikerberos-getTGS' 'minikerberos-getTGT' 'minikerberos-kerb23hashdecrypt' 'minikerberos-kerberoast' 'minikerberos-kirbi2ccache'
     'mqtt_check.py' 'msldap' 'mssqlclient.py' 'mssqlinstance.py' 'netaddr' 'netview.py' 'nmapAnswerMachine.py' 'normalizer' 'ntfs-read.py'
-    'ntlmrelayx.py' 'ping6.py' 'ping.py' 'psexec.py' 'pypykatz' 'pywerview' 'raiseChild.py' 'rbcd.py' 'rdp_check.py' 'registry-read.py' 'reg.py'
+    'ping6.py' 'ping.py' 'psexec.py' 'pypykatz' 'pywerview' 'raiseChild.py' 'rbcd.py' 'rdp_check.py' 'registry-read.py' 'reg.py'
     'rpcdump.py' 'rpcmap.py' 'sambaPipe.py' 'samrdump.py' 'secretsdump.py' 'services.py' 'smbclient.py' 'smbexec.py' 'smbpasswd.py' 'smbrelayx.py'
     'smbserver.py' 'sniffer.py' 'sniff.py' 'split.py' 'ticketConverter.py' 'ticketer.py' 'tstool.py' 'wmiexec.py' 'wmipersist.py' 'wmiquery.py')
      for cme_symlink_array_file in ${cme_symlink_array[@]}; do
