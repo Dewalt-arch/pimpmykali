@@ -409,7 +409,7 @@ fix_cme() {
 
        if [[ $check_for_local_bin_path -eq 0 ]];
         then
-         echo "export PATH=$PATH:$HOME/.local/bin" >> $HOME/.$getshell"rc"
+         echo "export PATH=$HOME/.local/bin:$PATH" >> $HOME/.$getshell"rc"
         else 
          echo "\n  $redexclaim Path already exists for user $findrealuser "
        fi
