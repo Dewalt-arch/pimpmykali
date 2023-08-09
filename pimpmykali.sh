@@ -398,8 +398,10 @@ fix_cme() {
     if [[ $findrealuser == "root" ]];
      then
        echo -e "\n  Starting $findrealuser user installation"
-       # pipx installer
-       python3 -m pip install pipx --user
+       # pipx installer changed as of revision 1.7.4h 
+       eval apt -y install pipx python3-venv  
+       # python3 -m pip install pipx --user
+
        git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
        cd /opt/CrackMapExec
        pipx install . --force
@@ -420,8 +422,9 @@ fix_cme() {
      if [[ $findrealuser != "root" ]];
       then
         echo -e "\n  Starting $findrealuser user installation\n"
-        # pipx installer
-        sudo -i -u $findrealuser sh -c 'python3 -m pip install pipx --user'
+        # pipx installer changed as of revision 1.7.4h 
+        # sudo -i -u $findrealuser sh -c 'python3 -m pip install pipx --user'
+        eval apt -y install pipx python3-venv 
      
         [ -d /opt/CrackMapExec ] && rm -rf /opt/CrackMapExec
         git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec

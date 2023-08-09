@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.4h - updated pipx installer for fix_cme 
+  - updated function to install pipx from apt 
+
 # Revision 1.7.4g - updated path statement for fix_cme
   - corrected path statement for fix_cme user function
 
