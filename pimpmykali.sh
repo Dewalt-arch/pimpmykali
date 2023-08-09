@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.4f"  
+    revision="1.7.4g"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -409,7 +409,7 @@ fix_cme() {
 
        if [[ $check_for_local_bin_path -eq 0 ]];
         then
-         echo "export PATH=$HOME/.local/bin:$PATH" >> $HOME/.$getshell"rc"
+         echo "export PATH=\$HOME/.local/bin:\$PATH" >> $HOME/.$getshell"rc"
         else 
          echo "\n  $redexclaim Path already exists for user $findrealuser "
        fi
@@ -433,7 +433,7 @@ fix_cme() {
      
         if [[ $checkforlocalbinpath -eq 0 ]]
         then
-         runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); echo "export PATH=\$PATH:\$HOME/.local/bin" >> $HOME/.$subshell"rc"'
+         runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); echo "export PATH=\$HOME/.local/bin:\$PATH" >> $HOME/.$subshell"rc"'
          runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); source $HOME/.$subshell"rc"' 
         else 
          echo -e "\n $redexclaim Path already exists "
