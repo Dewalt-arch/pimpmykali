@@ -11,13 +11,19 @@
   - Script is now be executable upon clone (perms: 755 rwxr-xr-x added to github)
   - There is no need to chmod +x pimpmykali.sh upon git clone
 
-# Installation script:
-  - rm -rf pimpmykali/
-  - git clone https://github.com/Dewalt-arch/pimpmykali
-  - cd pimpmykali
-  - sudo ./pimpmykali.sh
-  - For a new kali vm, run menu option N
+# Installation:
+```bash
+# Remove existing pimpmykali folder
+rm -rf pimpmykali/
 
+# Clone pimpmykali repository & enter the folder
+git clone https://github.com/Dewalt-arch/pimpmykali
+cd pimpmykali
+
+# Execute the script - For a new Kali VM, run menu option 'N'
+# (The scirpt must be run with root privileges)
+sudo ./pimpmykali.sh
+```
 # Special Thanks to Pimpmykali-Mirrors Testers!!
   - Crazy_Man - https://github.com/The-Crazy-Man
   - Andro
