@@ -226,7 +226,7 @@ fix_missing() {
     fix_proxychains
     fix_sshuttle
     fix_chisel
-    fix_cme               # 08.03.2023 - added new CME6.x 
+    # fix_cme               # 08.03.2023 - added new CME6.x 
     fix_ssh_widecompat
     #fix_waybackurls      # has issues not implemented yet 
     }
