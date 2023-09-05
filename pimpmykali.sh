@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.4h"  
+    revision="1.7.5"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -2066,7 +2066,7 @@ pimpmykali_menu() {
     echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"              # fix_sead_warning
     echo -e "  @ - Install Nessus           (Type the @ character for this menu item)"              # install_nessus
     echo -e "  $ - Nuke Nessus              (Type the $ character for this menu item)"              # remove_nessus
-    echo -e "  % - CrackMapExec 6.x.x pipx  (Type the % character for this menu item)\n"            #fix_cme
+    # echo -e "  % - CrackMapExec 6.x.x pipx  (Type the % character for this menu item)\n"            #fix_cme
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
@@ -2104,7 +2104,7 @@ pimpmykali_menu() {
         ^) install_everything;;
         @) install_nessus;;
         $) remove_nessus;;
-        %) fix_cme;;
+      #  %) fix_cme;;
         *) pimpmykali_menu ;;
     esac
     }
