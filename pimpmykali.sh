@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.5"  
+    revision="1.7.6"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -226,7 +226,7 @@ fix_missing() {
     fix_proxychains
     fix_sshuttle
     fix_chisel
-    # fix_cme               # 08.03.2023 - added new CME6.x 
+    fix_cme               # 08.03.2023 - added new CME6.x 
     fix_ssh_widecompat
     #fix_waybackurls      # has issues not implemented yet 
     }
@@ -402,7 +402,8 @@ fix_cme() {
        eval apt -y install pipx python3-venv  
        # python3 -m pip install pipx --user
 
-       git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
+       # git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
+       git clone https://github.com/Porchetta-Industries/CrackMapExec /opt/CrackMap/Exec
        cd /opt/CrackMapExec
        pipx install . --force
 
@@ -427,7 +428,7 @@ fix_cme() {
         eval apt -y install pipx python3-venv 
      
         [ -d /opt/CrackMapExec ] && rm -rf /opt/CrackMapExec
-        git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
+        git clone https://github.com/Porchetta-Industries/CrackMapExec /opt/CrackMapExec
         sudo -i -u $findrealuser sh -c 'cd /opt/CrackMapExec; pipx install . --force'
      
         getshell=$(echo $SHELL | cut -d "/" -f4)
@@ -2066,7 +2067,7 @@ pimpmykali_menu() {
     echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"              # fix_sead_warning
     echo -e "  @ - Install Nessus           (Type the @ character for this menu item)"              # install_nessus
     echo -e "  $ - Nuke Nessus              (Type the $ character for this menu item)"              # remove_nessus
-    # echo -e "  % - CrackMapExec 6.x.x pipx  (Type the % character for this menu item)\n"            #fix_cme
+    echo -e "  % - CrackMapExec 6.x.x pipx  (Type the % character for this menu item)\n"            #fix_cme
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
@@ -2104,7 +2105,7 @@ pimpmykali_menu() {
         ^) install_everything;;
         @) install_nessus;;
         $) remove_nessus;;
-      #  %) fix_cme;;
+        %) fix_cme;;
         *) pimpmykali_menu ;;
     esac
     }
