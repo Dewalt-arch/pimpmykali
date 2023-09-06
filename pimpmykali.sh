@@ -18,7 +18,7 @@
     magenta=$'\e[1;35m'
     cyan=$'\e[1;36m'
     yellow=$'\e[1;93m'
-    white=$'\e[0m'
+    white=$'\e[0m'ß
     bold=$'\e[1m'
     norm=$'\e[21m'
     reset=$'\e[0m'
