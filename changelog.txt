@@ -1,3 +1,46 @@
+# Revision 1.7.3a - update to start-peh-labs.sh
+  - included function in script to reset databases on startup
+
+# Revision 1.7.3 - PEH Web Lab update 
+  - Major Milestone! 2000+ Lines of code! 
+  - added installation for Practical Ethical Hacker WebApp Labs
+  - menu option E 
+  - added ~/peh/labs/start-peh-labs.sh startup script 
+  - added ~/peh/labs/cleanup-peh-labs.sh cleanup script 
+  - all revision 1.6.x announcements moved to changelog.txt 
+
+# Revision 1.7.2 - Hacking API Lab update 
+  - added creation of start-api-hacking.sh 
+  - this is to help mitigate issues with unhealthy containers
+
+# Revision 1.7.1d - Tracelabs Osint VM
+  - added detection of the tracelabs osint vm and prevent the script from 
+    running if specific conditions are met, this is due to python incompatibility
+    with some tooling in the tracelabs osint vm.   
+
+# Revision 1.7.1c - added proxychains and sshuttle
+  - proxychains and sshuttle will be installed via menu options 0, N, or 1   
+
+# Revision 1.7.1b - updated lin/winpeas function 
+  - releases are now being dynamically checked for most current
+  - url in script should now never need updating 
+
+# Revision 1.7.1a - updates
+  - google-chrome-stable changed to pull .deb from google
+  - added installation for Neo4j
+  - added installation for Bloodhound  
+
+# Revision 1.7.1 - added download function for all the peas
+  - current linpeas release downloaded to /opt/linpeas
+  - current winpeas release downloaded to /opt/winpeas
+  - standalone menu function P or p 
+  - included in menu functions N, 0 and 1 
+
+# Revision 1.7.0 - MobSF
+  - MAPT Course setup, Menu option A 
+   - mobsf installation has been changed to a docker installation
+   - /usr/bin/mobsf-docker script created and made executable 
+
 # Revision 1.6.9a - changed google-chrome installation source
   - is now installed from the kali repo google-chrome-stable 
 
