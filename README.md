@@ -39,6 +39,9 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.6a - updated cme installer 
+  - correct to git clone'ing of the repo 
+  
 # Revision 1.7.6 - menu option % has been restored 
   - git clone url updated
   - revisions 1.7.3x and older moved to changelog.txt 

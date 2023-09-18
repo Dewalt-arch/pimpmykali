@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.6"  
+    revision="1.7.6a"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -403,7 +403,7 @@ fix_cme() {
        # python3 -m pip install pipx --user
 
        # git clone https://github.com/mpgn/CrackMapExec /opt/CrackMapExec
-       git clone https://github.com/Porchetta-Industries/CrackMapExec /opt/CrackMap/Exec
+       git clone https://github.com/Porchetta-Industries/CrackMapExec /opt/CrackMapExec
        cd /opt/CrackMapExec
        pipx install . --force
 
