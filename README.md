@@ -41,7 +41,7 @@
 
 # Revision 1.7.7 - Practical Bugbounty course added
   - installs course labs to ~/pbb/bugbounty
-  - creates ~/pbb/bugbounty/start-pbb.labs.sh startup script 
+  - creates ~/pbb/bugbounty/start-pbb-labs.sh startup script 
   - script resets the database on each startup
   - creates ~/pbb/bugbounty/cleanup-pbb-labs.sh this will all docker containers
 
@@ -51,41 +51,6 @@
 # Revision 1.7.6 - menu option % has been restored 
   - git clone url updated
   - revisions 1.7.3x and older moved to changelog.txt 
-
-# Revision 1.7.5 - removed menu option % 
-  - mpgn's github page is now 404 status, installer will need rework  
-
-# Revision 1.7.4h - updated pipx installer for fix_cme 
-  - updated function to install pipx from apt 
-
-# Revision 1.7.4g - updated path statement for fix_cme
-  - corrected path statement for fix_cme user function
-
-# Revision 1.7.4f - ssh wide compatibility function 
-  - added function fix_sshwidecompat
-  - will be ran in menu options N, 0 or 1 
-
-# Revision 1.7.4e - updated fix_cme function with fix_cme_symlinks
-  - added additional function to create symlinks in ~/.local/bin for cme 6.x.x
-
-# Revision 1.7.4d - updated PEH Course WebApp Labs
-  - added fix for permission denied issues in the lab
-
-# Revision 1.7.4c - added cme and cmedb for crackmapexec 6.x installation
-  - downloads and installs cme and cmedb using pipx
-  - installations for both user and root 
-
-# Revision 1.7.4b - updated nessus download function
-  - function should now automatically grep the version number of Nessus and download
-  - moved amd64 and arm64 variables into their respective functions
-
-# Revision 1.7.4a - added chisel 
-  - chisel added to menu options 0, N or 1 
-
-# Revision 1.7.4 - Winpeas update
-  - script will now pull winpeas from the 20230419-b6aac9cb release, April 2023
-  - workaround for current issue of winpeas not being self contained
-
 
 # Menu Breakdown of Pimpmykali 
 
@@ -111,13 +76,16 @@
   - removes any prior installation of impacket (gracefully and forcefully)
   - installs impacket-0.9.19
 
+
 - Menu Option @ - Install Nessus (amd64 or arm64)
   - downloads and installs the current version of Nessus 
   - starts nessusd service 
 
+
 - Menu Option $ - Uninstall Nessus (amd64 or arm64) 
   - stops all nessusd service
   - uninstalls nessus 
+
 
 - Menu Option 1 - Fix missing
   - fix_sources
@@ -190,19 +158,17 @@
   - Executes ONLY Menu options 1 thru 8
 
 
-- Menu Option B  ( Changed 01.15.2023 )  
-  Previous Function: (will be moved elsewhere in Pimpmykali)
-  - BlindPentesters The_Essentials tools and utilities collection
-  - Install all of BlindPentesters favorite tools and utilities to /opt (aprox 8GB)
-  - Click the link below for a full list of the_essentials.sh script and its inner workings
-  - https://github.com/blindpentester/the-essentials
+- Menu Option B  ( Changed 11.02.2023 )  
+  - Installs labs for TCM Practical Bugbounty course 
 
 
 - Menu Option C
   - Install Google-Chrome
 
+
 - Menu Option E 
   - Install TCM PEH Course WebApp Labs, docker
+
 
 - Menu Option F
   - Fixes XFCE Broken Icons "TerminalEmulator" Not Found
