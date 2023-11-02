@@ -484,7 +484,7 @@ fix_linwinpeas() {
 fix_assetfinder() {
     echo -e "\n  $greenplus Installing Assetfinder precompiled binary for $arch ... "
     [[ -f /usr/bin/assetfinder ]] && rm -f /usr/bin/assetfinder || echo > /dev/null
-    eval apt -y install assetfinder
+    eval apt -y reinstall assetfinder
     }
 
 fix_httprobe() { # 01.04.22 - added httprobe precompiled binary to fix_missing
