@@ -1794,7 +1794,7 @@ pbb_lab_setup() {
       mkdir /$finduser/pbb
       
       echo -e "\n  $greenplus Extracting labs to /$finduser/pbb/bugbounty" 
-      unzip -o /tmp/pbb-labs.tar.gz -d /$finduser/pbb
+      unzip -o /tmp/pbb-labs.zip -d /$finduser/pbb
      
       echo -e "\n  $greenplus Setting permissions for /$finduser/pbb/bugbounty/labs/uploads"
       chmod 777 /$finduser/pbb/bugbounty/labs/uploads
