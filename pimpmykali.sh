@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.6a"  
+    revision="1.7.7"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1665,8 +1665,10 @@ mapt_prereq() {
 #    ln -sf /opt/spoofpoint/spoofpoint /usr/bin/spoofpoint
 #    }
 
-hacking_peh_create_cleanupsh() { 
-    cleanup_script="cleanup_peh_labs.sh"
+# start new modifications for pbb course
+
+pbb_create_cleanupsh() { 
+    cleanup_script="cleanup-pbb-labs.sh"
     echo -e "\n  $greenplus Creating cleanup_peh_labs.sh" 
     # create cleanup.sh - prompts user for a Y or y prompt and provides warning before executing commands
     echo -e "#!/bin/bash" > $cleanup_script
@@ -1686,9 +1688,236 @@ hacking_peh_create_cleanupsh() {
     echo "        y|Y) cleanup_docker ;;" >> $cleanup_script
     echo "          *) exit ;;" >> $cleanup_script
     echo "    esac" >> $cleanup_script
-    chmod +x cleanup_peh_labs.sh
+    chmod +x cleanup-pbb-labs.sh
 
-    # create startu-peh-labs.sh
+    # create start-pbb-labs.sh
+    startup_script="start-pbb-labs.sh"
+    echo -e "\n  $greenplus Creating start-pbb-labs.sh"
+    echo -e "#!/bin/bash" > $startup_script
+    echo -e "\n" >> $startup_script
+    echo -e "cd ~/pbb/labs/" >> $startup_script
+    echo -e "sudo docker-compose down"  >> $startup_script 
+    echo -e "sudo systemctl stop mysqld" >> $startup_script 
+    echo -e "sudo docker-compose up -d" >> $startup_script
+    echo -e "get_lab_status=\$(curl --silent http://localhost/init.php | grep -i \"connection refused\" -c)" >> $startup_script
+    # may not be necessary
+    echo -e "while [ \$get_lab_status -ge 1 ]" >> $startup_script
+    echo -e "do" >> $startup_script
+    echo -e "if [[ \$get_lab_status -ge 1 ]]" >> $startup_script
+    echo -e " then" >> $startup_script
+    echo -e "  sleep 1" >> $startup_script
+    echo -e "checkagain=\$(curl --silent http://localhost/init.php | grep -i \"connection refused\" -c)" >> $startup_script
+    echo -e "if [[ \$checkagain == 0 ]]" >> $startup_script
+    echo -e " then" >> $startup_script
+    echo -e "  curl --silent http://localhost/init.php > /dev/null" >> $startup_script
+    echo -e " echo \"Databases reset\" ">> $startup_script
+    echo -e "     exit" >> $startup_script
+    echo -e "    else" >> $startup_script
+    echo -e "      echo > /dev/null" >> $startup_script
+    echo -e "    fi" >> $startup_script
+    echo -e " else" >> $startup_script
+    echo -e "  exit" >> $startup_script
+    echo -e " fi" >> $startup_script
+    echo -e " done" >> $startup_script
+    # through here 
+    chmod +x start-pbb-labs.sh
+    }    
+
+pbb_create_cleanupsh() { 
+    cleanup_script="cleanup-pbb-labs.sh"
+    echo -e "\n  $greenplus Creating cleanup_peh_labs.sh" 
+    # create cleanup.sh - prompts user for a Y or y prompt and provides warning before executing commands
+    echo -e "#!/bin/bash" > $cleanup_script
+    echo -e "\n" >> $cleanup_script
+    echo "cleanup_docker () {" >> $cleanup_script
+    echo -e "    sudo docker stop \$(sudo docker ps -aq)" >> $cleanup_script
+    echo -e "    sudo docker rm \$(sudo docker ps -aq)" >> $cleanup_script
+    echo -e "    sudo docker rm \$(sudo docker images -q)" >> $cleanup_script 
+    echo -e "    sudo docker volume rm \$(sudo docker volume ls -q)" >> $cleanup_script 
+    echo -e "    sudo docker network rm \$(sudo docker network ls -q)" >> $cleanup_script
+    echo "    exit" >> $cleanup_script
+    echo "    }" >> $cleanup_script
+    echo -e "\n" >> $cleanup_script
+    echo "    echo -e \"\n  Warning! This script is about to remove all docker containers and networks!\" " >> $cleanup_script
+    echo "    read -n3 -p \"  Press Y or y to proceed any other key to exit : \" userinput " >> $cleanup_script
+    echo "    case \$userinput in" >> $cleanup_script
+    echo "        y|Y) cleanup_docker ;;" >> $cleanup_script
+    echo "          *) exit ;;" >> $cleanup_script
+    echo "    esac" >> $cleanup_script
+    chmod +x cleanup-pbb-labs.sh
+
+    # create start-pbb-labs.sh
+    startup_script="start-pbb-labs.sh"
+    echo -e "\n  $greenplus Creating start-pbb-labs.sh"
+    echo -e "#!/bin/bash" > $startup_script
+    echo -e "\n" >> $startup_script
+    echo -e "cd ~/pbb/bugbounty" >> $startup_script
+    echo -e "sudo docker-compose down"  >> $startup_script 
+    echo -e "sudo systemctl stop mysqld" >> $startup_script 
+    echo -e "sudo docker-compose up -d" >> $startup_script
+    echo -e "get_lab_status=\$(curl --silent http://localhost/init.php | grep -i \"connection refused\" -c)" >> $startup_script
+    echo -e "while [ \$get_lab_status -ge 1 ]" >> $startup_script
+    echo -e "do" >> $startup_script
+    echo -e "if [[ \$get_lab_status -ge 1 ]]" >> $startup_script
+    echo -e " then" >> $startup_script
+    echo -e "  sleep 1" >> $startup_script
+    echo -e "checkagain=\$(curl --silent http://localhost/init.php | grep -i \"connection refused\" -c)" >> $startup_script
+    echo -e "if [[ \$checkagain == 0 ]]" >> $startup_script
+    echo -e " then" >> $startup_script
+    echo -e "  curl --silent http://localhost/init.php > /dev/null" >> $startup_script
+    echo -e " echo \"Databases reset\" ">> $startup_script
+    echo -e "     exit" >> $startup_script
+    echo -e "    else" >> $startup_script
+    echo -e "      echo > /dev/null" >> $startup_script
+    echo -e "    fi" >> $startup_script
+    echo -e " else" >> $startup_script
+    echo -e "  exit" >> $startup_script
+    echo -e " fi" >> $startup_script
+    echo -e " done" >> $startup_script
+    chmod +x start-pbb-labs.sh
+    }
+
+pbb_lab_setup() {
+    echo -e "\n  $greenplus Installing docker.io and docker-compose"
+    eval apt -y install docker.io docker-compose
+    
+    echo -e "\n  $greenplus Starting docker service and enabling " 
+    eval systemctl enable docker --now
+    
+    echo -e "\n  $greenplus Downloading pbb-labs.zip " 
+    wget https://cdn.fs.teachablecdn.com/iaWfH4NrRp20zLOd3xLr -O /tmp/pbb-labs.zip
+    
+    if [[ $finduser == "root" ]]
+     then 
+      #lab setup for root
+      echo -e "\n  $greenplus Making peh directory for bugbounty labs /$finduser/pbb"
+      mkdir /$finduser/pbb
+      
+      echo -e "\n  $greenplus Extracting labs to /$finduser/pbb/bugbounty" 
+      unzip -o /tmp/pbb-labs.tar.gz -d /$finduser/pbb
+     
+      echo -e "\n  $greenplus Setting permissions for /$finduser/pbb/bugbounty/labs/uploads"
+      chmod 777 /$finduser/pbb/bugbounty/labs/uploads
+
+      echo -e "\n  $greenplus Starting labs docker in daemon mode" 
+      cd /$finduser/pbb/bugbounty
+      pbb_create_cleanupsh
+
+      if [[ ! -f docker-compose.yml ]]
+       then 
+        echo -e "\n  $redexclaim docker-compose.yml not found in current directory, aborting "
+        exit_screen
+       else 
+        echo -e "\n  $greenplus docker-compose.yml found, starting labs in daemon mode -d" 
+        eval docker-compose up -d 
+        get_lab_status=$(curl --silent http://localhost/init.php | grep -c -i "connection refused")
+        echo -e "\n  $greenminus Waiting for databases to reset..."
+          while [ $get_lab_status -ge 1 ]
+            do
+            if [[ $get_lab_status -ge 1 ]]
+              then
+               sleep 1
+              checkagain=$(curl --silent http://localhost/init.php | grep -c -i "connection refused")
+                if [[ $checkagain == 0 ]]
+                  then
+                    curl --silent http://localhost/init.php > /dev/null
+                    echo -e "\n  $greenplus Database reset"
+                    exit
+                  else
+                    echo > /dev/null
+                fi
+            else
+              exit
+            fi
+          done
+          exit_screen 
+      fi 
+     else 
+      # lab setup for regular user 
+      echo -e "\n  $greenplus Making pbb directory for labs /home/$finduser/pbb"
+      mkdir /home/$finduser/pbb
+
+      echo -e "\n  $greenplus Extracting labs to /home/$finduser/pbb"
+      unzip -o /tmp/pbb-labs.zip -d /home/$finduser/pbb
+
+      # check for /home/$finduser/pbb/bugbounty/labs/uploads
+      if [[ -d /home/$finduser/pbb/bugbounty/labs/uploads ]]
+       then
+        echo -e "\n  $greenplus Setting permissions for /home/$finduser/pbb/labs/uploads"
+        chmod 777 /home/$finduser/pbb/bugbounty/labs/uploads
+        echo -e "\n  $greenplus Setting ownership to $finduser:$finduser for /home/$finduser/pbb"
+        chown -R $finduser:$finduser /home/$finduser/pbb
+       else
+        echo -e "\n  $redexclaim Unable to find /home/$finduser/pbb/labs/uploads"
+      fi
+
+
+      echo -e "\n  $greenplus Creating cleanup-pbb-labs.sh and start-pbb-labs.sh in /home/$finduser/pbb/bugbounty" 
+      cd /home/$finduser/pbb/bugbounty
+      pbb_create_cleanupsh
+
+      echo -e "\n  $greenplus Cleaning up temporary files..." 
+      rm /tmp/pbb-labs.zip
+
+      echo -e "\n  $greenplus Starting labs docker in daemon mode" 
+      cd /home/$finduser/pbb/bugbounty
+      if [[ ! -f docker-compose.yml ]]
+       then 
+        echo -e "\n  $redexclaim docker-compose.yml not found in current directory, aborting "
+        exit_screen
+       else 
+        echo -e "\n  $greenplus docker-compose.yml found, starting labs in daemon mode " 
+        eval docker-compose up -d 
+        get_lab_status=$(curl --silent http://localhost/init.php | grep -c -i "connection refused")
+        echo -e "\n  $greenminus Waiting for databases to reset..."
+          while [ $get_lab_status -ge 1 ]
+            do
+            if [[ $get_lab_status -ge 1 ]]
+              then
+               sleep 1
+              checkagain=$(curl --silent http://localhost/init.php | grep -c -i "connection refused")
+                if [[ $checkagain == 0 ]]
+                  then
+                    curl --silent http://localhost/init.php > /dev/null
+                    echo -e "\n  $greenplus Database reset"
+                    exit
+                  else
+                    echo > /dev/null
+                fi
+            else
+              exit
+            fi
+          done
+          exit_screen 
+      fi 
+    fi  
+    }
+# New modifications end here
+
+hacking_peh_create_cleanupsh() { 
+    cleanup_script="cleanup-peh-labs.sh"
+    echo -e "\n  $greenplus Creating cleanup-peh-labs.sh" 
+    # create cleanup.sh - prompts user for a Y or y prompt and provides warning before executing commands
+    echo -e "#!/bin/bash" > $cleanup_script
+    echo -e "\n" >> $cleanup_script
+    echo "cleanup_docker () {" >> $cleanup_script
+    echo -e "    sudo docker stop \$(sudo docker ps -aq)" >> $cleanup_script
+    echo -e "    sudo docker rm \$(sudo docker ps -aq)" >> $cleanup_script
+    echo -e "    sudo docker rm \$(sudo docker images -q)" >> $cleanup_script 
+    echo -e "    sudo docker volume rm \$(sudo docker volume ls -q)" >> $cleanup_script 
+    echo -e "    sudo docker network rm \$(sudo docker network ls -q)" >> $cleanup_script
+    echo "    exit" >> $cleanup_script
+    echo "    }" >> $cleanup_script
+    echo -e "\n" >> $cleanup_script
+    echo "    echo -e \"\n  Warning! This script is about to remove all docker containers and networks!\" " >> $cleanup_script
+    echo "    read -n3 -p \"  Press Y or y to proceed any other key to exit : \" userinput " >> $cleanup_script
+    echo "    case \$userinput in" >> $cleanup_script
+    echo "        y|Y) cleanup_docker ;;" >> $cleanup_script
+    echo "          *) exit ;;" >> $cleanup_script
+    echo "    esac" >> $cleanup_script
+    chmod +x cleanup-peh-labs.sh
+
+    # create start-peh-labs.sh
     startup_script="start-peh-labs.sh"
     echo -e "\n  $greenplus Creating start-peh-hacking.sh"
     echo -e "#!/bin/bash" > $startup_script
@@ -2049,12 +2278,13 @@ pimpmykali_menu() {
     echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:   Description:"                                           # optional line
     echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  E - PEH Course WebApp Labs   (add requirements for PEH WebApp Labs and installs) "    # apt_update fix_libwacom only_upgrade peh_weblab_setup
+    echo -e "  B - Practical Bugbounty Labs (add requirements for PBB course labs)"                 # pbb_lab_setup
+    echo -e "  E - PEH Course WebApp Labs   (add requirements for PEH WebApp Labs and installs) "   # apt_update fix_libwacom only_upgrade peh_weblab_setup
     echo -e "  O - Hacking API Course Setup (add requirements for Hacking API Course)"              # hacking_api_prereq was fix_ssh
     echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
     echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
     echo -e "  P - Download Lin/WinPeas     (adds linpeas to /opt/linpeas and winpeas to /opt/winpeas)" # fix_linwinpeas
-    echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"     # bpt function
+  #  echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"     # bpt function
     echo -e "  I - Install MITM6            (install mitm6 from github)"                            # fix_mitm6
     echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
@@ -2083,7 +2313,7 @@ pimpmykali_menu() {
         0) fix_all; run_update; virt_what; check_vm;;
         !) forced=1; fix_sead_warning;;
       a|A) mapt_prereq;;
-      b|B) bpt;;
+      b|B) pbb_lab_setup;;
       c|C) check_chrome;;
       e|E) apt_update; fix_libwacom; peh_weblab_setup;; # only_upgrade;
       f|F) fix_broken_xfce;;

@@ -39,8 +39,14 @@
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.7 - Practical Bugbounty course added
+  - installs course labs to ~/pbb/bugbounty
+  - creates ~/pbb/bugbounty/start-pbb.labs.sh startup script 
+  - script resets the database on each startup
+  - creates ~/pbb/bugbounty/cleanup-pbb-labs.sh this will all docker containers
+
 # Revision 1.7.6a - updated cme installer 
-  - correct to git clone'ing of the repo 
+  - correct to git clone of the repo 
   
 # Revision 1.7.6 - menu option % has been restored 
   - git clone url updated
