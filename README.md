@@ -45,6 +45,9 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.8 - Pimpmykali-Mirrors
+  - correction/update to current url for mirrorlist
+
 # Revision 1.7.7 - Practical Bugbounty course added
   - installs course labs to ~/pbb/bugbounty
   - creates ~/pbb/bugbounty/start-pbb-labs.sh startup script 

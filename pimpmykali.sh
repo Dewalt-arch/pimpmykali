@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.7"  
+    revision="1.7.8"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -2129,7 +2129,7 @@ get_mirrorlist() {
       exit_screen
     fi
     
-    curl -s http://http.kali.org/README.mirrorlist | grep -i "README" | cut -d ">" -f2 | cut -d "\"" -f2 | grep -i "http://" | \
+    curl -s http://http.kali.org/README?mirrorlist | grep -i "README" | cut -d ">" -f2 | cut -d "\"" -f2 | grep -i "http://" | \
     sed s:"http\:\/\/http.kali.org\/README.meta4":"":g | sed s:"http\:\/\/http.kali.org\/README.metalink":"":g | sort -u > /tmp/timetest.list
   	}
 
