@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.8"  
+    revision="1.7.9"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -356,7 +356,7 @@ fix_cme_symlinks() {
     findrealuser=$(logname) 
     getshell=$(echo $SHELL | cut -d "/" -f4)
 
-    cmebin_path="$HOME/.local/pipx/venvs/crackmapexec/bin/"
+    cmebin_path="$HOME/.local/share/pipx/venvs/crackmapexec/bin/"
     localbin_path="$HOME/.local/bin/"
 
     cme_symlink_array=( 'addcomputer.py' 'antdsparse' 'apython' 'ardpscan' 'asmbcertreq' 'asmbclient' 'asmbgetfile' 'asmbscanner' 'asmbshareenum'
@@ -373,13 +373,20 @@ fix_cme_symlinks() {
      for cme_symlink_array_file in ${cme_symlink_array[@]}; do
      echo $cme_symlink_array_file > /tmp/cmesymlink.tmp
      # sanity check 
-     # runuser $findrealuser $getshell -c 'echo -e "\n $HOME/.local/pipx/venvs/crackmapexec/bin/$(cat /tmp/cmesymlink.tmp) $HOME/.local/bin/$(cat /tmp/cmesymlink.tmp)"'
+     # runuser $findrealuser $getshell -c 'echo -e "\n $HOME/.local/share/pipx/venvs/crackmapexec/bin/$(cat /tmp/cmesymlink.tmp) $HOME/.local/bin/$(cat /tmp/cmesymlink.tmp)"'
      echo -e "\n  $greenplus Creating symlink for user $findrealuser to ~/.local/bin/$cme_symlink_array_file  " 
-     runuser $findrealuser $getshell -c 'symlink_file=$(cat /tmp/cmesymlink.tmp); ln -sf $HOME/.local/pipx/venvs/crackmapexec/bin/$symlink_file $HOME/.local/bin/$symlink_file'
+     runuser $findrealuser $getshell -c 'symlink_file=$(cat /tmp/cmesymlink.tmp); ln -sf $HOME/.local/share/pipx/venvs/crackmapexec/bin/$symlink_file $HOME/.local/bin/$symlink_file'
      done
      # cleanup 
      rm -f /tmp/cmesymlink.tmp
     }
+
+fix_netexec() {
+    # place holder will add in the next revision
+    # function to donwload and make Netexec (nxc) from https://github.com/Pennyw0rth/NetExec
+    echo > /dev/null 
+    }
+
 
 fix_cme() {
     findrealuser=$(logname) 
