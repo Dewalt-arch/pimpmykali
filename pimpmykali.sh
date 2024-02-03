@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.9"  
+    revision="1.7.9a"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -227,6 +227,7 @@ fix_missing() {
     fix_sshuttle
     fix_chisel
     fix_cme               # 08.03.2023 - added new CME6.x 
+    fix_netexec
     fix_ssh_widecompat
     #fix_waybackurls      # has issues not implemented yet 
     }
@@ -384,7 +385,13 @@ fix_cme_symlinks() {
 fix_netexec() {
     # place holder will add in the next revision
     # function to donwload and make Netexec (nxc) from https://github.com/Pennyw0rth/NetExec
-    echo > /dev/null 
+    echo -e "\n  $greenplus Installing Netexec (nxc)" 
+    eval apt -y install python3-poetry
+    echo -e "\n  $greenplus Git cloning Netexec (nxc) to /opt/NetExec" 
+    cd /opt; git clone https://github.com/Pennyw0rth/NetExec
+    cd NetExec
+    pip install .
+    echo -e "\n  $greenplus Installation complete" 
     }
 
 
@@ -2304,7 +2311,8 @@ pimpmykali_menu() {
     echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"              # fix_sead_warning
     echo -e "  @ - Install Nessus           (Type the @ character for this menu item)"              # install_nessus
     echo -e "  $ - Nuke Nessus              (Type the $ character for this menu item)"              # remove_nessus
-    echo -e "  % - CrackMapExec 6.x.x pipx  (Type the % character for this menu item)\n"            #fix_cme
+    echo -e "  % - CrackMapExec 6.x.x pipx  (Type the % character for this menu item)"              # fix_cme
+    echo -e "  U - Install Netexec (nxc)    (installation is a part of fix_missing or option N)\n"  # fix_netexec 
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
@@ -2335,6 +2343,7 @@ pimpmykali_menu() {
       p|P) fix_linwinpeas;; 
       s|S) fix_spike;;
       t|T) fix_timezone;;
+      u|U) fix_netexec;;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;

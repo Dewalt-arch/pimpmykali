@@ -45,9 +45,12 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.9a - netexec (nxc)
+  - menu option U or u to install netexec 
+  - is also included in menu options N, 0 or 1
+
 # Revision 1.7.9 - crackmapexec
   - corrected pathing of symlinks created in $HOME/.local/bin
-  - place holder in script for NetExec (nxc) installation in next revision
 
 # Revision 1.7.8 - Pimpmykali-Mirrors
   - correction/update to current url for mirrorlist
