@@ -233,6 +233,10 @@ sudo ./pimpmykali.sh
   - Reconfigure Timezone
 
 
+- Menu Option U
+  - Install Netexec (nxc)
+
+
 - Menu Option V
   - Install MS VSCode
 
