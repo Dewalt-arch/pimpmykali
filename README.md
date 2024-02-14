@@ -45,6 +45,13 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.9a1 - netexec
+  - updated installation to use pipx 
+  - created new function to ensure symlinks are created
+  - created new function for user and root installations
+  - menu option U or u to install netexec 
+  - is also included in menu option N, 0 or 1 
+
 # Revision 1.7.9a - netexec (nxc)
   - menu option U or u to install netexec 
   - is also included in menu options N, 0 or 1

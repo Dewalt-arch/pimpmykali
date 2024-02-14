@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.9a"  
+    revision="1.7.9a1"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -382,18 +382,66 @@ fix_cme_symlinks() {
      rm -f /tmp/cmesymlink.tmp
     }
 
-fix_netexec() {
-    # place holder will add in the next revision
-    # function to donwload and make Netexec (nxc) from https://github.com/Pennyw0rth/NetExec
-    echo -e "\n  $greenplus Installing Netexec (nxc)" 
-    eval apt -y install python3-poetry
-    echo -e "\n  $greenplus Git cloning Netexec (nxc) to /opt/NetExec" 
-    cd /opt; git clone https://github.com/Pennyw0rth/NetExec
-    cd NetExec
-    pip install .
-    echo -e "\n  $greenplus Installation complete" 
+fix_nxc_symlinks() { 
+    findrealuser=$(logname) 
+    getshell=$(echo $SHELL | cut -d "/" -f4)
+
+    nxcbin_path="$HOME/.local/share/pipx/venvs/netexec/bin/"
+    localbin_path="$HOME/.local/bin/"
+
+    nxc_symlink_array=( 'netexec' 'NetExec' 'nxc' 'nxcdb' )
+     for nxc_symlink_array_file in ${cme_symlink_array[@]}; do
+     echo $cme_symlink_array_file > /tmp/nxcsymlink.tmp
+     # sanity check 
+     # runuser $findrealuser $getshell -c 'echo -e "\n $HOME/.local/share/pipx/venvs/crackmapexec/bin/$(cat /tmp/cmesymlink.tmp) $HOME/.local/bin/$(cat /tmp/cmesymlink.tmp)"'
+     echo -e "\n  $greenplus Creating symlink for user $findrealuser to ~/.local/bin/$nxc_symlink_array_file  " 
+     runuser $findrealuser $getshell -c 'symlink_file=$(cat /tmp/nxcsymlink.tmp); ln -sf $HOME/.local/share/pipx/venvs/netexec/bin/$symlink_file $HOME/.local/bin/$symlink_file'
+     done
+     # cleanup 
+     rm -f /tmp/nxcsymlink.tmp
     }
 
+fix_netexec() {
+    findrealuser=$(logname)
+    echo -e "\n  $greenplus Installing Netexec (nxc)" 
+   
+    # root installation 
+    if [[ $findrealuser == "root" ]];
+     then
+       echo -e "\n  Starting $findrealuser user installation"
+       eval apt -y install pipx python3-venv python3-poetry
+       pipx install git+https://github.com/Pennyw0rth/NetExec --force
+       getshell=$(echo $SHELL | cut -d "/" -f4)
+       check_for_local_bin_path=$(cat "$HOME/.$getshell"rc | grep -i "PATH=" | grep -i "\$HOME\/\.local\/bin" -c)
+
+       if [[ $check_for_local_bin_path -eq 0 ]];
+        then
+         echo "export PATH=\$HOME/.local/bin:\$PATH" >> $HOME/.$getshell"rc"
+        else 
+         echo "\n  $redexclaim Path already exists for user $findrealuser "
+       fi
+       fix_nxc_symlinks 
+      fi
+    
+     # user installation 
+     if [[ $findrealuser != "root" ]];
+      then
+        echo -e "\n  Starting $findrealuser user installation\n"
+        eval apt -y install pipx python3-venv python3-poetry
+        sudo -i -u $findrealuser sh -c 'pipx install git+https://github.com/Pennyw0rth/NetExec --force'
+        getshell=$(echo $SHELL | cut -d "/" -f4)
+        subshell=$(runuser $findrealuser $getshell -c 'echo $SHELL | cut -d "/" -f4')
+        checkforlocalbinpath=$(cat /home/$findrealuser/.$subshell"rc" | grep -i PATH= | grep -i "\$HOME\/\.local\/bin:\$PATH" -c)
+        if [[ $checkforlocalbinpath -eq 0 ]]
+        then
+         runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); echo "export PATH=\$HOME/.local/bin:\$PATH" >> $HOME/.$subshell"rc"'
+         runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); source $HOME/.$subshell"rc"' 
+        else 
+         echo -e "\n $redexclaim Path already exists "
+        fi
+        fix_nxc_symlinks 
+      fi        
+    }
 
 fix_cme() {
     findrealuser=$(logname) 
@@ -493,7 +541,6 @@ fix_linwinpeas() {
        chmod +x $dest_winpeas/$winpeas_file 
      done
     }
-
 
 fix_assetfinder() {
     echo -e "\n  $greenplus Installing Assetfinder precompiled binary for $arch ... "
@@ -1370,6 +1417,35 @@ fix_virtualbox() {
      # check version
      eval wget https://download.virtualbox.org/virtualbox/LATEST.TXT -O /tmp/vbox-latest
      vboxver=$(cat /tmp/vbox-latest)
+        # ---- MAJOR CHANGES TO THIS SECTION OF THE SCRIPT ---- (possibly revision 1.7.9b or later)
+        # -- get the version of virtualbox from dmidecode
+        # check_dmidecode() {
+        #     which_dmidecode=$(which dmidecode)
+        #     if [[ $which_dmidecode == "" ]]; 
+        #       then 
+        #         apt -y install dmidecode
+        #         which_dmidecode=""
+        #         check_dmidecode 
+        #       else
+        #         continue
+        #     fi 
+        #     }
+        # VBOX_VER=$(dmidecode | grep -i vboxver | grep -E -o '[[:digit:]\.]+' | tail -n 1)
+        # -- download that specific version of the VBoxGuestAdditions_'$VBOX_VER'.iso
+        # wget 'https://download.virtualbox.org/virtualbox/'$VBOX_VER'/VBoxGuestAdditions_'$VBOX_VER'.iso' -O /tmp/VBoxGuestAdditions_$VBOX_VER.iso
+        # -- create directory to mount the iso 
+        # mkdir /tmp/vboxtmp
+        # -- mount the iso
+        # mount -o loop '/tmp/VBoxGuestAdditions_'$VBOX_VER'.iso' /tmp/vboxtmp
+        # -- copy VBoxLinuxAdditions.run to /tmp
+        # cp -f /tmp/vboxtmp/VBoxLinuxAdditions.run /tmp
+        # -- unmount /tmp/vboxtmp
+        # umount /tmp/vboxtmp
+        # -- execute /tmp/VBoxLinuxAdditions.run
+        # chmod +x /tmp/VBoxLinuxAdditions.run
+        # /tmp/VBoxLinuxAdditions.run install --force
+        # /sbin/rcvboxadd quicksetup all
+        # ---- END OF PROPOSED CHANGES for revision 1.7.9b+ ----
      # get new iso and place over old one in /usr/share/virtualbox
      eval wget https://download.virtualbox.org/virtualbox/$vboxver/VBoxGuestAdditions_$vboxver.iso -O /usr/share/virtualbox/VBoxGuestAdditions.iso
      # end of sidestep
@@ -1381,6 +1457,7 @@ fix_virtualbox() {
     eval /tmp/VBoxLinuxAdditions.run install --force
     eval rm -f /tmp/VBoxLinuxAdditions.run
     eval /sbin/rcvboxadd quicksetup all
+    echo -e "\n  $greenplus VBoxGuestAdditions for version $VBOX_VER installed"
     echo -e "\n  $redstar A reboot of your system is required"
     }
 
@@ -1418,7 +1495,7 @@ check_vm() {
           echo -e "\n  $greenplus *** QEMU/LIBVIRT DETECTED *** \n"
           eval apt -y reinstall spice-vdagent qemu-guest-agent
           # xserver-xorg-video-qxl - rev 1.5.4 no longer in the kali repo
-          echo -e "\n  $greenplus installing xserver-xorg-video-qxl spice-vdagent"
+          echo -e "\n  $greenplus installing spice-vdagent qemu-guest-agent"
       else
         echo -e "\n $redstar Hypervisor not detected, Possible bare-metal installation not updating"
     fi
