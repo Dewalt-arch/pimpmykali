@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.9a1"  
+    revision="1.7.9a2"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -2479,6 +2479,9 @@ exit_screen() {
     eval apt -y --fix-broken install >/dev/null 2>&1
     echo -e "$asciiart"
     echo -e "\n\n    All Done! Happy Hacking! \n"
+    findrealuser=$(logname)
+    getshell=$(echo $SHELL | cut -d "/" -f4)
+    runuser $findrealuser $getshell -c 'subshell=$(echo $SHELL | cut -d "/" -f4); source $HOME/.$subshell"rc"' 
     exit
     }
 
@@ -2486,4 +2489,3 @@ check_for_root
 check_distro
 check_arg "$1"
 exit_screen
-
