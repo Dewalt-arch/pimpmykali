@@ -62,22 +62,6 @@ sudo ./pimpmykali.sh
 # Revision 1.7.9 - crackmapexec
   - corrected pathing of symlinks created in $HOME/.local/bin
 
-# Revision 1.7.8 - Pimpmykali-Mirrors
-  - correction/update to current url for mirrorlist
-
-# Revision 1.7.7 - Practical Bugbounty course added
-  - installs course labs to ~/pbb/bugbounty
-  - creates ~/pbb/bugbounty/start-pbb-labs.sh startup script 
-  - script resets the database on each startup
-  - creates ~/pbb/bugbounty/cleanup-pbb-labs.sh this will all docker containers
-
-# Revision 1.7.6a - updated cme installer 
-  - correct to git clone of the repo 
-  
-# Revision 1.7.6 - menu option % has been restored 
-  - git clone url updated
-  - revisions 1.7.3x and older moved to changelog.txt 
-
 # Menu Breakdown of Pimpmykali 
 
 - Menu option N  (New Users/New VM's Should start here!)
