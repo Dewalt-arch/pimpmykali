@@ -45,7 +45,7 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
-# Revision 1.7.9a3 - updated fix_sources and gen_new_sources functions
+# Revision 1.7.9a3 - updated functions
   - updated fix_sources function
     - includes non-free and non-free-firmware
   - updated gen_new_sources in Pimpmykali-Mirrors menu option =
