@@ -2289,6 +2289,7 @@ gen_new_sources() {
        y|Y) echo -e "\n\n  $greenplus Saving changes to /etc/apt/sources.list"; cp $sourcefile ${sourcefile}_$(date +%F-%T); \
        sed s:"deb http\:\/\/.* kali\-rolling.*":"deb http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
        sed s:"deb-src http\:\/\/.* kali\-rolling.*":"deb\-src http\:\/\/"$final_mirror" kali\-rolling main contrib non\-free":g -i $sourcefile; \
+       sed 's/non-free$/non-free non-free-firmware/' -i $sourcefile
        echo -e "\n  $greenplus Running apt update with mirror $final_mirror selected \n";  apt update;;
        n|N) echo -e "\n\n  $redexclaim Not saving changes";;
          *) echo -e "\n\n  $redexclaim Invalid key try again, Y or N keys only $redexclaim"; gen_new_sources;;
