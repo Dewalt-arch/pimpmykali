@@ -45,6 +45,9 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.9a3 - updated exit_screen function
+  - updated fix_sources function to include non-free and non-free-firmware
+
 # Revision 1.7.9a2 - updated exit_screen function
   - function modified to re-source logged in user ~/nameofshellrc 
 

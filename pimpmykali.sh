@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.9a2"  
+    revision="1.7.9a3"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1066,6 +1066,7 @@ install_vscode() {
     }
 
 # 04.06.2021 fix_sources rev 1.2.2 / rev 1.3.2 updated to add wildcards
+# 03.04.2024 fix_sources rev 1.7.9a3 / added sed -i outside of if statement for non-free to "non-free non-free-firmware"
 fix_sources() {
     fix_bad_apt_hash
     # relaxed grep
@@ -1085,6 +1086,7 @@ fix_sources() {
       sed 's/\#deb-src http\:\/\/.*\/kali kali-rolling.*/\deb-src http\:\/\/'$get_current_mirror'\/kali kali-rolling main contrib non\-free''/' -i /etc/apt/sources.list
       echo -e "\n  $greenplus new /etc/apt/sources.list written with deb-src enabled"
     fi
+    sed -i 's/non-free$/non-free non-free-firmware/' /etc/apt/sources.list
     }
 
 run_update() {
