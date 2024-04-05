@@ -21,7 +21,7 @@ git clone https://github.com/Dewalt-arch/pimpmykali
 cd pimpmykali
 
 # Execute the script - For a new Kali VM, run menu option 'N'
-# (The scirpt must be run with root privileges)
+# (The script must be run with root privileges)
 sudo ./pimpmykali.sh
 ```
 # Special Thanks to Pimpmykali-Mirrors Testers!!
