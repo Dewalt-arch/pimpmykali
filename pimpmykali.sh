@@ -510,7 +510,7 @@ fix_cme() {
 
 fix_linwinpeas() {
     # get all the peas!!!
-    current_build=$(curl -s https://github.com/peass-ng/PEASS-ng/releases | grep -i "refs/heads/master" -m 1 | awk '{ print $5 }' | cut -d "<" -f1)
+    current_build=$(curl -s -L https://github.com/peass-ng/PEASS-ng/releases | grep -i "refs/heads/master" -m 1 | awk '{ print $5 }' | cut -d "<" -f1)
     releases_url="https://github.com/peass-ng/PEASS-ng/releases/download/$current_build"
 	  dest_linpeas="/opt/linpeas"
 	  dest_winpeas="/opt/winpeas"
