@@ -41,9 +41,15 @@ sudo ./pimpmykali.sh
   - TheMadHuman https://github.com/TMH-Sec
   - Aashiksamuel https://github.com/aashiksamuel  (sublime install fix)
   - m4ul3r 
+  - lbalmaceda https://github.com/lbalmaceda
 
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
+
+# Revision 1.7.9a4 - updated fix_linwinpeas function
+  - Thanks lbalmaceda! for the updated url and code submission
+  - corrected url for Lin/WinPeas
+  - updated function to always pull latest release  
 
 # Revision 1.7.9a3 - updated functions
   - updated fix_sources function
