@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.9a4"  
+    revision="1.7.9a5"  
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -2255,7 +2255,7 @@ small_speedtest() {
     for i in $(cat /tmp/kali-ping | sed -r '/^\s*$/d' | sort -n | head -n10 | cut -d ":" -f2); do
   	  active_mirror=$(cat /tmp/timetest.list | grep "$i" | grep "README" | sed -r '/^\s*$/d')
   	  active_mirror_display=$(cat /tmp/timetest.list | grep "$i" | grep "README" | cut -d "/" -f3| sed -r '/^\s*$/d')
-  	  get_download=$(curl -s "$active_mirror" --w %{speed_download} -o /dev/null)
+  	  get_download=$(curl -s "$active_mirror" -w %{speed_download} -o /dev/null)
    	  mb_speed=$(($get_download / 1024 / 1024))
   	  echo "$get_download:$active_mirror:$mb_speed" >> /tmp/mirrors_speedtest
       echo -e "    $greenplus $active_mirror_display speed: $get_download b/sec"
@@ -2268,7 +2268,7 @@ large_speedtest() {
   	for i in $(cat /tmp/kali-ping | sed -r '/^\s*$/d' | sort -n | head -n5 | cut -d ":" -f2); do
   	  active_mirror=$(cat /tmp/timetest.list | grep "$i" | grep "README" | sed s:"README":"dists/kali-rolling/Contents-amd64.gz":g | sed -r '/^\s*$/d')
   	  active_mirror_display=$(cat /tmp/timetest.list | grep "$i" | grep "README" | cut -d "/" -f3| sed -r '/^\s*$/d')
-   	  get_download=$(curl --max-time 30 -s -r 0-10485760 "$active_mirror" --w %{speed_download} -o /dev/null)
+   	  get_download=$(curl --max-time 30 -s -r 0-10485760 "$active_mirror" -w %{speed_download} -o /dev/null)
    	  mb_speed=$(($get_download / 1024 / 1024))
   	  echo "$get_download:$active_mirror:$mb_speed" >> /tmp/mirrors_speedtest
   	  echo -e "    $greenplus $active_mirror_display speed: $get_download b/sec ($mb_speed MB/sec)"

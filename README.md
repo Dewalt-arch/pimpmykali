@@ -46,6 +46,10 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.7.9.a5 - curl --w 
+  - Thanks Alek, updated curl from --w to -w 
+    - functions small_speedtest, large_speedetest
+
 # Revision 1.7.9a4 - updated fix_linwinpeas function
   - Thanks lbalmaceda! for the updated url and code submission
   - corrected url for Lin/WinPeas
