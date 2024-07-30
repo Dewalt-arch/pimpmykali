@@ -1,3 +1,26 @@
+# Revision 1.7.9a3 - updated functions
+  - updated fix_sources function
+    - includes non-free and non-free-firmware
+  - updated gen_new_sources in Pimpmykali-Mirrors menu option =
+    - includes non-free and non-free-firmware
+
+# Revision 1.7.9a2 - updated exit_screen function
+  - function modified to re-source logged in user ~/nameofshellrc 
+
+# Revision 1.7.9a1 - netexec
+  - updated installation to use pipx 
+  - created new function to ensure symlinks are created
+  - created new function for user and root installations
+  - menu option U or u to install netexec 
+  - is also included in menu option N, 0 or 1 
+
+# Revision 1.7.9a - netexec (nxc)
+  - menu option U or u to install netexec 
+  - is also included in menu options N, 0 or 1
+
+# Revision 1.7.9 - crackmapexec
+  - corrected pathing of symlinks created in $HOME/.local/bin
+
 # Revision 1.7.8 - Pimpmykali-Mirrors
   - correction/update to current url for mirrorlist
 

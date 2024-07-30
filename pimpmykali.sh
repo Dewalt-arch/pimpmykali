@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.9a5"  
+    revision="1.7.9a6"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -230,6 +230,7 @@ fix_missing() {
     fix_netexec
     fix_ssh_widecompat
     #fix_waybackurls      # has issues not implemented yet 
+    fix_dockercompose     # 07.30.2024 - rev 1.7.9a6
     }
 
 fix_all() {
@@ -247,6 +248,86 @@ fix_all() {
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
     }
+
+
+fix_dockercompose() {
+    # Menu option 7 Fix DockerCompose, also installs docker.io - Rev 1.7.9a6 07.30.2024
+    # exit_status tests :
+    #   exit_status 127 
+    #     sudo rm /usr/local/bin/docker-compose
+    #     sudo ./pimpmykali.sh menu option  7
+    #
+    #   exit_status 0 - version check different versions
+    #     sudo curl -L "https://github.com/docker/compose/releases/download/v2.28.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
+    #     sudo ./pimpmykali.sh menu option 7
+    #
+    #   exit_status 0 - version check same versions
+    #     sudo ./pimpmyakli.sh menu option 7
+    #
+    #   all other exit_status codes caught with * in case statement
+    #
+    DOCKERCOMPOSE_RELEASE_URL="https://github.com/docker/compose/releases/"
+    DOCKERCOMPOSE_RELEASE_HTML=$(curl -s "$DOCKERCOMPOSE_RELEASE_URL")
+    DOCKERCOMPOSE_LATEST_VERSION=$(echo "$DOCKERCOMPOSE_RELEASE_HTML" | grep -oP 'href="/docker/compose/releases/tag/v\K[0-9.]+(?=")' | head -n 1)
+    if [ -z "$DOCKERCOMPOSE_LATEST_VERSION" ]; then
+      echo -e "\n  $redexclaim Error: Unable to find the latest Docker Compose version from Github"
+      exit 1
+    fi
+    DOCKERCOMPOSE_DOWNLOAD_URL="https://github.com/docker/compose/releases/download/v$DOCKERCOMPOSE_LATEST_VERSION/docker-compose-$(uname -s)-$(uname -m)"
+    
+    if command -v docker-compose &> /dev/null;
+      then
+        SYSTEM_DOCKERCOMPOSE_VER=$(docker-compose --version | awk '{print $4}' | tr -d "v")
+        EXIT_STATUS="$?"
+        # exit status should result in 0
+      else
+        EXIT_STATUS="127"
+        # set exit status to 127 as docker-compose is not installed
+    fi
+
+    case $EXIT_STATUS in
+        0)
+            # exit code 0, docker compose is installed, compare versions and upgrade if newer is available
+            echo -e "\n\n  $greenplus Local $(whereis docker-compose) found. Comparing versions..."
+            if [[ "$DOCKERCOMPOSE_LATEST_VERSION" > "$SYSTEM_DOCKERCOMPOSE_VER" ]]; then
+                echo -e "\n   $greenminus Installed Docker Compose Ver = $SYSTEM_DOCKERCOMPOSE_VER"
+                echo -e "   $greenminus Github Latest Docker Compose = $DOCKERCOMPOSE_LATEST_VERSION"
+                echo -e "\n  $greenplus Installing latest DockerCompose \n"
+                apt_update
+                eval apt -y install build-essential python3-dev docker.io python3-setuptools \
+                python3-wheel python3-wheel-common cython3 python3-pip python3-pip-whl
+                echo -e "\n  $greenplus Latest Docker Compose version: $DOCKERCOMPOSE_LATEST_VERSION"
+                echo -e "\n  $greenplus Downloading Docker Compose: $DOCKERCOMPOSE_DOWNLOAD_URL to /usr/local/bin/docker-compose"
+                curl -L "$DOCKERCOMPOSE_DOWNLOAD_URL" -o /usr/local/bin/docker-compose
+                echo -e "\n  $greenplus Making /usr/local/bin/docker-compose executable"
+                chmod +x /usr/local/bin/docker-compose
+                echo -e "\n  $greenplus Docker Compose installed successfully $(docker-compose --version | awk {'print $4'})"
+            else
+                echo -e "\n  $greenminus Installed Docker Compose Ver = $SYSTEM_DOCKERCOMPOSE_VER"
+                echo -e "  $greenminus Github Latest Docker Compose = $DOCKERCOMPOSE_LATEST_VERSION"
+                echo -e "\n  $greenplus Versions Match, exiting"
+            fi
+            ;;
+      127)
+            # exit code 127 docker-compose is not found, install from
+            echo -e "\n\n  $redexclaim Docker Compose command not found, installing..."
+            apt_update
+            apt_update_complete
+            eval apt -y install build-essential python3-dev docker.io python3-setuptools \
+            python3-wheel python3-wheel-common cython3 python3-pip python3-pip-whl
+            echo -e "\n  $greenplus Latest Docker Compose version: $DOCKERCOMPOSE_LATEST_VERSION"
+            echo -e "\n  $greenplus Downloading Docker Compose: $DOCKERCOMPOSE_DOWNLOAD_URL to /usr/local/bin/docker-compose\n"
+            curl -L "$DOCKERCOMPOSE_DOWNLOAD_URL" -o /usr/local/bin/docker-compose
+            echo -e "\n  $greenplus Making /usr/local/bin/docker-compose executable"
+            chmod +x /usr/local/bin/docker-compose
+            echo -e "\n  $greenplus Docker Compose installed successfully $(docker-compose --version | awk {'print $4'})"
+            ;;
+        *)
+            # catch all other exit codes
+            echo -e "\n  $redexclaim Unknown error code $EXIT_STATUS"
+            ;;
+    esac
+   }
 
 fix_kali_lightdm_theme_and_background () {
     # set kali lightdm login theme from Kali-Light to Kali-Dark
@@ -1559,7 +1640,8 @@ hacking_api_prereq() {
     echo -e "\n  $greenplus Running apt update" 
     eval apt update $silent
     echo -e "\n  $greenplus Installing docker.io docker-compose"
-    eval apt -y install docker.io docker-compose $silent 
+    # eval apt -y install docker.io docker-compose $silent 
+    fix_dockercompose
     echo -e "\n  $greenplus Enabling docker services (systemctl enable docker)"
     systemctl enable docker 
     # determine arch type and download the respective postman for that arch
@@ -1722,7 +1804,8 @@ mapt_prereq() {
     echo -e "  $greenplus python$pyver-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx"
     apt -y install python$pyver-venv aapt apktool adb apksigner zipalign wkhtmltopdf default-jdk jadx
     echo -e "\n  $greenplus git cloning mobsf to /opt"
-    eval apt -y install docker.io docker-compose
+    # eval apt -y install docker.io docker-compose
+    fix_dockercompose
     eval systemctl enable docker
     eval docker pull opensecurity/mobile-security-framework-mobsf:latest
     echo "sudo docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest" > /usr/bin/mobsf-docker
@@ -1874,7 +1957,8 @@ pbb_create_cleanupsh() {
 
 pbb_lab_setup() {
     echo -e "\n  $greenplus Installing docker.io and docker-compose"
-    eval apt -y install docker.io docker-compose
+    # eval apt -y install docker.io docker-compose
+    fix_dockercompose
     
     echo -e "\n  $greenplus Starting docker service and enabling " 
     eval systemctl enable docker --now
@@ -2045,7 +2129,8 @@ hacking_peh_create_cleanupsh() {
 
 peh_weblab_setup() {
     echo -e "\n  $greenplus Installing docker.io and docker-compose"
-    eval apt -y install docker.io docker-compose
+    # eval apt -y install docker.io docker-compose
+    fix_dockercompose 
     
     echo -e "\n  $greenplus Starting docker service and enabling " 
     eval systemctl enable docker --now
@@ -2363,7 +2448,7 @@ pimpmykali_menu() {
     echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                 # fix_grub
     echo -e "  5 - Fix Impacket             (installs impacket 0.9.19)"                             # fix_impacket
     echo -e "  6 - Enable Root Login        (installs kali-root-login)"                             # make_rootgreatagain
-    #echo -e "  7 - Install Waybackrust      (waybackrust installed, symlinked to waybackurls)"      # fix_waybackurls
+    echo -e "  7 - Fix Docker-Compose       (installs docker-compose and docker.io)"      # fix_dockercompose
     echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"              # fix_nmap
     echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
     echo -e "                               (sources.list, linux-headers, vm-video)"                # -
@@ -2404,7 +2489,7 @@ pimpmykali_menu() {
         4) fix_grub;;
         5) fix_impacket;;
         6) make_rootgreatagain;;
-       # 7) fix_waybackurls;;
+        7) fix_dockercompose;;
         8) fix_nmap ;;
         9) apt_update; fix_libwacom; only_upgrade;;
         0) fix_all; run_update; virt_what; check_vm;;
@@ -2494,3 +2579,4 @@ check_for_root
 check_distro
 check_arg "$1"
 exit_screen
+

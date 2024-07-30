@@ -46,7 +46,23 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
-# Revision 1.7.9.a5 - curl --w 
+# Revision 1.7.9a6 - docker-compose / docker.io
+  - Enabled menu option 7 for Fix DockerCompose
+  - fix_dockercompose is included in options 0 (fix_all), N (new setup) or 1 (fix_missing)
+  - New function added fix_dockercompose lines 253 to 330
+    - check if docker-compose is installed if not install latest from github
+    - if docker-compose is installed will version check system vs github and install newer version
+      - case statement exit code handling
+  - Consolidated docker-compose and docker.io installations in updated functions 
+    - hacking_api_prereq
+    - map_prereq
+    - pbb_lab_setup
+    - peh_weblab_setup
+      - now uses fix_dockercompose function to install docker-compose and docker.io
+  - revision notes 1.7.9 to 1.7.9a3 moved to changelog.txt
+  - Readme.md updated for Menu option 7
+
+# Revision 1.7.9a5 - curl --w 
   - Thanks Alek, updated curl from --w to -w 
     - functions small_speedtest, large_speedetest
 
@@ -54,29 +70,6 @@ sudo ./pimpmykali.sh
   - Thanks lbalmaceda! for the updated url and code submission
   - corrected url for Lin/WinPeas
   - updated function to always pull latest release  
-
-# Revision 1.7.9a3 - updated functions
-  - updated fix_sources function
-    - includes non-free and non-free-firmware
-  - updated gen_new_sources in Pimpmykali-Mirrors menu option =
-    - includes non-free and non-free-firmware
-
-# Revision 1.7.9a2 - updated exit_screen function
-  - function modified to re-source logged in user ~/nameofshellrc 
-
-# Revision 1.7.9a1 - netexec
-  - updated installation to use pipx 
-  - created new function to ensure symlinks are created
-  - created new function for user and root installations
-  - menu option U or u to install netexec 
-  - is also included in menu option N, 0 or 1 
-
-# Revision 1.7.9a - netexec (nxc)
-  - menu option U or u to install netexec 
-  - is also included in menu options N, 0 or 1
-
-# Revision 1.7.9 - crackmapexec
-  - corrected pathing of symlinks created in $HOME/.local/bin
 
 # Menu Breakdown of Pimpmykali 
 
@@ -164,7 +157,13 @@ sudo ./pimpmykali.sh
 
 
 - Menu Option 7
-  - removed from the menu 
+  - fix_dockercompose
+    - installs docker.io from kali repo
+    - check if docker compose is installed or not
+    - if not installed, install latest from github
+    - if installed, check local version vs github version
+      - install newer version if found
+    - Menu option 7 is included in fix_all and fix_missing functions
 
 
 - Menu Option 8 - Fix Nmap
