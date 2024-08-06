@@ -46,6 +46,20 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.8.0 - Added Alex T's C# 101 for Hackers Course Setup
+  - Menu Option Z
+    - installs vscode
+    - installs vscode course extensions
+      - C# Dev Kit (microsoft)
+      - C# Extensions (JosKreativ)
+      - VSCode Solutions Explorer (Fernando Escolar)
+      - Jupyter (microsoft)
+      - Polyglot Notebooks (microsoft)
+      - Material Icon Theme (Philipp Kief) 
+    - installs dotnet, aspnetcore, dotnet-runtime
+    - adds DOTNET_ROOT and PATH= statements to $HOME/.nameofshellrc
+    - status screen at end of install with version information
+
 # Revision 1.7.9a6 - docker-compose / docker.io
   - Enabled menu option 7 for Fix DockerCompose
   - fix_dockercompose is included in options 0 (fix_all), N (new setup) or 1 (fix_missing)
@@ -252,6 +266,14 @@ sudo ./pimpmykali.sh
 
 - Menu Option W
   - Install GoWitness precompiled binary
+  
+
+- Menu Option Z
+  - Install course requirements for Alex T's C# 101 for Hackers
+    - installs vscode
+    - installs vscode course extensions
+    - installs dotnet, aspnetcore, dotnet-runtime
+    - adds DOTNET_ROOT path statments to $HOME/.nameofshellrc 
 
 
 # TODO   

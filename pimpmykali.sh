@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.7.9a6"
+    revision="1.8.0"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -1137,17 +1137,6 @@ install_sublime() {
     eval apt -y install sublime-text
     }
 
-# 06.01.21 - Function rewrite code-oss was added to Kali 2021.2 repo
-install_vscode() {
-    if [[ -f /usr/bin/code ]]; then
-      echo -e "\n  $greenminus  vscode already installed - skipping"
-    else
-    	echo -e "\n  $greenplus installing vscode"
-      apt_update && apt_update_complete && apt -y install code-oss
-      echo -e "\n  $greenplus  vscode - installed "
-    fi
-    }
-
 # 04.06.2021 fix_sources rev 1.2.2 / rev 1.3.2 updated to add wildcards
 # 03.04.2024 fix_sources rev 1.7.9a3 / added sed -i outside of if statement for non-free to "non-free non-free-firmware"
 fix_sources() {
@@ -2067,11 +2056,123 @@ pbb_lab_setup() {
               exit
             fi
           done
-          exit_screen 
-      fi 
-    fi  
+          exit_screen
+      fi
+    fi
     }
-# New modifications end here
+
+# 06.01.21 - Function rewrite code-oss was added to Kali 2021.2 repo
+#install_vscode() {
+#    if [[ -f /usr/bin/code ]]; then
+#      echo -e "\n  $greenminus  vscode already installed - skipping"
+#    else
+#    	echo -e "\n  $greenplus installing vscode"
+#      apt_update && apt_update_complete && apt -y install code-oss
+#      echo -e "\n  $greenplus  vscode - installed "
+#    fi
+#    }
+install_vscode() {
+    # NEW FUNCTION 08.06.2024 rev 1.8.0
+    # install vscode from microsoft 
+    sudo apt install -y wget gpg
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+    sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+    echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+    rm -f packages.microsoft.gpg
+    sudo apt install -y apt-transport-https
+    sudo apt update
+    sudo apt install -y code
+    }
+
+install_vscode_extensions() {
+    # added 08.06.2024 rev 1.8.0
+    # install commonly used extensions and themes
+    # csharp dev kit, csharp extensions, vscode solutions explorer jupyter polyglot material icon theme
+    echo -e "\n  $greenplus Installing VSCode Extensions"
+
+    for vscode_extension_id in ms-dotnettools.csdevkit \
+    ms-dotnettools.csharp \
+    kreativ-software.csharpextensions \
+    fernandoescolar.vscode-solution-explorer \
+    ms-toolsai.jupyter \
+    ms-dotnettools.dotnet-interactive-vscode \
+    PKief.material-icon-theme
+    do 
+        echo -e "\n  $greenminus Uninstalling Extension if exists: $vscode_extension_id \n" 
+        sudo -u $(logname) code --uninstall-extension $vscode_extension_id >/dev/null 2>&1
+        echo -e "  $greenplus Installing Extension: $vscode_extension_id \n" 
+        sudo -u $(logname) code --install-extension $vscode_extension_id >/dev/null 2>&1
+    done
+    }
+
+install_dotnet() {
+    # added 08.06.2024 rev 1.8.0
+    # install ms .net (dotnet) and runtimes
+    echo -e "\n  $greenplus Installing Dotnet: $vscode_extension_id \n" 
+    wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    sudo dpkg -i packages-microsoft-prod.deb
+    rm -f packages-microsoft-prod.deb
+    sudo apt update
+    sudo apt-get install -y ca-certificates libc6 libgcc-s1 libicu72 libicu-dev liblttng-ust1 libssl3 libstdc++6 libunwind8 zlib1g
+    sudo apt-get install -y dotnet-sdk-8.0 aspnetcore-runtime-8.0 dotnet-runtime-8.0
+    }
+
+csharp_course_setup() {
+    # added 08.06.2024 rev 1.8.0
+    # clean variables
+    rc_file=""
+    rc_tempfile=""
+
+    # get user shell
+    USERSHELL=$(echo ${SHELL} | cut -d "/" -f4)
+
+    # check for root or actual user
+    if [[ $finduser == "root" ]]; 
+          then
+            rc_file="/root/.${USERSHELL}rc"
+          else
+            rc_file="/home/$(logname)/.${USERSHELL}rc"
+    fi
+
+    # install vscode
+    install_vscode
+    # install csharp course extensions
+    install_vscode_extensions
+    # install dotnet 
+    install_dotnet
+
+    # add DOTNET_ROOT and PATH's to ~/.zshrc
+    # check for $(logname) if $(logname) == root pathing to ~/.zshrc will change
+    if [[ $(cat $rc_file | grep -i -c "export DOTNET_ROOT") -ge 0 ]]; 
+    then
+        touch /tmp/${USERSHELL}rc.tmp
+        rc_tempfile="/tmp/${USERSHELL}rc.tmp"
+        dotnet_pattern1="export DOTNET_ROOT.*"
+        dotnet_pattern2="export PATH\=\$PATH\:\$DOTNET_ROOT\:\$DOTNET_ROOT/tools.*"
+        dotnet_pattern3="# dotnet path statements"
+        # check .zshrc for exiting entries, if found, remove them and add specified course material entries
+        cat $rc_file | sed s:"^${dotnet_pattern1}":"":g | sed s:"^${dotnet_pattern2}":"":g | sed s:"^${dotnet_pattern3}":"":g | sed '/[^[:space:]]/,$!d' > $rc_tempfile
+        echo "" >> $rc_tempfile
+        echo "# dotnet path statements" >> $rc_tempfile
+        echo "export DOTNET_ROOT=\$HOME/.dotnet" >> $rc_tempfile
+        echo "export PATH=\$PATH:\$DOTNET_ROOT:\$DOTNET_ROOT/tools" >> $rc_tempfile
+        echo "" >> $rc_tempfile
+        cp -f $rc_tempfile $rc_file
+        rm -f $rc_tempfile
+        chown $(logname):$(logname) $rc_file
+        runuser $(logname) $SHELL -c 'subshell=$(echo $SHELL | cut -d "/" -f4); source $HOME/.$subshell"rc"' 
+        echo -e "\n  $greenplus C# 101 for Hackers setup complete"
+        echo -e "       $greenplus VSCode Version Installed: $(sudo -u $(logname) code --version | head -n1)" 
+        echo -e "       $greenplus Dotnet Installed: $(dotnet --version)"
+        echo -e "       $greenplus AspNetCore version: $(dotnet --list-runtimes | sort -n | grep "AspNetCore" -m 1 | cut -d "[" -f1)"
+        echo -e "       $greenplus NETCore version: $(dotnet --list-runtimes | sort -n | grep "NETCore" -m 1 | cut -d "[" -f1)"
+        echo -e "       $greenplus SDK version: $(dotnet --list-sdks | sort -r | head -n1 | cut -d "[" -f1)"
+        echo -e "       $greenplus Added Dotnet Paths to ${rc_file}"
+        echo -e "             + export DOTNET_ROOT=\$HOME/.dotnet"
+        echo -e "             + export PATH=\$PATH:\$DOTNET_ROOT:\$DOTNET_ROOT/tools"
+        echo -e "\n  $redexclaim Please execute the following command:  source ~/.zshrc "
+    fi
+    }
 
 hacking_peh_create_cleanupsh() { 
     cleanup_script="cleanup-peh-labs.sh"
@@ -2125,7 +2226,7 @@ hacking_peh_create_cleanupsh() {
     echo -e " fi" >> $startup_script
     echo -e " done" >> $startup_script
     chmod +x start-peh-labs.sh
-    }    
+    }
 
 peh_weblab_setup() {
     echo -e "\n  $greenplus Installing docker.io and docker-compose"
@@ -2411,7 +2512,6 @@ cleanup() {
 #  fi
 #  }
 
-
 fix_keyboard() {
   sudo /bin/bash --rcfile /home/$finduser/.bashrc -ic 'dpkg-reconfigure keyboard-configuration'
   }
@@ -2433,6 +2533,7 @@ CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
 p1lEC0auURW3owsQlTZtf4QtGZgjXYKT4inPtI23oEK7wXlyPnd8arKdKE0EPdUnhIf0v+iE2o
 7BgVFVyec3u1OxFw+uRxbvPt8R6+MOpGq5cBAAA="  | gunzip )
 
+
 pimpmykali_menu() {
     # DATE=$(date +%x); TIME=$(date +%X)
     clear
@@ -2440,46 +2541,48 @@ pimpmykali_menu() {
     echo -e "\n    Select an option from menu:             Rev: $revision Arch: $arch"
 #    echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
 #    echo -e "\n  Menu Options:"                                                                    # function call list
-    echo -e "\n Key  Menu Option:             Description:"
-    echo -e " ---  ------------             ------------"
-    echo -e "  1 - Fix Missing              (pip pip3 golang gedit nmapfix build-essential)"        # fix_missing
-    echo -e "  2 - Fix /etc/samba/smb.conf  (adds the 2 missing lines)"                             # fix_smbconf
-    echo -e "  3 - Fix Golang               (installs golang, adds GOPATH= to .zshrc and .bashrc)"  # fix_golang
-    echo -e "  4 - Fix Grub                 (adds mitigations=off)"                                 # fix_grub
-    echo -e "  5 - Fix Impacket             (installs impacket 0.9.19)"                             # fix_impacket
-    echo -e "  6 - Enable Root Login        (installs kali-root-login)"                             # make_rootgreatagain
-    echo -e "  7 - Fix Docker-Compose       (installs docker-compose and docker.io)"      # fix_dockercompose
-    echo -e "  8 - Fix nmap scripts         (clamav-exec.nse and http-shellshock.nse)"              # fix_nmap
-    echo -e "  9 - Pimpmyupgrade            (apt upgrade with vbox/vmware detection)"               # only_upgrade
-    echo -e "                               (sources.list, linux-headers, vm-video)"                # -
-    echo -e "  0 - Fix ONLY 1 thru 8        (runs only 1 thru 8) \n"                                # fix_all
+    echo -e "\n Key  Menu Option:              Description:"
+    echo -e " ---  ------------              ------------"
+    echo -e "  1 - Fix Missing               (pip pip3 golang gedit nmapfix build-essential)"               # fix_missing
+    echo -e "  2 - Fix /etc/samba/smb.conf   (adds the 2 missing lines)"                                   # fix_smbconf
+    echo -e "  3 - Fix Golang                (installs golang, adds GOPATH= to .zshrc and .bashrc)"        # fix_golang
+    echo -e "  4 - Fix Grub                  (adds mitigations=off)"                                       # fix_grub
+    echo -e "  5 - Fix Impacket              (installs impacket 0.9.19)"                                   # fix_impacket
+    echo -e "  6 - Enable Root Login         (installs kali-root-login)"                                   # make_rootgreatagain
+    echo -e "  7 - Fix Docker-Compose        (installs docker-compose and docker.io)"                      # fix_dockercompose
+    echo -e "  8 - Fix nmap scripts          (clamav-exec.nse and http-shellshock.nse)"                    # fix_nmap
+    echo -e "  9 - Pimpmyupgrade             (apt upgrade with vbox/vmware detection)"                     # only_upgrade
+    echo -e "                                (sources.list, linux-headers, vm-video)"                      # only_upgrade extended text
+    echo -e "  0 - Fix ONLY 1 thru 8         (runs only 1 thru 8) \n"                                      # fix_all
     echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"
-    echo -e "  = - Pimpmykali-Mirrors       (find fastest kali mirror. use the equals symbol = )"   # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-    echo -e "  T - Reconfigure Timezone      current timezone  : $(cat /etc/timezone)"              # reconfig_timekey
-    echo -e "  K - Reconfigure Keyboard      current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
-    echo -e " Key  Stand alone functions:   Description:"                                           # optional line
-    echo -e " ---  ----------------------   ------------"                                           # optional line
-    echo -e "  B - Practical Bugbounty Labs (add requirements for PBB course labs)"                 # pbb_lab_setup
-    echo -e "  E - PEH Course WebApp Labs   (add requirements for PEH WebApp Labs and installs) "   # apt_update fix_libwacom only_upgrade peh_weblab_setup
-    echo -e "  O - Hacking API Course Setup (add requirements for Hacking API Course)"              # hacking_api_prereq was fix_ssh
-    echo -e "  M - Mayors MPP Course Setup  (adds requirments for Mayors MPP Course)"               # mayor_mpp
-    echo -e "  A - MAPT Course Setup        (adds requirments for MAPT Course)"                     # mapt_course
-    echo -e "  P - Download Lin/WinPeas     (adds linpeas to /opt/linpeas and winpeas to /opt/winpeas)" # fix_linwinpeas
-  #  echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"     # bpt function
-    echo -e "  I - Install MITM6            (install mitm6 from github)"                            # fix_mitm6
-    echo -e "  C - Missing Google-Chrome    (install google-chrome only)"                           # check_chrome / fix_chrome
-    echo -e "  S - Fix Spike                (remove spike and install spike v2.9)"                  # fix_spike
-    echo -e "  F - Broken XFCE Icons fix    (stand-alone function: only applies broken xfce fix)"   # fix_broken_xfce
-    echo -e "  G - Fix Gedit Conn Refused   (fixes gedit as root connection refused)"               # fix_root_connectionrefused
-    echo -e "  H - Fix httprobe missing     (fixes httprobe missing only)"                          # fix_httprobe
-    echo -e "  L - Install Sublime Editor   (install the sublime text editor)"                      # install_sublime
-    echo -e "  W - Gowitness Precompiled    (download and install gowitness)"                       # fix_gowitness
-    echo -e "  V - Install MS-Vscode        (install microsoft vscode only)"                        # install_vscode
-    echo -e "  ! - Nuke Impacket            (Type the ! character for this menu item)"              # fix_sead_warning
-    echo -e "  @ - Install Nessus           (Type the @ character for this menu item)"              # install_nessus
-    echo -e "  $ - Nuke Nessus              (Type the $ character for this menu item)"              # remove_nessus
-    echo -e "  % - CrackMapExec 6.x.x pipx  (Type the % character for this menu item)"              # fix_cme
-    echo -e "  U - Install Netexec (nxc)    (installation is a part of fix_missing or option N)\n"  # fix_netexec 
+    echo -e "  = - Pimpmykali-Mirrors        (find fastest kali mirror. use the equals symbol = )"          # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+    echo -e "  T - Reconfigure Timezone       current timezone  : $(cat /etc/timezone)"                     # reconfig_timekey
+    echo -e "  K - Reconfigure Keyboard       current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
+    echo -e " Key  Stand alone functions:    Description:"                                                 # optional line
+    echo -e " ---  --COURSES---------------- ------------"                                                 # optional line
+    echo -e "  Z - Alex T C# 101 For Hackers (add requirements for C# 101 course)"                         # csharp_course_setup
+    echo -e "  B - Practical Bugbounty Labs  (add requirements for PBB course labs)"                       # pbb_lab_setup
+    echo -e "  E - PEH Course WebApp Labs    (add requirements for PEH WebApp Labs and installs) "         # apt_update fix_libwacom only_upgrade peh_weblab_setup
+    echo -e "  O - Hacking API Course Setup  (add requirements for Hacking API Course)"                    # hacking_api_prereq was fix_ssh
+    echo -e "  M - Mayors MPP Course Setup   (adds requirments for Mayors MPP Course)"                     # mayor_mpp
+    echo -e "  A - MAPT Course Setup         (adds requirments for MAPT Course)"                           # mapt_course
+    echo -e " ---  --UTILS------------------ ------------"                                                 # optional line
+    echo -e "  P - Download Lin/WinPeas      (adds linpeas to /opt/linpeas and winpeas to /opt/winpeas)"   # fix_linwinpeas
+  #  echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"           # bpt function
+    echo -e "  I - Install MITM6             (install mitm6 from github)"                                  # fix_mitm6
+    echo -e "  C - Missing Google-Chrome     (install google-chrome only)"                                 # check_chrome / fix_chrome
+    echo -e "  S - Fix Spike                 (remove spike and install spike v2.9)"                        # fix_spike
+    echo -e "  F - Broken XFCE Icons fix      (stand-alone function: only applies broken xfce fix)"          # fix_broken_xfce
+    echo -e "  G - Fix Gedit Conn Refused    (fixes gedit as root connection refused)"                      # fix_root_connectionrefused
+    echo -e "  H - Fix httprobe missing      (fixes httprobe missing only)"                                 # fix_httprobe
+    echo -e "  L - Install Sublime Editor    (install the sublime text editor)"                            # install_sublime
+    echo -e "  W - Gowitness Precompiled     (download and install gowitness)"                             # fix_gowitness
+    echo -e "  V - Install MS-Vscode         (install microsoft vscode only)"                              # install_vscode
+    echo -e "  ! - Nuke Impacket             (Type the ! character for this menu item)"                    # fix_sead_warning
+    echo -e "  @ - Install Nessus            (Type the @ character for this menu item)"                    # install_nessus
+    echo -e "  $ - Nuke Nessus               (Type the $ character for this menu item)"                    # remove_nessus
+    echo -e "  % - CrackMapExec 6.x.x pipx   (Type the % character for this menu item)"                    # fix_cme
+    echo -e "  U - Install Netexec (nxc)     (installation is a part of fix_missing or option N)\n"         # fix_netexec 
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
@@ -2513,6 +2616,7 @@ pimpmykali_menu() {
       u|U) fix_netexec;;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
+      z|Z) csharp_course_setup;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
         ^) install_everything;;
@@ -2541,25 +2645,25 @@ check_arg() {
      else
       case $1 in
       --menu) pimpmykali_menu                  ;;
-       --all) fix_all                          ;;
-       --smb) fix_smbconf                      ;;
-        --go) fix_golang                       ;;
+       --all) fix_all                           ;;
+       --smb) fix_smbconf                       ;;
+        --go) fix_golang                        ;;
   #--impacket) fix_impacket                     ;;
-      --grub) fix_grub                         ;;
+      --grub) fix_grub                          ;;
       --root) make_rootgreatagain              ;;
-   --missing) fix_missing                      ;;
+   --missing) fix_missing                       ;;
       --help) pimpmykali_help                  ;;
- --flameshot) fix_flameshot                    ;;
-     --force) force=1; fix_all $force          ;;
-    --borked) force=1; fix_sead_warning $force ;;
-      --nmap) fix_nmap                         ;;
+ --flameshot) fix_flameshot                       ;;
+     --force) force=1; fix_all $force           ;;
+    --borked) force=1; fix_sead_warning $force  ;;
+      --nmap) fix_nmap                          ;;
        --bpt) bpt                              ;;
     --vscode) install_vscode                   ;;
       --subl) install_sublime                  ;;
-#      --atom) install_atom                     ;;
+#      --atom) install_atom                    ;;
    --upgrade) only_upgrade                     ;;
    --mirrors) get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-# --harvester) fix_theharvester                ;;
+# --harvester) fix_theharvester                 ;;
       *) pimpmykali_help ; exit 0              ;;
     esac
     fi
