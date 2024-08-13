@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.8.0"
+    revision="1.8.1"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -22,6 +22,7 @@
     bold=$'\e[1m'
     norm=$'\e[21m'
     reset=$'\e[0m'
+    spaces='      '
 
 # more unicorn puke...*sigh* added for senpai, taste the rainbow!
 # now with 100% more unicorn puke! enjoy a color for no color!!
@@ -231,6 +232,7 @@ fix_missing() {
     fix_ssh_widecompat
     #fix_waybackurls      # has issues not implemented yet 
     fix_dockercompose     # 07.30.2024 - rev 1.7.9a6
+    fix_ghidra            # 08.13.2024 - rev 1.8.1
     }
 
 fix_all() {
@@ -248,7 +250,6 @@ fix_all() {
     # fix_upgrade is not a part of fix_missing and only
     # called as sub-function call of fix_all or fix_upgrade itself
     }
-
 
 fix_dockercompose() {
     # Menu option 7 Fix DockerCompose, also installs docker.io - Rev 1.7.9a6 07.30.2024
@@ -2317,6 +2318,85 @@ peh_weblab_setup() {
     fi 
     }
 
+fix_ghidra() {
+    DOWNLOAD_URL="https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.1.2_build/ghidra_11.1.2_PUBLIC_20240709.zip"
+    GHIDRA_INSTALL_DIR="/opt/ghidra"
+    GHIDRA_TMP_ZIP="/tmp/ghidra.zip"
+    GHIDRA_TMP_DIR=$(mktemp -d)
+    GHIDRA_SYMLINK="/usr/local/bin/ghidra"
+    DESKTOP_FILE="/usr/share/applications/ghidra.desktop"
+    EXEC_PATH="${GHIDRA_INSTALL_DIR}/ghidraRun"
+    ICON_PATH="${GHIDRA_INSTALL_DIR}/docs/images/GHIDRA_1.png"
+    
+    echo -e "\n ${greenplus} Ghidra Setup "
+    
+    # check for current ghidra installation, uninstall if found
+    GHIDRA_INSTALLED_APT=$(apt search ghidra | grep -i -c "installed")
+    if [[ ${GHIDRA_INSTALLED_APT} -ge 1 ]];
+      then 
+        echo -e "\n  ${redexclaim} Uninstalling existing Ghidra installation\n" 
+        apt -y remove ghidra ghidra-data  
+    fi
+    
+    eval apt -y install openjdk-23-jdk
+
+    [ -f ${GHIDRA_TMP_ZIP} ] && rm -f ${GHIDRA_TMP_ZIP}
+
+    [ -d ${GHIDRA_INSTALL_DIR} ] && rm -rf ${GHIDRA_INSTALL_DIR}
+    [ ! -d ${GHIDRA_INSTALL_DIR} ] && mkdir ${GHIDRA_INSTALL_DIR}
+
+    echo -e "\n${spaces}${greenplus} Downloading Ghidra"
+    wget "${WGET_STATUS} " "${DOWNLOAD_URL}" -O "${GHIDRA_TMP_ZIP}"
+    
+    echo -e "\n${spaces}${greenplus} Unzipping Ghidra to ${GHIDRA_TMP_DIR}"
+    unzip -qq -o "${GHIDRA_TMP_ZIP}" -d "${GHIDRA_TMP_DIR}" > /dev/null 2>&1 
+
+    echo -e "\n${spaces}${greenplus} Moving Ghidra from ${GHIDRA_TMP_DIR} to ${GHIDRA_INSTALL_DIR}"
+    mv "${GHIDRA_TMP_DIR}"/ghidra_*/* "${GHIDRA_INSTALL_DIR}"
+
+    # create symbolic link in $PATH
+    echo -e "\n${spaces}${greenplus} Creating Ghidra Symlink ${GHIDRA_SYMLINK}"
+    [ -f "${GHIDRA_INSTALL_DIR}"/ghidraRun ] && ln -sf "${GHIDRA_INSTALL_DIR}"/ghidraRun "${GHIDRA_SYMLINK}"
+    chmod +x /usr/local/bin/ghidra
+
+    # create .desktop file
+    
+    echo -e "\n${spaces}${greenplus} Creating .desktop file ${DESKTOP_FILE}"
+
+    # .desktop file /usr/share/applications/ghidra.desktop
+    echo -e "[Desktop Entry]" > ${DESKTOP_FILE}
+    echo -e "Version=1.0" >> ${DESKTOP_FILE}
+    echo -e "Name=Ghidra" >> ${DESKTOP_FILE}
+    echo -e "Comment=Open-source reverse engineering tool" >> ${DESKTOP_FILE}
+    echo -e "Exec=${EXEC_PATH}" >> ${DESKTOP_FILE}
+    echo -e "Icon=${ICON_PATH}" >> ${DESKTOP_FILE}
+    echo -e "Terminal=false" >> ${DESKTOP_FILE}
+    echo -e "Type=Application" >> ${DESKTOP_FILE}
+    echo -e "Categories=Development;ReverseEngineering;" >> ${DESKTOP_FILE}
+
+    chmod +x "$DESKTOP_FILE"
+
+    echo -e "\n${spaces}${greenplus} Ghidra added to the XFCE menu."
+
+    # GHIDRA DARK THEME (optional quality of life improvement)
+    GHIDRA_DARK_THEME_INSTALL_DIR="/opt/ghidra-dark-theme"
+    [ -d ${GHIDRA_DARK_THEME_INSTALL_DIR} ] && rm -rf ${GHIDRA_DARK_THEME_INSTALL_DIR}
+
+    echo -e "\n${spaces}${greenplus} Cloning Ghidra Dark Theme"
+    echo -e "\n           To install Open Ghidra and Click Edit/Themes/Import and browse to ${GHIDRA_DARK_THEME_INSTALL_DIR}"
+  
+    # clone ghidra dark-theme
+    git clone https://github.com/zackelia/ghidra-dark-theme ${GHIDRA_DARK_THEME_INSTALL_DIR} > /dev/null 2>&1 
+  
+    # Cleanup
+    echo -e "\n${spaces}${greenplus} Cleaning up ${GHIDRA_TMP_ZIP}"
+    rm -f ${GHIDRA_TMP_ZIP}
+    echo -e "\n${spaces}${greenplus} Cleaning up ${GHIDRA_TMP_DIR}"
+    rm -rf ${GHIDRA_TMP_DIR}
+
+    echo -e "\n ${greenplus} Ghidra Setup Complete"
+    }
+
 mayor_mpp() {
     # additions to PMK 1.3.0 - Mayor MPP Course additions
     fix_sources
@@ -2567,13 +2647,14 @@ pimpmykali_menu() {
     echo -e "  M - Mayors MPP Course Setup   (adds requirments for Mayors MPP Course)"                     # mayor_mpp
     echo -e "  A - MAPT Course Setup         (adds requirments for MAPT Course)"                           # mapt_course
     echo -e " ---  --UTILS------------------ ------------"                                                 # optional line
+    echo -e "  G - Install Ghidra (github)   (install ghidra from github)"                                  # fix_ghidra
     echo -e "  P - Download Lin/WinPeas      (adds linpeas to /opt/linpeas and winpeas to /opt/winpeas)"   # fix_linwinpeas
   #  echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"           # bpt function
     echo -e "  I - Install MITM6             (install mitm6 from github)"                                  # fix_mitm6
     echo -e "  C - Missing Google-Chrome     (install google-chrome only)"                                 # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                 (remove spike and install spike v2.9)"                        # fix_spike
     echo -e "  F - Broken XFCE Icons fix      (stand-alone function: only applies broken xfce fix)"          # fix_broken_xfce
-    echo -e "  G - Fix Gedit Conn Refused    (fixes gedit as root connection refused)"                      # fix_root_connectionrefused
+    echo -e "  D - Fix Gedit Conn Refused    (fixes gedit as root connection refused)"                      # fix_root_connectionrefused
     echo -e "  H - Fix httprobe missing      (fixes httprobe missing only)"                                 # fix_httprobe
     echo -e "  L - Install Sublime Editor    (install the sublime text editor)"                            # install_sublime
     echo -e "  W - Gowitness Precompiled     (download and install gowitness)"                             # fix_gowitness
@@ -2600,9 +2681,10 @@ pimpmykali_menu() {
       a|A) mapt_prereq;;
       b|B) pbb_lab_setup;;
       c|C) check_chrome;;
+      d|D) fix_root_connectionrefused ;;
       e|E) apt_update; fix_libwacom; peh_weblab_setup;; # only_upgrade;
       f|F) fix_broken_xfce;;
-      g|G) fix_root_connectionrefused ;;
+      g|G) fix_ghidra;;
       h|H) fix_httprobe;;
       i|I) fix_mitm6;;
       k|K) fix_keyboard; echo -e "\n  $greenplus Keyboard is currently set to: $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)";;
@@ -2616,9 +2698,9 @@ pimpmykali_menu() {
       u|U) fix_netexec;;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
+      x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
       z|Z) csharp_course_setup;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-      x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
         ^) install_everything;;
         @) install_nessus;;
         $) remove_nessus;;

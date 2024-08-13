@@ -46,6 +46,13 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.8.1 - Ghidra
+  - Menu option G - Install Ghidra
+    - Included in menu options 0, N and 1
+    - removes ghidra installed from apt repository
+    - downloads and installs ghidra from github
+    - ghidra dark-theme added to /opt/ghidra-dark-theme
+
 # Revision 1.8.0 - Added Alex T's C# 101 for Hackers Course Setup
   - Menu Option Z
     - installs vscode
@@ -205,6 +212,10 @@ sudo ./pimpmykali.sh
   - Install Google-Chrome
 
 
+- Menu Option D
+  - Apply gedit unable to open display as root fix
+
+
 - Menu Option E 
   - Install TCM PEH Course WebApp Labs, docker
 
@@ -216,7 +227,7 @@ sudo ./pimpmykali.sh
 
 
 - Menu Option G
-  - Apply gedit unable to open display as root fix
+  - Install Ghidra from Github
 
 
 - Menu Option K
@@ -238,7 +249,7 @@ sudo ./pimpmykali.sh
    - symlink is created for /opt/Postman/Postman at /usr/bin/postman
   - cleanup.sh script created 
   - installs crAPI to $HOME/labs
-  
+
 
 - Disable Power Management function moved to Menu options 0, N or 1
   - Based upon detection disable power management for that environment
@@ -266,7 +277,6 @@ sudo ./pimpmykali.sh
 
 - Menu Option W
   - Install GoWitness precompiled binary
-  
 
 - Menu Option Z
   - Install course requirements for Alex T's C# 101 for Hackers
