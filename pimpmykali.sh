@@ -2705,7 +2705,7 @@ pimpmykali_menu() {
     echo -e "\n    Select an option from menu:             Rev: $revision Arch: $arch"
     echo -e "\n Key  Menu Option:                  Description:"
     echo -e " ---  ------------                  ------------"
-    echo -e "  1 - Fix Missing                   (pip pip3 golang gedit nmapfix build-essential)"               # fix_missing
+    echo -e "  1 - Fix Missing                   (pip pip3 golang gedit nmapfix build-essential)"              # fix_missing
     echo -e "  2 - Fix /etc/samba/smb.conf       (adds the 2 missing lines)"                                   # fix_smbconf
     echo -e "  3 - Fix Golang                    (installs golang, adds GOPATH= to .zshrc and .bashrc)"        # fix_golang
     echo -e "  4 - Fix Grub                      (adds mitigations=off)"                                       # fix_grub
@@ -2717,8 +2717,8 @@ pimpmykali_menu() {
     echo -e "                                    (sources.list, linux-headers, vm-video)"                      # only_upgrade extended text
     echo -e "  0 - Fix ONLY 1 thru 8             (runs only 1 thru 8) \n"                                      # fix_all
     echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"
-    echo -e "  = - Pimpmykali-Mirrors            (find fastest kali mirror. use the equals symbol = )"          # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-    echo -e "  T - Reconfigure Timezone           current timezone  : $(cat /etc/timezone)"                     # reconfig_timekey
+    echo -e "  = - Pimpmykali-Mirrors            (find fastest kali mirror. use the equals symbol = )"         # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+    echo -e "  T - Reconfigure Timezone           current timezone  : $(cat /etc/timezone)"                    # reconfig_timekey
     echo -e "  K - Reconfigure Keyboard           current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
     echo -e " Key  Stand alone functions:        Description:"                                                 # optional line
     echo -e " ---  --COURSES-------------------- ------------"                                                 # optional line
@@ -2735,9 +2735,9 @@ pimpmykali_menu() {
     echo -e "  I - Install MITM6                 (install mitm6 from github)"                                  # fix_mitm6
     echo -e "  C - Missing Google-Chrome         (install google-chrome only)"                                 # check_chrome / fix_chrome
     echo -e "  S - Fix Spike                     (remove spike and install spike v2.9)"                        # fix_spike
-    echo -e "  F - Broken XFCE Icons fix          (stand-alone function: only applies broken xfce fix)"          # fix_broken_xfce
-    echo -e "  D - Fix Gedit Conn Refused        (fixes gedit as root connection refused)"                      # fix_root_connectionrefused
-    echo -e "  H - Fix httprobe missing          (fixes httprobe missing only)"                                 # fix_httprobe
+    echo -e "  F - Broken XFCE Icons fix         (stand-alone function: only applies broken xfce fix)"         # fix_broken_xfce
+    echo -e "  D - Fix Gedit Conn Refused        (fixes gedit as root connection refused)"                     # fix_root_connectionrefused
+    echo -e "  H - Fix httprobe missing          (fixes httprobe missing only)"                                # fix_httprobe
     echo -e "  L - Install Sublime Editor        (install the sublime text editor)"                            # install_sublime
     echo -e "  W - Gowitness Precompiled         (download and install gowitness)"                             # fix_gowitness
     echo -e "  V - Install MS-Vscode             (install microsoft vscode only)"                              # install_vscode
@@ -2745,7 +2745,7 @@ pimpmykali_menu() {
     echo -e "  @ - Install Nessus                (Type the @ character for this menu item)"                    # install_nessus
     echo -e "  $ - Nuke Nessus                   (Type the $ character for this menu item)"                    # remove_nessus
     echo -e "  % - CrackMapExec 6.x.x pipx       (Type the % character for this menu item)"                    # fix_cme
-    echo -e "  U - Install Netexec (nxc)         (installation is a part of fix_missing or option N)\n"         # fix_netexec 
+    echo -e "  U - Install Netexec (nxc)         (installation is a part of fix_missing or option N)\n"        # fix_netexec 
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
