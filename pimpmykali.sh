@@ -2338,6 +2338,7 @@ peh_weblab_setup() {
     }
 
 fix_ghidra() {
+    eval apt -y install jq curl
     LATEST_URL="https://api.github.com/repos/NationalSecurityAgency/ghidra/releases/latest"
     JSON_DATA=$(curl -s "${LATEST_URL}")
     DOWNLOAD_URL=$(echo "$JSON_DATA" | jq -r '.assets[] | select(.name | test("ghidra_[0-9]+\\.[0-9]+\\.[0-9]+_PUBLIC_[0-9]{8}\\.zip")) | .browser_download_url')
