@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="1.8.1"
+    revision="1.8.1a"
 
 # unicorn puke:
     red=$'\e[1;31m'
@@ -22,7 +22,7 @@
     bold=$'\e[1m'
     norm=$'\e[21m'
     reset=$'\e[0m'
-    spaces='      '
+    spaces='       '
 
 # more unicorn puke...*sigh* added for senpai, taste the rainbow!
 # now with 100% more unicorn puke! enjoy a color for no color!!
@@ -128,6 +128,25 @@ check_for_root() {
       # Remove any prior hold on metasploit-framework at startup
       eval apt-mark unhold metasploit-framework >/dev/null 2>&1
     fi
+    }
+
+clean_vars() {
+    APP=""
+    EXIT_STATUS=""
+    FUNCTYPE=""
+    }
+
+check_exit_status() {
+    case ${EXIT_STATUS} in 
+        0) echo -e "\n${spaces}${greenplus} $APP $FUNCTYPE successs";;
+        1) echo -e "\n${spaces}${redexclaim} $APP $FUNCTYPE General Error Exit Status: ${EXIT_STATUS}" ;; 
+        2) echo -e "\n${spaces}${redexclaim} $APP $FUNCTYPE Misuse of Shell commands, Exit Status: ${EXIT_STATUS}" ;; 
+      126) echo -e "\n${spaces}${redexclaim} $APP $FUNCTYPE Command Invoked Cannot Execute, Exit Status ${EXIT_STATUS}";;
+      127) echo -e "\n${spaces}${redexclaim} $APP $FUNCTYPE Command Not Found, Exit Staus: ${EXIT_STATUS}";;
+      128) echo -e "\n${spaces}${redexclaim} $APP $FUNCTYPE Invalid Arguement to Exit, Exit Status: ${EXIT_STATUS}" ;;
+      255) echo -e "\n${spaces}${redexclaim} $APP $FUNCTYPE Exit status out of range, Exit Status: ${EXIT_STATUS}" ;;
+        *) echo -e "\n${spaces}${redexclaim} Exit Status $EXIT_STATUS for $APP $FUNCTYPE status: failed";;
+    esac
     }
 
 fix_section() {
@@ -2327,18 +2346,25 @@ fix_ghidra() {
     DESKTOP_FILE="/usr/share/applications/ghidra.desktop"
     EXEC_PATH="${GHIDRA_INSTALL_DIR}/ghidraRun"
     ICON_PATH="${GHIDRA_INSTALL_DIR}/docs/images/GHIDRA_1.png"
-    
-    echo -e "\n ${greenplus} Ghidra Setup "
+    DARK_THEME_URL="https://github.com/zackelia/ghidra-dark-theme"
+
+    echo -e "\n  ${greenplus} Ghidra Setup "
     
     # check for current ghidra installation, uninstall if found
     GHIDRA_INSTALLED_APT=$(apt search ghidra | grep -i -c "installed")
+    
     if [[ ${GHIDRA_INSTALLED_APT} -ge 1 ]];
       then 
         echo -e "\n  ${redexclaim} Uninstalling existing Ghidra installation\n" 
-        apt -y remove ghidra ghidra-data  
+        eval apt -y remove ghidra ghidra-data  
     fi
     
-    eval apt -y install openjdk-23-jdk
+    CHECK_OPEN_JDK=$(apt search openjdk-23-jdk | grep -i -c "installed")
+
+    if [[ ${CHECK_OPEN_JDK} -eq 0 ]]; 
+    then
+      eval apt -y install openjdk-23-jdk
+    fi
 
     [ -f ${GHIDRA_TMP_ZIP} ] && rm -f ${GHIDRA_TMP_ZIP}
 
@@ -2346,10 +2372,10 @@ fix_ghidra() {
     [ ! -d ${GHIDRA_INSTALL_DIR} ] && mkdir ${GHIDRA_INSTALL_DIR}
 
     echo -e "\n${spaces}${greenplus} Downloading Ghidra"
-    wget "${WGET_STATUS} " "${DOWNLOAD_URL}" -O "${GHIDRA_TMP_ZIP}"
+    wget -q "${WGET_STATUS} " "${DOWNLOAD_URL}" -O "${GHIDRA_TMP_ZIP}"
     
     echo -e "\n${spaces}${greenplus} Unzipping Ghidra to ${GHIDRA_TMP_DIR}"
-    unzip -qq -o "${GHIDRA_TMP_ZIP}" -d "${GHIDRA_TMP_DIR}" > /dev/null 2>&1 
+    unzip -qq -o "${GHIDRA_TMP_ZIP}" -d "${GHIDRA_TMP_DIR}"
 
     echo -e "\n${spaces}${greenplus} Moving Ghidra from ${GHIDRA_TMP_DIR} to ${GHIDRA_INSTALL_DIR}"
     mv "${GHIDRA_TMP_DIR}"/ghidra_*/* "${GHIDRA_INSTALL_DIR}"
@@ -2382,11 +2408,12 @@ fix_ghidra() {
     GHIDRA_DARK_THEME_INSTALL_DIR="/opt/ghidra-dark-theme"
     [ -d ${GHIDRA_DARK_THEME_INSTALL_DIR} ] && rm -rf ${GHIDRA_DARK_THEME_INSTALL_DIR}
 
-    echo -e "\n${spaces}${greenplus} Cloning Ghidra Dark Theme"
-    echo -e "\n           To install Open Ghidra and Click Edit/Themes/Import and browse to ${GHIDRA_DARK_THEME_INSTALL_DIR}"
+    echo -e "\n${spaces}${greenplus} Cloning Ghidra Dark Theme ${DARK_THEME_URL}"
+    echo -e "\n            To install the dark theme, Open Ghidra and Click Edit/Themes/Import"
+    echo -e "            browse to ${GHIDRA_DARK_THEME_INSTALL_DIR} double click on the .theme file"
   
     # clone ghidra dark-theme
-    git clone https://github.com/zackelia/ghidra-dark-theme ${GHIDRA_DARK_THEME_INSTALL_DIR} > /dev/null 2>&1 
+    git clone ${DARK_THEME_URL} ${GHIDRA_DARK_THEME_INSTALL_DIR} > /dev/null 2>&1 
   
     # Cleanup
     echo -e "\n${spaces}${greenplus} Cleaning up ${GHIDRA_TMP_ZIP}"
@@ -2394,7 +2421,60 @@ fix_ghidra() {
     echo -e "\n${spaces}${greenplus} Cleaning up ${GHIDRA_TMP_DIR}"
     rm -rf ${GHIDRA_TMP_DIR}
 
-    echo -e "\n ${greenplus} Ghidra Setup Complete"
+    echo -e "\n  ${greenplus} Ghidra Setup Complete"
+    }
+
+iot_course_setup() {
+    SASQUATCH_URL="https://github.com/devttys0/sasquatch"
+    SASQUATCH_PATCH_URL="https://github.com/devttys0/sasquatch/files/7776843/M1-Kali.patch.txt"
+    CLONE_DIR="/opt/sasquatch"
+    PATCH_DIR="/opt/sasquatch/patches"
+    PATCH_FILE="M1-Kali.patch.txt"
+    INSTALLED_BIN="/usr/local/bin/sasquatch"
+ 
+    # rev 1.8.1a IoT Course setup requirements
+    echo -e "\n  ${greenplus} IoT and Hardware Hacking Course Setup"
+    apt_update && apt_update_complete
+    echo -e "\n${spaces}${greenplus} Installing dependencies sigrok xxd zlib1g-dev liblzma-dev liblzo2-dev"
+    
+    eval apt-get -y install build-essential sigrok xxd zlib1g-dev liblzma-dev liblzo2-dev linux-headers-$(uname -r)
+
+    echo -e "\n  ${greenplus} Sasquatch Setup"    
+
+    # remove clone dir if it already exists
+    [ -d ${CLONE_DIR} ] && rm -rf ${CLONE_DIR}
+
+    # remove installed sasquatch binary if it exists 
+    [ -f ${INSTALLED_BIN} ] && rm -f ${INSTALLED_BIN}
+
+    echo -e "\n${spaces}${greenplus} Cloning sasquatch to ${CLONE_DIR} \n"
+    cd /opt && git clone ${SASQUATCH_URL}
+    
+    echo -e "\n${spaces}${greenplus} Downloading sasquatch patch ${PATCH_FILE}"
+    wget -qq ${SASQUATCH_PATCH_URL} -O ${PATCH_DIR}/${PATCH_FILE}
+
+    echo -e "\n${spaces}${greenplus} Patching sasquatch with ${PATCH_FILE}" 
+    cd ${PATCH_DIR}
+    patch patch0.txt M1-Kali.patch.txt  > /dev/null 2>&1 
+    APP="sasquatch"
+    FUNCTYPE="patch"
+    EXIT_STATUS="$?"
+    check_exit_status ${EXIT_STATUS} ${APP} ${FUNCTYPE}
+    clean_vars
+
+    echo -e "\n${spaces}${greenplus} Building and installing sasquatch to ${INSTALLED_BIN}"
+    [ -f ${CLONE_DIR}/build.sh ] && chmod +x ${CLONE_DIR}/build.sh
+    cd ${CLONE_DIR}
+    ./build.sh  > /dev/null 2>&1
+    APP="sasquatch"
+    FUNCTYPE="build"
+    EXIT_STATUS="$?"
+    check_exit_status $EXIT_STATUS $APP $FUNCTYPE
+    clean_vars
+
+    fix_ghidra
+
+    echo -e "\n  ${greenplus} IoT Course Setup Complete"
     }
 
 mayor_mpp() {
@@ -2433,7 +2513,7 @@ mayor_mpp() {
     ln -sf /usr/local/bin/startcovenant.sh /usr/local/bin/covenant
 
     #make desktop icon
-    findrealuser=$(who | awk '{print $1}')
+    findrealuser=$(who | awk {'print $1'})
     if [[ $findrealuser == "root" ]];
       then
         echo -e "\n  $greenplus creating desktop icon /root/Desktop/Start Covenent"
@@ -2619,51 +2699,49 @@ pimpmykali_menu() {
     clear
     echo -e "$asciiart"
     echo -e "\n    Select an option from menu:             Rev: $revision Arch: $arch"
-#    echo -e "\n     *** APT UPGRADE WILL ONLY BE CALLED FROM MENU OPTION 9 ***"
-#    echo -e "\n  Menu Options:"                                                                    # function call list
-    echo -e "\n Key  Menu Option:              Description:"
-    echo -e " ---  ------------              ------------"
-    echo -e "  1 - Fix Missing               (pip pip3 golang gedit nmapfix build-essential)"               # fix_missing
-    echo -e "  2 - Fix /etc/samba/smb.conf   (adds the 2 missing lines)"                                   # fix_smbconf
-    echo -e "  3 - Fix Golang                (installs golang, adds GOPATH= to .zshrc and .bashrc)"        # fix_golang
-    echo -e "  4 - Fix Grub                  (adds mitigations=off)"                                       # fix_grub
-    echo -e "  5 - Fix Impacket              (installs impacket 0.9.19)"                                   # fix_impacket
-    echo -e "  6 - Enable Root Login         (installs kali-root-login)"                                   # make_rootgreatagain
-    echo -e "  7 - Fix Docker-Compose        (installs docker-compose and docker.io)"                      # fix_dockercompose
-    echo -e "  8 - Fix nmap scripts          (clamav-exec.nse and http-shellshock.nse)"                    # fix_nmap
-    echo -e "  9 - Pimpmyupgrade             (apt upgrade with vbox/vmware detection)"                     # only_upgrade
-    echo -e "                                (sources.list, linux-headers, vm-video)"                      # only_upgrade extended text
-    echo -e "  0 - Fix ONLY 1 thru 8         (runs only 1 thru 8) \n"                                      # fix_all
+    echo -e "\n Key  Menu Option:                  Description:"
+    echo -e " ---  ------------                  ------------"
+    echo -e "  1 - Fix Missing                   (pip pip3 golang gedit nmapfix build-essential)"               # fix_missing
+    echo -e "  2 - Fix /etc/samba/smb.conf       (adds the 2 missing lines)"                                   # fix_smbconf
+    echo -e "  3 - Fix Golang                    (installs golang, adds GOPATH= to .zshrc and .bashrc)"        # fix_golang
+    echo -e "  4 - Fix Grub                      (adds mitigations=off)"                                       # fix_grub
+    echo -e "  5 - Fix Impacket                  (installs impacket 0.9.19)"                                   # fix_impacket
+    echo -e "  6 - Enable Root Login             (installs kali-root-login)"                                   # make_rootgreatagain
+    echo -e "  7 - Fix Docker-Compose            (installs docker-compose and docker.io)"                      # fix_dockercompose
+    echo -e "  8 - Fix nmap scripts              (clamav-exec.nse and http-shellshock.nse)"                    # fix_nmap
+    echo -e "  9 - Pimpmyupgrade                 (apt upgrade with vbox/vmware detection)"                     # only_upgrade
+    echo -e "                                    (sources.list, linux-headers, vm-video)"                      # only_upgrade extended text
+    echo -e "  0 - Fix ONLY 1 thru 8             (runs only 1 thru 8) \n"                                      # fix_all
     echo -e "  "$bold"N - NEW VM SETUP"$reset" - Run this option if this is the first time running pimpmykali\n"
-    echo -e "  = - Pimpmykali-Mirrors        (find fastest kali mirror. use the equals symbol = )"          # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
-    echo -e "  T - Reconfigure Timezone       current timezone  : $(cat /etc/timezone)"                     # reconfig_timekey
-    echo -e "  K - Reconfigure Keyboard       current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
-    echo -e " Key  Stand alone functions:    Description:"                                                 # optional line
-    echo -e " ---  --COURSES---------------- ------------"                                                 # optional line
-    echo -e "  Z - Alex T C# 101 For Hackers (add requirements for C# 101 course)"                         # csharp_course_setup
-    echo -e "  B - Practical Bugbounty Labs  (add requirements for PBB course labs)"                       # pbb_lab_setup
-    echo -e "  E - PEH Course WebApp Labs    (add requirements for PEH WebApp Labs and installs) "         # apt_update fix_libwacom only_upgrade peh_weblab_setup
-    echo -e "  O - Hacking API Course Setup  (add requirements for Hacking API Course)"                    # hacking_api_prereq was fix_ssh
-    echo -e "  M - Mayors MPP Course Setup   (adds requirments for Mayors MPP Course)"                     # mayor_mpp
-    echo -e "  A - MAPT Course Setup         (adds requirments for MAPT Course)"                           # mapt_course
-    echo -e " ---  --UTILS------------------ ------------"                                                 # optional line
-    echo -e "  G - Install Ghidra (github)   (install ghidra from github)"                                  # fix_ghidra
-    echo -e "  P - Download Lin/WinPeas      (adds linpeas to /opt/linpeas and winpeas to /opt/winpeas)"   # fix_linwinpeas
-  #  echo -e "  B - BPT - TheEssentials      (BlindPentesters TheEssentials aprox 8GB of tools)"           # bpt function
-    echo -e "  I - Install MITM6             (install mitm6 from github)"                                  # fix_mitm6
-    echo -e "  C - Missing Google-Chrome     (install google-chrome only)"                                 # check_chrome / fix_chrome
-    echo -e "  S - Fix Spike                 (remove spike and install spike v2.9)"                        # fix_spike
-    echo -e "  F - Broken XFCE Icons fix      (stand-alone function: only applies broken xfce fix)"          # fix_broken_xfce
-    echo -e "  D - Fix Gedit Conn Refused    (fixes gedit as root connection refused)"                      # fix_root_connectionrefused
-    echo -e "  H - Fix httprobe missing      (fixes httprobe missing only)"                                 # fix_httprobe
-    echo -e "  L - Install Sublime Editor    (install the sublime text editor)"                            # install_sublime
-    echo -e "  W - Gowitness Precompiled     (download and install gowitness)"                             # fix_gowitness
-    echo -e "  V - Install MS-Vscode         (install microsoft vscode only)"                              # install_vscode
-    echo -e "  ! - Nuke Impacket             (Type the ! character for this menu item)"                    # fix_sead_warning
-    echo -e "  @ - Install Nessus            (Type the @ character for this menu item)"                    # install_nessus
-    echo -e "  $ - Nuke Nessus               (Type the $ character for this menu item)"                    # remove_nessus
-    echo -e "  % - CrackMapExec 6.x.x pipx   (Type the % character for this menu item)"                    # fix_cme
-    echo -e "  U - Install Netexec (nxc)     (installation is a part of fix_missing or option N)\n"         # fix_netexec 
+    echo -e "  = - Pimpmykali-Mirrors            (find fastest kali mirror. use the equals symbol = )"          # get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
+    echo -e "  T - Reconfigure Timezone           current timezone  : $(cat /etc/timezone)"                     # reconfig_timekey
+    echo -e "  K - Reconfigure Keyboard           current keyb/lang : $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)\n" # reconfig_keyboard
+    echo -e " Key  Stand alone functions:        Description:"                                                 # optional line
+    echo -e " ---  --COURSES-------------------- ------------"                                                 # optional line
+    echo -e "  Y - Andrew B IoT Hardware Hacking (add requirements for IoT Course)"                            # iot_course_setup
+    echo -e "  Z - Alex T C# 101 For Hackers     (add requirements for C# 101 course)"                         # csharp_course_setup
+    echo -e "  B - Practical Bugbounty Labs      (add requirements for PBB course labs)"                       # pbb_lab_setup
+    echo -e "  E - PEH Course WebApp Labs        (add requirements for PEH WebApp Labs and installs) "         # apt_update fix_libwacom only_upgrade peh_weblab_setup
+    echo -e "  O - Hacking API Course Setup      (add requirements for Hacking API Course)"                    # hacking_api_prereq was fix_ssh
+    echo -e "  M - Mayors MPP Course Setup       (adds requirments for Mayors MPP Course)"                     # mayor_mpp
+    echo -e "  A - MAPT Course Setup             (adds requirments for MAPT Course)"                           # mapt_course
+    echo -e " ---  --UTILS---------------------- ------------"                                                 # optional line
+    echo -e "  G - Install Ghidra (github)       (install ghidra from github)"                                 # fix_ghidra
+    echo -e "  P - Download Lin/WinPeas          (adds linpeas to /opt/linpeas and winpeas to /opt/winpeas)"   # fix_linwinpeas
+    echo -e "  I - Install MITM6                 (install mitm6 from github)"                                  # fix_mitm6
+    echo -e "  C - Missing Google-Chrome         (install google-chrome only)"                                 # check_chrome / fix_chrome
+    echo -e "  S - Fix Spike                     (remove spike and install spike v2.9)"                        # fix_spike
+    echo -e "  F - Broken XFCE Icons fix          (stand-alone function: only applies broken xfce fix)"          # fix_broken_xfce
+    echo -e "  D - Fix Gedit Conn Refused        (fixes gedit as root connection refused)"                      # fix_root_connectionrefused
+    echo -e "  H - Fix httprobe missing          (fixes httprobe missing only)"                                 # fix_httprobe
+    echo -e "  L - Install Sublime Editor        (install the sublime text editor)"                            # install_sublime
+    echo -e "  W - Gowitness Precompiled         (download and install gowitness)"                             # fix_gowitness
+    echo -e "  V - Install MS-Vscode             (install microsoft vscode only)"                              # install_vscode
+    echo -e "  ! - Nuke Impacket                 (Type the ! character for this menu item)"                    # fix_sead_warning
+    echo -e "  @ - Install Nessus                (Type the @ character for this menu item)"                    # install_nessus
+    echo -e "  $ - Nuke Nessus                   (Type the $ character for this menu item)"                    # remove_nessus
+    echo -e "  % - CrackMapExec 6.x.x pipx       (Type the % character for this menu item)"                    # fix_cme
+    echo -e "  U - Install Netexec (nxc)         (installation is a part of fix_missing or option N)\n"         # fix_netexec 
     read -n1 -p "  Press key for menu item selection or press X to exit: " menuinput
 
     case $menuinput in
@@ -2687,18 +2765,22 @@ pimpmykali_menu() {
       g|G) fix_ghidra;;
       h|H) fix_httprobe;;
       i|I) fix_mitm6;;
+      j|J) ;;
       k|K) fix_keyboard; echo -e "\n  $greenplus Keyboard is currently set to: $(cat /etc/default/keyboard | grep XKBLAYOUT | cut -d "\"" -f2)";;
       l|L) install_sublime;;
       m|M) mayor_mpp;;
       n|N) fix_all; fix_upgrade;;
       o|O) hacking_api_prereq;; # was fix_ssh
       p|P) fix_linwinpeas;; 
+      q|Q) ;; 
+      r|R) ;; 
       s|S) fix_spike;;
       t|T) fix_timezone;;
       u|U) fix_netexec;;
       v|V) install_vscode;;
       w|W) fix_gowitness;;
       x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
+      y|Y) iot_course_setup;;
       z|Z) csharp_course_setup;;
       "=") get_mirrorlist; best_ping; small_speedtest; large_speedtest; gen_new_sources; cleanup;;
         ^) install_everything;;

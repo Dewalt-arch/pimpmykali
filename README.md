@@ -46,6 +46,17 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.8.1a - Added Andrew B's IoT and Hardware Hacking Course Setup 
+  - Menu option Y or y
+    - stand alone function
+    - installs dependencies sigrok xxd zlib1g-dev liblzma-dev liblzo2-dev
+    - clone sasquatch to /opt/sasquatch
+    - patches sasquatch with M1-Kali.patch.txt
+    - builds patched sasquatch
+    - installs to /usr/local/bin/sasquatch
+    - calls fix_ghidra function to install ghidra from github
+    - installs ghidra dark theme to /opt/ghidra-dark-theme
+
 # Revision 1.8.1 - Ghidra
   - Menu option G - Install Ghidra
     - Included in menu options 0, N and 1
@@ -277,6 +288,18 @@ sudo ./pimpmykali.sh
 
 - Menu Option W
   - Install GoWitness precompiled binary
+
+
+- Menu Option Y
+  - Andrew B's IoT and Hardware Hacking Course Setup 
+    - installs dependencies sigrok xxd zlib1g-dev liblzma-dev liblzo2-dev
+    - clone sasquatch to /opt/sasquatch
+    - patches sasquatch with M1-Kali.patch.txt
+    - builds patched sasquatch
+    - installs to /usr/local/bin/sasquatch
+    - calls fix_ghidra function to install ghidra from github
+    - installs ghidra dark theme to /opt/ghidra-dark-theme
+
 
 - Menu Option Z
   - Install course requirements for Alex T's C# 101 for Hackers
