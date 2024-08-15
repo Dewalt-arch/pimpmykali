@@ -2338,7 +2338,10 @@ peh_weblab_setup() {
     }
 
 fix_ghidra() {
-    DOWNLOAD_URL="https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.1.2_build/ghidra_11.1.2_PUBLIC_20240709.zip"
+    LATEST_URL="https://api.github.com/repos/NationalSecurityAgency/ghidra/releases/latest"
+    JSON_DATA=$(curl -s "${LATEST_URL}")
+    DOWNLOAD_URL=$(echo "$JSON_DATA" | jq -r '.assets[] | select(.name | test("ghidra_[0-9]+\\.[0-9]+\\.[0-9]+_PUBLIC_[0-9]{8}\\.zip")) | .browser_download_url')
+
     GHIDRA_INSTALL_DIR="/opt/ghidra"
     GHIDRA_TMP_ZIP="/tmp/ghidra.zip"
     GHIDRA_TMP_DIR=$(mktemp -d)

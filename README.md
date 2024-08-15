@@ -56,6 +56,7 @@ sudo ./pimpmykali.sh
     - installs to /usr/local/bin/sasquatch
     - calls fix_ghidra function to install ghidra from github
     - installs ghidra dark theme to /opt/ghidra-dark-theme
+  - updated fix_ghidra function to always pull latest release
 
 # Revision 1.8.1 - Ghidra
   - Menu option G - Install Ghidra
