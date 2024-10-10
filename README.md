@@ -46,6 +46,9 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 1.8.1b - Updated Ghidra Download function
+  - corrected download
+
 # Revision 1.8.1a - Added Andrew B's IoT and Hardware Hacking Course Setup 
   - Menu option Y or y
     - stand alone function
