@@ -500,7 +500,7 @@ sudo ./pimpmykali.sh
       - set speedrun var 
       - bypass menu
       - bypass enable root login
-      - bypass prompts"
+      - bypass prompts
     - --all
       - run menu option 0 (fix all) 
       - all prompts
