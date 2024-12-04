@@ -1,3 +1,64 @@
+# Revision 1.8.1b - Updated Ghidra Download function
+  - corrected download
+
+# Revision 1.8.1a - Added Andrew B's IoT and Hardware Hacking Course Setup 
+  - Menu option Y or y
+    - stand alone function
+    - installs dependencies sigrok xxd zlib1g-dev liblzma-dev liblzo2-dev
+    - clone sasquatch to /opt/sasquatch
+    - patches sasquatch with M1-Kali.patch.txt
+    - builds patched sasquatch
+    - installs to /usr/local/bin/sasquatch
+    - calls fix_ghidra function to install ghidra from github
+    - installs ghidra dark theme to /opt/ghidra-dark-theme
+  - updated fix_ghidra function to always pull latest release
+
+# Revision 1.8.1 - Ghidra
+  - Menu option G - Install Ghidra
+    - Included in menu options 0, N and 1
+    - removes ghidra installed from apt repository
+    - downloads and installs ghidra from github
+    - ghidra dark-theme added to /opt/ghidra-dark-theme
+
+# Revision 1.8.0 - Added Alex T's C# 101 for Hackers Course Setup
+  - Menu Option Z
+    - installs vscode
+    - installs vscode course extensions
+      - C# Dev Kit (microsoft)
+      - C# Extensions (JosKreativ)
+      - VSCode Solutions Explorer (Fernando Escolar)
+      - Jupyter (microsoft)
+      - Polyglot Notebooks (microsoft)
+      - Material Icon Theme (Philipp Kief) 
+    - installs dotnet, aspnetcore, dotnet-runtime
+    - adds DOTNET_ROOT and PATH= statements to $HOME/.nameofshellrc
+    - status screen at end of install with version information
+
+# Revision 1.7.9a6 - docker-compose / docker.io
+  - Enabled menu option 7 for Fix DockerCompose
+  - fix_dockercompose is included in options 0 (fix_all), N (new setup) or 1 (fix_missing)
+  - New function added fix_dockercompose lines 253 to 330
+    - check if docker-compose is installed if not install latest from github
+    - if docker-compose is installed will version check system vs github and install newer version
+      - case statement exit code handling
+  - Consolidated docker-compose and docker.io installations in updated functions 
+    - hacking_api_prereq
+    - map_prereq
+    - pbb_lab_setup
+    - peh_weblab_setup
+      - now uses fix_dockercompose function to install docker-compose and docker.io
+  - revision notes 1.7.9 to 1.7.9a3 moved to changelog.txt
+  - Readme.md updated for Menu option 7
+
+# Revision 1.7.9a5 - curl --w 
+  - Thanks Alek, updated curl from --w to -w 
+    - functions small_speedtest, large_speedetest
+
+# Revision 1.7.9a4 - updated fix_linwinpeas function
+  - Thanks lbalmaceda! for the updated url and code submission
+  - corrected url for Lin/WinPeas
+  - updated function to always pull latest release  
+
 # Revision 1.7.9a3 - updated functions
   - updated fix_sources function
     - includes non-free and non-free-firmware
