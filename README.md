@@ -1,6 +1,7 @@
 # pimpmykali.sh
 
-![pimpmykali](https://github.com/Dewalt-arch/pimpmykali/assets/81341961/dd4ec6b0-dd27-4ff7-a60b-e9822255ff5f)
+![pmk2 0 0](https://github.com/user-attachments/assets/08cdd9c8-83c7-41e0-a65c-8bf7690a7f36)
+
 
 # Fixes for new imported Kali Linux virtual machines
   - Author assumes zero liability for any data loss or misuse of pimpmykali
