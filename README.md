@@ -288,7 +288,7 @@ sudo ./pimpmykali.sh
       - xlrd==1.2.0
       - scapy==2.4.0
       - colorama
-      - termcolor"
+      - termcolor
       - service-identity
       - requests==2.2.1
     - rockyou
