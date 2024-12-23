@@ -14,7 +14,7 @@
   - There is no need to chmod +x pimpmykali.sh upon git clone
 
 # Installation:
-```bash
+```console
 # Remove existing pimpmykali folder
 rm -rf pimpmykali/
 
