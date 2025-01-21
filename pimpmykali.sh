@@ -1100,7 +1100,7 @@ fix_sead_warning() {
    AND ANY related .py and .pyc files from impacket in the following:
     /usr/bin  /local/local/bin  /root/.local/bin  /home/$finduser/.local/bin
 
-   Answering only Y to the following prompt will preform the above actions,
+   Answering only Y to the following prompt will perform the above actions,
    pressing ANY OTHER KEY WILL EXIT
 
    "
