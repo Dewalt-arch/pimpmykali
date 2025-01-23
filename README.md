@@ -54,6 +54,10 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 2.0.1 - updated install impacket-0.9.19
+  - updated install_pip2_modules function
+  - updated install_old_impacket function
+
 # Revision 2.0.0 - Release
 - New additions and feature requests
   - Menu option verification before execution 

@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="2.0.0"
+    revision="2.0.1"
 
 # prompt colors
     red=$'\e[1;31m'
@@ -1147,6 +1147,7 @@ fix_impacket_array() {
 
 install_old_impacket() {
     install_pip2
+    install_pip2_modules
     eval /usr/bin/pip2 uninstall impacket
     fix_impacket_array
     [ -d /opt/impacket-0.9.19 ] && rm -rf /opt/impacket-0.9.19
@@ -1155,7 +1156,6 @@ install_old_impacket() {
     cd /opt
     chown -R root:root impacket-0.9.19
     cd /opt/impacket-0.9.19
-    eval /usr/bin/pip2 install setuptools flask ldap3==2.5.1 pycryptodome
     eval /usr/bin/pip2 install -r requirements.txt
     cd /opt/impacket-0.9.19
     eval /bin/python2.7 ./setup.py install 
@@ -2383,6 +2383,7 @@ install_pip3_modules() {
       "setuptools"
       "importlib"
       "pyftpdlib"
+      "future"
     )
 
     for pip3module in "${pip3modules[@]}"; do
@@ -2394,16 +2395,18 @@ install_pip3_modules() {
 install_pip2_modules() {
     pip2modules=(
       "setuptools"
+      "future==0.18"
       "importlib"
       "flask"
-      "ldap3==2.5.1"
-      "pycryptodome"
+      "ldap3==2.9.1"
+      "pycryptodomex"
       "xlrd==1.2.0 --upgrade"
       "scapy==2.4.0 --upgrade"
       "colorama"
       "termcolor"
       "service-identity"
       "requests==2.2.1"
+      "ldapdomaindump"
     )
 
     echo -e "\n  ${greenplus} Installing python2 modules"
