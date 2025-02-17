@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="2.0.1"
+    revision="2.0.2"
 
 # prompt colors
     red=$'\e[1;31m'
@@ -2061,8 +2061,8 @@ fix_ghidra() {
     is_installed "jq curl"
     LATEST_URL="https://api.github.com/repos/NationalSecurityAgency/ghidra/releases/latest"
     JSON_DATA=$(curl -s "${LATEST_URL}")
-    DOWNLOAD_URL=$(echo "$JSON_DATA" | jq -r '.assets[] | select(.name | test("ghidra_[0-9]+\\.[0-9]+\\.[0-9]+_PUBLIC_[0-9]{8}\\.zip")) | .browser_download_url')
-
+    # DOWNLOAD_URL=$(echo "$JSON_DATA" | jq -r '.assets[] | select(.name | test("ghidra_[0-9]+\\.[0-9]+\\.[0-9]+_PUBLIC_[0-9]{8}\\.zip")) | .browser_download_url')
+    DOWNLOAD_URL=$(echo "$JSON_DATA" | grep -i "browser_download_url" |  awk {'print $2'} | tr -d \")
     GHIDRA_INSTALL_DIR="/opt/ghidra"
     GHIDRA_TMP_ZIP="/tmp/ghidra.zip"
     GHIDRA_TMP_DIR=$(mktemp -d)
