@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="2.0.2"
+    revision="2.0.3"
 
 # prompt colors
     red=$'\e[1;31m'
@@ -1077,6 +1077,17 @@ fix_sources() {
 
 
 fix_sead_warning() {
+    case $arch in
+      amd64)
+        echo -e "\n ${greenplus} Architecture is amd64, continuing..."
+        ;;
+      arm64)
+        echo -e "\n ${redexclaim} Unsupported architecture: $arch, exiting"
+        echo -e "\n      Please use Impacket v0.12 or newer"
+        exit 1
+        ;;
+    esac
+
     if [ $SPEEDRUN -eq 1 ]
     then 
         fix_sead_run 

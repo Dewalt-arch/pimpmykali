@@ -50,9 +50,14 @@ sudo ./pimpmykali.sh
   - Aashiksamuel https://github.com/aashiksamuel  (sublime install fix)
   - m4ul3r 
   - lbalmaceda https://github.com/lbalmaceda
-
+1
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
+
+# Revision 2.0.3 - arm64 + nukeimpacket
+  - added arch check to function
+    - if arch = arm64 exit 
+    - if arch = amd64 continue
 
 # Revision 2.0.2 - updated fix_ghidra function
   - updated DOWNLOAD_URL variable
