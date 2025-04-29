@@ -469,7 +469,7 @@ fix_netexec() {
     if [[ $findrealuser == "root" ]];
      then
        echo -e "${spaces}${greenplus} Starting ${findrealuser} user installation"
-       is_installed "pipx python3-venv python3-poetry"
+       is_installed "pipx python3-venv python3-poetry rustc"
        pipx install git+https://github.com/Pennyw0rth/NetExec --force
        getshell=$(echo $SHELL | cut -d "/" -f4)
        check_for_local_bin_path=$(cat "$HOME/.$getshell"rc | grep -i "PATH=" | grep -i "\$HOME\/\.local\/bin" -c)
@@ -487,7 +487,7 @@ fix_netexec() {
      if [[ $findrealuser != "root" ]];
       then
         echo -e "${spaces}${greenplus} Starting $findrealuser user installation"
-        is_installed "pipx python3-venv python3-poetry"
+        is_installed "pipx python3-venv python3-poetry rustc"
 
         sudo -i -u $findrealuser sh -c 'pipx install git+https://github.com/Pennyw0rth/NetExec --force'
         getshell=$(echo $SHELL | cut -d "/" -f4)
