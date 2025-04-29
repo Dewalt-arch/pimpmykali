@@ -9,7 +9,7 @@
 # Standard Disclaimer: Author assumes no liability for any damage
 
 # revision var
-    revision="2.0.3"
+    revision="2.0.4"
 
 # prompt colors
     red=$'\e[1;31m'
@@ -2583,6 +2583,78 @@ setup_binfmt_mount() {
     }
 
 
+new_kali_signingkey() {
+    KALI_GPGKEY_URL="https://archive.kali.org/archive-keyring.gpg"
+    KALI_GPGKEY_DEST="/usr/share/keyrings/kali-archive-keyring.gpg"
+    KALI_GPGKEY_TMP="/tmp/kali-archive-keyring.gpg"
+    KALI_ARTICLE_URL="https://www.kali.org/blog/new-kali-archive-signing-key/"
+    NEW_SIGNING_KEY="827C8569F2518CC677FECA1AED65462EC8D5E4C5"
+    KALIGPG_CHECKSUM="603374c107a90a69d983dbcb4d31e0d6eedfc325"
+    
+    echo -e "\n  $greenplus New Kali Signing Key" 
+    echo -e "${spaces}Article: ${KALI_ARTICLE_URL} \n"
+   
+    TEST_EXISTING_KEYS=$(sudo gpg --no-default-keyring --keyring /usr/share/keyrings/kali-archive-keyring.gpg --list-keys | grep -i -c "$NEW_SIGNING_KEY")
+
+    # echo "Number of keys found ${TEST_EXISTING_KEYS}"
+
+    if [[ $TEST_EXISTING_KEYS -ge 1 ]]
+      then
+        echo -e "${spaces}${greenplus} New Signing key already installed, skipping"
+      else 
+        echo -e "${spaces}${greenplus} New Signging key not found, installing"
+        # download and validate sha1sum checksum on key in ${KALI_GPGKEY_TMP}
+        echo -e "\n${spaces}${greenplus} Validating sha1sum checksum before installation"
+        echo -e "${spaces}${greenplus} Downloading key to ${KALI_GPGKEY_TMP}"
+        wget -q ${KALI_GPGKEY_URL} -O ${KALI_GPGKEY_TMP}
+        echo -e "\n${spaces}${greenplus} Validating sha1sum checksum"    
+    
+        SHA1SUM_KALIGPG=$(sha1sum ${KALI_GPGKEY_TMP} | cut -d " " -f1)
+
+        if [[ ${SHA1SUM_KALIGPG} == ${KALIGPG_CHECKSUM} ]];
+          then 
+            echo -e "${spaces}${greenplus} Checksum validated ${KALI_GPGKEY_TMP}"
+            echo -e "\n${spaces}${greenplus} Installing new signing key to ${KALI_GPGKEY_DEST}"
+            cp -f ${KALI_GPGKEY_TMP} ${KALI_GPGKEY_DEST}
+            rm -f ${KALI_GPGKEY_TMP}
+
+            echo -e "${spaces}${greenplus} Running Apt Update \n" 
+            apt_update
+            export APT_UPDATE_RAN=1
+        else 
+            echo -e "\n${spaces}${redexclaim} Aborting, sha1sum checksum validation failed"
+            exit 1
+        fi
+    fi 
+    }
+
+
+kali_signingkey_silent() {
+    KALI_GPGKEY_URL="https://archive.kali.org/archive-keyring.gpg"
+    KALI_GPGKEY_DEST="/usr/share/keyrings/kali-archive-keyring.gpg"
+    KALI_GPGKEY_TMP="/tmp/kali-archive-keyring.gpg"
+    NEW_SIGNING_KEY="827C8569F2518CC677FECA1AED65462EC8D5E4C5"
+
+    TEST_EXISTING_KEYS=$(sudo gpg --no-default-keyring --keyring /usr/share/keyrings/kali-archive-keyring.gpg --list-keys | grep -i -c "$NEW_SIGNING_KEY")
+
+    if [[ $TEST_EXISTING_KEYS -eq 0 ]]
+      then 
+        wget -q ${KALI_GPGKEY_URL} -O ${KALI_GPGKEY_TMP}  
+    
+        KALIGPG_CHECKSUM="603374c107a90a69d983dbcb4d31e0d6eedfc325"
+        SHA1SUM_KALIGPG=$(sha1sum ${KALI_GPGKEY_TMP} | cut -d " " -f1)
+
+        if [[ $SHA1SUM_KALIGPG == $KALIGPG_CHECKSUM ]];
+          then 
+            cp -f ${KALI_GPGKEY_TMP} ${KALI_GPGKEY_DEST}
+            rm -f ${KALI_GPGKEY_TMP}
+            apt_update
+            export APT_UPDATE_RAN=1
+        fi
+    fi
+    }
+
+
 # ascii art - DONT move
 asciiart=$(base64 -d <<< "H4sIAAAAAAAAA31QQQrCQAy89xVz9NR8QHoQH+BVCATBvQmC
 CEXI480kXdteTJfdzGQy2S3wi9EM/2MnSDm3oUoMuJlX3hmsMMSjA4uAtUTsSQ9NUkkKVgKKBX
@@ -2642,6 +2714,7 @@ pimpmykali_menu() {
       echo -e "\n ---  --UTILS---------------------- ------------"                                               # 
       echo -e "  U - Install Netexec (nxc)         (install netexec)"                                            # fix_netexec
       echo -e "  P - Download Lin/WinPeas          (adds linpeas to /opt/linpeas and winpeas to /opt/winpeas)"   # fix_linwinpeas
+      echo -e "  S - Fix Signing Key               (fix kali signing key)"                                       # new_kali_signingkey
       echo -e "  V - Install MS-VSCode             (install microsoft vscode only)"                              # install_vscode
       echo -e "  ! - Nuke Impacket                 (install Impacket 0.9.19)"                                    # fix_sead_warning
       echo -e "  @ - Install Nessus                (install Nessus and start nessusd service)"                   # install_nessus
@@ -2659,8 +2732,10 @@ pimpmykali_menu() {
       fi
     done 
 
+    new_kali_signingkey
+
     if [ $APT_UPDATE_RAN -eq 0 ]
-      then 
+      then
         apt_update
         export APT_UPDATE_RAN=1
     fi 
@@ -2673,7 +2748,7 @@ pimpmykali_menu() {
         5) fix_impacket;;
         6) SPEEDRUN=0; ENABLE_ROOT=1; make_rootgreatagain;;
         7) fix_dockercompose;;
-        8) fix_nmap ;;
+        8) fix_nmap;;
         9) fix_libwacom; only_upgrade;;
         0) SPEEDRUN=0; ENABLE_ROOT=0; fix_all;;
       a|A) mapt_prereq;;
@@ -2694,12 +2769,12 @@ pimpmykali_menu() {
       p|P) fix_linwinpeas;; 
 #      q|Q) ;;
 #      r|R) ;;
-#      s|S) ;;
+      s|S) ;; # new_kali_signingkey executed
       t|T) fix_timezone;;
       u|U) fix_netexec;;
       v|V) install_vscode;;
 #      w|W) ;;
-      x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n" ;;
+      x|X) echo -e "\n\n Exiting pimpmykali.sh - Happy Hacking! \n";;
       y|Y) iot_course_setup;;
       z|Z) csharp_course_setup;;
       "!") install_pip2; install_pip3; fix_pip2_pip3; fix_sead_warning;;
@@ -2727,6 +2802,7 @@ pimpmykali_help() {
     "      --checkvm  detect hypervisor, install guest additions"
     "--dockercompose  install docker compose"
     "    --flameshot  install flameshot"
+    "   --fixsignkey  run new_kali_signing_key"
     "        --gedit  install gedit, apply fix connection refused fix"
     "       --golang  install golang"
     "    --gowitness  install gowitness from github"
@@ -2782,6 +2858,7 @@ check_arg() {
       then
         pimpmykali_menu
     else
+        new_kali_signingkey
         apt_update
         case $1 in
            --auto) SPEEDRUN=1; ENABLE_ROOT=1 fix_all;;
@@ -2795,6 +2872,7 @@ check_arg() {
         --checkvm) virt_what; check_vm;;
   --dockercompose) fix_dockercompose;;
       --flameshot) fix_flameshot;;
+     --fixsignkey) ;;
           --gedit) fix_gedit; fix_root_connectionrefused;;
          --golang) install_golang; fix_go_path;;
       --gowitness) fix_chrome; fix_gowitness;;

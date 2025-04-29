@@ -54,6 +54,19 @@ sudo ./pimpmykali.sh
 # Writeups / Honorable Mentions
   - ip3c4c_n00b https://ip3c4c.com/2202_homelab_vmware/
 
+# Revision 2.0.4 - Signing key fix
+  - new function new_kali_signingkey
+    - executed before each menu function
+    - check if new signing key is already installed
+      - if installed, skip
+      - if not installed
+        - download new signing key
+        - sha1sum checksum verification of signing key
+        - if checksum is valid, install new signing key
+    - updated --commands to check for new signing key
+    - added --fixsignkey to command line options
+    - Standalone menu option S
+
 # Revision 2.0.3 - arm64 + nukeimpacket
   - added arch check to function
     - if arch = arm64 exit 
@@ -463,10 +476,8 @@ sudo ./pimpmykali.sh
   - Disable power management
   - is included in Menu options 0, N or 1
 
-- Menu Option S - Fix Spike
-  - removed see --spike command line switch
-    - Fixes undefined symbol error thrown when using generic_send_tcp
-  - is included in Menu options 0, N or 1
+- Menu Option S - Fix Signing Key
+  - Fix Signing Key
 
 - Menu Option T
   - Reconfigure Timezone
@@ -537,6 +548,8 @@ sudo ./pimpmykali.sh
       - install docker compose
     - --flameshot
       - install flameshot
+    - --fixsignkey
+      - fix kali linux signing key
     - --gedit
       - install gedit
       - apply fix connection refused fix
